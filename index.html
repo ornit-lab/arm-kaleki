@@ -846,24 +846,33 @@
         ];
 
         // ====================================================
-        // 🚀 СТАРТ И ИНИЦИАЛИЗАЦИЯ
-        // ====================================================
-        window.onload = async () => {
-            await loadAllPlayers();
-            renderErasDrawer();
+// 🚀 ИСПРАВЛЕННЫЙ СТАРТ И АВТО-ВХОД БЕЗ ВЫПАДЕНИЯ МОДАЛКИ
+// ====================================================
+window.onload = async () => {
+    await loadAllPlayers();
+    renderErasDrawer();
 
-            const savedUser = localStorage.getItem('arm_current_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                const found = allUsers.find(u => u.username === currentUser.username);
-                if (found) currentUser = found;
-                onUserLoggedIn();
-            } else {
-                openModal('modal-auth');
+    const savedUser = localStorage.getItem('arm_current_user');
+    if (savedUser) {
+        try {
+            currentUser = JSON.parse(savedUser);
+            // Ищем актуальные данные этого пользователя в загруженном массиве
+            const found = allUsers.find(u => u.username && u.username === currentUser.username);
+            if (found) {
+                currentUser = found;
             }
+            onUserLoggedIn();
+            // 🔥 ЗАКРЫВАЕМ МОДАЛКУ ВХОДА! Теперь сайт сразу открывается во всей красе
+            closeModal('modal-auth');
+        } catch(e) {
+            openModal('modal-auth');
+        }
+    } else {
+        openModal('modal-auth');
+    }
 
-            setInterval(updateCooldownsUI, 1000);
-        };
+    setInterval(updateCooldownsUI, 1000);
+};
 
         async function loadAllPlayers() {
     let { data, error } = await _supabase.from('profiles').select('*');
@@ -1280,58 +1289,61 @@ function renderGodPanel() {
     container.innerHTML = allUsers.map((u) => {
         const era = getEraByExp(u.exp);
         const isRegistered = Boolean(u.username && u.username.trim() !== '');
+        // Находим текущее реальное место бойца в массиве
+        const currentRank = allUsers.indexOf(u) + 1;
 
-        return `
-            <div class="brutal-card" style="border-color: var(--gold); margin-bottom: 12px; padding: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="color: var(--gold); font-size: 1rem; margin: 0;">
-                        ${u.name} ${isRegistered ? `(@${u.username})` : '<span style="color:var(--steel); font-size:0.75rem;">[Свободен]</span>'}
-                    </h4>
-                    <span style="color: var(--neon-fire); font-weight: bold; font-size: 0.75rem;">${era.id} Эпоха (${era.name})</span>
-                </div>
+return `
+    <div class="brutal-card" style="border-color: var(--gold); margin-bottom: 12px; padding: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <h4 style="color: var(--gold); font-size: 1rem; margin: 0;">
+                ${u.name} ${isRegistered ? `(@${u.username})` : '<span style="color:var(--steel); font-size:0.75rem;">[Свободен]</span>'}
+            </h4>
+            <span style="color: var(--neon-fire); font-weight: bold; font-size: 0.75rem;">${era.id} Эпоха (${era.name})</span>
+        </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin-top: 6px;">
-                    <div>
-                        <label style="font-size:0.7rem; color:var(--gold);">EXP:</label>
-                        <input type="number" value="${u.exp || 0}" class="brutal-input" onchange="updateGodUser('${u.id}', 'exp', parseInt(this.value) || 0)">
-                    </div>
-                    <div>
-                        <label style="font-size:0.7rem; color:var(--gold);">Предплечье (см):</label>
-                        <input type="number" value="${u.forearm || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'forearm', parseFloat(this.value) || null)">
-                    </div>
-                    <div>
-                        <label style="font-size:0.7rem; color:var(--gold);">Рост (см):</label>
-                        <input type="number" value="${u.height || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'height', parseFloat(this.value) || null)">
-                    </div>
-                    <div>
-                        <label style="font-size:0.7rem; color:var(--gold);">Вес (кг):</label>
-                        <input type="number" value="${u.weight || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'weight', parseFloat(this.value) || null)">
-                    </div>
-                    <div>
-                        <label style="font-size:0.7rem; color:var(--gold);">Пронация (кг):</label>
-                        <input type="number" value="${u.pronator || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'pronator', parseFloat(this.value) || null)">
-                    </div>
-                    <div>
-                        <label style="font-size:0.7rem; color:var(--gold);">Скручивание (кг):</label>
-                        <input type="number" value="${u.curl || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'curl', parseFloat(this.value) || null)">
-                    </div>
-                </div>
-
-                <div style="margin-top: 4px;">
-                    <label style="font-size:0.7rem; color:var(--steel);">Лор / Описание бойца:</label>
-                    <input type="text" value="${u.lore || ''}" class="brutal-input" onchange="updateGodUser('${u.id}', 'lore', this.value)">
-                </div>
-
-                <div style="margin-top: 6px; font-size: 0.75rem; display: flex; gap: 15px; flex-wrap: wrap;">
-                    <label style="cursor: pointer;">
-                        <input type="checkbox" ${ (u.badges || []).includes('Основатель Лиги') ? 'checked' : '' } onchange="toggleGodBadge('${u.id}', 'Основатель Лиги')"> 👑 Значок «Основатель Лиги»
-                    </label>
-                    <label style="cursor: pointer;">
-                        <input type="checkbox" ${ (u.badges || []).includes('Ветеран 14 Эпохи') ? 'checked' : '' } onchange="toggleGodBadge('${u.id}', 'Ветеран 14 Эпохи')"> ⚔️ Значок «Ветеран 14 Эпохи»
-                    </label>
-                </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin-top: 6px;">
+            <!-- 🔥 НОВОЕ ПОЛЕ: УПРАВЛЕНИЕ МЕСТОМ В ТОПЕ -->
+            <div>
+                <label style="font-size:0.7rem; color:var(--neon-green); font-weight:bold;">Место в топе (1–${allUsers.length}):</label>
+                <input type="number" min="1" max="${allUsers.length}" value="${currentRank}" class="brutal-input" style="border-color: var(--neon-green);" onchange="changePlayerRank('${u.id}', parseInt(this.value) || 1)">
             </div>
-        `;
+            <div>
+                <label style="font-size:0.7rem; color:var(--gold);">EXP:</label>
+                <input type="number" id="god-exp-${u.id}" value="${u.exp || 0}" class="brutal-input" onchange="updateGodUser('${u.id}', 'exp', parseInt(this.value) || 0)">
+            </div>
+            <div>
+                <label style="font-size:0.7rem; color:var(--gold);">Предплечье (см):</label>
+                <input type="number" value="${u.forearm || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'forearm', parseFloat(this.value) || null)">
+            </div>
+            <div>
+                <label style="font-size:0.7rem; color:var(--gold);">Рост (см):</label>
+                <input type="number" value="${u.height || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'height', parseFloat(this.value) || null)">
+            </div>
+            <div>
+                <label style="font-size:0.7rem; color:var(--gold);">Вес (кг):</label>
+                <input type="number" value="${u.weight || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'weight', parseFloat(this.value) || null)">
+            </div>
+            <div>
+                <label style="font-size:0.7rem; color:var(--gold);">Пронация (кг):</label>
+                <input type="number" value="${u.pronator || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'pronator', parseFloat(this.value) || null)">
+            </div>
+        </div>
+
+        <div style="margin-top: 4px;">
+            <label style="font-size:0.7rem; color:var(--steel);">Лор / Описание бойца:</label>
+            <input type="text" value="${u.lore || ''}" class="brutal-input" onchange="updateGodUser('${u.id}', 'lore', this.value)">
+        </div>
+
+        <div style="margin-top: 6px; font-size: 0.75rem; display: flex; gap: 15px; flex-wrap: wrap;">
+            <label style="cursor: pointer;">
+                <input type="checkbox" ${ (u.badges || []).includes('Основатель Лиги') ? 'checked' : '' } onchange="toggleGodBadge('${u.id}', 'Основатель Лиги')"> 👑 Значок «Основатель Лиги»
+            </label>
+            <label style="cursor: pointer;">
+                <input type="checkbox" ${ (u.badges || []).includes('Ветеран 14 Эпохи') ? 'checked' : '' } onchange="toggleGodBadge('${u.id}', 'Ветеран 14 Эпохи')"> ⚔️ Значок «Ветеран 14 Эпохи»
+            </label>
+        </div>
+    </div>
+`;
     }).join('');
 }
 
@@ -1359,6 +1371,56 @@ function renderGodPanel() {
     await syncUserToSupabase(user);
     renderLeaderboard();
 }
+ // 🔥 ФУНКЦИЯ ДЛЯ ПРИНУДИТЕЛЬНОГО ИЗМЕНЕНИЯ МЕСТА БОЙЦА В ТОПЕ
+async function changePlayerRank(id, desiredRank) {
+    const user = allUsers.find(u => u.id === id);
+    if (!user) return;
+
+    // 1. Создаем копию списка игроков без редактируемого бойца и сортируем по убыванию EXP
+    const sortedOthers = allUsers
+        .filter(u => u.id !== id)
+        .sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
+
+    if (sortedOthers.length === 0) return;
+
+    // Ограничиваем рамки желаемого места
+    const targetRank = Math.max(1, Math.min(desiredRank, allUsers.length));
+    let newExp = 0;
+
+    if (targetRank === 1) {
+        // Хотим на 1-е место -> даем на 50 EXP больше, чем у текущего лидера
+        newExp = (Number(sortedOthers[0].exp) || 0) + 50;
+    } else if (targetRank >= allUsers.length) {
+        // Хотим в самый конец топа -> даем на 50 EXP меньше самого последнего (но не меньше 0)
+        newExp = Math.max(0, (Number(sortedOthers[sortedOthers.length - 1].exp) || 0) - 50);
+    } else {
+        // Вклиниваемся на желаемое место (даем чуть больше EXP, чем у того, кто сейчас занимает это место)
+        const playerAtTargetPos = sortedOthers[targetRank - 1]; // С учетом 0-based индекса
+        newExp = (Number(playerAtTargetPos.exp) || 0) + 10;
+    }
+
+    // Присваиваем новые значения
+    user.exp = newExp;
+    const era = getEraByExp(newExp);
+    user.title = era.name;
+
+    // Если Архитектор двигает сам себя — синхронизируем и сессию
+    if (currentUser && currentUser.id === id) {
+        currentUser.exp = newExp;
+        currentUser.title = era.name;
+        localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
+        updateExpTabUI();
+    }
+
+    // 2. Отправляем изменения в Supabase
+    await syncUserToSupabase(user);
+
+    // 3. Сортируем глобальный массив, обновляем Лидерборд и заново рендерим Админку
+    allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
+    renderLeaderboard();
+    renderGodPanel(); // Перерисовываем админку, чтобы в инпутах встали новые номера мест
+}
+
 
  async function toggleGodBadge(id, badge) {
     const user = allUsers.find(u => u.id === id);
@@ -1474,54 +1536,26 @@ function renderGodPanel() {
             renderLeaderboard();
         }
 
-        async function syncUserToSupabase(userObj) {
-            await _supabase.from('profiles').upsert([userObj]);
+        // ====================================================
+// ☁️ НАДЁЖНАЯ СИНХРОНИЗАЦИЯ С SUPABASE И ВЫВОД ОШИБОК
+// ====================================================
+async function syncUserToSupabase(userObj) {
+    if (!userObj || !userObj.id) return;
+
+    try {
+        const { data, error } = await _supabase
+            .from('profiles')
+            .upsert([userObj], { onConflict: 'id' });
+
+        if (error) {
+            console.error("❌ Ошибка сохранения в Supabase:", error.message, error.details);
+        } else {
+            console.log("✅ Профиль улетел в Supabase:", userObj.name);
         }
-
-            function switchTab(tabId, btn) {
-            console.log("👉 Переключение на вкладку:", tabId);
-
-            // 1. Подсвечиваем активную кнопку в сайдбаре
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            if (btn) {
-                btn.classList.add('active');
-            } else if (window.event && window.event.currentTarget) {
-                window.event.currentTarget.classList.add('active');
-            }
-
-            // 2. Скрываем ВСЕ секции
-            document.querySelectorAll('.tab-section').forEach(s => {
-                s.classList.remove('active-view');
-                s.style.display = 'none';
-            });
-
-            // 3. Ищем целевую секцию по всем возможным ID
-            let target = document.getElementById('tab-' + tabId) 
-                      || document.getElementById('sec-' + tabId) 
-                      || document.getElementById(tabId);
-
-            if (target) {
-                target.classList.add('active-view');
-                target.style.display = 'block';
-                console.log("✅ Секция найдена и отображена:", target.id);
-            } else {
-                console.error("❌ КРИТИЧЕСКАЯ ОШИБКА: Секция для '" + tabId + "' не найдена в HTML!");
-            }
-
-            // 4. Отрисовываем данные секции
-            if (tabId === 'leaderboard') {
-                renderLeaderboard();
-            } else if (tabId === 'exp' || tabId === 'training') {
-                updateExpTabUI();
-                loadEarlySparringOptions();
-            } else if (tabId === 'profile') {
-                loadProfileToUI();
-            }
-        }
-
-
-
-
+    } catch (err) {
+        console.error("❌ Ошибка запроса Supabase:", err);
+    }
+}
 
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
