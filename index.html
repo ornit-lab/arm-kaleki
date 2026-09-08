@@ -897,28 +897,23 @@ window.onload = async () => {
     setInterval(updateCooldownsUI, 1000);
 };
 
-        // ====================================================
-// 🏆 ИСПРАВЛЕННАЯ ЗАГРУЗКА БОЙЦОВ (ОБЪЕДИНЕНИЕ СУПАБЕЙЗ + ВЕТЕРАНЫ)
+     // ====================================================
+// 🏆 ИСПРАВЛЕННАЯ ЗАГРУЗКА (РАЗДЕЛЕНИЕ ВАНЬ ПО УНИКАЛЬНОМУ ID)
 // ====================================================
 async function loadAllPlayers() {
     let { data, error } = await _supabase.from('profiles').select('*');
     const dbUsers = (data && !error) ? data : [];
 
-    // 1. Берем дефолтных 24 ветеранов
+    // 1. Проходим по базовым ветеранам и связываем их с Supabase СТРОГО ПО ID
     let mergedUsers = defaultSeededPlayers.map(p => {
         const era = getEraByExp(p.exp);
         
-        // Ищем, есть ли этот ветеран уже в базе Supabase (по id или по имени)
-        const dbMatch = dbUsers.find(dbU => 
-            dbU.id === p.id || 
-            (dbU.name && dbU.name.toLowerCase() === p.name.toLowerCase())
-        );
+        // 🔥 Ищем совпадение СТРОГО ПО ID (seed_vanya_1 не будет путаться с seed_vanya_2!)
+        const dbMatch = dbUsers.find(dbU => dbU.id === p.id);
 
         if (dbMatch) {
-            // Если есть в Supabase — берем его сохраненные данные из базы
             return dbMatch;
         } else {
-            // Если в базе его еще нет — показываем как базового ветерана без замеров
             return {
                 id: p.id,
                 name: p.name,
@@ -934,7 +929,7 @@ async function loadAllPlayers() {
         }
     });
 
-    // 2. Добавляем совершенно НОВЫХ игроков из Supabase, которых не было в начальном списке ветеранов
+    // 2. Добавляем новых игроков, зарегистрировавшихся под уникальными id
     dbUsers.forEach(dbU => {
         const alreadyInList = mergedUsers.some(mU => mU.id === dbU.id);
         if (!alreadyInList) {
@@ -942,12 +937,12 @@ async function loadAllPlayers() {
         }
     });
 
-    // 3. Сохраняем и сортируем по EXP
     allUsers = mergedUsers;
     allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
     
     renderLeaderboard();
 }
+
 
 
 
