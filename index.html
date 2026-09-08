@@ -72,41 +72,88 @@
 
 
     
+/* ====================================================
+   👑 МОНУМЕНТАЛЬНЫЙ 2X ЛОГОТИП ARM-KALEKI
+   ==================================================== */
 
-        .main-logo-title {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 12px;
-            line-height: 1;
-        }
+.main-brand-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 10px 0;
+}
 
-        .logo-arm {
-            font-family: 'GrimoireOfDeath', 'Cinzel', serif;
-            font-size: 3.8rem;
-            color: var(--gold);
-            text-shadow: 0 0 20px var(--neon-fire);
-            letter-spacing: 3px;
-        }
+.main-logo-title {
+    display: flex;
+    align-items: center; /* Строго по центру по вертикали */
+    justify-content: center;
+    gap: 20px;
+    line-height: 1;
+    flex-wrap: wrap;
+}
 
-        .logo-kaleki {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            color: var(--steel);
-            font-weight: 700;
-            text-transform: lowercase;
-            letter-spacing: 1px;
-            opacity: 0.8;
-        }
+/* 🔥 УВЕЛИЧЕННЫЙ В 2 РАЗА ТИТАН "ARM" */
+.logo-arm {
+    font-family: 'GrimoireOfDeath', 'Cinzel', serif;
+    font-size: 6.5rem !important; /* В два раза больше! */
+    color: var(--gold);
+    text-shadow: 0 0 35px var(--neon-fire), 0 0 60px rgba(255, 85, 0, 0.6);
+    letter-spacing: 6px;
+    display: inline-block;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+}
 
-        .brand-subtitle {
-            font-size: 0.75rem;
-            font-style: italic;
-            color: var(--steel);
-            letter-spacing: 1.5px;
-            margin-top: 8px;
-            text-transform: uppercase;
-        }
+/* ⚔️ ЦЕНТРАЛЬНАЯ НЕОНОВАЯ SVG-ИКОНКА МЕЖДУ СЛОВАМИ */
+.logo-center-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    filter: drop-shadow(0 0 15px var(--neon-fire));
+    animation: iconPulseGlow 2.5s infinite alternate ease-in-out;
+}
+
+.logo-center-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--gold);
+    stroke-width: 1.8;
+    fill: rgba(255, 85, 0, 0.2);
+}
+
+@keyframes iconPulseGlow {
+    0%   { transform: scale(0.95); filter: drop-shadow(0 0 10px rgba(255, 85, 0, 0.6)); }
+    100% { transform: scale(1.08); filter: drop-shadow(0 0 25px rgba(255, 204, 0, 0.9)); }
+}
+
+/* 🦾 СОЧНОЕ, НЕОНОВОЕ "калеки" В СЕРЕДИНЕ */
+.logo-kaleki {
+    font-family: 'Comfortaa', 'Montserrat', sans-serif;
+    font-size: 2.8rem !important; /* Массивнее и читаемее */
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    /* Не серый, а сочный градиент стали и неонового янтаря */
+    background: linear-gradient(135deg, #ffffff 0%, #dcdce6 40%, #ff5500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(255, 85, 0, 0.4));
+    display: inline-block;
+}
+
+/* Сабтайтл под шапкой */
+.brand-subtitle {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 0.9rem !important;
+    font-weight: 700;
+    color: var(--steel);
+    letter-spacing: 2.5px;
+    margin-top: 14px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
 
 
        /* 3D-ПЛАШКА ПОЛЬЗОВАТЕЛЯ НА 3D-КОРОБКЕ */
@@ -1388,13 +1435,25 @@
     <!-- ⚔️ ОСНОВНАЯ ЗОНА (70%) -->
     <main class="content-area">
                 <!-- 👑 ГЛАВНАЯ ШАПКА САЙТА (ОТОБРАЖАЕТСЯ НА ВСЕХ ВКЛАДКАХ) -->
+               <!-- 👑 ГЛАВНАЯ МОНУМЕНТАЛЬНАЯ ШАПКА САЙТА С SVG-ЭМБЛЕМОЙ -->
         <div class="main-brand-header">
             <h1 class="main-logo-title">
                 <span class="logo-arm">ARM</span>
+                
+                <!-- ⚔️ Брутальная SVG-эмблема армрестлинга / щита по центру -->
+                <div class="logo-center-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M8 11l3 3 5-5"/>
+                        <circle cx="12" cy="12" r="9" stroke-dasharray="2 4"/>
+                    </svg>
+                </div>
+
                 <span class="logo-kaleki">калеки</span>
             </h1>
             <p class="brand-subtitle">Лаборатория углов, гранитного пронатора и человеческой воли</p>
         </div>
+
 
 
                 <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
