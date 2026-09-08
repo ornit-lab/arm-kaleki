@@ -68,30 +68,43 @@
             overflow-y: auto;
         }
 
-        .brand-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--neon-fire);
-        }
+    
 
         .main-logo-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 12px;
+            line-height: 1;
+        }
+
+        .logo-arm {
             font-family: 'GrimoireOfDeath', 'Cinzel', serif;
-            font-size: 2rem;
+            font-size: 3.8rem;
             color: var(--gold);
-            text-shadow: 0 0 12px var(--neon-fire);
+            text-shadow: 0 0 20px var(--neon-fire);
+            letter-spacing: 3px;
+        }
+
+        .logo-kaleki {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            color: var(--steel);
+            font-weight: 700;
+            text-transform: lowercase;
             letter-spacing: 1px;
-            line-height: 1.1;
+            opacity: 0.8;
         }
 
         .brand-subtitle {
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             font-style: italic;
             color: var(--steel);
-            letter-spacing: 1px;
-            margin-top: 6px;
+            letter-spacing: 1.5px;
+            margin-top: 8px;
             text-transform: uppercase;
         }
+
 
         .user-widget {
             background: rgba(255, 85, 0, 0.05);
@@ -170,6 +183,12 @@
         .tab-section.active-view {
             display: block;
         }
+        .main-brand-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 0;
+            border-bottom: none !important; /* Убрали линию */
+        }
 
         .section-header {
             font-family: 'Cinzel', serif;
@@ -177,12 +196,12 @@
             color: var(--gold);
             text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
             margin-bottom: 15px;
-            border-bottom: 2px solid var(--neon-fire);
-            padding-bottom: 6px;
+            border-bottom: none !important; /* Убрали линию */
+            padding-bottom: 0;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: flex-end;
         }
+
 
         /* КОМПАКТНЫЙ ЛИДЕРБОРД */
         .leaderboard-row {
@@ -442,16 +461,57 @@
             .sidebar { width: 100vw; height: auto; position: relative; border-right: none; border-bottom: 3px solid var(--neon-fire); }
             .content-area { margin-left: 0; width: 100vw; padding: 15px; }
         }
+
+                /* 🔥 ПЫЛАЮЩАЯ ЛАВОВАЯ КНОПКА "ЭПОХИ" */
+        .lava-flame-btn {
+            background: linear-gradient(45deg, #ff1100, #ff6600, #ffaa00, #ff0044);
+            background-size: 300% 300%;
+            animation: lavaGlow 3s ease infinite;
+            color: #ffffff !important;
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 900;
+            font-size: 0.85rem;
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: 1.5px solid #ffe600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(255, 68, 0, 0.8), inset 0 0 10px rgba(255, 230, 0, 0.5);
+            text-shadow: 0 0 5px #000;
+            transition: transform 0.2s ease;
+        }
+
+        .lava-flame-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 102, 0, 1), 0 0 10px #ffe600;
+        }
+
+        @keyframes lavaGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 🟢 НЕОНОВАЯ ПЛАШКА "ВЫ" В ТОПЕ */
+        .you-badge {
+            background: rgba(0, 255, 102, 0.15);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+            margin-left: 6px;
+        }
+
     </style>
 </head>
 <body>
 
     <!-- 🛡️ САЙДБАР (30%) -->
     <aside class="sidebar">
-        <div class="brand-header">
-            <h1 class="main-logo-title">ARM-KALEKI</h1>
-            <p class="brand-subtitle">Лаборатория углов, гранитного пронатора и человеческой воли</p>
-        </div>
 
         <div class="user-widget" id="user-widget-box" style="display: none;">
             <div class="user-widget-name" id="widget-username">Богатырь</div>
@@ -469,22 +529,27 @@
 
     <!-- ⚔️ ОСНОВНАЯ ЗОНА (70%) -->
     <main class="content-area">
+                <!-- 👑 ГЛАВНАЯ ШАПКА САЙТА (ОТОБРАЖАЕТСЯ НА ВСЕХ ВКЛАДКАХ) -->
+        <div class="main-brand-header">
+            <h1 class="main-logo-title">
+                <span class="logo-arm">ARM</span>
+                <span class="logo-kaleki">калеки</span>
+            </h1>
+            <p class="brand-subtitle">Лаборатория углов, гранитного пронатора и человеческой воли</p>
+        </div>
+
 
         <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
         <section id="tab-leaderboard" class="tab-section active-view">
-            <div class="section-header">
-                <span>🏆 ЛИГА «ARM-KALEKI»</span>
-                <button class="brutal-btn" style="font-size: 0.75rem; padding: 6px 12px;" onclick="toggleErasDrawer()">📜 ЭПОХИ — ПОСМОТРЕТЬ</button>
-            </div>
-
-            <!-- Свиток всех Эпох -->
-            <div id="eras-drawer" class="brutal-card" style="display: none; border-color: var(--gold);">
-                <h3 style="color: var(--gold); margin-bottom: 10px; font-size: 1rem;">СПИСОК ВСЕХ 20 ЭПОХ И ЭВОЛЮЦИЯ</h3>
-                <div id="eras-list-content" style="max-height: 250px; overflow-y: auto; font-size: 0.8rem;"></div>
+                    <section id="tab-leaderboard" class="tab-section active-view">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+                <button class="lava-flame-btn" onclick="openModal('modal-eras')">ЭПОХИ</button>
             </div>
 
             <!-- Компактный Чистый Лидерборд -->
             <div id="leaderboard-container"></div>
+        </section>
+
         </section>
 
         <!-- ⚡ ВКЛАДКА 2: ОПЫТ И ТРЕНИРОВКИ -->
@@ -562,6 +627,17 @@
                 <button class="brutal-btn" style="margin-top: 12px;" onclick="saveSelfProfile()">СОХРАНИТЬ ПАРАМЕТРЫ</button>
             </div>
         </section>
+
+
+    <!-- 🔥 МОДАЛКА ВСЕХ 20 ЭПОХ С ИКОНКАМИ -->
+    <div id="modal-eras" class="modal-overlay" onclick="closeModal('modal-eras')">
+        <div class="modal-box" onclick="event.stopPropagation()" style="border-color: var(--neon-fire);">
+            <h3 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 15px; text-align: center; font-size: 1.2rem;">20 ЭПОХ И ЭВОЛЮЦИЯ</h3>
+            <div id="eras-list-content" style="max-height: 60vh; overflow-y: auto;"></div>
+            <button class="brutal-btn danger" style="width: 100%; margin-top: 15px;" onclick="closeModal('modal-eras')">ЗАКРЫТЬ</button>
+        </div>
+    </div>
+
 
     </main>
 
@@ -923,24 +999,27 @@
         // ====================================================
         // 🏆 ЛИДЕРБОРД С ИКОНКАМИ РУК (.WEBP) И ЗЕЛЕНОЙ КНОПКОЙ
         // ====================================================
-        function renderLeaderboard() {
+               function renderLeaderboard() {
             const container = document.getElementById('leaderboard-container');
             allUsers.sort((a, b) => b.exp - a.exp);
 
             container.innerHTML = allUsers.map((user, index) => {
                 const era = getEraByExp(user.exp);
                 let rankBadge = `${index + 1}.`;
+                
+                // Проверка: текущий ли это пользователь
+                const isMe = currentUser && user.id === currentUser.id;
 
                 return `
-                    <div class="leaderboard-row">
+                    <div class="leaderboard-row" style="${isMe ? 'border-color: var(--neon-green);' : ''}">
                         <div class="player-info-main">
-                            <!-- ИКОНКА РУКИ С ФОЛБЕКОМ НА arm_icon.webp -->
                             <div class="arm-icon-box">
                                 <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
                             </div>
                             <div class="rank-badge">${rankBadge}</div>
                             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                                 <span class="player-name-text">${user.name}</span>
+                                ${isMe ? `<span class="you-badge">ВЫ</span>` : ''}
                                 <span style="color: var(--steel);">|</span>
                                 <span class="player-title-text">${era.name}</span>
                                 <span style="color: var(--steel);">|</span>
@@ -953,20 +1032,28 @@
             }).join('');
         }
 
+
         function toggleErasDrawer() {
             const drawer = document.getElementById('eras-drawer');
             drawer.style.display = drawer.style.display === 'none' ? 'block' : 'none';
         }
 
-        function renderErasDrawer() {
+                function renderErasDrawer() {
             const container = document.getElementById('eras-list-content');
             container.innerHTML = erasData.map(e => `
-                <div style="padding: 6px 0; border-bottom: 1px solid #2a2a3d;">
-                    <strong style="color: var(--gold);">${e.id} ЭПОХА — ${e.name}</strong> (${e.minExp}–${e.maxExp} EXP)
-                    <p style="color: var(--steel); font-style: italic;">${e.lore}</p>
+                <div style="padding: 10px 0; border-bottom: 1px solid #2a2a3d; display: flex; gap: 12px; align-items: center;">
+                    <div class="arm-icon-box">
+                        <img src="arm_icon_${e.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                    </div>
+                    <div>
+                        <strong style="color: var(--gold); font-size: 0.9rem;">${e.id} ЭПОХА — ${e.name}</strong> 
+                        <span style="color: var(--neon-fire); font-size: 0.8rem; font-weight: bold;">(${e.minExp}–${e.maxExp} EXP)</span>
+                        <p style="color: var(--steel); font-style: italic; font-size: 0.8rem; margin-top: 2px;">${e.lore}</p>
+                    </div>
                 </div>
             `).join('');
         }
+
 
         // ====================================================
         // ⚡ ТРЕНИРОВКИ, КУЛДАУНЫ И РАННИЙ СПАРРИНГ
