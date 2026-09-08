@@ -1017,6 +1017,54 @@ window.onload = async () => {
             completeLogin();
         }
 
+
+        // ====================================================
+// 🔀 БРОНИРОВАННЫЙ ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК
+// ====================================================
+window.switchTab = function(tabId, btn) {
+    console.log("👉 Переключение на вкладку:", tabId);
+
+    // 1. Подсвечиваем активную кнопку в сайдбаре
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(b => b.classList.remove('active'));
+
+    if (btn) {
+        btn.classList.add('active');
+    } else if (window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('active');
+    }
+
+    // 2. Скрываем ВСЕ секции
+    const sections = document.querySelectorAll('.tab-section');
+    sections.forEach(s => {
+        s.classList.remove('active-view');
+        s.style.display = 'none';
+    });
+
+    // 3. Ищем целевую секцию по ID
+    let target = document.getElementById('tab-' + tabId) 
+              || document.getElementById('sec-' + tabId) 
+              || document.getElementById(tabId);
+
+    if (target) {
+        target.classList.add('active-view');
+        target.style.display = 'block';
+    } else {
+        console.error("❌ Секция для '" + tabId + "' не найдена!");
+    }
+
+    // 4. Отрисовываем данные секции
+    if (tabId === 'leaderboard') {
+        renderLeaderboard();
+    } else if (tabId === 'exp' || tabId === 'training') {
+        updateExpTabUI();
+        loadEarlySparringOptions();
+    } else if (tabId === 'profile') {
+        loadProfileToUI();
+    }
+};
+
+
         async function createNewPlayerFromScratch() {
             currentUser = {
                 id: 'usr_' + Date.now(),
