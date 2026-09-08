@@ -572,6 +572,58 @@
             margin-left: 6px;
         }
 
+
+/* ====================================================
+   🔤 УНИКАЛЬНЫЕ ШРИФТЫ ЦИФР ДЛЯ РАНГОВ ЛИДЕРБОРДА
+   ==================================================== */
+
+/* Подключение файлов шрифтов из папки */
+@font-face {
+    font-family: 'HypnoticRank';
+    src: url('Hypnotic 07 BWO-COLR.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'LanderRank';
+    src: url('Lander.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'AnalogFreakRank';
+    src: url('AnalogFreak.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'BrozierRank';
+    src: url('Brozier.ttf') format('truetype');
+}
+
+/* Привязка шрифтов к классам мест */
+.rank-badge.rank-top3 {
+    font-family: 'HypnoticRank', sans-serif !important;
+    font-size: 1.4rem !important;
+    color: var(--gold) !important;
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
+}
+
+.rank-badge.rank-top10 {
+    font-family: 'LanderRank', sans-serif !important;
+    font-size: 1.25rem !important;
+    color: #ffaa00 !important;
+}
+
+.rank-badge.rank-top17 {
+    font-family: 'AnalogFreakRank', sans-serif !important;
+    font-size: 1.2rem !important;
+    color: var(--steel) !important;
+}
+
+.rank-badge.rank-rest {
+    font-family: 'BrozierRank', sans-serif !important;
+    font-size: 1.15rem !important;
+    color: #6a6a7e !important;
+}
+
     </style>
 </head>
 <body>
@@ -1164,56 +1216,67 @@ window.switchTab = function(tabId, btn) {
             location.reload();
         }
 
-        // ====================================================
-        // 🏆 ЛИДЕРБОРД С ИКОНКАМИ РУК (.WEBP) И ЗЕЛЕНОЙ КНОПКОЙ
-        // ====================================================
-                              function renderLeaderboard() {
-            const container = document.getElementById('leaderboard-container');
-            if (!container) return;
+       // ====================================================
+// 🏆 ЛИДЕРБОРД С УНИКАЛЬНЫМИ ШРИФТАМИ ДЛЯ ЦИФР МЕСТ
+// ====================================================
+function renderLeaderboard() {
+    const container = document.getElementById('leaderboard-container');
+    if (!container) return;
 
-            if (!Array.isArray(allUsers) || allUsers.length === 0) {
-                container.innerHTML = '<div style="color: var(--steel); text-align: center; padding: 20px;">Список бойцов пуст...</div>';
-                return;
+    if (!Array.isArray(allUsers) || allUsers.length === 0) {
+        container.innerHTML = '<div style="color: var(--steel); text-align: center; padding: 20px;">Список бойцов пуст...</div>';
+        return;
+    }
+
+    try {
+        allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
+
+        const html = allUsers.map((user, index) => {
+            if (!user) return '';
+            const safeExp = Number(user.exp) || 0;
+            const era = getEraByExp(safeExp);
+            const rankNum = index + 1;
+            const rankBadgeText = `${rankNum}.`;
+            const isMe = currentUser && (user.id === currentUser.id || user.username === currentUser.username);
+            const userName = user.name || 'Богатырь';
+
+            // 🔥 Динамический выбор шрифта в зависимости от места в топе
+            let rankFontClass = 'rank-rest'; // По умолчанию (18+ места): Brozier.ttf
+            if (rankNum <= 3) {
+                rankFontClass = 'rank-top3';  // 1, 2, 3 места: Hypnotic 07 BWO-COLR.otf
+            } else if (rankNum <= 10) {
+                rankFontClass = 'rank-top10'; // 4 - 10 места: Lander.otf
+            } else if (rankNum <= 17) {
+                rankFontClass = 'rank-top17'; // 11 - 17 места: AnalogFreak.otf
             }
 
-            try {
-                // Безопасная сортировка без сбоев на null/NaN
-                allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
-
-                const html = allUsers.map((user, index) => {
-                    if (!user) return '';
-                    const safeExp = Number(user.exp) || 0;
-                    const era = getEraByExp(safeExp);
-                    const rankBadge = `${index + 1}.`;
-                    const isMe = currentUser && (user.id === currentUser.id || user.username === currentUser.username);
-                    const userName = user.name || 'Богатырь';
-
-                    return `
-                        <div class="leaderboard-row" style="${isMe ? 'border-color: var(--neon-green);' : ''}">
-                            <div class="player-info-main">
-                                <div class="arm-icon-box">
-                                    <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
-                                </div>
-                                <div class="rank-badge">${rankBadge}</div>
-                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                    <span class="player-name-text">${userName}</span>
-                                    ${isMe ? `<span class="you-badge">ВЫ</span>` : ''}
-                                    <span style="color: var(--steel);">|</span>
-                                    <span class="player-title-text">${era.name}</span>
-                                    <span style="color: var(--steel);">|</span>
-                                    <span class="player-era-text">${era.id} Эпоха</span>
-                                </div>
-                            </div>
-                            <button class="neon-green-btn" onclick="inspectUser('${user.id}')">ПРОФИЛЬ</button>
+            return `
+                <div class="leaderboard-row" style="${isMe ? 'border-color: var(--neon-green);' : ''}">
+                    <div class="player-info-main">
+                        <div class="arm-icon-box">
+                            <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
                         </div>
-                    `;
-                }).join('');
+                        <div class="rank-badge ${rankFontClass}">${rankBadgeText}</div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span class="player-name-text">${userName}</span>
+                            ${isMe ? `<span class="you-badge">ВЫ</span>` : ''}
+                            <span style="color: var(--steel);">|</span>
+                            <span class="player-title-text">${era.name}</span>
+                            <span style="color: var(--steel);">|</span>
+                            <span class="player-era-text">${era.id} Эпоха</span>
+                        </div>
+                    </div>
+                    <button class="neon-green-btn" onclick="inspectUser('${user.id}')">ПРОФИЛЬ</button>
+                </div>
+            `;
+        }).join('');
 
-                container.innerHTML = html;
-            } catch (err) {
-                console.error("Ошибка отрисовки лидерборда:", err);
-            }
-        }
+        container.innerHTML = html;
+    } catch (err) {
+        console.error("Ошибка отрисовки лидерборда:", err);
+    }
+}
+
 
 
 
