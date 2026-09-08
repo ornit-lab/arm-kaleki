@@ -723,6 +723,61 @@
 }
 
 
+/* ====================================================
+   🌌 ✨ КОСМИЧЕСКИЙ ЭФФЕКТ ДЛЯ 4–7 МЕСТ (НЕБО И ЗВЁЗДЫ)
+   ==================================================== */
+
+/* Цифры ранга с эффектом космоса */
+.rank-badge.rank-space {
+    font-family: 'LanderRank', sans-serif !important;
+    font-size: 1.35rem !important;
+    font-weight: 900;
+    
+    /* Глубокий космический градиент (небо, неон, туманность) */
+    background: linear-gradient(135deg, #00f2fe, #4facfe, #8a2be2, #ff007f);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Плавное переливание туманности и мягкое парение */
+    animation: spaceNebulaFlow 6s infinite ease-in-out, spaceFloat 3s infinite alternate ease-in-out;
+    position: relative;
+    display: inline-block;
+}
+
+/* 🌠 АНИМАЦИЯ ПЕРЕЛИВА ТУМАННОСТИ */
+@keyframes spaceNebulaFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 🛸 МЯГКОЕ ПАРЕНИЕ В НЕВЕСОМОСТИ */
+@keyframes spaceFloat {
+    0% { transform: translateY(0px) scale(1); }
+    100% { transform: translateY(-2px) scale(1.03); }
+}
+
+/* ☁️ ✨ НЕБЕСНОЕ СВЕЧЕНИЕ И ЗВЁЗДНЫЙ ПЫЛЬЦА ВОКРУГ ПЛАШКИ 4–7 МЕСТ */
+.leaderboard-row:has(.rank-space) {
+    border-color: #00f2fe !important;
+    background: linear-gradient(90deg, rgba(10, 20, 45, 0.8), var(--bg-card)) !important;
+    box-shadow: inset 0 0 15px rgba(79, 172, 254, 0.25), 0 0 20px rgba(0, 242, 254, 0.3) !important;
+    animation: spaceRowGlow 4s infinite alternate ease-in-out;
+}
+
+@keyframes spaceRowGlow {
+    0% {
+        box-shadow: inset 0 0 10px rgba(79, 172, 254, 0.2), 0 0 12px rgba(0, 242, 254, 0.2);
+        border-color: #4facfe;
+    }
+    100% {
+        box-shadow: inset 0 0 22px rgba(138, 43, 226, 0.4), 0 0 25px rgba(0, 242, 254, 0.5);
+        border-color: #00f2fe;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -1342,17 +1397,20 @@ function renderLeaderboard() {
             const isMe = currentUser && (user.id === currentUser.id || user.username === currentUser.username);
             const userName = user.name || 'Богатырь';
 
-            // 🔥 Выбор эффекта и шрифта по месту в топе
+                        // 🔥 Выбор эффекта и шрифта по месту в топе
             let rankFontClass = 'rank-rest'; 
             if (rankNum <= 3) {
-                rankFontClass = 'rank-top3';   // 🔥 1, 2, 3 места: Пылающая Лава (Hypnotic)
+                rankFontClass = 'rank-top3';   // 🔥 1, 2, 3 места: Пылающая Лава
+            } else if (rankNum >= 4 && rankNum <= 7) {
+                rankFontClass = 'rank-space';  // 🌌 4 - 7 места: КОСМОС, НЕБО И ЗВЁЗДЫ!
             } else if (rankNum <= 10) {
-                rankFontClass = 'rank-top10';  // 4 - 10 места: Lander
+                rankFontClass = 'rank-top10';  // 8 - 10 места: Lander
             } else if (rankNum <= 17) {
                 rankFontClass = 'rank-top17';  // 11 - 17 места: AnalogFreak
             } else if (rankNum >= 20) {
-                rankFontClass = 'rank-stinky'; // 🦨 20+ места: ТОКСИЧНАЯ ВОНЬ И ЗЕЛЕНЫЙ ПАР!
+                rankFontClass = 'rank-stinky'; // 🦨 20+ места: ТОКСИЧНАЯ ВОНЬ
             }
+
 
             return `
                 <div class="leaderboard-row" style="${isMe ? 'border-color: var(--neon-green);' : ''}">
