@@ -175,14 +175,17 @@
             box-sizing: border-box;
         }
 
-        .tab-section {
+                .tab-section {
             display: none;
-            animation: fadeIn 0.3s ease;
         }
 
         .tab-section.active-view {
-            display: block;
+            display: block !important;
+            animation: fadeIn 0.2s ease;
         }
+
+
+
         .main-brand-header {
             text-align: center;
             margin-bottom: 20px;
@@ -519,12 +522,13 @@
             <button class="brutal-btn" style="margin-top: 6px; padding: 4px 10px; font-size: 0.7rem;" onclick="logout()">ВЫЙТИ</button>
         </div>
 
-        <nav class="nav-menu">
+               <nav class="nav-menu">
             <button class="nav-btn active" onclick="switchTab('leaderboard', this)">🏆 ЛИДЕРБОРД</button>
-            <button class="nav-btn" onclick="switchTab('exp', this)">⚡ ОПЫТ И ТРЕНИРОВКИ</button>
+            <button class="nav-btn" onclick="switchTab('exp', this)">⚡️ ОПЫТ И ТРЕНИРОВКИ</button>
             <button class="nav-btn" onclick="switchTab('profile', this)">👤 МОЙ ПРОФИЛЬ</button>
             <button class="nav-btn" id="god-btn" style="display: none; border-color: var(--gold); color: var(--gold);" onclick="openGodModeAuth()">🏛️ ПАНЕЛЬ АРХИТЕКТОРА</button>
         </nav>
+
     </aside>
 
     <!-- ⚔️ ОСНОВНАЯ ЗОНА (70%) -->
@@ -539,9 +543,8 @@
         </div>
 
 
-        <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
+                <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
         <section id="tab-leaderboard" class="tab-section active-view">
-                    <section id="tab-leaderboard" class="tab-section active-view">
             <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
                 <button class="lava-flame-btn" onclick="openModal('modal-eras')">ЭПОХИ</button>
             </div>
@@ -549,6 +552,7 @@
             <!-- Компактный Чистый Лидерборд -->
             <div id="leaderboard-container"></div>
         </section>
+
 
         </section>
 
@@ -604,7 +608,7 @@
 
         <!-- 👤 ВКЛАДКА 3: МОЙ ПРОФИЛЬ -->
         <section id="tab-profile" class="tab-section">
-            <div class="section-header">👤 МОЙ ПРОФИЛЬ И ПАРАМЕТРЫ</div>
+            <div class="section-header">👤 МОЙ ПРОФИЛЬ</div>
 
             <div class="brutal-card">
                 <h3 style="color: var(--gold); margin-bottom: 12px; font-size: 1rem;">Биометрия и Замеры</h3>
@@ -828,12 +832,14 @@
             renderLeaderboard();
         }
 
-        function getEraByExp(exp) {
+                function getEraByExp(exp) {
+            const safeExp = Number(exp) || 0;
             for (let i = erasData.length - 1; i >= 0; i--) {
-                if (exp >= erasData[i].minExp) return erasData[i];
+                if (safeExp >= erasData[i].minExp) return erasData[i];
             }
             return erasData[0];
         }
+
 
         // ====================================================
         // 🔐 АВТОРИЗАЦИЯ И РЕГИСТРАЦИЯ
@@ -999,38 +1005,55 @@
         // ====================================================
         // 🏆 ЛИДЕРБОРД С ИКОНКАМИ РУК (.WEBP) И ЗЕЛЕНОЙ КНОПКОЙ
         // ====================================================
-               function renderLeaderboard() {
+                              function renderLeaderboard() {
             const container = document.getElementById('leaderboard-container');
-            allUsers.sort((a, b) => b.exp - a.exp);
+            if (!container) return;
 
-            container.innerHTML = allUsers.map((user, index) => {
-                const era = getEraByExp(user.exp);
-                let rankBadge = `${index + 1}.`;
-                
-                // Проверка: текущий ли это пользователь
-                const isMe = currentUser && user.id === currentUser.id;
+            if (!Array.isArray(allUsers) || allUsers.length === 0) {
+                container.innerHTML = '<div style="color: var(--steel); text-align: center; padding: 20px;">Список бойцов пуст...</div>';
+                return;
+            }
 
-                return `
-                    <div class="leaderboard-row" style="${isMe ? 'border-color: var(--neon-green);' : ''}">
-                        <div class="player-info-main">
-                            <div class="arm-icon-box">
-                                <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
+            try {
+                // Безопасная сортировка без сбоев на null/NaN
+                allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
+
+                const html = allUsers.map((user, index) => {
+                    if (!user) return '';
+                    const safeExp = Number(user.exp) || 0;
+                    const era = getEraByExp(safeExp);
+                    const rankBadge = `${index + 1}.`;
+                    const isMe = currentUser && (user.id === currentUser.id || user.username === currentUser.username);
+                    const userName = user.name || 'Богатырь';
+
+                    return `
+                        <div class="leaderboard-row" style="${isMe ? 'border-color: var(--neon-green);' : ''}">
+                            <div class="player-info-main">
+                                <div class="arm-icon-box">
+                                    <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                                </div>
+                                <div class="rank-badge">${rankBadge}</div>
+                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <span class="player-name-text">${userName}</span>
+                                    ${isMe ? `<span class="you-badge">ВЫ</span>` : ''}
+                                    <span style="color: var(--steel);">|</span>
+                                    <span class="player-title-text">${era.name}</span>
+                                    <span style="color: var(--steel);">|</span>
+                                    <span class="player-era-text">${era.id} Эпоха</span>
+                                </div>
                             </div>
-                            <div class="rank-badge">${rankBadge}</div>
-                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                <span class="player-name-text">${user.name}</span>
-                                ${isMe ? `<span class="you-badge">ВЫ</span>` : ''}
-                                <span style="color: var(--steel);">|</span>
-                                <span class="player-title-text">${era.name}</span>
-                                <span style="color: var(--steel);">|</span>
-                                <span class="player-era-text">${era.id} Эпоха</span>
-                            </div>
+                            <button class="neon-green-btn" onclick="inspectUser('${user.id}')">ПРОФИЛЬ</button>
                         </div>
-                        <button class="neon-green-btn" onclick="inspectUser('${user.id}')">ПРОФИЛЬ</button>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                }).join('');
+
+                container.innerHTML = html;
+            } catch (err) {
+                console.error("Ошибка отрисовки лидерборда:", err);
+            }
         }
+
+
 
 
         function toggleErasDrawer() {
@@ -1287,13 +1310,51 @@
             await _supabase.from('profiles').upsert([userObj]);
         }
 
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active-view'));
+            function switchTab(tabId, btn) {
+            console.log("👉 Переключение на вкладку:", tabId);
 
-            btn.classList.add('active');
-            document.getElementById('tab-' + tabId).classList.add('active-view');
+            // 1. Подсвечиваем активную кнопку в сайдбаре
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            if (btn) {
+                btn.classList.add('active');
+            } else if (window.event && window.event.currentTarget) {
+                window.event.currentTarget.classList.add('active');
+            }
+
+            // 2. Скрываем ВСЕ секции
+            document.querySelectorAll('.tab-section').forEach(s => {
+                s.classList.remove('active-view');
+                s.style.display = 'none';
+            });
+
+            // 3. Ищем целевую секцию по всем возможным ID
+            let target = document.getElementById('tab-' + tabId) 
+                      || document.getElementById('sec-' + tabId) 
+                      || document.getElementById(tabId);
+
+            if (target) {
+                target.classList.add('active-view');
+                target.style.display = 'block';
+                console.log("✅ Секция найдена и отображена:", target.id);
+            } else {
+                console.error("❌ КРИТИЧЕСКАЯ ОШИБКА: Секция для '" + tabId + "' не найдена в HTML!");
+            }
+
+            // 4. Отрисовываем данные секции
+            if (tabId === 'leaderboard') {
+                renderLeaderboard();
+            } else if (tabId === 'exp' || tabId === 'training') {
+                updateExpTabUI();
+                loadEarlySparringOptions();
+            } else if (tabId === 'profile') {
+                loadProfileToUI();
+            }
         }
+
+
+
+
+
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
