@@ -243,26 +243,47 @@
     justify-content: flex-start; /* Смещаем заголовки влево */
     align-items: center;
 }
+/* ==========================================================================
+   🔍 ЭФФЕКТ ИНТЕРАКТИВНОГО УВЕЛИЧЕНИЯ ИЗБРАННОЙ КАРТОЧКИ В ЛИДЕРБОРДЕ
+   ========================================================================== */
 
+/* Контейнер лидерборда (даем небольшой запас места по бокам для увеличения) */
+#leaderboard-container {
+    padding: 10px 4px !important;
+    overflow: visible !important;
+}
 
+/* Базовый стиль плашки */
+.leaderboard-row {
+    position: relative !important;
+    z-index: 1 !important;
+    background: var(--bg-card);
+    border: 1.5px solid #1c1c28;
+    border-radius: 10px !important;
+    padding: 8px 14px !important;
+    margin-bottom: 8px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* 🔥 Сверхплавный переход трансформации с эффектом лёгкой пружины */
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.25s ease,
+                border-color 0.25s ease,
+                z-index 0s !important;
+}
 
-        /* КОМПАКТНЫЙ ЛИДЕРБОРД */
-        .leaderboard-row {
-            background: var(--bg-card);
-            border: 1.5px solid #1c1c28;
-            border-radius: 6px;
-            padding: 6px 12px;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s ease;
-        }
+/* 🔥 ЭФФЕКТ УВЕЛИЧЕНИЯ ПРИ НАВЕДЕНИИ МЫШЬЮ ИЛИ ТАПЕ НА СМАРТФОНЕ */
+.leaderboard-row:hover,
+.leaderboard-row:active {
+    z-index: 50 !important; /* Выносим активную карточку поверх соседних */
+    transform: scale(1.035) translateY(-3px) !important; /* Увеличиваем и слегка приподнимаем */
+    border-color: var(--gold) !important; /* Красим рамку в золото */
+    background: linear-gradient(145deg, #161622, #0d0d14) !important;
+    /* Объемная тень под карточкой */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 
+                0 0 18px rgba(255, 85, 0, 0.35) !important;
+}
 
-        .leaderboard-row:hover {
-            border-color: var(--neon-fire);
-            box-shadow: var(--glow-fire);
-        }
 
         /* КВАДРАТИК ИКОНКИ РУКИ (ТОЛЬКО ЧИСТАЯ КАРТИНКА БЕЗ РАМОК И ФОНА) */
 .arm-icon-box {
