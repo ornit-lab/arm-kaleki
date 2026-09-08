@@ -264,26 +264,28 @@
             box-shadow: var(--glow-fire);
         }
 
-        /* КВАДРАТИК ИКОНКИ РУКИ (WEBP) */
-        .arm-icon-box {
-            width: 32px;
-            height: 32px;
-            min-width: 32px;
-            border: 1px solid var(--neon-fire);
-            border-radius: 5px;
-            background: rgba(255, 85, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 0 8px rgba(255, 85, 0, 0.2);
-        }
+        /* КВАДРАТИК ИКОНКИ РУКИ (ТОЛЬКО ЧИСТАЯ КАРТИНКА БЕЗ РАМОК И ФОНА) */
+.arm-icon-box {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border: none !important;            /* Убираем красную рамку */
+    background: transparent !important; /* Убираем фоновый залив */
+    box-shadow: none !important;        /* Убираем свечение квадрата */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
 
-        .arm-icon-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+.arm-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Опционально: мягкая легкая тень под самой картинкой для объема */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)); 
+}
+
 
         .rank-badge {
             font-size: 1.1rem;
