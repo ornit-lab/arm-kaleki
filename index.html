@@ -1269,52 +1269,117 @@
             }
         }
 
-        function renderGodPanel() {
-            const container = document.getElementById('god-players-list');
-            container.innerHTML = allUsers.map((u) => `
-                <div class="brutal-card" style="border-color: var(--gold); margin-bottom: 8px; padding: 10px;">
-                    <h4 style="color: var(--gold);">${u.name} ${u.username ? `(@${u.username})` : '[Свободен]'}</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 6px; margin-top: 6px;">
-                        <div><label style="font-size:0.7rem;">EXP:</label><input type="number" value="${u.exp}" class="brutal-input" onchange="updateGodUser('${u.id}', 'exp', parseInt(this.value))"></div>
-                        <div><label style="font-size:0.7rem;">Титул:</label><input type="text" value="${u.title || ''}" class="brutal-input" onchange="updateGodUser('${u.id}', 'title', this.value)"></div>
-                        <div><label style="font-size:0.7rem;">Предплечье (см):</label><input type="number" value="${u.forearm || 0}" class="brutal-input" onchange="updateGodUser('${u.id}', 'forearm', parseFloat(this.value))"></div>
+        // ====================================================
+// 🏛️ GOD MODE / ПАНЕЛЬ АРХИТЕКТОРА БОРИСА (ПОЛНЫЙ ДОСТУП)
+// ====================================================
+
+function renderGodPanel() {
+    const container = document.getElementById('god-players-list');
+    if (!container) return;
+
+    container.innerHTML = allUsers.map((u) => {
+        const era = getEraByExp(u.exp);
+        const isRegistered = Boolean(u.username && u.username.trim() !== '');
+
+        return `
+            <div class="brutal-card" style="border-color: var(--gold); margin-bottom: 12px; padding: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <h4 style="color: var(--gold); font-size: 1rem; margin: 0;">
+                        ${u.name} ${isRegistered ? `(@${u.username})` : '<span style="color:var(--steel); font-size:0.75rem;">[Свободен]</span>'}
+                    </h4>
+                    <span style="color: var(--neon-fire); font-weight: bold; font-size: 0.75rem;">${era.id} Эпоха (${era.name})</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin-top: 6px;">
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--gold);">EXP:</label>
+                        <input type="number" value="${u.exp || 0}" class="brutal-input" onchange="updateGodUser('${u.id}', 'exp', parseInt(this.value) || 0)">
                     </div>
-                    <div><label style="font-size:0.7rem;">Лор:</label><input type="text" value="${u.lore || ''}" class="brutal-input" onchange="updateGodUser('${u.id}', 'lore', this.value)"></div>
-                    <div style="margin-top: 4px; font-size: 0.75rem;">
-                        <label><input type="checkbox" ${ (u.badges || []).includes('Основатель Лиги') ? 'checked' : '' } onchange="toggleGodBadge('${u.id}', 'Основатель Лиги')"> Значок «Основатель Лиги»</label>
-                        <label style="margin-left: 10px;"><input type="checkbox" ${ (u.badges || []).includes('Ветеран 14 Эпохи') ? 'checked' : '' } onchange="toggleGodBadge('${u.id}', 'Ветеран 14 Эпохи')"> Значок «Ветеран 14 Эпохи»</label>
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--gold);">Предплечье (см):</label>
+                        <input type="number" value="${u.forearm || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'forearm', parseFloat(this.value) || null)">
+                    </div>
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--gold);">Рост (см):</label>
+                        <input type="number" value="${u.height || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'height', parseFloat(this.value) || null)">
+                    </div>
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--gold);">Вес (кг):</label>
+                        <input type="number" value="${u.weight || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'weight', parseFloat(this.value) || null)">
+                    </div>
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--gold);">Пронация (кг):</label>
+                        <input type="number" value="${u.pronator || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'pronator', parseFloat(this.value) || null)">
+                    </div>
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--gold);">Скручивание (кг):</label>
+                        <input type="number" value="${u.curl || ''}" placeholder="не указано" class="brutal-input" onchange="updateGodUser('${u.id}', 'curl', parseFloat(this.value) || null)">
                     </div>
                 </div>
-            `).join('');
-        }
 
-        async function updateGodUser(id, field, val) {
-    const user = allUsers.find(u => u.id === id);
-    if (user) {
-        user[field] = val;
-        // Если Архитектор редактирует самого себя — обновляем и currentUser
-        if (currentUser && currentUser.id === id) {
-            currentUser[field] = val;
-            localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
-        }
-        await syncUserToSupabase(user);
-        renderLeaderboard();
-    }
+                <div style="margin-top: 4px;">
+                    <label style="font-size:0.7rem; color:var(--steel);">Лор / Описание бойца:</label>
+                    <input type="text" value="${u.lore || ''}" class="brutal-input" onchange="updateGodUser('${u.id}', 'lore', this.value)">
+                </div>
+
+                <div style="margin-top: 6px; font-size: 0.75rem; display: flex; gap: 15px; flex-wrap: wrap;">
+                    <label style="cursor: pointer;">
+                        <input type="checkbox" ${ (u.badges || []).includes('Основатель Лиги') ? 'checked' : '' } onchange="toggleGodBadge('${u.id}', 'Основатель Лиги')"> 👑 Значок «Основатель Лиги»
+                    </label>
+                    <label style="cursor: pointer;">
+                        <input type="checkbox" ${ (u.badges || []).includes('Ветеран 14 Эпохи') ? 'checked' : '' } onchange="toggleGodBadge('${u.id}', 'Ветеран 14 Эпохи')"> ⚔️ Значок «Ветеран 14 Эпохи»
+                    </label>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
-        async function toggleGodBadge(id, badge) {
-            const user = allUsers.find(u => u.id === id);
-            if (user) {
-                if (!user.badges) user.badges = [];
-                if (user.badges.includes(badge)) {
-                    user.badges = user.badges.filter(b => b !== badge);
-                } else {
-                    user.badges.push(badge);
-                }
-                await syncUserToSupabase(user);
-                renderLeaderboard();
-            }
-        }
+ async function updateGodUser(id, field, val) {
+    const user = allUsers.find(u => u.id === id);
+    if (!user) return;
+
+    user[field] = val;
+
+    // Если Архитектор меняет EXP — сразу пересчитываем титул Эпохи
+    if (field === 'exp') {
+        const era = getEraByExp(val);
+        user.title = era.name;
+    }
+
+    // Если Архитектор редактирует самого себя — обновляем и активного пользователя
+    if (currentUser && currentUser.id === id) {
+        currentUser[field] = val;
+        if (field === 'exp') currentUser.title = user.title;
+        localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
+        updateExpTabUI();
+    }
+
+    // 🔥 Сохраняем в Supabase — данные улетают всем игрокам!
+    await syncUserToSupabase(user);
+    renderLeaderboard();
+}
+
+ async function toggleGodBadge(id, badge) {
+    const user = allUsers.find(u => u.id === id);
+    if (!user) return;
+
+    if (!user.badges) user.badges = [];
+    if (user.badges.includes(badge)) {
+        user.badges = user.badges.filter(b => b !== badge);
+    } else {
+        user.badges.push(badge);
+    }
+
+    if (currentUser && currentUser.id === id) {
+        currentUser.badges = user.badges;
+        localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
+    }
+
+    // 🔥 Сохраняем значки в Supabase
+    await syncUserToSupabase(user);
+    renderLeaderboard();
+}
 
         // ====================================================
         // 👤 ПРОФИЛЬ И ИНСПЕКЦИЯ
