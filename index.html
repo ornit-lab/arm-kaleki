@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARM-KALEKI | Лаборатория Воли и Пронатора</title>
+    <!-- Подключение Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* ====================================================
+           🎨 ДИЗАЙН-КОД И ТЕМНАЯ КИБЕР-АДИТИВНАЯ ПАЛИТРА
+           ==================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;700;900&display=swap');
+
+        @font-face {
+            font-family: 'GrimoireOfDeath-Regular';
+            src: url('GrimoireOfDeath-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --bg-dark: #08080a;
+            --bg-card: #0d0d11;
+            --bg-sidebar: #0a0a0e;
+            --neon-fire: #ff5500;
+            --neon-red: #e60039;
+            --gold: #ffcc00;
+            --steel: #8a8a9e;
+            --text-main: #f0f0f5;
+            --border-thick: 3px solid #ff5500;
+            --glow-fire: 0 0 20px rgba(255, 85, 0, 0.4);
+            --glow-gold: 0 0 20px rgba(255, 204, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 30% СТАЦИОНАРНЫЙ САЙДБАР */
+        .sidebar {
+            width: 30vw;
+            min-width: 300px;
+            background: var(--bg-sidebar);
+            border-right: 4px solid var(--neon-fire);
+            box-shadow: 5px 0 30px rgba(255, 85, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            padding: 25px 20px;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--neon-fire);
+        }
+
+        .main-logo-title {
+            font-family: 'GrimoireOfDeath-Regular', 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--gold);
+            text-shadow: 0 0 15px var(--neon-fire);
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .brand-subtitle {
+            font-size: 0.7rem;
+            font-style: italic;
+            color: var(--steel);
+            letter-spacing: 1.5px;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        .user-widget {
+            background: rgba(255, 85, 0, 0.05);
+            border: 2px solid var(--neon-fire);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: var(--glow-fire);
+        }
+
+        .user-widget-name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--gold);
+        }
+
+        .user-widget-title {
+            font-size: 0.75rem;
+            color: var(--neon-fire);
+            font-weight: bold;
+        }
+
+        /* СВИТКИ ВКЛАДОК */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .nav-btn {
+            background: #121218;
+            border: 2px solid #2a2a38;
+            color: var(--steel);
+            padding: 14px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: left;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--gold);
+            color: #fff;
+            box-shadow: var(--glow-gold);
+            transform: translateX(5px);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, var(--neon-fire), var(--neon-red));
+            color: #fff;
+            border-color: #fff;
+            box-shadow: var(--glow-fire);
+            font-weight: 900;
+        }
+
+        /* 70% ОСНОВНОЙ КОНТЕНТ */
+        .content-area {
+            margin-left: 30vw;
+            width: 70vw;
+            padding: 35px;
+            box-sizing: border-box;
+        }
+
+        .tab-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-section.active-view {
+            display: block;
+        }
+
+        .section-header {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--neon-fire);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* КАРТОЧКИ И КОНТЕЙНЕРЫ */
+        .brutal-card {
+            background: var(--bg-card);
+            border: 3px solid #2a2a3d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .brutal-card:hover {
+            border-color: var(--neon-fire);
+            box-shadow: var(--glow-fire);
+        }
+
+        .brutal-input {
+            width: 100%;
+            background: #050507;
+            border: 2px solid #2a2a3d;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 6px 0 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .brutal-input:focus {
+            border-color: var(--gold);
+            outline: none;
+            box-shadow: var(--glow-gold);
+        }
+
+        .brutal-btn {
+            background: linear-gradient(135deg, var(--gold), var(--neon-fire));
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-weight: 900;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .brutal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow-gold);
+        }
+
+        .brutal-btn.danger {
+            background: linear-gradient(135deg, var(--neon-red), #600010);
+            color: #fff;
+        }
+
+        .brutal-btn:disabled {
+            background: #333 !important;
+            color: #777 !important;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* НЕОНОВАЯ КОЛБА EXP */
+        .flask-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .flask-outer {
+            width: 80px;
+            height: 220px;
+            border: 4px solid var(--gold);
+            border-radius: 12px 12px 40px 40px;
+            background: rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glow-gold);
+        }
+
+        .flask-liquid {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(0deg, var(--neon-red), var(--neon-fire), var(--gold));
+            transition: height 0.5s ease-in-out;
+            box-shadow: 0 0 20px var(--neon-fire);
+        }
+
+        .flask-val {
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-top: 10px;
+            text-shadow: 0 0 10px var(--gold);
+        }
+
+        /* ДОРОЖКА ХОДИЛКА-БРОДИЛКА */
+        .exp-path {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 15px 5px;
+            margin: 15px 0;
+        }
+
+        .path-cell {
+            min-width: 45px;
+            height: 45px;
+            border: 2px solid #2a2a3d;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: var(--steel);
+            background: #0a0a0e;
+        }
+
+        .path-cell.filled {
+            background: var(--neon-fire);
+            color: #000;
+            border-color: var(--gold);
+            box-shadow: 0 0 10px var(--neon-fire);
+            font-weight: 900;
+        }
+
+        /* МОДАЛЬНЫЕ ОКНА */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(4, 4, 6, 0.92);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 4px solid var(--neon-fire);
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 650px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 0 40px rgba(255, 85, 0, 0.5);
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+        @media (max-width: 850px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100vw; height: auto; position: relative; border-right: none; border-bottom: 4px solid var(--neon-fire); }
+            .content-area { margin-left: 0; width: 100vw; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🛡️ САЙДБАР (30%) -->
+    <aside class="sidebar">
+        <div class="brand-header">
+            <h1 class="main-logo-title">ARM-KALEKI</h1>
+            <p class="brand-subtitle">Лаборатория углов, гранитного пронатора и человеческой воли</p>
+        </div>
+
+        <div class="user-widget" id="user-widget-box" style="display: none;">
+            <div class="user-widget-name" id="widget-username">Богатырь</div>
+            <div class="user-widget-title" id="widget-title">Титул: --</div>
+            <button class="brutal-btn" style="margin-top: 8px; padding: 6px 12px; font-size: 0.75rem;" onclick="logout()">ВЫЙТИ</button>
+        </div>
+
+        <nav class="nav-menu">
+            <button class="nav-btn active" onclick="switchTab('leaderboard', this)">🏆 ЛИДЕРБОРД</button>
+            <button class="nav-btn" onclick="switchTab('exp', this)">⚡ ОПЫТ И ТРЕНИРОВКИ</button>
+            <button class="nav-btn" onclick="switchTab('profile', this)">👤 МОЙ ПРОФИЛЬ</button>
+            <button class="nav-btn" id="god-btn" style="display: none; border-color: var(--gold); color: var(--gold);" onclick="openGodModeAuth()">🏛️ ПАНЕЛЬ АРХИТЕКТОРА</button>
+        </nav>
+    </aside>
+
+    <!-- ⚔️ ОСНОВНАЯ ЗОНА (70%) -->
+    <main class="content-area">
+
+        <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
+        <section id="tab-leaderboard" class="tab-section active-view">
+            <div class="section-header">
+                <span>🏆 ЛИГА «ARM-KALEKI»</span>
+                <button class="brutal-btn" style="font-size: 0.8rem; padding: 8px 14px;" onclick="toggleErasDrawer()">📜 ЭПОХИ — ПОСМОТРЕТЬ</button>
+            </div>
+
+            <!-- Свиток всех Эпох -->
+            <div id="eras-drawer" class="brutal-card" style="display: none; border-color: var(--gold);">
+                <h3 style="color: var(--gold); margin-bottom: 12px;">СПИСОК ВСЕХ 20 ЭПОХ И ЭВОЛЮЦИЯ</h3>
+                <div id="eras-list-content" style="max-height: 300px; overflow-y: auto; font-size: 0.85rem;"></div>
+            </div>
+
+            <!-- Таблица всех бойцов -->
+            <div id="leaderboard-container"></div>
+        </section>
+
+        <!-- ⚡ ВКЛАДКА 2: ОПЫТ И ТРЕНИРОВКИ -->
+        <section id="tab-exp" class="tab-section">
+            <div class="section-header">⚡ ДНЕВНИК ОПЫТА И ФАРМ EXP</div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                
+                <!-- Неоновая Колба -->
+                <div class="brutal-card" style="text-align: center;">
+                    <h3 style="color: var(--gold);">ПРОГРЕСС ЭПОХИ</h3>
+                    <div class="flask-container">
+                        <div class="flask-outer">
+                            <div id="flask-liquid" class="flask-liquid" style="height: 0%;"></div>
+                        </div>
+                        <div class="flask-val" id="flask-val-text">0 / 100 EXP</div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--steel);" id="current-era-display">Эпоха 1: Скелет</p>
+                </div>
+
+                <!-- Фиксация Тренировок -->
+                <div class="brutal-card">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">ЗАФИКСИРОВАТЬ ТРЕНИРОВКУ</h3>
+                    
+                    <button class="brutal-btn" id="btn-train-ofp" style="width: 100%; margin-bottom: 10px;" onclick="doWorkout('ofp')">
+                        🏋️‍♂️ ОФП (+25 EXP) <span id="cd-ofp"></span>
+                    </button>
+                    
+                    <button class="brutal-btn" id="btn-train-arm" style="width: 100%; margin-bottom: 10px;" onclick="doWorkout('arm')">
+                        🦾 Спец-Арм Тренировка (+20 EXP) <span id="cd-arm"></span>
+                    </button>
+
+                    <button class="brutal-btn danger" id="btn-train-sparring" style="width: 100%; margin-bottom: 15px;" onclick="doWorkout('sparring')">
+                        ⚔️ Спарринг за столом (+40 EXP) <span id="cd-sparring"></span>
+                    </button>
+
+                    <hr style="border-color: #2a2a3d; margin: 15px 0;">
+
+                    <h4 style="color: var(--gold); margin-bottom: 10px;">⚡ РАННИЙ СПАРРИНГ</h4>
+                    <p style="font-size: 0.8rem; color: var(--steel); margin-bottom: 8px;">Победа над соперником из высшей Эпохи сразу поднимет твою Эпоху выше его!</p>
+                    <select id="early-sparring-target" class="brutal-input"></select>
+                    <button class="brutal-btn danger" style="width: 100%;" onclick="startEarlySparring()">НАЧАТЬ РАННИЙ СПАРРИНГ</button>
+                </div>
+            </div>
+
+            <!-- Дорожка ходилка-бродилка -->
+            <div class="brutal-card" style="margin-top: 20px;">
+                <h3 style="color: var(--gold);">ДОРОЖКА ЭПОХИ</h3>
+                <div class="exp-path" id="exp-path-board"></div>
+            </div>
+        </section>
+
+        <!-- 👤 ВКЛАДКА 3: МОЙ ПРОФИЛЬ -->
+        <section id="tab-profile" class="tab-section">
+            <div class="section-header">👤 МОЙ ПРОФИЛЬ И ПАРАМЕТРЫ</div>
+
+            <div class="brutal-card">
+                <h3 style="color: var(--gold); margin-bottom: 15px;">Биометрия и Замеры</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+                    <div><label>Предплечье (см):</label><input type="number" id="my-forearm" class="brutal-input"></div>
+                    <div><label>Рост (см):</label><input type="number" id="my-height" class="brutal-input"></div>
+                    <div><label>Вес (кг):</label><input type="number" id="my-weight" class="brutal-input"></div>
+                    <div><label>Возраст:</label><input type="number" id="my-age" class="brutal-input"></div>
+                </div>
+
+                <h3 style="color: var(--gold); margin: 20px 0 15px;">Силовые арм-показатели (кг)</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+                    <div><label>Пронация:</label><input type="number" id="my-pron" class="brutal-input"></div>
+                    <div><label>Луч:</label><input type="number" id="my-beam" class="brutal-input"></div>
+                    <div><label>Натяжка кисти:</label><input type="number" id="my-pull" class="brutal-input"></div>
+                    <div><label>Отведение:</label><input type="number" id="my-abduct" class="brutal-input"></div>
+                    <div><label>Скручивание кисти:</label><input type="number" id="my-curl" class="brutal-input"></div>
+                </div>
+
+                <button class="brutal-btn" style="margin-top: 15px;" onclick="saveSelfProfile()">СОХРАНИТЬ ПАРАМЕТРЫ</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 🔐 МОДАЛКА ВХОДА И РЕГИСТРАЦИИ -->
+    <div id="modal-auth" class="modal-overlay">
+        <div class="modal-box">
+            <h2 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 10px; text-align: center;">ЧЕРТОГ ARM-KALEKI</h2>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button class="brutal-btn" id="tab-auth-login" style="flex: 1;" onclick="setAuthMode('login')">ВХОД</button>
+                <button class="brutal-btn" id="tab-auth-reg" style="flex: 1; background: #222; color: #777;" onclick="setAuthMode('reg')">РЕГИСТРАЦИЯ</button>
+            </div>
+
+            <input type="text" id="auth-name" placeholder="Имя (например: Борис)" class="brutal-input">
+            <input type="text" id="auth-username" placeholder="Уникальный Юзернейм" class="brutal-input">
+            <input type="password" id="auth-pin" placeholder="Секретный код / PIN (от 3 цифр)" class="brutal-input">
+
+            <!-- Доп поля при регистрации -->
+            <div id="reg-extra-fields" style="display: none; border-top: 2px solid #2a2a3d; padding-top: 10px; margin-top: 10px;">
+                <h4 style="color: var(--gold); margin-bottom: 8px;">Биометрия и Силовые статы:</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <input type="number" id="reg-forearm" placeholder="Предплечье (см)" class="brutal-input">
+                    <input type="number" id="reg-height" placeholder="Рост (см)" class="brutal-input">
+                    <input type="number" id="reg-weight" placeholder="Вес (кг)" class="brutal-input">
+                    <input type="number" id="reg-age" placeholder="Возраст" class="brutal-input">
+                    <input type="number" id="reg-pron" placeholder="Пронация (кг)" class="brutal-input">
+                    <input type="number" id="reg-curl" placeholder="Скручивание (кг)" class="brutal-input">
+                </div>
+            </div>
+
+            <button class="brutal-btn" style="width: 100%; margin-top: 15px;" onclick="submitAuth()">ВОЙТИ НА АРЕНУ</button>
+        </div>
+    </div>
+
+    <!-- 🏛️ МОДАЛКА GOD MODE (АДМИНКА БОРИСА) -->
+    <div id="modal-god" class="modal-overlay">
+        <div class="modal-box" style="max-width: 800px;">
+            <h2 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 15px;">🏛️ ПАНЕЛЬ АРХИТЕКТОРА (GOD MODE)</h2>
+            <div id="god-players-list"></div>
+            <button class="brutal-btn danger" style="width: 100%; margin-top: 15px;" onclick="closeModal('modal-god')">ЗАКРЫТЬ</button>
+        </div>
+    </div>
+
+    <!-- 🔎 МОДАЛКА ИНСПЕКЦИИ БОЙЦА -->
+    <div id="modal-inspect" class="modal-overlay" onclick="closeModal('modal-inspect')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <h2 id="insp-name" style="color: var(--gold); font-family: 'Cinzel';">Имя</h2>
+            <div id="insp-title" style="color: var(--neon-fire); font-weight: bold; margin-bottom: 10px;">Титул</div>
+            <hr style="border-color: #2a2a3d; margin: 10px 0;">
+            <p><strong>Эпоха:</strong> <span id="insp-era" style="color: var(--gold);">--</span></p>
+            <p><strong>EXP:</strong> <span id="insp-exp">--</span></p>
+            <p style="margin-top: 10px;"><strong>Замеры:</strong> <span id="insp-bio">--</span></p>
+            <p><strong>Силовые:</strong> <span id="insp-stats">--</span></p>
+            <p style="margin-top: 12px; font-style: italic; color: var(--steel);" id="insp-lore">--</p>
+            <button class="brutal-btn" style="width: 100%; margin-top: 20px;" onclick="closeModal('modal-inspect')">ЗАКРЫТЬ</button>
+        </div>
+    </div>
+
+    <!-- 🏆 НЕОНОВАЯ ПЛАШКА ПОВЫШЕНИЯ ЭПОХИ -->
+    <div id="modal-levelup" class="modal-overlay">
+        <div class="modal-box" style="text-align: center; border-color: var(--gold); box-shadow: var(--glow-gold);">
+            <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem; text-shadow: 0 0 20px var(--gold);">LEVEL UP!</h1>
+            <h3 style="color: var(--neon-fire); margin: 15px 0;" id="lu-era-name">НОВАЯ ЭПОХА</h3>
+            <p style="color: var(--steel); font-style: italic;" id="lu-era-lore">Лор эпохи...</p>
+            <button class="brutal-btn" style="margin-top: 25px;" onclick="closeModal('modal-levelup')">ПРИНЯТЬ СИЛУ</button>
+        </div>
+    </div>
+
+    <script>
+        // ====================================================
+        // 🔐 НАСТРОЙКИ SUPABASE И СТРУКТУРА ЭПОХ
+        // ====================================================
+        const SUPABASE_URL = 'https://hkrmtgptictjexyxiauk.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_Wo13l_HZkH_OZ22Jrc0qFA_lEDj4oJI';
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentUser = null;
+        let allUsers = [];
+        let authMode = 'login';
+
+        // База 20 Эпох
+        const erasData = [
+            { id: 1, name: "Скелет", minExp: 0, maxExp: 100, phase: 1, lore: "Сухие кости без намека на пронатор. Зашел в зал случайно, ломается от тяжелого взгляда на стол." },
+            { id: 2, name: "Зомби", minExp: 100, maxExp: 300, phase: 1, lore: "Вялые, аморфные движения. Руки забиты бытовой пылью, кисть валится под собственным весом." },
+            { id: 3, name: "Подобие Человека", minExp: 300, maxExp: 600, phase: 1, lore: "Первые попытки взяться за лямку. Мышцы начинают считывать векторы нажима." },
+            { id: 4, name: "Обычный Человек", minExp: 600, maxExp: 1000, phase: 2, lore: "Бытовой НПС. Умеет держать кружку и открывать двери. В армрестлинге — чистый лист." },
+            { id: 5, name: "Полноценный Армрестлер", minExp: 1000, maxExp: 1500, phase: 2, lore: "Освоил крюк и верх, знает завязки, мозоли на ладонях обрели плотность." },
+            { id: 6, name: "Оборотень-Армер", minExp: 1500, maxExp: 2100, phase: 2, lore: "Трансформация за столом. В обычной жизни тихий, за столом срывает связки и рычит в лицо." },
+            { id: 7, name: "ГЛАДИАТОР-АРМЕР", minExp: 2100, maxExp: 2800, phase: 3, lore: "Властелин дворовых столов и зальных спаррингов. Не ведает страха перед болью в суставах." },
+            { id: 8, name: "Каменный Армер", minExp: 2800, maxExp: 3600, phase: 3, lore: "Несокрушимая статика. Связки превратились в гранитные пласты. Соперник ломает кисть о его защиту." },
+            { id: 9, name: "Серебряный Армер", minExp: 3600, maxExp: 4500, phase: 3, lore: "Металлический блеск пронации. Точеные, хирургические движения без единой лишней суеты." },
+            { id: 10, name: "Золотой Армер", minExp: 4500, maxExp: 5500, phase: 3, lore: "Премиальный контроль стола. Высшая эстетика натяжки и скручивания." },
+            { id: 11, name: "Янтарный Армер", minExp: 5500, maxExp: 6600, phase: 3, lore: "Запечатанная древняя сила. Вязкий, смолистый замок, из которого не вырваться ни одному крюковику." },
+            { id: 12, name: "Роботизированный Армер", minExp: 6600, maxExp: 7800, phase: 4, lore: "Гидравлика в бицепсе, титановые шарниры в локтях. Работает с точностью промышленного пресса." },
+            { id: 13, name: "Кристаллический Армер", minExp: 7800, maxExp: 9100, phase: 4, lore: "Прозрачная, монолитная геометрия. Чистейшая силовая сизигия без грамма жира." },
+            { id: 14, name: "Лавовый Армер", minExp: 9100, maxExp: 10500, phase: 4, lore: "Кипящий тестостерон. Руки раскалены добела, соприкосновение со столом выжигает резину." },
+            { id: 15, name: "КРАТОС", minExp: 10500, maxExp: 12000, phase: 5, lore: "Разрыватель богов. Срывает захват вместе с пальцами соперника. Уничтожитель любых авторитетов." },
+            { id: 16, name: "ТАНОС-АРМЕР", minExp: 12000, maxExp: 13600, phase: 5, lore: "Один щелчок пронатора — и половина зала сбрасывает ролики. Обладатель Перчатки Силы Василича." },
+            { id: 17, name: "Галактический Армер", minExp: 13600, maxExp: 15300, phase: 6, lore: "Гравитационный вектор. Вращает орбиты стола, смещая центр тяжести соперника в черную дыру." },
+            { id: 18, name: "Целестиал-Армер", minExp: 15300, maxExp: 17100, phase: 6, lore: "Создатель материи столов. Сила натяжки подкреплена энергией сгорающих звезд." },
+            { id: 19, name: "ОМНИАРХ-АРМЕР", minExp: 17100, maxExp: 19000, phase: 6, lore: "Повелитель всех известных измерений и углов. Абсолютный визионер и властелин суверенного Лэя." },
+            { id: 20, name: "АБСОЛЮТНЫЙ ЧЕМПИОН", minExp: 20000, maxExp: 999999, phase: 7, lore: "Бог Стола. Покоритель всех Рейдовых Боссов. Главный Герой Мультиверса «ARM-KALEKI»!" }
+        ];
+
+        // 24 Дефолтных Ветерана Лиги
+        const defaultSeededPlayers = [
+            { name: "Тимур", username: "timur", eraId: 15, exp: 11000, title: "Лавовый Армер" },
+            { name: "Егор", username: "egor", eraId: 14, exp: 9500, title: "Кристаллический Армер" },
+            { name: "Борис", username: "boris", eraId: 14, exp: 9500, title: "Кристаллический Армер" },
+            { name: "Ваня", username: "vanya_13", eraId: 13, exp: 8000, title: "Галактический Армер" },
+            { name: "Гриша", username: "grisha", eraId: 11, exp: 5800, title: "Янтарный Армер" },
+            { name: "Герман", username: "german", eraId: 10, exp: 4800, title: "Золотой Армер" },
+            { name: "Артур", username: "artur", eraId: 10, exp: 4800, title: "Золотой Армер" },
+            { name: "Арсений", username: "arseniy", eraId: 7, exp: 2200, title: "Гладиатор-Армер" },
+            { name: "Лёша", username: "lesha_1", eraId: 7, exp: 2200, title: "Гладиатор-Армер" },
+            { name: "Стас", username: "stas", eraId: 7, exp: 2200, title: "Гладиатор-Армер" },
+            { name: "Ваня", username: "vanya_2", eraId: 7, exp: 2200, title: "Гладиатор-Армер" },
+            { name: "Максим", username: "maksim", eraId: 6, exp: 1600, title: "Оборотень" },
+            { name: "Лёша", username: "lesha_2", eraId: 6, exp: 1600, title: "Оборотень" },
+            { name: "Гера", username: "gera", eraId: 6, exp: 1600, title: "Оборотень" },
+            { name: "Ефим", username: "efim", eraId: 5, exp: 1100, title: "Армрестлер" },
+            { name: "Глеб", username: "gleb", eraId: 5, exp: 1100, title: "Армрестлер" },
+            { name: "Жора", username: "zhora", eraId: 5, exp: 1100, title: "Армрестлер" },
+            { name: "Веня", username: "venya", eraId: 4, exp: 700, title: "Обычный человек" },
+            { name: "Денис", username: "denis", eraId: 3, exp: 400, title: "Подобие Человека" },
+            { name: "Никита", username: "nikita", eraId: 2, exp: 150, title: "Зомби" },
+            { name: "Андрей", username: "andrey", eraId: 2, exp: 150, title: "Зомби" },
+            { name: "Игорь", username: "igor", eraId: 2, exp: 150, title: "Зомби" },
+            { name: "Артём", username: "artem", eraId: 2, exp: 150, title: "Зомби" },
+            { name: "Раф", username: "raf", eraId: 1, exp: 0, title: "Скелет" }
+        ];
+
+        // ====================================================
+        // 🚀 СТАРТ И ИНИЦИАЛИЗАЦИЯ
+        // ====================================================
+        window.onload = async () => {
+            await loadAllPlayers();
+            renderErasDrawer();
+
+            const savedUser = localStorage.getItem('arm_current_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                onUserLoggedIn();
+            } else {
+                openModal('modal-auth');
+            }
+
+            setInterval(updateCooldownsUI, 1000);
+        };
+
+        async function loadAllPlayers() {
+            let { data, error } = await _supabase.from('profiles').select('*');
+            
+            if (error || !data || data.length === 0) {
+                // Если база пустая — создаем дефолтных бойцов
+                allUsers = defaultSeededPlayers.map(p => ({
+                    id: p.username,
+                    name: p.name,
+                    username: p.username,
+                    pin: '777',
+                    exp: p.exp,
+                    title: p.title,
+                    forearm: 35, height: 180, weight: 80, age: 20,
+                    pronator: 30, beam: 25, pull: 30, abduct: 20, curl: 35,
+                    lore: "Ветеран ордена ARM-KALEKI.",
+                    badges: p.name === 'Борис' ? ['Основатель Лиги'] : []
+                }));
+            } else {
+                allUsers = data;
+            }
+
+            // Сортировка по EXP (убывание)
+            allUsers.sort((a, b) => b.exp - a.exp);
+            renderLeaderboard();
+        }
+
+        function getEraByExp(exp) {
+            for (let i = erasData.length - 1; i >= 0; i--) {
+                if (exp >= erasData[i].minExp) return erasData[i];
+            }
+            return erasData[0];
+        }
+
+        // ====================================================
+        // 🔐 АВТОРИЗАЦИЯ И РЕГИСТРАЦИЯ
+        // ====================================================
+        function setAuthMode(mode) {
+            authMode = mode;
+            document.getElementById('tab-auth-login').style.background = mode === 'login' ? 'var(--gold)' : '#222';
+            document.getElementById('tab-auth-login').style.color = mode === 'login' ? '#000' : '#777';
+            document.getElementById('tab-auth-reg').style.background = mode === 'reg' ? 'var(--gold)' : '#222';
+            document.getElementById('tab-auth-reg').style.color = mode === 'reg' ? '#000' : '#777';
+            document.getElementById('reg-extra-fields').style.display = mode === 'reg' ? 'block' : 'none';
+        }
+
+        async function submitAuth() {
+            const name = document.getElementById('auth-name').value.trim();
+            const username = document.getElementById('auth-username').value.trim().toLowerCase();
+            const pin = document.getElementById('auth-pin').value.trim();
+
+            if (!name || !username || !pin) {
+                alert("Заполни все обязательные поля!");
+                return;
+            }
+
+            if (authMode === 'login') {
+                const found = allUsers.find(u => u.username === username && u.pin === pin);
+                if (!found) {
+                    alert("Неверный Юзернейм или ПИН!");
+                    return;
+                }
+                currentUser = found;
+            } else {
+                if (allUsers.some(u => u.username === username)) {
+                    alert("Этот Юзернейм уже занят!");
+                    return;
+                }
+
+                currentUser = {
+                    id: username,
+                    name, username, pin,
+                    exp: 0,
+                    title: "Скелет",
+                    forearm: parseFloat(document.getElementById('reg-forearm').value) || 30,
+                    height: parseFloat(document.getElementById('reg-height').value) || 175,
+                    weight: parseFloat(document.getElementById('reg-weight').value) || 75,
+                    age: parseInt(document.getElementById('reg-age').value) || 20,
+                    pronator: parseFloat(document.getElementById('reg-pron').value) || 20,
+                    beam: 20, pull: 20, abduct: 15,
+                    curl: parseFloat(document.getElementById('reg-curl').value) || 25,
+                    lore: "Новый витязь на Арене.",
+                    badges: name.toUpperCase() === 'БОРИС' ? ['Основатель Лиги'] : []
+                };
+
+                allUsers.push(currentUser);
+                await syncUserToSupabase(currentUser);
+            }
+
+            localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
+            onUserLoggedIn();
+            closeModal('modal-auth');
+        }
+
+        function onUserLoggedIn() {
+            document.getElementById('user-widget-box').style.display = 'block';
+            document.getElementById('widget-username').innerText = currentUser.name;
+            document.getElementById('widget-title').innerText = `Титул: ${currentUser.title || 'Боец'}`;
+
+            // Включаем God Mode кнопку если это Борис
+            if (currentUser.name.toUpperCase() === 'БОРИС' || currentUser.username === 'boris') {
+                document.getElementById('god-btn').style.display = 'flex';
+            }
+
+            loadProfileToUI();
+            updateExpTabUI();
+            loadEarlySparringOptions();
+        }
+
+        function logout() {
+            localStorage.removeItem('arm_current_user');
+            location.reload();
+        }
+
+        // ====================================================
+        // 🏆 ЛИДЕРБОРД
+        // ====================================================
+        function renderLeaderboard() {
+            const container = document.getElementById('leaderboard-container');
+            container.innerHTML = allUsers.map((user, index) => {
+                const era = getEraByExp(user.exp);
+                let rankBadge = `#${index + 1}`;
+                if (index === 0) rankBadge = '🥇';
+                if (index === 1) rankBadge = '🥈';
+                if (index === 2) rankBadge = '🥉';
+
+                return `
+                    <div class="brutal-card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="font-size: 1.8rem; font-weight: 900; color: var(--gold);">${rankBadge}</div>
+                            <div>
+                                <h3 style="color: var(--gold); font-size: 1.2rem;">
+                                    ${user.name} <span style="font-size: 0.8rem; color: var(--neon-fire);">[@${user.username}]</span>
+                                </h3>
+                                <div style="font-size: 0.85rem; color: var(--steel);">
+                                    Титул: <strong style="color: #fff;">${user.title || 'Боец'}</strong> | 
+                                    Эпоха: <strong style="color: var(--gold);">${era.id} (${era.name})</strong>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--neon-fire); margin-top: 4px;">
+                                    ${(user.badges || []).map(b => `[${b}]`).join(' ')}
+                                </div>
+                            </div>
+                        </div>
+                        <button class="brutal-btn" style="padding: 8px 16px; font-size: 0.8rem;" onclick="inspectUser('${user.username}')">🔍 ИНСПЕКЦИЯ</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleErasDrawer() {
+            const drawer = document.getElementById('eras-drawer');
+            drawer.style.display = drawer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function renderErasDrawer() {
+            const container = document.getElementById('eras-list-content');
+            container.innerHTML = erasData.map(e => `
+                <div style="padding: 8px 0; border-bottom: 1px solid #2a2a3d;">
+                    <strong style="color: var(--gold);">${e.id} ЭПОХА — ${e.name}</strong> (${e.minExp}–${e.maxExp} EXP)
+                    <p style="color: var(--steel); font-style: italic;">${e.lore}</p>
+                </div>
+            `).join('');
+        }
+
+        // ====================================================
+        // ⚡ ТРЕНИРОВКИ, КУЛДАУНЫ И РАННИЙ СПАРРИНГ
+        // ====================================================
+        function updateExpTabUI() {
+            if (!currentUser) return;
+            const era = getEraByExp(currentUser.exp);
+
+            document.getElementById('current-era-display').innerText = `Эпоха ${era.id}: ${era.name}`;
+
+            // Обновление неоновой колбы
+            const range = era.maxExp - era.minExp;
+            const currentInEra = currentUser.exp - era.minExp;
+            let fillPct = Math.min(100, Math.max(0, Math.floor((currentInEra / range) * 100)));
+            if (era.id === 20) fillPct = 100;
+
+            document.getElementById('flask-liquid').style.height = `${fillPct}%`;
+            document.getElementById('flask-val-text').innerText = `${currentUser.exp} EXP`;
+
+            // Обновление дорожки ходилки
+            const pathBoard = document.getElementById('exp-path-board');
+            let cellsHtml = '';
+            for (let i = 1; i <= 20; i++) {
+                const isFilled = i <= era.id;
+                cellsHtml += `<div class="path-cell ${isFilled ? 'filled' : ''}">${i}</div>`;
+            }
+            pathBoard.innerHTML = cellsHtml;
+        }
+
+        async function doWorkout(type) {
+            const now = Date.now();
+            const era = getEraByExp(currentUser.exp);
+
+            // Определение базового EXP от фазы
+            let basePhaseBonus = 20;
+            if (era.phase === 2) basePhaseBonus = 30;
+            if (era.phase >= 3) basePhaseBonus = 40;
+
+            if (type === 'ofp') {
+                if (currentUser.cd_ofp && now < currentUser.cd_ofp) return;
+                currentUser.exp += (basePhaseBonus + 25);
+                currentUser.cd_ofp = now + (24 * 3600 * 1000); // КД 24 часа
+            } else if (type === 'arm') {
+                if (currentUser.cd_arm && now < currentUser.cd_arm) return;
+                currentUser.exp += (basePhaseBonus + 20);
+                currentUser.cd_arm = now + (24 * 3600 * 1000); // КД 24 часа
+            } else if (type === 'sparring') {
+                if (currentUser.cd_sparring && now < currentUser.cd_sparring) return;
+                currentUser.exp += (basePhaseBonus + 40);
+                currentUser.cd_sparring = now + (48 * 3600 * 1000); // КД 48 часов
+            }
+
+            const newEra = getEraByExp(currentUser.exp);
+            if (newEra.id > era.id) {
+                showLevelUpModal(newEra);
+            }
+
+            await saveUserData();
+            updateExpTabUI();
+            updateCooldownsUI();
+        }
+
+        function updateCooldownsUI() {
+            if (!currentUser) return;
+            const now = Date.now();
+
+            const checkCd = (btnId, cdSpanId, cdTimestamp) => {
+                const btn = document.getElementById(btnId);
+                const span = document.getElementById(cdSpanId);
+                if (cdTimestamp && now < cdTimestamp) {
+                    btn.disabled = true;
+                    const remSec = Math.ceil((cdTimestamp - now) / 1000);
+                    const h = Math.floor(remSec / 3600);
+                    const m = Math.floor((remSec % 3600) / 60);
+                    span.innerText = `[КД: ${h}ч ${m}м]`;
+                } else {
+                    btn.disabled = false;
+                    span.innerText = '';
+                }
+            };
+
+            checkCd('btn-train-ofp', 'cd-ofp', currentUser.cd_ofp);
+            checkCd('btn-train-arm', 'cd-arm', currentUser.cd_arm);
+            checkCd('btn-train-sparring', 'cd-sparring', currentUser.cd_sparring);
+        }
+
+        function loadEarlySparringOptions() {
+            const select = document.getElementById('early-sparring-target');
+            select.innerHTML = allUsers.map(u => {
+                const era = getEraByExp(u.exp);
+                return `<option value="${u.username}">${u.name} (Эпоха ${era.id}: ${era.name})</option>`;
+            }).join('');
+        }
+
+        async function startEarlySparring() {
+            const targetUsername = document.getElementById('early-sparring-target').value;
+            const target = allUsers.find(u => u.username === targetUsername);
+            if (!target) return;
+
+            const myEra = getEraByExp(currentUser.exp);
+            const targetEra = getEraByExp(target.exp);
+
+            if (confirm(`Бросить вызов ${target.name} (${targetEra.id} Эпоха)? Если ты победишь за столом, ты сразу поднимешься на Эпоху ${targetEra.id + 1}!`)) {
+                if (confirm(`Подтверди победу за столом над соперником ${target.name}!`)) {
+                    const nextEraId = Math.min(20, targetEra.id + 1);
+                    const newEraObj = erasData.find(e => e.id === nextEraId);
+
+                    currentUser.exp = newEraObj.minExp;
+                    await saveUserData();
+                    updateExpTabUI();
+                    showLevelUpModal(newEraObj);
+                }
+            }
+        }
+
+        function showLevelUpModal(era) {
+            document.getElementById('lu-era-name').innerText = `${era.id} ЭПОХА — ${era.name}`;
+            document.getElementById('lu-era-lore').innerText = era.lore;
+            openModal('modal-levelup');
+        }
+
+        // ====================================================
+        // 🏛️ GOD MODE / АДМИН-ПАНЕЛЬ БОРИСА
+        // ====================================================
+        function openGodModeAuth() {
+            const pin = prompt("🏛️ ВВЕДИ ПИН-КОД АРХИТЕКТОРА (GOD MODE):");
+            if (pin === '7202') {
+                renderGodPanel();
+                openModal('modal-god');
+            } else {
+                alert("❌ НЕВЕРНЫЙ ПИН-КОД АРХИТЕКТОРА!");
+            }
+        }
+
+        function renderGodPanel() {
+            const container = document.getElementById('god-players-list');
+            container.innerHTML = allUsers.map((u, i) => `
+                <div class="brutal-card" style="border-color: var(--gold); margin-bottom: 12px;">
+                    <h3 style="color: var(--gold);">${u.name} (@${u.username})</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-top: 8px;">
+                        <div><label>EXP (Опыт):</label><input type="number" value="${u.exp}" class="brutal-input" onchange="updateGodUser('${u.username}', 'exp', parseInt(this.value))"></div>
+                        <div><label>Титул:</label><input type="text" value="${u.title || ''}" class="brutal-input" onchange="updateGodUser('${u.username}', 'title', this.value)"></div>
+                        <div><label>Предплечье (см):</label><input type="number" value="${u.forearm || 0}" class="brutal-input" onchange="updateGodUser('${u.username}', 'forearm', parseFloat(this.value))"></div>
+                    </div>
+                    <div><label>Кастомный Лор:</label><input type="text" value="${u.lore || ''}" class="brutal-input" onchange="updateGodUser('${u.username}', 'lore', this.value)"></div>
+                    <div style="margin-top: 6px;">
+                        <label><input type="checkbox" ${ (u.badges || []).includes('Основатель Лиги') ? 'checked' : '' } onchange="toggleGodBadge('${u.username}', 'Основатель Лиги')"> Значок «Основатель Лиги»</label>
+
+                        <label style="margin-left: 15px;"><input type="checkbox" ${ (u.badges || []).includes('Ветеран 14 Эпохи') ? 'checked' : '' } onchange="toggleGodBadge('${u.username}', 'Ветеран 14 Эпохи')"> Значок «Ветеран 14 Эпохи»</label>
+
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function updateGodUser(username, field, val) {
+            const user = allUsers.find(u => u.username === username);
+            if (user) {
+                user[field] = val;
+                await syncUserToSupabase(user);
+                renderLeaderboard();
+            }
+        }
+
+        async function toggleGodBadge(username, badge) {
+            const user = allUsers.find(u => u.username === username);
+            if (user) {
+                if (!user.badges) user.badges = [];
+                if (user.badges.includes(badge)) {
+                    user.badges = user.badges.filter(b => b !== badge);
+                } else {
+                    user.badges.push(badge);
+                }
+                await syncUserToSupabase(user);
+                renderLeaderboard();
+            }
+        }
+
+        // ====================================================
+        // 👤 ПРОФИЛЬ И ИНСПЕКЦИЯ
+        // ====================================================
+        function loadProfileToUI() {
+            document.getElementById('my-forearm').value = currentUser.forearm || 30;
+            document.getElementById('my-height').value = currentUser.height || 175;
+            document.getElementById('my-weight').value = currentUser.weight || 75;
+            document.getElementById('my-age').value = currentUser.age || 20;
+
+            document.getElementById('my-pron').value = currentUser.pronator || 20;
+            document.getElementById('my-beam').value = currentUser.beam || 20;
+            document.getElementById('my-pull').value = currentUser.pull || 20;
+            document.getElementById('my-abduct').value = currentUser.abduct || 15;
+            document.getElementById('my-curl').value = currentUser.curl || 25;
+        }
+
+        async function saveSelfProfile() {
+            currentUser.forearm = parseFloat(document.getElementById('my-forearm').value);
+            currentUser.height = parseFloat(document.getElementById('my-height').value);
+            currentUser.weight = parseFloat(document.getElementById('my-weight').value);
+            currentUser.age = parseInt(document.getElementById('my-age').value);
+
+            currentUser.pronator = parseFloat(document.getElementById('my-pron').value);
+            currentUser.beam = parseFloat(document.getElementById('my-beam').value);
+            currentUser.pull = parseFloat(document.getElementById('my-pull').value);
+            currentUser.abduct = parseFloat(document.getElementById('my-abduct').value);
+            currentUser.curl = parseFloat(document.getElementById('my-curl').value);
+
+            await saveUserData();
+            alert("💪 Ваши биометрические и силовые показатели успешно сохранены!");
+        }
+
+        function inspectUser(username) {
+            const user = allUsers.find(u => u.username === username);
+            if (!user) return;
+
+            const era = getEraByExp(user.exp);
+            document.getElementById('insp-name').innerText = `${user.name} (@${user.username})`;
+            document.getElementById('insp-title').innerText = `Титул: ${user.title || 'Боец'}`;
+            document.getElementById('insp-era').innerText = `${era.id} (${era.name})`;
+            document.getElementById('insp-exp').innerText = `${user.exp} EXP`;
+            document.getElementById('insp-bio').innerText = `Предплечье: ${user.forearm || 0}см | Рост: ${user.height || 0}см | Вес: ${user.weight || 0}кг | Возраст: ${user.age || 0}`;
+            document.getElementById('insp-stats').innerText = `Пронация: ${user.pronator || 0}кг | Луч: ${user.beam || 0}кг | Натяжка: ${user.pull || 0}кг | Отведение: ${user.abduct || 0}кг | Скручивание: ${user.curl || 0}кг`;
+            document.getElementById('insp-lore').innerText = `«${user.lore || 'Лор отсутствует.'}»`;
+
+            openModal('modal-inspect');
+        }
+
+        // ====================================================
+        // 🛠️ ВСПОМОГАТЕЛЬНЫЕ УТИЛИТЫ И СИНХРОНИЗАЦИЯ
+        // ====================================================
+        async function saveUserData() {
+            localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
+            await syncUserToSupabase(currentUser);
+            renderLeaderboard();
+        }
+
+        async function syncUserToSupabase(userObj) {
+            await _supabase.from('profiles').upsert([userObj]);
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active-view'));
+
+            btn.classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active-view');
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    </script>
+</body>
+</html>
