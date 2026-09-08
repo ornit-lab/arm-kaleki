@@ -198,13 +198,19 @@
 }
 
 
-        /* 70% ОСНОВНОЙ КОНТЕНТ */
-        .content-area {
-            margin-left: 30vw;
-            width: 70vw;
-            padding: 25px;
-            box-sizing: border-box;
-        }
+        /* 3D-ПЛАТФОРМА ДЛЯ ПРАВОЙ ЧАСТИ КОНТЕНТА */
+.content-area {
+    margin-left: 30vw;
+    width: 70vw;
+    padding: 35px;
+    box-sizing: border-box;
+    /* Создаем объемную кибер-платформу */
+    background: linear-gradient(145deg, #0b0b10, #050508);
+    border-top: 2px solid rgba(255, 85, 0, 0.2);
+    box-shadow: inset 15px 0 40px rgba(0, 0, 0, 0.7);
+    min-height: 100vh;
+}
+
 
                 .tab-section {
             display: none;
@@ -224,17 +230,20 @@
             border-bottom: none !important; /* Убрали линию */
         }
 
-        .section-header {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
-            margin-bottom: 15px;
-            border-bottom: none !important; /* Убрали линию */
-            padding-bottom: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
+       /* ЗАГОЛОВКИ ВКЛАДОК (ВЫРАВНИВАНИЕ СЛЕВА И МУЛЬТЯШНЫЙ ШРИФТ) */
+.section-header {
+    font-family: 'Comfortaa', cursive, 'Cinzel', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    text-shadow: 0 0 12px rgba(255, 204, 0, 0.4);
+    margin-bottom: 20px;
+    border-bottom: none !important;
+    padding-bottom: 0;
+    display: flex;
+    justify-content: flex-start; /* Смещаем заголовки влево */
+    align-items: center;
+}
+
 
 
         /* КОМПАКТНЫЙ ЛИДЕРБОРД */
