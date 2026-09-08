@@ -866,31 +866,33 @@
         };
 
         async function loadAllPlayers() {
-            let { data, error } = await _supabase.from('profiles').select('*');
-            
-            if (error || !data || data.length === 0) {
-                allUsers = defaultSeededPlayers.map(p => {
-                    const era = getEraByExp(p.exp);
-                    return {
-                        id: p.id,
-                        name: p.name,
-                        username: '',
-                        pin: '',
-                        exp: p.exp,
-                        title: era.name,
-                        forearm: 35, height: 180, weight: 80, age: 20,
-                        pronator: 30, beam: 25, pull: 30, abduct: 20, curl: 35,
-                        lore: "Ветеран ордена ARM-KALEKI.",
-                        badges: p.name === 'Борис' ? ['Основатель Лиги'] : []
-                    };
-                });
-            } else {
-                allUsers = data;
-            }
+    let { data, error } = await _supabase.from('profiles').select('*');
+    
+    if (error || !data || data.length === 0) {
+        allUsers = defaultSeededPlayers.map(p => {
+            const era = getEraByExp(p.exp);
+            return {
+                id: p.id,
+                name: p.name,
+                username: '',
+                pin: '',
+                exp: p.exp,
+                title: era.name,
+                // 🔥 Все замеры по умолчанию NULL (не указаны)
+                forearm: null, height: null, weight: null, age: null,
+                pronator: null, beam: null, pull: null, abduct: null, curl: null,
+                lore: "Ветеран ордена ARM-KALEKI.",
+                badges: p.name === 'Борис' ? ['Основатель Лиги'] : []
+            };
+        });
+    } else {
+        allUsers = data;
+    }
 
-            allUsers.sort((a, b) => b.exp - a.exp);
-            renderLeaderboard();
-        }
+    allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
+    renderLeaderboard();
+}
+
 
                 function getEraByExp(exp) {
             const safeExp = Number(exp) || 0;
@@ -1287,13 +1289,18 @@
         }
 
         async function updateGodUser(id, field, val) {
-            const user = allUsers.find(u => u.id === id);
-            if (user) {
-                user[field] = val;
-                await syncUserToSupabase(user);
-                renderLeaderboard();
-            }
+    const user = allUsers.find(u => u.id === id);
+    if (user) {
+        user[field] = val;
+        // Если Архитектор редактирует самого себя — обновляем и currentUser
+        if (currentUser && currentUser.id === id) {
+            currentUser[field] = val;
+            localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
         }
+        await syncUserToSupabase(user);
+        renderLeaderboard();
+    }
+}
 
         async function toggleGodBadge(id, badge) {
             const user = allUsers.find(u => u.id === id);
@@ -1326,36 +1333,72 @@
         }
 
         async function saveSelfProfile() {
-            currentUser.forearm = parseFloat(document.getElementById('my-forearm').value);
-            currentUser.height = parseFloat(document.getElementById('my-height').value);
-            currentUser.weight = parseFloat(document.getElementById('my-weight').value);
-            currentUser.age = parseInt(document.getElementById('my-age').value);
+    if (!currentUser) return;
 
-            currentUser.pronator = parseFloat(document.getElementById('my-pron').value);
-            currentUser.beam = parseFloat(document.getElementById('my-beam').value);
-            currentUser.pull = parseFloat(document.getElementById('my-pull').value);
-            currentUser.abduct = parseFloat(document.getElementById('my-abduct').value);
-            currentUser.curl = parseFloat(document.getElementById('my-curl').value);
+    // Считываем значения или ставим null, если поле пустое
+    currentUser.forearm = parseFloat(document.getElementById('my-forearm').value) || null;
+    currentUser.height = parseFloat(document.getElementById('my-height').value) || null;
+    currentUser.weight = parseFloat(document.getElementById('my-weight').value) || null;
+    currentUser.age = parseInt(document.getElementById('my-age').value) || null;
 
-            await saveUserData();
-            alert("💪 Ваши биометрические и силовые показатели успешно сохранены!");
-        }
+    currentUser.pronator = parseFloat(document.getElementById('my-pron').value) || null;
+    currentUser.beam = parseFloat(document.getElementById('my-beam').value) || null;
+    currentUser.pull = parseFloat(document.getElementById('my-pull').value) || null;
+    currentUser.abduct = parseFloat(document.getElementById('my-abduct').value) || null;
+    currentUser.curl = parseFloat(document.getElementById('my-curl').value) || null;
+
+    // Обновляем текущего игрока в глобальном массиве allUsers
+    const idx = allUsers.findIndex(u => u.id === currentUser.id);
+    if (idx !== -1) {
+        allUsers[idx] = { ...currentUser };
+    }
+
+    // Сохраняем в localStorage и закидываем в Supabase
+    await saveUserData();
+    alert("💪 Ваши биометрические и силовые показатели успешно сохранены и синхронизированы!");
+}
 
         function inspectUser(id) {
-            const user = allUsers.find(u => u.id === id);
-            if (!user) return;
+    const user = allUsers.find(u => u.id === id);
+    if (!user) return;
 
-            const era = getEraByExp(user.exp);
-            document.getElementById('insp-name').innerText = `${user.name} ${user.username ? `(@${user.username})` : ''}`;
-            document.getElementById('insp-title').innerText = `Титул: ${user.title || 'Боец'}`;
-            document.getElementById('insp-era').innerText = `${era.id} (${era.name})`;
-            document.getElementById('insp-exp').innerText = `${user.exp} EXP`;
-            document.getElementById('insp-bio').innerText = `Предплечье: ${user.forearm || 0}см | Рост: ${user.height || 0}см | Вес: ${user.weight || 0}кг | Возраст: ${user.age || 0}`;
-            document.getElementById('insp-stats').innerText = `Пронация: ${user.pronator || 0}кг | Луч: ${user.beam || 0}кг | Натяжка: ${user.pull || 0}кг | Отведение: ${user.abduct || 0}кг | Скручивание: ${user.curl || 0}кг`;
-            document.getElementById('insp-lore').innerText = `«${user.lore || 'Лор отсутствует.'}»`;
+    const era = getEraByExp(user.exp);
+    const isRegistered = Boolean(user.username && user.username.trim() !== '');
 
-            openModal('modal-inspect');
-        }
+    document.getElementById('insp-name').innerText = `${user.name} ${isRegistered ? `(@${user.username})` : '[Не зарегистрирован]'}`;
+    document.getElementById('insp-title').innerText = `Титул: ${user.title || era.name}`;
+    document.getElementById('insp-era').innerText = `${era.id} (${era.name})`;
+    document.getElementById('insp-exp').innerText = `${user.exp} EXP`;
+
+    if (isRegistered) {
+        // 🔥 У зарегистрированных пользователей выводим их реальные замеры или прочерки "-"
+        const forearmStr = user.forearm ? `${user.forearm} см` : '-';
+        const heightStr = user.height ? `${user.height} см` : '-';
+        const weightStr = user.weight ? `${user.weight} кг` : '-';
+        const ageStr = user.age ? `${user.age}` : '-';
+
+        document.getElementById('insp-bio').innerText = 
+            `Предплечье: ${forearmStr} | Рост: ${heightStr} | Вес: ${weightStr} | Возраст: ${ageStr}`;
+
+        const pronStr = user.pronator ? `${user.pronator} кг` : '-';
+        const beamStr = user.beam ? `${user.beam} кг` : '-';
+        const pullStr = user.pull ? `${user.pull} кг` : '-';
+        const abductStr = user.abduct ? `${user.abduct} кг` : '-';
+        const curlStr = user.curl ? `${user.curl} кг` : '-';
+
+        document.getElementById('insp-stats').innerText = 
+            `Пронация: ${pronStr} | Луч: ${beamStr} | Натяжка: ${pullStr} | Отведение: ${abductStr} | Скручивание: ${curlStr}`;
+    } else {
+        // 🔥 Если еще не зарегистрирован
+        document.getElementById('insp-bio').innerText = 'Замеры не указаны (Боец еще не зарегистрирован)';
+        document.getElementById('insp-stats').innerText = 'Силовые показатели не указаны';
+    }
+
+    document.getElementById('insp-lore').innerText = `«${user.lore || 'Лор отсутствует.'}»`;
+
+    openModal('modal-inspect');
+}
+
 
         // ====================================================
         // 🛠️ ВСПОМОГАТЕЛЬНЫЕ УТИЛИТЫ И СИНХРОНИЗАЦИЯ
