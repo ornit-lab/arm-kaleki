@@ -874,12 +874,28 @@ window.onload = async () => {
     setInterval(updateCooldownsUI, 1000);
 };
 
-        async function loadAllPlayers() {
+        // ====================================================
+// 🏆 ИСПРАВЛЕННАЯ ЗАГРУЗКА БОЙЦОВ (ОБЪЕДИНЕНИЕ СУПАБЕЙЗ + ВЕТЕРАНЫ)
+// ====================================================
+async function loadAllPlayers() {
     let { data, error } = await _supabase.from('profiles').select('*');
-    
-    if (error || !data || data.length === 0) {
-        allUsers = defaultSeededPlayers.map(p => {
-            const era = getEraByExp(p.exp);
+    const dbUsers = (data && !error) ? data : [];
+
+    // 1. Берем дефолтных 24 ветеранов
+    let mergedUsers = defaultSeededPlayers.map(p => {
+        const era = getEraByExp(p.exp);
+        
+        // Ищем, есть ли этот ветеран уже в базе Supabase (по id или по имени)
+        const dbMatch = dbUsers.find(dbU => 
+            dbU.id === p.id || 
+            (dbU.name && dbU.name.toLowerCase() === p.name.toLowerCase())
+        );
+
+        if (dbMatch) {
+            // Если есть в Supabase — берем его сохраненные данные из базы
+            return dbMatch;
+        } else {
+            // Если в базе его еще нет — показываем как базового ветерана без замеров
             return {
                 id: p.id,
                 name: p.name,
@@ -887,20 +903,29 @@ window.onload = async () => {
                 pin: '',
                 exp: p.exp,
                 title: era.name,
-                // 🔥 Все замеры по умолчанию NULL (не указаны)
                 forearm: null, height: null, weight: null, age: null,
                 pronator: null, beam: null, pull: null, abduct: null, curl: null,
                 lore: "Ветеран ордена ARM-KALEKI.",
                 badges: p.name === 'Борис' ? ['Основатель Лиги'] : []
             };
-        });
-    } else {
-        allUsers = data;
-    }
+        }
+    });
 
+    // 2. Добавляем совершенно НОВЫХ игроков из Supabase, которых не было в начальном списке ветеранов
+    dbUsers.forEach(dbU => {
+        const alreadyInList = mergedUsers.some(mU => mU.id === dbU.id);
+        if (!alreadyInList) {
+            mergedUsers.push(dbU);
+        }
+    });
+
+    // 3. Сохраняем и сортируем по EXP
+    allUsers = mergedUsers;
     allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
+    
     renderLeaderboard();
 }
+
 
 
                 function getEraByExp(exp) {
