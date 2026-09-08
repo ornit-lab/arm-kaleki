@@ -10,7 +10,8 @@
         /* ====================================================
            🎨 ДИЗАЙН-КОД: КИБЕР-АДИТИВНЫЙ СТИЛЬ ARM-KALEKI
            ==================================================== */
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;700;900&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Cinzel:wght@700;900&family=Montserrat:wght@400;700;900&display=swap');
+
 
         @font-face {
             font-family: 'GrimoireOfDeath';
@@ -52,21 +53,23 @@
             overflow-x: hidden;
         }
 
-        /* 30% СТАЦИОНАРНЫЙ САЙДБАР */
-        .sidebar {
-            width: 30vw;
-            min-width: 280px;
-            background: var(--bg-sidebar);
-            border-right: 3px solid var(--neon-fire);
-            box-shadow: 5px 0 25px rgba(255, 85, 0, 0.25);
-            display: flex;
-            flex-direction: column;
-            padding: 20px 15px;
-            position: fixed;
-            height: 100vh;
-            z-index: 100;
-            overflow-y: auto;
-        }
+        /* 3D-КОРОБКА САЙДБАРА (УБРАЛИ КРАСНУЮ ЛИНИЮ, ДОБАВИЛИ 3D-ОБЪЁМ) */
+.sidebar {
+    width: 30vw;
+    min-width: 280px;
+    background: linear-gradient(165deg, #12121a 0%, #08080c 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    /* 3D-тень и скос коробки */
+    box-shadow: 12px 0 35px rgba(0, 0, 0, 0.8), inset -3px 0 12px rgba(255, 85, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    padding: 22px 18px;
+    position: fixed;
+    height: 100vh;
+    z-index: 100;
+    overflow-y: auto;
+}
+
 
     
 
@@ -106,66 +109,94 @@
         }
 
 
-        .user-widget {
-            background: rgba(255, 85, 0, 0.05);
-            border: 2px solid var(--neon-fire);
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 15px;
-            box-shadow: var(--glow-fire);
-        }
+       /* 3D-ПЛАШКА ПОЛЬЗОВАТЕЛЯ НА 3D-КОРОБКЕ */
+.user-widget {
+    background: linear-gradient(145deg, #1a1a26, #0d0d15);
+    border: 2px solid var(--neon-fire);
+    border-bottom: 5px solid #b33600; /* 3D-выпуклость снизу */
+    border-radius: 14px;
+    padding: 12px 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 85, 0, 0.25);
+    font-family: 'Comfortaa', sans-serif;
+    transform: translateY(-2px);
+}
 
-        .user-widget-name {
-            font-size: 1rem;
-            font-weight: 900;
-            color: var(--gold);
-        }
+.user-widget-name {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--gold);
+    font-family: 'Comfortaa', cursive;
+}
 
-        .user-widget-title {
-            font-size: 0.7rem;
-            color: var(--neon-fire);
-            font-weight: bold;
-        }
+.user-widget-title {
+    font-size: 0.75rem;
+    color: var(--neon-fire);
+    font-weight: bold;
+    margin-top: 2px;
+}
 
-        /* СВИТКИ ВКЛАДОК */
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex-grow: 1;
-        }
 
-        .nav-btn {
-            background: #121218;
-            border: 2px solid #2a2a38;
-            color: var(--steel);
-            padding: 10px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-align: left;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+       /* МЕНЮ И 3D-ВКЛАДКИ С МУЛЬТЯШНЫМ ШРИФТОМ */
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
 
-        .nav-btn:hover {
-            border-color: var(--gold);
-            color: #fff;
-            box-shadow: var(--glow-gold);
-            transform: translateX(3px);
-        }
+.nav-btn {
+    background: linear-gradient(145deg, #181822, #0e0e14);
+    border: 2px solid #2a2a3a;
+    border-bottom: 5px solid #101018; /* 3D-толщина кнопки */
+    color: var(--steel);
+    padding: 12px 16px;
+    border-radius: 16px; /* Закруглённые края */
+    cursor: pointer;
+    font-family: 'Comfortaa', cursive, sans-serif; /* Мультяшный шрифт */
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: left;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+}
 
-        .nav-btn.active {
-            background: linear-gradient(90deg, var(--neon-fire), var(--neon-red));
-            color: #fff;
-            border-color: #fff;
-            box-shadow: var(--glow-fire);
-            font-weight: 900;
-        }
+.nav-btn:hover {
+    border-color: var(--gold);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(255, 204, 0, 0.25);
+}
+
+.nav-btn:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px; /* Эффект физического нажатия */
+}
+
+/* АКТИВНАЯ 3D-ВКЛАДКА */
+.nav-btn.active {
+    background: linear-gradient(135deg, #ff5500, #e60039);
+    color: #fff;
+    border-color: #ffe680;
+    border-bottom: 5px solid #80001a;
+    box-shadow: 0 6px 20px rgba(255, 85, 0, 0.5);
+    font-weight: 900;
+}
+
+/* Стили для контурных векторных икон внутри кнопок */
+.nav-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+    flex-shrink: 0;
+}
+
 
         /* 70% ОСНОВНОЙ КОНТЕНТ */
         .content-area {
@@ -522,12 +553,32 @@
             <button class="brutal-btn" style="margin-top: 6px; padding: 4px 10px; font-size: 0.7rem;" onclick="logout()">ВЫЙТИ</button>
         </div>
 
-               <nav class="nav-menu">
-            <button class="nav-btn active" onclick="switchTab('leaderboard', this)">🏆 ЛИДЕРБОРД</button>
-            <button class="nav-btn" onclick="switchTab('exp', this)">⚡️ ОПЫТ И ТРЕНИРОВКИ</button>
-            <button class="nav-btn" onclick="switchTab('profile', this)">👤 МОЙ ПРОФИЛЬ</button>
-            <button class="nav-btn" id="god-btn" style="display: none; border-color: var(--gold); color: var(--gold);" onclick="openGodModeAuth()">🏛️ ПАНЕЛЬ АРХИТЕКТОРА</button>
-        </nav>
+            <nav class="nav-menu">
+    <!-- 🏆 Лидерборд -->
+    <button class="nav-btn active" onclick="switchTab('leaderboard', this)">
+        <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17M14 14.66V17M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+        ЛИДЕРБОРД
+    </button>
+
+    <!-- ⚡️ Опыт и Тренировки -->
+    <button class="nav-btn" onclick="switchTab('exp', this)">
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        ОПЫТ И ТРЕНИРОВКИ
+    </button>
+
+    <!-- 👤 Мой профиль -->
+    <button class="nav-btn" onclick="switchTab('profile', this)">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        МОЙ ПРОФИЛЬ
+    </button>
+
+    <!-- 🏛️ Панель Архитектора -->
+    <button class="nav-btn" id="god-btn" style="display: none; border-color: var(--gold); color: var(--gold);" onclick="openGodModeAuth()">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        ПАНЕЛЬ АРХИТЕКТОРА
+    </button>
+</nav>
+
 
     </aside>
 
@@ -750,7 +801,7 @@
             { id: 13, name: "Галактический Армер", minExp: 7800, maxExp: 9100, phase: 4, lore: "Гравитационный вектор. Вращает орбиты стола, смещая центр тяжести соперника." },
             { id: 14, name: "Кристаллический Армер", minExp: 9100, maxExp: 10500, phase: 4, lore: "Прозрачная, монолитная геометрия. Чистейшая силовая сизигия без грамма жира." },
             { id: 15, name: "Лавовый Армер", minExp: 10500, maxExp: 12000, phase: 5, lore: "Кипящий тестостерон. Руки раскалены добела, соприкосновение со столом выжигает резину." },
-            { id: 16, name: "Иноземный Армер", minExp: 12000, maxExp: 13600, phase: 5, lore: "Пришелец из чужой системы углов. Связки не поддаются земной анатомии." },
+            { id: 16, name: "Сверхчеловек Армер", minExp: 12000, maxExp: 13600, phase: 5, lore: "Пришелец из чужой системы углов. Связки не поддаются земной анатомии." },
             { id: 17, name: "Танос Армер", minExp: 13600, maxExp: 15300, phase: 6, lore: "Одно движение пронатора — и половина зала убегает." },
             { id: 18, name: "Целестиал Армер", minExp: 15300, maxExp: 17100, phase: 6, lore: "Создатель материи столов. Сила натяжки подкреплена энергией сгорающих звезд." },
             { id: 19, name: "Омниарх Армер", minExp: 17100, maxExp: 19000, phase: 6, lore: "Повелитель всех известных измерений и углов. Властелин суверенного Лэя." },
