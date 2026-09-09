@@ -3550,17 +3550,17 @@ function getEraByExp(exp, userObj) {
         }
 
 
-        // ====================================================
-        // 🔍 ИНСПЕКЦИЯ БОЙЦА (СТРОГО ПО era_id И БЕЗ БАГОВ)
+               // ====================================================
+        // 🔍 ИНСПЕКЦИЯ БОЙЦА (РАЗДЕЛЬНАЯ ЭПОХА И EXP В ПАСПОРТЕ)
         // ====================================================
         function inspectUser(id) {
             const user = allUsers.find(u => u.id === id);
             if (!user) return;
 
-            // 🔥 Берем Эпоху СТРОГО по era_id бойца!
-            const era = getEraById(user.era_id
- || 1);
+            const era = getPlayerEra ? getPlayerEra(user) : getEraById(user.era_id || 1);
             const charImgPath = (typeof getCharImgPath === 'function') ? getCharImgPath(user) : 'char_default.webp';
+            const safeExp = Number(user.exp) || 0;
+            const expFillPct = Math.min(100, Math.max(8, safeExp % 100 === 0 && safeExp > 0 ? 100 : safeExp % 100));
 
             const inspectBox = document.getElementById('modal-inspect');
             if (!inspectBox) return;
@@ -3578,7 +3578,7 @@ function getEraByExp(exp, userObj) {
                 </div>
 
                 <div class="profile-main-grid">
-                    <!-- 1. Аниме Персонаж -->
+                    <!-- 1. Левая Колонка: Персонаж -->
                     <div class="char-card-box">
                         <div class="char-short-title">${user.title || era.name}</div>
                         <img src="${charImgPath}" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
@@ -3589,15 +3589,32 @@ function getEraByExp(exp, userObj) {
 
                     <!-- 2. Правая Колонка -->
                     <div class="stats-column-box">
-                        <!-- Колба EXP -->
-                        <div class="gold-lava-card">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-family: 'Comfortaa';">
-                                <span style="font-size: 0.85rem; font-weight: 900; color: var(--gold);">${era.id} Эпоха: ${era.name}</span>
-                                <span style="color: #a855f7; font-weight: 900;">${user.exp || 0} EXP</span>
+                        
+                        <!-- 🔥 НОВЫЙ ДУЭТ: РАЗДЕЛЬНЫЕ ЭПОХА И EXP -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 5px;">
+                            
+                            <!-- БЛОК ЭПОХИ -->
+                            <div style="background: linear-gradient(145deg, #161622, #0d0d15); border: 1.5px solid #2a2a3d; border-bottom: 4px solid var(--neon-fire); border-radius: 14px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.6);">
+                                <div class="arm-icon-box" style="width: 36px; height: 36px; min-width: 36px;">
+                                    <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                                </div>
+                                <div style="display: flex; flex-direction: column; overflow: hidden;">
+                                    <span style="font-size: 0.65rem; color: var(--steel); font-family: 'Comfortaa'; font-weight: 700; text-transform: uppercase;">Эпоха:</span>
+                                    <span style="font-size: 0.85rem; font-weight: 900; color: var(--gold); font-family: 'Comfortaa'; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${era.id}. ${era.name}</span>
+                                </div>
                             </div>
-                            <div class="exp-horiz-flask-outer">
-                                <div class="exp-horiz-flask-liquid" style="width: ${Math.min(100, Math.max(5, (user.exp || 0) % 100))}%;"></div>
+
+                            <!-- БЛОК EXP -->
+                            <div style="background: linear-gradient(145deg, #161622, #0d0d15); border: 1.5px solid #2a2a3d; border-bottom: 4px solid #a855f7; border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.6);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Comfortaa';">
+                                    <span style="font-size: 0.65rem; color: var(--steel); font-weight: 700; text-transform: uppercase;">Опыт:</span>
+                                    <span style="font-size: 0.8rem; font-weight: 900; color: #a855f7;">${safeExp} EXP</span>
+                                </div>
+                                <div class="exp-horiz-flask-outer" style="height: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
+                                    <div class="exp-horiz-flask-liquid" style="width: ${expFillPct}%;"></div>
+                                </div>
                             </div>
+
                         </div>
 
                         <!-- ПОЛКА ОЦЕНОК -->
@@ -3608,28 +3625,28 @@ function getEraByExp(exp, userObj) {
                             <div class="shelf-flask-row">
                                 <span class="shelf-label">☣️ Опасность:</span>
                                 <div class="shelf-tube-outer"><div class="shelf-liquid-danger" style="width: ${d * 10}%;"></div></div>
-                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${d}/10</span>
+                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem; text-align: right;">${d}/10</span>
                             </div>
                             <div class="shelf-flask-row">
                                 <span class="shelf-label" style="color: #ff0055;">💥 Сила:</span>
                                 <div class="shelf-tube-outer"><div class="shelf-liquid-strength" style="width: ${s * 10}%;"></div></div>
-                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${s}/10</span>
+                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem; text-align: right;">${s}/10</span>
                             </div>
                             <div class="shelf-flask-row">
                                 <span class="shelf-label" style="color: #00ff66;">🔋 Выносливость:</span>
                                 <div class="shelf-tube-outer"><div class="shelf-liquid-endurance" style="width: ${e * 10}%;"></div></div>
-                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${e}/10</span>
+                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem; text-align: right;">${e}/10</span>
                             </div>
                             <div class="shelf-flask-row explosion-row">
                                 <span class="shelf-label" style="color: #ff5500; font-weight: 900;">💥 Взрыв:</span>
                                 <div class="shelf-tube-outer"><div class="shelf-liquid-explosion" style="width: ${(ex / 5) * 100}%;"></div></div>
-                                <span style="color: #ffcc00; font-weight: 900; font-size: 0.85rem;">${ex}/5</span>
+                                <span style="color: #ffcc00; font-weight: 900; font-size: 0.85rem; text-align: right;">${ex}/5</span>
                             </div>
                         </div>
 
                         <!-- 3D Замеры и Биометрия -->
                         <div class="gold-lava-card">
-                            <div class="gold-lava-title">📏 БИОМЕТРИЯ И СИЛОВЫЕ ПОКАЗАТЕЛИ</div>
+                            <div class="gold-lava-title">📏 БИОМЕТРИЯ И СИЛОВЫЕ ПОКАЗАТЕЛИ (КГ)</div>
                             <div class="stats-3d-grid" style="font-size: 0.8rem;">
                                 <div class="stat-3d-card"><div class="stat-card-header">Предплечье</div><strong>${user.forearm ? user.forearm + ' см' : '-'}</strong></div>
                                 <div class="stat-3d-card"><div class="stat-card-header">Рост</div><strong>${user.height ? user.height + ' см' : '-'}</strong></div>
