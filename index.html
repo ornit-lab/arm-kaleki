@@ -2133,7 +2133,7 @@
 
     </aside>
 
-    <!-- ⚔️ ОСНОВНАЯ ЗОНА (70%) -->
+   <!-- ⚔️ ОСНОВНАЯ ЗОНА (70%) -->
     <main class="content-area">
         <!-- 👑 ГЛАВНАЯ ШАПКА САЙТА (ОТОБРАЖАЕТСЯ НА ВСЕХ ВКЛАДКАХ) -->
         <div class="main-brand-header">
@@ -2163,15 +2163,12 @@
 
         <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
         <section id="tab-leaderboard" class="tab-section active-view">
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;"&gt;
                 <button class="lava-flame-btn" onclick="openModal('modal-eras')">ЭПОХИ</button>
             </div>
 
             <!-- Компактный Чистый Лидерборд -->
             <div id="leaderboard-container"></div>
-        </section>
-
-
         </section>
 
         <!-- ⚡ ВАКЛАДКА 2: ОПЫТ И ТРЕНИРОВКИ -->
@@ -2303,39 +2300,6 @@
                 </svg>
                 МОЙ ПРОФИЛЬ И БИОМЕТРИЯ
             </div>
-
-         </section>
-
-                    <!-- ⚔️ ВКЛАДКА 4: ЛОГ БОЁВ И ВЫЗОВЫ -->
-        <section id="tab-fights" class="tab-section">
-            <div class="section-header">
-                <svg class="btn-icon-svg" style="color: var(--neon-red); margin-right: 10px; width: 24px; height: 24px;" viewBox="0 0 24 24"><path d="M14.5 17.5L3 6M10 21l-7-3 3-7M9.5 6.5L21 18M14 3l7 3-3 7"/></svg>
-                АРЕНА: ОФИЦИАЛЬНЫЙ ЛОГ БОЁВ И ВЫЗОВЫ
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
-                <!-- Активные заявки -->
-                <div class="brutal-card" style="border-color: var(--neon-fire);">
-                    <h3 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1rem; margin-bottom: 12px;">
-                        ⏳ ЗАЯВКИ НА СУДЕЙСТВО (ОЖИДАЮТ АРХИТЕКТОРА)
-                    </h3>
-                    <div id="pending-fights-list" style="display: flex; flex-direction: column; gap: 10px;">
-                        <div style="color: var(--steel); font-size: 0.85rem;">Загрузка вызовов...</div>
-                    </div>
-                </div>
-
-                <!-- История -->
-                <div class="brutal-card">
-                    <h3 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1rem; margin-bottom: 12px;">
-                        📜 ИСТОРИЯ ЗАВЕРШЁННЫХ СПАРРИНГОВ
-                    </h3>
-                    <div id="history-fights-list" style="display: flex; flex-direction: column; gap: 10px;">
-                        <div style="color: var(--steel); font-size: 0.85rem;">История чиста...</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
 
             <!-- Главная Сетка Профиля -->
             <div class="profile-main-grid">
@@ -2584,6 +2548,37 @@
                 </div>
             </div>
         </section>
+
+        <!-- ⚔️ ВКЛАДКА 4: ЛОГ БОЁВ И ВЫЗОВЫ -->
+        <section id="tab-fights" class="tab-section">
+            <div class="section-header">
+                <svg class="btn-icon-svg" style="color: var(--neon-red); margin-right: 10px; width: 24px; height: 24px;" viewBox="0 0 24 24"><path d="M14.5 17.5L3 6M10 21l-7-3 3-7M9.5 6.5L21 18M14 3l7 3-3 7"/></svg>
+                АРЕНА: ОФИЦИАЛЬНЫЙ ЛОГ БОЁВ И ВЫЗОВЫ
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+                <!-- Активные заявки -->
+                <div class="brutal-card" style="border-color: var(--neon-fire);">
+                    <h3 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1rem; margin-bottom: 12px;">
+                        ⏳ ЗАЯВКИ НА СУДЕЙСТВО (ОЖИДАЮТ АРХИТЕКТОРА)
+                    </h3>
+                    <div id="pending-fights-list" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="color: var(--steel); font-size: 0.85rem;">Загрузка вызовов...</div>
+                    </div>
+                </div>
+
+                <!-- История -->
+                <div class="brutal-card">
+                    <h3 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1rem; margin-bottom: 12px;">
+                        📜 ИСТОРИЯ ЗАВЕРШЁННЫХ СПАРРИНГОВ
+                    </h3>
+                    <div id="history-fights-list" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="color: var(--steel); font-size: 0.85rem;">История чиста...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
 
         <!-- 🔥 МОДАЛКА ВСЕХ 20 ЭПОХ С ИКОНКАМИ -->
