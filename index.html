@@ -3504,26 +3504,28 @@ function loadProfileToUI() {
             }
         }
 
-                function renderGodPanel() {
+             function renderGodPanel() {
             const container = document.getElementById('god-players-list');
             if (!container) return;
 
-            container.innerHTML = allUsers.map((u) => {
+            container.innerHTML = allUsers.map((u, index) => {
                 const era = getEraById(u.era_id || 1);
-                const currentRank = allUsers.indexOf(u) + 1;
+                const currentRank = index + 1; // Автоматическое место в топе
 
                 return `
             <div class="brutal-card" style="border-color: var(--gold); margin-bottom: 12px; padding: 12px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="color: var(--gold); font-size: 1rem; margin: 0;">${u.name}</h4>
+                    <!-- Красивое отображение текущего места -->
+                    <h4 style="color: var(--gold); font-size: 1rem; margin: 0;">#${currentRank} ${u.name}</h4>
                     <span style="color: var(--neon-fire); font-weight: bold; font-size: 0.75rem;">${era.id} Эпоха (${era.name})</span>
                 </div>
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin-top: 6px;">
-                    <div><label style="font-size:0.7rem; color:var(--neon-green);">Место в топе:</label><input type="number" value="${currentRank}" class="brutal-input" onchange="changePlayerRank('${u.id}', parseInt(this.value) || 1)"></div>
-                    
-                    <!-- 🔥 НОВЫЙ ИНПУТ: Изменение Эпохи напрямую Борисом! -->
-                    <div><label style="font-size:0.7rem; color:var(--neon-fire); font-weight:bold;">Эпоха (1-20):</label><input type="number" min="1" max="20" value="${u.era_id || 1}" class="brutal-input" onchange="updateGodUser('${u.id}', 'era_id', parseInt(this.value) || 1)"></div>
+                    <!-- Прямое изменение Эпохи Борисом -->
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--neon-fire); font-weight:bold;">Эпоха (1-20):</label>
+                        <input type="number" min="1" max="20" value="${u.era_id || 1}" class="brutal-input" onchange="updateGodUser('${u.id}', 'era_id', parseInt(this.value) || 1)">
+                    </div>
                     
                     <div><label style="font-size:0.7rem; color:var(--gold);">EXP:</label><input type="number" value="${u.exp || 0}" class="brutal-input" onchange="updateGodUser('${u.id}', 'exp', parseInt(this.value) || 0)"></div>
                     <div><label style="font-size:0.7rem; color:#aaa;">Опасность (1-10):</label><input type="number" min="1" max="10" value="${u.danger || 5}" class="brutal-input" onchange="updateGodUser('${u.id}', 'danger', parseInt(this.value) || 5)"></div>
@@ -3546,120 +3548,122 @@ function loadProfileToUI() {
             }).join('');
         }
 
+
         // ====================================================
-// 🔍 ИНСПЕКЦИЯ БОЙЦА (ВЗРЫВ ПРАВИЛЬНО НА ПОЛКЕ ОЦЕНОК)
-// ====================================================
-function inspectUser(id) {
-    const user = allUsers.find(u => u.id === id);
-    if (!user) return;
+        // 🔍 ИНСПЕКЦИЯ БОЙЦА (СТРОГО ПО era_id И БЕЗ БАГОВ)
+        // ====================================================
+        function inspectUser(id) {
+            const user = allUsers.find(u => u.id === id);
+            if (!user) return;
 
-    const era = getEraByExp(user.exp);
-    const charImgPath = (typeof getCharImgPath === 'function') ? getCharImgPath(user) : 'char_default.webp';
+            // 🔥 Берем Эпоху СТРОГО по era_id бойца!
+            const era = getEraById(user.era_id
+ || 1);
+            const charImgPath = (typeof getCharImgPath === 'function') ? getCharImgPath(user) : 'char_default.webp';
 
-    const inspectBox = document.getElementById('modal-inspect');
-    if (!inspectBox) return;
-    const boxContent = inspectBox.querySelector('.modal-box');
+            const inspectBox = document.getElementById('modal-inspect');
+            if (!inspectBox) return;
+            const boxContent = inspectBox.querySelector('.modal-box');
 
-    const d = user.danger || 5;
-    const s = user.strength_rating || 5;
-    const e = user.endurance || 5;
-    const ex = user.explosion || 3;
+            const d = user.danger || 5;
+            const s = user.strength_rating || 5;
+            const e = user.endurance || 5;
+            const ex = user.explosion || 3;
 
-    boxContent.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h2 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1.1rem; margin: 0;">👤 ПАСПОРТ БОЙЦА: ${user.name}</h2>
-            <button class="brutal-btn danger" style="padding: 4px 10px;" onclick="closeModal('modal-inspect')">✕</button>
-        </div>
-
-        <div class="profile-main-grid">
-            <!-- 1. Аниме Персонаж -->
-            <div class="char-card-box">
-                <div class="char-short-title">${user.title || era.name}</div>
-                <img src="${charImgPath}" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
-                <div style="margin-top: 10px; font-weight: 900; color: var(--gold); font-size: 0.85rem; font-family: 'Comfortaa';">
-                    Стиль: ${user.style || 'Крюк'}
-                </div>
-            </div>
-
-            <!-- 2. Правая Колонка -->
-            <div class="stats-column-box">
-                <!-- Оранжево-фиолетовая Колба EXP -->
-                <div class="gold-lava-card">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-family: 'Comfortaa';">
-                        <span style="font-size: 0.85rem; font-weight: 900; color: var(--gold);">${era.id} Эпоха: ${era.name}</span>
-                        <span style="color: #a855f7; font-weight: 900;">${user.exp} EXP</span>
-                    </div>
-                    <div class="exp-horiz-flask-outer">
-                        <div class="exp-horiz-flask-liquid" style="width: ${Math.min(100, Math.max(5, Math.floor(((user.exp - era.minExp) / (era.maxExp - era.minExp)) * 100)))}%;"></div>
-                    </div>
+            boxContent.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h2 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1.1rem; margin: 0;">👤 ПАСПОРТ БОЙЦА: ${user.name}</h2>
+                    <button class="brutal-btn danger" style="padding: 4px 10px;" onclick="closeModal('modal-inspect')">✕</button>
                 </div>
 
-                <!-- ПОЛКА ОЦЕНОК (ВСЕ 4 ПОКАЗАТЕЛЯ ВМЕСТЕ) -->
-                <div class="ratings-shelf-card">
-                    <div style="font-size: 0.8rem; font-weight: 900; color: var(--gold); margin-bottom: 12px; font-family: 'Comfortaa';">
-                        🧪 ОЦЕНКА БОЙЦА (ОПРЕДЕЛЯЕТСЯ АРХИТЕКТОРОМ):
+                <div class="profile-main-grid">
+                    <!-- 1. Аниме Персонаж -->
+                    <div class="char-card-box">
+                        <div class="char-short-title">${user.title || era.name}</div>
+                        <img src="${charImgPath}" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
+                        <div style="margin-top: 10px; font-weight: 900; color: var(--gold); font-size: 0.85rem; font-family: 'Comfortaa';">
+                            Стиль: ${user.style || 'Крюк'}
+                        </div>
                     </div>
-                    <div class="shelf-flask-row">
-                        <span class="shelf-label">☣️ Опасность:</span>
-                        <div class="shelf-tube-outer"><div class="shelf-liquid-danger" style="width: ${d * 10}%;"></div></div>
-                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${d}/10</span>
-                    </div>
-                    <div class="shelf-flask-row">
-                        <span class="shelf-label" style="color: #ff0055;">💥 Сила:</span>
-                        <div class="shelf-tube-outer"><div class="shelf-liquid-strength" style="width: ${s * 10}%;"></div></div>
-                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${s}/10</span>
-                    </div>
-                    <div class="shelf-flask-row">
-                        <span class="shelf-label" style="color: #00ff66;">🔋 Выносливость:</span>
-                        <div class="shelf-tube-outer"><div class="shelf-liquid-endurance" style="width: ${e * 10}%;"></div></div>
-                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${e}/10</span>
-                    </div>
-                    <!-- 🔥 ВЗРЫВ СТРОГО НА ПОЛКЕ 4-Й СТРОКОЙ! -->
-                    <div class="shelf-flask-row explosion-row">
-                        <span class="shelf-label" style="color: #ff5500; font-weight: 900;">💥 Взрыв:</span>
-                        <div class="shelf-tube-outer"><div class="shelf-liquid-explosion" style="width: ${(ex / 5) * 100}%;"></div></div>
-                        <span style="color: #ffcc00; font-weight: 900; font-size: 0.85rem;">${ex}/5</span>
+
+                    <!-- 2. Правая Колонка -->
+                    <div class="stats-column-box">
+                        <!-- Колба EXP -->
+                        <div class="gold-lava-card">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-family: 'Comfortaa';">
+                                <span style="font-size: 0.85rem; font-weight: 900; color: var(--gold);">${era.id} Эпоха: ${era.name}</span>
+                                <span style="color: #a855f7; font-weight: 900;">${user.exp || 0} EXP</span>
+                            </div>
+                            <div class="exp-horiz-flask-outer">
+                                <div class="exp-horiz-flask-liquid" style="width: ${Math.min(100, Math.max(5, (user.exp || 0) % 100))}%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- ПОЛКА ОЦЕНОК -->
+                        <div class="ratings-shelf-card">
+                            <div style="font-size: 0.8rem; font-weight: 900; color: var(--gold); margin-bottom: 12px; font-family: 'Comfortaa';">
+                                🧪 ОЦЕНКА БОЙЦА (ОПРЕДЕЛЯЕТСЯ АРХИТЕКТОРОМ):
+                            </div>
+                            <div class="shelf-flask-row">
+                                <span class="shelf-label">☣️ Опасность:</span>
+                                <div class="shelf-tube-outer"><div class="shelf-liquid-danger" style="width: ${d * 10}%;"></div></div>
+                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${d}/10</span>
+                            </div>
+                            <div class="shelf-flask-row">
+                                <span class="shelf-label" style="color: #ff0055;">💥 Сила:</span>
+                                <div class="shelf-tube-outer"><div class="shelf-liquid-strength" style="width: ${s * 10}%;"></div></div>
+                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${s}/10</span>
+                            </div>
+                            <div class="shelf-flask-row">
+                                <span class="shelf-label" style="color: #00ff66;">🔋 Выносливость:</span>
+                                <div class="shelf-tube-outer"><div class="shelf-liquid-endurance" style="width: ${e * 10}%;"></div></div>
+                                <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${e}/10</span>
+                            </div>
+                            <div class="shelf-flask-row explosion-row">
+                                <span class="shelf-label" style="color: #ff5500; font-weight: 900;">💥 Взрыв:</span>
+                                <div class="shelf-tube-outer"><div class="shelf-liquid-explosion" style="width: ${(ex / 5) * 100}%;"></div></div>
+                                <span style="color: #ffcc00; font-weight: 900; font-size: 0.85rem;">${ex}/5</span>
+                            </div>
+                        </div>
+
+                        <!-- 3D Замеры и Биометрия -->
+                        <div class="gold-lava-card">
+                            <div class="gold-lava-title">📏 БИОМЕТРИЯ И СИЛОВЫЕ ПОКАЗАТЕЛИ</div>
+                            <div class="stats-3d-grid" style="font-size: 0.8rem;">
+                                <div class="stat-3d-card"><div class="stat-card-header">Предплечье</div><strong>${user.forearm ? user.forearm + ' см' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Рост</div><strong>${user.height ? user.height + ' см' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Вес</div><strong>${user.weight ? user.weight + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Возраст</div><strong>${user.age || '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Пронация</div><strong>${user.pronator ? user.pronator + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Луч</div><strong>${user.beam ? user.beam + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Натяжка</div><strong>${user.pull ? user.pull + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Отведение</div><strong>${user.abduct ? user.abduct + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Скручивание</div><strong>${user.curl ? user.curl + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Трицепс</div><strong>${user.triceps ? user.triceps + ' кг' : '-'}</strong></div>
+                            </div>
+                        </div>
+
+                        <!-- Характеристика -->
+                        <div class="lore-collapsible-box open">
+                            <button class="lore-toggle-btn">📜 ХАРАКТЕРИСТИКА И СТИЛЬ</button>
+                            <div class="lore-content-text" style="display: block;">
+                                ${user.lore || 'Характеристика пока не заполнена.'}
+                            </div>
+                        </div>
                     </div>
                 </div>
+            `;
 
-                <!-- 3D Замеры и Биометрия (включая Трицепс) -->
-                <div class="gold-lava-card">
-                    <div class="gold-lava-title">📏 БИОМЕТРИЯ И СИЛОВЫЕ ПОКАЗАТЕЛИ</div>
-                    <div class="stats-3d-grid" style="font-size: 0.8rem;">
-                        <div class="stat-3d-card"><div class="stat-card-header">Предплечье</div><strong>${user.forearm ? user.forearm + ' см' : '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Рост</div><strong>${user.height ? user.height + ' см' : '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Вес</div><strong>${user.weight ? user.weight + ' кг' : '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Возраст</div><strong>${user.age || '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Пронация</div><strong>${user.pronator ? user.pronator + ' кг' : '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Луч</div><strong>${user.beam ? user.beam + ' кг' : '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Натяжка</div><strong>${user.pull ? user.pull + ' кг' : '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Отведение</div><strong>${user.abduct ? user.abduct + ' кг' : '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Скручивание</div><strong>${user.curl ? user.curl + ' кг' : '-'}</strong></div>
-                        <div class="stat-3d-card"><div class="stat-card-header">Трицепс</div><strong>${user.triceps ? user.triceps + ' кг' : '-'}</strong></div>
-                    </div>
-                </div>
+            openModal('modal-inspect');
+        }
 
-                <!-- Характеристика -->
-                <div class="lore-collapsible-box open">
-                    <button class="lore-toggle-btn">📜 ХАРАКТЕРИСТИКА И СТИЛЬ</button>
-                    <div class="lore-content-text" style="display: block;">
-                        ${user.lore || 'Характеристика пока не заполнена.'}
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    openModal('modal-inspect');
-}
-
-                async function updateGodUser(id, field, val) {
+                     async function updateGodUser(id, field, val) {
             const user = allUsers.find(u => u.id === id);
             if (!user) return;
 
             user[field] = val;
 
-            // 🔥 Если Архитектор поменял Эпоху — пересчитываем название титула
+            // Если Архитектор поменял Эпоху — пересчитываем название титула
             if (field === 'era_id') {
                 const era = getEraById(val);
                 user.title = era.name;
@@ -3676,7 +3680,9 @@ function inspectUser(id) {
             await syncUserToSupabase(user);
             sortAllUsers();
             renderLeaderboard();
+            renderGodPanel(); // 🔥 Мгновенно пересортировываем панель Архитектора!
         }
+
 
 
 
