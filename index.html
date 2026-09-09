@@ -2081,11 +2081,18 @@
     <aside class="sidebar">
 
         <div class="user-widget" id="user-widget-box" style="display: none;">
-            <div class="user-widget-name" id="widget-username">Богатырь</div>
-            <div class="user-widget-title" id="widget-title">Титул: --</div>
-            <button class="brutal-btn" style="margin-top: 6px; padding: 4px 10px; font-size: 0.7rem;"
-                onclick="logout()">ВЫЙТИ</button>
-        </div>
+    <div class="user-widget-name" id="widget-username">Богатырь</div>
+    <div class="user-widget-title" id="widget-title">Титул: --</div>
+
+    <!-- 🔥 ВОТ ЭТА СТРОЧКА ДЛЯ СТРИКОВ (ВСТАВЛЯЙ СЮДА) -->
+    <div id="widget-streak" style="margin-top: 8px; font-size: 0.85rem; color: #ff5500; font-weight: 900; display: none; font-family: 'Comfortaa';">
+        🔥 <span id="streak-days-count">0</span> ДНЕЙ (x1.0 EXP)
+    </div>
+
+    <button class="brutal-btn" style="margin-top: 10px; padding: 4px 10px; font-size: 0.7rem;"
+        onclick="logout()">ВЫЙТИ</button>
+</div>
+
 
         <nav class="nav-menu">
             <!-- 🏆 Лидерборд -->
@@ -2713,6 +2720,36 @@
         </div>
     </div>
 
+        <!-- 🦾 МОДАЛКА ВЫБОРА ИНТЕНСИВНОСТИ (RPE) -->
+    <div id="modal-intensity" class="modal-overlay">
+        <div class="modal-box" style="border-color: var(--neon-fire); text-align: center; max-width: 400px;">
+            <h2 style="font-family: 'Comfortaa'; color: var(--gold); margin-bottom: 15px;">КАК ПОТРЕНИЛ?</h2>
+            <p style="font-size: 0.85rem; color: var(--steel); margin-bottom: 20px;">Выбери честный уровень жестокости:</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px;" id="intensity-buttons-box">
+                <button class="nav-btn" style="border-color: var(--neon-green); justify-content: center;" onclick="confirmIntensity(0.8, 'Разминка')">
+                    🟢 РАЗМИНКА (x0.8)
+                </button>
+                <button class="nav-btn" style="border-color: var(--gold); justify-content: center;" onclick="confirmIntensity(1.0, 'Рабочая')">
+                    🟡 В РАБОЧЕМ РЕЖИМЕ (x1.0)
+                </button>
+                <button class="nav-btn" style="border-color: var(--neon-red); justify-content: center; box-shadow: 0 0 15px rgba(230,0,57,0.3);" onclick="confirmIntensity(1.3, 'В МЯСО!')">
+                    🔴 В МЯСО! (x1.3)
+                </button>
+            </div>
+            
+            <button class="brutal-btn danger" style="width: 100%; margin-top: 15px; background: #222;" onclick="closeModal('modal-intensity')">ОТМЕНА</button>
+        </div>
+    </div>
+
+    <!-- 🎊 ПОП-АП УСПЕХА -->
+    <div id="workout-success-popup" style="display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); z-index: 5000; background: rgba(0,0,0,0.9); border: 2px solid var(--gold); border-radius: 20px; padding: 25px; text-align: center; animation: fadeIn 0.4s ease, pulse 2s infinite;">
+        <h2 id="success-exp-gain" style="color: var(--gold); font-family: 'Cinzel'; font-size: 2rem;">+0 EXP</h2>
+        <p id="success-streak-msg" style="color: #fff; margin-top: 10px; font-weight: bold;">Стрик 1 день!</p>
+        <div style="color: var(--neon-fire); font-size: 0.8rem; margin-top: 5px;">ТВОИ СВЯЗКИ СТАЛИ ПРОЧНЕЕ!</div>
+    </div>
+
+
     <script>
         // ====================================================
         // 🔐 НАСТРОЙКИ SUPABASE И СТРУКТУРА ЭПОХ
@@ -3294,60 +3331,214 @@ function getEraByExp(exp, userObj) {
         }
 
 
-        async function doWorkout(type) {
+                // 🛠 ПАРАМЕТРЫ НОВОЙ СИСТЕМЫ
+        let currentPendingWorkout = null;
+
+        const WORKOUT_TYPES = {
+            'ofp': { name: 'ОФП', base: 30, cd: 18 * 3600 * 1000 },
+            'arm': { name: 'Спец-Арм', base: 50, cd: 18 * 3600 * 1000 },
+            'sparring': { name: 'Спарринг', base: 80, cd: 48 * 3600 * 1000 }
+        };
+
+        // 1. Инициализация тренировки (открывает выбор интенсивности)
+        function doWorkout(type) {
             const now = Date.now();
-            const era = getEraByExp(currentUser.exp);
-
-            let basePhaseBonus = 20;
-            if (era.phase === 2) basePhaseBonus = 30;
-            if (era.phase >= 3) basePhaseBonus = 40;
-
-            if (type === 'ofp') {
-                if (currentUser.cd_ofp && now < currentUser.cd_ofp) return;
-                currentUser.exp += (basePhaseBonus + 25);
-                currentUser.cd_ofp = now + (24 * 3600 * 1000);
-            } else if (type === 'arm') {
-                if (currentUser.cd_arm && now < currentUser.cd_arm) return;
-                currentUser.exp += (basePhaseBonus + 20);
-                currentUser.cd_arm = now + (24 * 3600 * 1000);
-            } else if (type === 'sparring') {
-                if (currentUser.cd_sparring && now < currentUser.cd_sparring) return;
-                currentUser.exp += (basePhaseBonus + 40);
-                currentUser.cd_sparring = now + (48 * 3600 * 1000);
+            const workout = WORKOUT_TYPES[type];
+            
+            // Проверка Кулдауна
+            const lastTime = currentUser[`cd_${type}`] || 0;
+            if (now < lastTime) {
+                alert(`Связки еще не восстановились! Отдохни.`);
+                return;
             }
 
-            const newEra = getEraByExp(currentUser.exp);
-            if (newEra.id > era.id) {
-                showLevelUpModal(newEra);
-            }
+            currentPendingWorkout = type;
+            openModal('modal-intensity');
+        }
 
+        // 2. Подтверждение интенсивности и расчет EXP
+        async function confirmIntensity(multiplier, label) {
+            if (!currentUser || !currentPendingWorkout) return;
+            
+            const workout = WORKOUT_TYPES[currentPendingWorkout];
+            const now = Date.now();
+            
+            // Расчет Стрика
+            updateStreakLogic();
+            const streakBonus = getStreakMultiplier(currentUser.streak || 0);
+            
+            // ИТОГОВАЯ ФОРМУЛА
+            const gainedExp = Math.round((workout.base * multiplier) * streakBonus);
+            
+            // Начисление
+            currentUser.exp = (currentUser.exp || 0) + gainedExp;
+            currentUser[`cd_${currentPendingWorkout}`] = now + workout.cd;
+            currentUser.last_activity_at = now; // Для проверки стрика завтра
+
+            closeModal('modal-intensity');
+            
+            // Анимация успеха
+            showWorkoutSuccess(gainedExp, currentUser.streak || 1);
+            
             await saveUserData();
             updateExpTabUI();
             updateCooldownsUI();
+            renderLeaderboard();
+        }
+
+                       // ====================================================
+        // ⚡️ УПРАВЛЕНИЕ КУЛДАУНАМИ И НЕОНОВЫМ СВЕЧЕНИЕМ КНОПОК
+        // ====================================================
+        
+        // Авто-инъекция брутальных стилей для кнопок (выполняется один раз)
+        const styleId = 'workout-glow-style';
+        if (!document.getElementById(styleId)) {
+            const style = document.createElement('style');
+            style.id = styleId;
+            style.innerHTML = `
+                @keyframes pulseWorkoutGlow {
+                    0% { box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4); border-color: #2a2a3a; }
+                    50% { box-shadow: 0 0 20px rgba(255, 85, 0, 0.85), inset 0 0 10px rgba(255, 204, 0, 0.35); border-color: var(--gold); }
+                    100% { box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4); border-color: #2a2a3a; }
+                }
+                /* Пылающая готовая к бою кнопка */
+                .glowing-workout-btn {
+                    animation: pulseWorkoutGlow 2.5s infinite alternate ease-in-out !important;
+                    color: #fff !important;
+                    transform: translateY(-2px);
+                    border-bottom: 5px solid var(--neon-fire) !important;
+                    opacity: 1 !important;
+                    pointer-events: auto !important;
+                }
+                /* Потухшая кнопка на КД */
+                .cooldown-workout-btn {
+                    opacity: 0.35 !important;
+                    pointer-events: none !important;
+                    box-shadow: none !important;
+                    border-color: #1a1a24 !important;
+                    border-bottom: 5px solid #08080c !important;
+                    color: var(--steel) !important;
+                    animation: none !important;
+                }
+            `;
+            document.head.appendChild(style);
         }
 
         function updateCooldownsUI() {
             if (!currentUser) return;
             const now = Date.now();
-
-            const checkCd = (btnId, cdSpanId, cdTimestamp) => {
-                const btn = document.getElementById(btnId);
-                const span = document.getElementById(cdSpanId);
+            
+            const check = (type) => {
+                const btn = document.getElementById(`btn-train-${type}`);
+                const span = document.getElementById(`cd-${type}`);
+                const cdTimestamp = currentUser[`cd_${type}`];
+                
                 if (cdTimestamp && now < cdTimestamp) {
-                    btn.disabled = true;
-                    const remSec = Math.ceil((cdTimestamp - now) / 1000);
-                    const h = Math.floor(remSec / 3600);
-                    const m = Math.floor((remSec % 3600) / 60);
-                    span.innerText = `[КД: ${h}ч ${m}м]`;
+                    // ❌ НА КУЛДАУНЕ (Кнопка тухнет и блокируется)
+                    if (btn) {
+                        btn.classList.add('cooldown-workout-btn');
+                        btn.classList.remove('glowing-workout-btn');
+                    }
+                    const rem = Math.ceil((cdTimestamp - now) / 1000);
+                    const h = Math.floor(rem / 3600);
+                    const m = Math.floor((rem % 3600) / 60);
+                    if (span) span.innerText = `[⏳ КД: ${h}ч ${m}м]`;
+                    if (span) span.style.color = 'var(--steel)';
                 } else {
-                    btn.disabled = false;
-                    span.innerText = '';
+                    // 🔥 ГОТОВА К ТРЕНИРОВКЕ (Кнопка начинает ярко пульсировать!)
+                    if (btn) {
+                        btn.classList.remove('cooldown-workout-btn');
+                        btn.classList.add('glowing-workout-btn');
+                    }
+                    if (span) span.innerText = '🔥 ДОСТУПНО!';
+                    if (span) span.style.color = 'var(--gold)';
                 }
             };
+            
+            ['ofp', 'arm', 'sparring'].forEach(check);
+        }
 
-            checkCd('btn-train-ofp', 'cd-ofp', currentUser.cd_ofp);
-            checkCd('btn-train-arm', 'cd-arm', currentUser.cd_arm);
-            checkCd('btn-train-sparring', 'cd-sparring', currentUser.cd_sparring);
+
+
+        // 3. Логика Стриков (Серия дней)
+        function updateStreakLogic() {
+            const now = new Date();
+            const todayStr = now.toDateString();
+            const lastActivityAt = currentUser.last_activity_at;
+
+            if (!lastActivityAt) {
+                currentUser.streak = 1;
+            } else {
+                const lastDate = new Date(lastActivityAt);
+                const lastDateStr = lastDate.toDateString();
+                
+                const diffTime = now - lastDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                if (todayStr === lastDateStr) {
+                    // Уже тренился сегодня, стрик не меняем
+                } else if (diffDays === 1) {
+                    // Тренился вчера - стрик растет!
+                    currentUser.streak = (currentUser.streak || 0) + 1;
+                } else {
+                    // Пропустил день - сброс
+                    currentUser.streak = 1;
+                }
+            }
+        }
+
+        // 4. Получение множителя стрика
+        function getStreakMultiplier(days) {
+            if (days >= 14) return 1.50;
+            if (days >= 7) return 1.30;
+            if (days >= 3) return 1.15;
+            return 1.0;
+        }
+
+        // 5. Красивый Поп-ап успеха
+        function showWorkoutSuccess(exp, days) {
+            const popup = document.getElementById('workout-success-popup');
+            document.getElementById('success-exp-gain').innerText = `+${exp} EXP`;
+            document.getElementById('success-streak-msg').innerText = `Стрик ${days} ${getNoun(days, 'день', 'дня', 'дней')}!`;
+            
+            popup.style.display = 'block';
+            setTimeout(() => { popup.style.display = 'none'; }, 3500);
+        }
+
+        // Вспомогательная функция для слов (1 день, 2 дня, 5 дней)
+        function getNoun(number, one, two, five) {
+            let n = Math.abs(number);
+            n %= 100;
+            if (n >= 5 && n <= 20) return five;
+            n %= 10;
+            if (n === 1) return one;
+            if (n >= 2 && n <= 4) return two;
+            return five;
+        }
+
+        // 6. Обновление UI стрика
+        function updateExpTabUI() {
+            if (!currentUser) return;
+            // Обновляем огонек в сайдбаре
+            const streakBox = document.getElementById('widget-streak');
+            const streakDays = document.getElementById('streak-days-count');
+            if (streakBox && currentUser.streak > 0) {
+                streakBox.style.display = 'block';
+                streakDays.innerText = currentUser.streak;
+                const m = getStreakMultiplier(currentUser.streak);
+                streakBox.innerHTML = `🔥 ${currentUser.streak} ${getNoun(currentUser.streak, 'ДЕНЬ', 'ДНЯ', 'ДНЕЙ')} (x${m} EXP)`;
+            }
+
+            // Старая логика колбы...
+            const safeExp = Number(currentUser.exp) || 0;
+            const flaskValText = document.getElementById('flask-val-text');
+            if (flaskValText) flaskValText.innerText = `${safeExp} EXP`;
+            
+            const flaskLiquid = document.getElementById('flask-liquid');
+            if (flaskLiquid) {
+                let fillPct = Math.min(100, Math.max(5, safeExp % 100 === 0 && safeExp > 0 ? 100 : safeExp % 100));
+                flaskLiquid.style.height = `${fillPct}%`;
+            }
         }
 
                 // ====================================================
@@ -4121,6 +4312,9 @@ async function confirmBattleWinner(fightId, winnerId, winnerName) {
 }
 
     </script>
+
+
+
 </body>
 
 </html>
