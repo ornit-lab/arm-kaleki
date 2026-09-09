@@ -2794,42 +2794,36 @@
             setInterval(updateCooldownsUI, 1000);
         };
 
-                // ====================================================
-        // 🏆 ОБНОВЛЕННАЯ ЗАГРУЗКА БОЙЦОВ (СОХРАНЕНИЕ ЭПОХ И СОРТИРОВКА)
-        // ====================================================
-        async function loadAllPlayers() {
+                      async function loadAllPlayers() {
             let {data, error} = await _supabase.from('profiles').select('*');
             const dbUsers = (data && !error) ? data : [];
 
-            // 1. Проходим по ветеранам и сохраняем их родной era_id
+            // 1. Проходим по базовым ветеранам и связываем их с Supabase СТРОГО ПО ID
             let mergedUsers = defaultSeededPlayers.map(p => {
-                const era = getEraById(p.era_id || 1);
-
-                // Ищем совпадение строго по ID
                 const dbMatch = dbUsers.find(dbU => dbU.id === p.id);
 
                 if (dbMatch) {
-                    // Если у игрока из базы еще нет era_id — присваиваем дефолтный из списка ветеранов
                     if (!dbMatch.era_id) dbMatch.era_id = p.era_id || 1;
                     return dbMatch;
                 } else {
+                    const era = getEraById(p.era_id || 1);
                     return {
                         id: p.id,
                         name: p.name,
                         username: '',
                         pin: '',
-                        era_id: p.era_id || 1, // 🔥 Фиксируем родную Эпоху!
+                        era_id: p.era_id || 1, // 🔥 Записываем родную Эпоху ветерана!
                         exp: p.exp || 0,
                         title: era.name,
                         forearm: null, height: null, weight: null, age: null,
-                        pronator: null, beam: null, pull: null, abduct: null, curl: null,
+                        pronator: null, beam: null, pull: null, abduct: null, curl: null, triceps: null,
                         lore: "Ветеран ордена ARM-KALEKI.",
                         badges: p.name === 'Борис' ? ['Основатель Лиги'] : []
                     };
                 }
             });
 
-            // 2. Добавляем новых зарегистрированных пользователей
+            // 2. Добавляем новых игроков, зарегистрировавшихся под уникальными id
             dbUsers.forEach(dbU => {
                 const alreadyInList = mergedUsers.some(mU => mU.id === dbU.id);
                 if (!alreadyInList) {
@@ -2840,14 +2834,12 @@
 
             allUsers = mergedUsers;
 
-            // 🔥 СОРТИРОВКА: Сначала высшая Эпоха (era_id), затем фарм EXP
+            // 🔥 СОРТИРУЕМ: Сначала по Эпохе (era_id), а при равенстве — по нафармленному EXP!
             allUsers.sort((a, b) => {
                 const eraA = Number(a.era_id) || 1;
                 const eraB = Number(b.era_id) || 1;
-                if (eraB !== eraA) {
-                    return eraB - eraA; // Кто в высшей Эпохе — тот выше в Топе
-                }
-                return (Number(b.exp) || 0) - (Number(a.exp) || 0); // При равной Эпохе — у кого больше EXP
+                if (eraB !== eraA) return eraB - eraA;
+                return (Number(b.exp) || 0) - (Number(a.exp) || 0);
             });
 
             renderLeaderboard();
@@ -2857,13 +2849,21 @@
 
 
 
-        function getEraByExp(exp) {
-            const safeExp = Number(exp) || 0;
-            for (let i = erasData.length - 1; i >= 0; i--) {
-                if (safeExp >= erasData[i].minExp) return erasData[i];
-            }
-            return erasData[0];
-        }
+// 1. Получение данных Эпохи строго по ее ID (1-20), а НЕ по EXP!
+function getEraById(eraId) {
+    const safeId = Math.min(20, Math.max(1, parseInt(eraId) || 1));
+    return erasData.find(e => e.id === safeId) || erasData[0];
+}
+
+// 2. Мост для совместимости со старым кодом
+function getEraByExp(exp, userObj) {
+    const user = userObj || currentUser;
+    if (user && user.era_id) {
+        return getEraById(user.era_id);
+    }
+    return getEraById(1);
+}
+
 
 
         // ====================================================
@@ -3080,10 +3080,10 @@
             location.reload();
         }
 
-        // ====================================================
+                // ====================================================
         // 🏆 УЛЬТИМАТИВНЫЙ ЛИДЕРБОРД: 3D-КЛАВИШИ + ВСЕ ЭФФЕКТЫ И ПУК
         // ====================================================
-                function renderLeaderboard() {
+        function renderLeaderboard() {
             const container = document.getElementById('leaderboard-container');
             if (!container) return;
 
@@ -3113,6 +3113,7 @@
                     const rankBadgeText = `${rankNum}.`;
                     const isMe = currentUser && (user.id === currentUser.id || user.username === currentUser.username);
                     const userName = user.name || 'Богатырь';
+
 
                     // 1. Определение эффекта по месту в топе
                     let rankFontClass = 'rank-rest';
@@ -3379,17 +3380,18 @@
 function loadProfileToUI() {
     if (!currentUser) return;
 
-    const era = getEraByExp(currentUser.exp);
+    const era = getEraById(currentUser.era_id || 1); // 🔥 Берем эпоху строго по ее ID!
+
     const eraTitleEl = document.getElementById('my-era-title');
     const expValEl = document.getElementById('my-exp-val');
     if (eraTitleEl) eraTitleEl.innerText = `Эпоха ${era.id}: ${era.name}`;
     if (expValEl) expValEl.innerText = `${currentUser.exp} EXP`;
 
-    const range = era.maxExp - era.minExp;
-    const currentInEra = currentUser.exp - era.minExp;
-    let fillPct = Math.min(100, Math.max(5, Math.floor((currentInEra / range) * 100)));
+        // Шкала показывает прогресс тренировок
+    let fillPct = Math.min(100, Math.max(5, (currentUser.exp || 0) % 100));
     const expBarEl = document.getElementById('my-exp-bar');
     if (expBarEl) expBarEl.style.width = `${fillPct}%`;
+
 
     const charImgEl = document.getElementById('my-char-img');
     const shortTitleEl = document.getElementById('my-short-title');
@@ -3841,7 +3843,8 @@ function inspectUser(id) {
         // 2. ГЛАВНОЕ ОБНОВЛЕНИЕ ЛАБОРАТОРИИ И ТРУБОПРОВОДА
         function updateExpTabUI() {
             if (!currentUser) return;
-            const era = getEraByExp(currentUser.exp);
+            const era = getEraById(currentUser.era_id || 1); // 🔥 Берем строго по era_id!
+
 
             // А. ОБНОВЛЕНИЕ ИМЕНИ ЭПОХИ
             const eraDisplay = document.getElementById('current-era-display');
