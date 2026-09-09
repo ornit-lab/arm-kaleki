@@ -2841,6 +2841,21 @@
         }
 
 
+                // ====================================================
+        // 🔄 СОРТИРОВКА ЛИДЕРБОРДА (Сначала по Эпохе, потом по EXP)
+        // ====================================================
+        function sortAllUsers() {
+            if (!Array.isArray(allUsers)) return;
+            allUsers.sort((a, b) => {
+                const eraA = Number(a.era_id) || 1;
+                const eraB = Number(b.era_id) || 1;
+                if (eraB !== eraA) {
+                    return eraB - eraA; // Кто выше по Эпохе — тот выше в Топе
+                }
+                return (Number(b.exp) || 0) - (Number(a.exp) || 0); // При равной Эпохе — у кого больше EXP
+            });
+        }
+
 
 
 // 1. Получение данных Эпохи строго по ее ID (1-20), а НЕ по EXP!
