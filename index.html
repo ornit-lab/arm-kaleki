@@ -2328,19 +2328,33 @@
                 <!-- 2. ПРАВАЯ КОЛОНКА: СТАТИСТИКА И ПОЛКА -->
                 <div class="stats-column-box">
 
-                    <!-- EXP КОЛБА (ОРАНЖЕВО-ФИОЛЕТОВАЯ БЕЗ РАМОЧКИ) -->
-                    <div class="gold-lava-card">
-                        <div
-                            style="display: flex; justify-content: space-between; margin-bottom: 6px; font-family: 'Comfortaa';">
-                            <span style="font-size: 0.85rem; font-weight: 900; color: var(--gold);"
-                                id="my-era-title">Эпоха 1: Скелет</span>
-                            <span style="font-size: 0.85rem; font-weight: 900; color: #a855f7;" id="my-exp-val">0
-                                EXP</span>
+                                        <!-- 🔥 НОВЫЙ ДУЭТ: РАЗДЕЛЬНЫЕ ОГОЛЁННЫЕ ЭПОХА И EXP -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 5px;">
+                        
+                        <!-- 1. БЛОК ЭПОХИ (ИКОНКА РУКИ + НАЗВАНИЕ) -->
+                        <div style="background: linear-gradient(145deg, #161622, #0d0d15); border: 1.5px solid #2a2a3d; border-bottom: 4px solid var(--neon-fire); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.6);">
+                            <div class="arm-icon-box" style="width: 38px; height: 38px; min-width: 38px;">
+                                <img id="my-era-icon" src="arm_icon_1.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                            </div>
+                            <div style="display: flex; flex-direction: column; overflow: hidden;">
+                                <span style="font-size: 0.7rem; color: var(--steel); font-family: 'Comfortaa'; font-weight: 700; text-transform: uppercase;">Текущая Эпоха:</span>
+                                <span style="font-size: 0.95rem; font-weight: 900; color: var(--gold); font-family: 'Comfortaa'; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="my-era-title">1 Эпоха: Скелет</span>
+                            </div>
                         </div>
-                        <div class="exp-horiz-flask-outer">
-                            <div class="exp-horiz-flask-liquid" id="my-exp-bar" style="width: 0%;"></div>
+
+                        <!-- 2. БЛОК НАФАРМЛЕННОГО EXP (КОЛБА С ЖИЖЕЙ) -->
+                        <div style="background: linear-gradient(145deg, #161622, #0d0d15); border: 1.5px solid #2a2a3d; border-bottom: 4px solid #a855f7; border-radius: 14px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: center; gap: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.6);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Comfortaa';">
+                                <span style="font-size: 0.7rem; color: var(--steel); font-weight: 700; text-transform: uppercase;">Фарм Опыта:</span>
+                                <span style="font-size: 0.85rem; font-weight: 900; color: #a855f7;" id="my-exp-val">0 EXP</span>
+                            </div>
+                            <div class="exp-horiz-flask-outer" style="height: 14px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                                <div class="exp-horiz-flask-liquid" id="my-exp-bar" style="width: 0%;"></div>
+                            </div>
                         </div>
+
                     </div>
+
 
                     <!-- ПОЛКА ОЦЕНОК -->
                     <div class="ratings-shelf-card">
@@ -3383,79 +3397,66 @@ function getEraByExp(exp, userObj) {
             }
         }
 
-       // ====================================================
-// 🔮 ИСПРАВЛЕННАЯ ЗАГРУЗКА ПРОФИЛЯ (С ВЗРЫВОМ И УНИВЕРСАЛОМ)
-// ====================================================
-function loadProfileToUI() {
-    if (!currentUser) return;
+            function loadProfileToUI() {
+            if (!currentUser) return;
 
-    const era = getEraById(currentUser.era_id || 1); // 🔥 Берем эпоху строго по ее ID!
+            // 1. Считываем Эпоху и иконку руки
+            const era = getPlayerEra(currentUser);
+            const eraTitleEl = document.getElementById('my-era-title');
+            const eraIconEl = document.getElementById('my-era-icon');
+            
+            if (eraTitleEl) eraTitleEl.innerText = `${era.id} Эпоха: ${era.name}`;
+            if (eraIconEl) eraIconEl.src = `arm_icon_${era.id}.webp`;
 
-    const eraTitleEl = document.getElementById('my-era-title');
-    const expValEl = document.getElementById('my-exp-val');
-    if (eraTitleEl) eraTitleEl.innerText = `Эпоха ${era.id}: ${era.name}`;
-    if (expValEl) expValEl.innerText = `${currentUser.exp} EXP`;
+            // 2. Считываем EXP и заполняем колбочку
+            const expValEl = document.getElementById('my-exp-val');
+            const expBarEl = document.getElementById('my-exp-bar');
+            const safeExp = Number(currentUser.exp) || 0;
+            
+            if (expValEl) expValEl.innerText = `${safeExp} EXP`;
+            
+            // Заполнение колбы циклично каждые 100 EXP
+            let fillPct = Math.min(100, Math.max(8, safeExp % 100 === 0 && safeExp > 0 ? 100 : safeExp % 100));
+            if (expBarEl) expBarEl.style.width = `${fillPct}%`;
 
-        // Шкала показывает прогресс тренировок
-    let fillPct = Math.min(100, Math.max(5, (currentUser.exp || 0) % 100));
-    const expBarEl = document.getElementById('my-exp-bar');
-    if (expBarEl) expBarEl.style.width = `${fillPct}%`;
+            const charImgEl = document.getElementById('my-char-img');
+            const shortTitleEl = document.getElementById('my-short-title');
+            if (charImgEl && typeof getCharImgPath === 'function') charImgEl.src = getCharImgPath(currentUser);
+            if (shortTitleEl) shortTitleEl.innerText = currentUser.title || era.name;
 
+            // Оценки 10 баллов и 5 баллов
+            const d = currentUser.danger || 5;
+            const s = currentUser.strength_rating || 5;
+            const e = currentUser.endurance || 5;
+            const ex = currentUser.explosion || 3;
 
-    const charImgEl = document.getElementById('my-char-img');
-    const shortTitleEl = document.getElementById('my-short-title');
-    if (charImgEl && typeof getCharImgPath === 'function') charImgEl.src = getCharImgPath(currentUser);
-    if (shortTitleEl) shortTitleEl.innerText = currentUser.title || 'БОЕЦ ЛИГИ';
+            if (document.getElementById('my-bar-danger')) document.getElementById('my-bar-danger').style.width = `${d * 10}%`;
+            if (document.getElementById('my-bar-strength')) document.getElementById('my-bar-strength').style.width = `${s * 10}%`;
+            if (document.getElementById('my-bar-endurance')) document.getElementById('my-bar-endurance').style.width = `${e * 10}%`;
+            if (document.getElementById('my-bar-explosion')) document.getElementById('my-bar-explosion').style.width = `${(ex / 5) * 100}%`;
 
-    // 10-бальные и 5-бальные оценки
-    const d = currentUser.danger || 5;
-    const s = currentUser.strength_rating || 5;
-    const e = currentUser.endurance || 5;
-    const ex = currentUser.explosion || 3; // 🔥 Новая характеристика "Взрыв"
+            if (document.getElementById('my-val-danger')) document.getElementById('my-val-danger').innerText = `${d}/10`;
+            if (document.getElementById('my-val-strength')) document.getElementById('my-val-strength').innerText = `${s}/10`;
+            if (document.getElementById('my-val-endurance')) document.getElementById('my-val-endurance').innerText = `${e}/10`;
+            if (document.getElementById('my-val-explosion')) document.getElementById('my-val-explosion').innerText = `${ex}/5`;
 
-    const barDanger = document.getElementById('my-bar-danger');
-    const barStrength = document.getElementById('my-bar-strength');
-    const barEndurance = document.getElementById('my-bar-endurance');
-    const barExplosion = document.getElementById('my-bar-explosion'); // 🔥 Огненная колба
+            // Стиль
+            const styleSelect = document.getElementById('my-style-select');
+            if (styleSelect) styleSelect.value = currentUser.style || 'Крюк';
 
-    if (barDanger) barDanger.style.width = `${d * 10}%`;
-    if (barStrength) barStrength.style.width = `${s * 10}%`;
-    if (barEndurance) barEndurance.style.width = `${e * 10}%`;
-    if (barExplosion) barExplosion.style.width = `${(ex / 5) * 100}%`; // 🔥 Заполнение от 5 баллов
-
-    const valDanger = document.getElementById('my-val-danger');
-    const valStrength = document.getElementById('my-val-strength');
-    const valEndurance = document.getElementById('my-val-endurance');
-    const valExplosion = document.getElementById('my-val-explosion');
-
-    if (valDanger) valDanger.innerText = `${d}/10`;
-    if (valStrength) valStrength.innerText = `${s}/10`;
-    if (valEndurance) valEndurance.innerText = `${e}/10`;
-    if (valExplosion) valExplosion.innerText = `${ex}/5`; // 🔥 Вывод X/5
-
-    // 🔥 СТИЛЬ БОРЬБЫ (Поддерживает Крюк, Верх и Универсал)
-    const styleSelect = document.getElementById('my-style-select');
-    if (styleSelect) {
-        styleSelect.value = currentUser.style || 'Крюк';
-    }
-
-    // Замеры и биометрия
-    if (document.getElementById('my-forearm')) document.getElementById('my-forearm').value = currentUser.forearm || '';
-    if (document.getElementById('my-height')) document.getElementById('my-height').value = currentUser.height || '';
-    if (document.getElementById('my-weight')) document.getElementById('my-weight').value = currentUser.weight || '';
-    if (document.getElementById('my-age')) document.getElementById('my-age').value = currentUser.age || '';
-
-    if (document.getElementById('my-pron')) document.getElementById('my-pron').value = currentUser.pronator || '';
-    if (document.getElementById('my-beam')) document.getElementById('my-beam').value = currentUser.beam || '';
-    if (document.getElementById('my-pull')) document.getElementById('my-pull').value = currentUser.pull || '';
-    if (document.getElementById('my-abduct')) document.getElementById('my-abduct').value = currentUser.abduct || '';
-    if (document.getElementById('my-curl')) document.getElementById('my-curl').value = currentUser.curl || '';
-
-    if (document.getElementById('my-lore-input')) document.getElementById('my-lore-input').value = currentUser.lore || '';
-       if (document.getElementById('my-triceps')) document.getElementById('my-triceps').value = currentUser.triceps || '';
-   
-
-}
+            // Биометрия
+            if (document.getElementById('my-forearm')) document.getElementById('my-forearm').value = currentUser.forearm || '';
+            if (document.getElementById('my-height')) document.getElementById('my-height').value = currentUser.height || '';
+            if (document.getElementById('my-weight')) document.getElementById('my-weight').value = currentUser.weight || '';
+            if (document.getElementById('my-age')) document.getElementById('my-age').value = currentUser.age || '';
+            if (document.getElementById('my-pron')) document.getElementById('my-pron').value = currentUser.pronator || '';
+            if (document.getElementById('my-beam')) document.getElementById('my-beam').value = currentUser.beam || '';
+            if (document.getElementById('my-pull')) document.getElementById('my-pull').value = currentUser.pull || '';
+            if (document.getElementById('my-abduct')) document.getElementById('my-abduct').value = currentUser.abduct || '';
+            if (document.getElementById('my-curl')) document.getElementById('my-curl').value = currentUser.curl || '';
+            if (document.getElementById('my-triceps')) document.getElementById('my-triceps').value = currentUser.triceps || '';
+            if (document.getElementById('my-lore-input')) document.getElementById('my-lore-input').value = currentUser.lore || '';
+        }
 
         // 2. Железобетонное сохранение стиля в память и Supabase
         async function saveSelfProfile() {
