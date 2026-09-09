@@ -3143,6 +3143,50 @@ function getEraByExp(exp, userObj) {
                 // ====================================================
         // 🏆 УЛЬТИМАТИВНЫЙ ЛИДЕРБОРД: 3D-КЛАВИШИ + ВСЕ ЭФФЕКТЫ И ПУК
         // ====================================================
+
+        // Авто-инъекция компактных стилей для левых подписей тиров (выполняется один раз)
+        const sepStyleId = 'tier-separator-style';
+        if (!document.getElementById(sepStyleId)) {
+            const style = document.createElement('style');
+            style.id = sepStyleId;
+            style.innerHTML = `
+                .tier-separator {
+                    font-family: 'Comfortaa', cursive;
+                    font-size: 0.8rem;
+                    font-weight: 900;
+                    text-align: left;
+                    padding: 2px 0;
+                    margin: 12px 0 4px 0 !important;
+                    text-transform: uppercase;
+                    letter-spacing: 1.5px;
+                    border: none !important;
+                    background: transparent !important;
+                    box-shadow: none !important;
+                }
+                .tier-separator.fire-tier {
+                    color: var(--neon-fire) !important;
+                    text-shadow: 0 0 8px var(--neon-fire) !important;
+                }
+                .tier-separator.space-tier {
+                    color: #c084fc !important;
+                    text-shadow: 0 0 8px #a855f7 !important;
+                }
+                .tier-separator.earth-tier {
+                    color: #fbbf24 !important;
+                    text-shadow: 0 0 8px #d97706 !important;
+                }
+                .tier-separator.dead-tier {
+                    color: var(--steel) !important;
+                    text-shadow: 0 0 8px var(--steel) !important;
+                }
+                .tier-separator.stinky-tier {
+                    color: #a16207 !important;
+                    text-shadow: 0 0 8px #78350f !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
         function renderLeaderboard() {
             const container = document.getElementById('leaderboard-container');
             if (!container) return;
@@ -3271,8 +3315,23 @@ function getEraByExp(exp, userObj) {
                 `;
                     }
 
-                    // 7. Сборка всей 3D-клавиши
+                    // 🔥 7. Генерация аккуратных левых надписей с минимальным отступом
+                    let separatorHtml = '';
+                    if (rankNum === 1) {
+                        separatorHtml = `<div class="tier-separator fire-tier">🔥 Горячие парни</div>`;
+                    } else if (rankNum === 4) {
+                        separatorHtml = `<div class="tier-separator space-tier">🌌 Млечные короли</div>`;
+                    } else if (rankNum === 8) {
+                        separatorHtml = `<div class="tier-separator earth-tier">🐗 Авторитетные свинки</div>`;
+                    } else if (rankNum === 15) {
+                        separatorHtml = `<div class="tier-separator dead-tier">💀 Восставшие</div>`;
+                    } else if (rankNum === 20) {
+                        separatorHtml = `<div class="tier-separator stinky-tier">💩 Вонючки</div>`;
+                    }
+
+                    // Сборка всей 3D-клавиши
                     return `
+                ${separatorHtml}
                 <div class="leaderboard-row ${isFireTier ? 'fire-tier-row' : ''} ${isSpaceTier ? 'space-tier-row' : ''} ${isEarthTier ? 'earth-tier-row' : ''} ${isDeadTier ? 'dead-tier-row' : ''} ${isStinkyTier ? 'stinky-tier-row' : ''}" style="${isMe ? 'border-color: var(--neon-green) !important;' : ''}">
                     ${fireInnerHtml}
                     ${spaceInnerHtml}
@@ -4283,33 +4342,127 @@ async function openJudgeModal(fightId) {
     openModal('modal-judge-fight');
 }
 
-// 6. Подтверждение боя Борисом и АП ЭПОХИ
-async function confirmBattleWinner(fightId, winnerId, winnerName) {
-    let { data: fight } = await _supabase.from('battles').select('*').eq('id', fightId).single();
-    if (!fight) return;
-
-    await _supabase.from('battles').update({
-        status: 'resolved',
-        winner_id: winnerId,
-        winner_name: winnerName
-    }).eq('id', fightId);
-
-    // Если победил претендент, повышаем его Эпоху!
-    if (winnerId === fight.challenger_id && fight.target_era >= fight.challenger_era) {
-        const challenger = allUsers.find(u => u.id === fight.challenger_id);
-        if (challenger) {
-            challenger.era_id = Math.min(20, fight.target_era + 1);
-            const newEraObj = getEraById(challenger.era_id);
-            challenger.title = newEraObj.name;
-            await syncUserToSupabase(challenger);
+        // 🧮 ФУНКЦИЯ ПОШАГОВОГО СТАКАНИЯ EXP ПРИ ЛЕВЕЛАПЕ
+        function calculatePromotionExp(oldEra, newEra) {
+            let total = 0;
+            for (let e = oldEra + 1; e <= newEra; e++) {
+                if (e < 5) {
+                    total += 300; // Ниже 5 эпохи
+                } else if (e >= 5 && e <= 10) {
+                    total += 500; // 5-10 эпохи
+                } else if (e >= 11 && e <= 15) {
+                    total += 700; // 11-15 эпохи
+                } else {
+                    total += 1000; // 16-20 эпохи
+                }
+            }
+            return total;
         }
-    }
 
-    closeModal('modal-judge-fight');
-    alert(`👑 Победителем объявлен: ${winnerName}!`);
-    await loadAllPlayers();
-    loadBattlesLog();
-}
+        async function confirmBattleWinner(fightId, winnerId, winnerName) {
+            let { data: fight } = await _supabase.from('battles').select('*').eq('id', fightId).single();
+            if (!fight) return;
+
+            // Завершаем бой в базе
+            await _supabase.from('battles').update({
+                status: 'resolved',
+                winner_id: winnerId,
+                winner_name: winnerName
+            }).eq('id', fightId);
+
+            // Если победил претендент (Challenger), и соперник был равен или выше эпохой
+            if (winnerId === fight.challenger_id && fight.target_era >= fight.challenger_era) {
+                const challenger = allUsers.find(u => u.id === fight.challenger_id);
+                if (challenger) {
+                    const oldEra = challenger.era_id || 1;
+                    const newEra = Math.min(20, fight.target_era + 1);
+
+                    if (newEra > oldEra) {
+                        // Рассчитываем накопленный EXP за прохождение всех эпох!
+                        const earnedExp = calculatePromotionExp(oldEra, newEra);
+
+                        challenger.era_id = newEra;
+                        challenger.exp = (challenger.exp || 0) + earnedExp;
+                        
+                        const newEraObj = getEraById(newEra);
+                        challenger.title = newEraObj.name;
+
+                        // Навешиваем флаг Левелапа в базу, чтобы игрок увидел крутое окно при входе
+                        challenger.pending_levelup = true;
+                        challenger.last_levelup_old = oldEra;
+                        challenger.last_levelup_new = newEra;
+                        challenger.last_levelup_exp = earnedExp;
+
+                        await syncUserToSupabase(challenger);
+                    }
+                }
+            }
+
+            closeModal('modal-judge-fight');
+            alert(`👑 Победителем объявлен: ${winnerName}!`);
+            
+            await loadAllPlayers();
+            loadBattlesLog();
+            
+            // Если победитель прямо сейчас сидит на сайте
+            checkPendingLevelUp();
+        }
+
+                function checkPendingLevelUp() {
+            if (!currentUser) return;
+            
+            // Ищем актуальные данные о себе в списке загруженных игроков
+            const me = allUsers.find(u => u.id === currentUser.id);
+            if (me && me.pending_levelup) {
+                const oldEraObj = getEraById(me.last_levelup_old || 1);
+                const newEraObj = getEraById(me.last_levelup_new || 1);
+
+                const modal = document.getElementById('modal-levelup');
+                if (modal) {
+                    const box = modal.querySelector('.modal-box');
+                    box.style.borderColor = 'var(--gold)';
+                    box.innerHTML = `
+                        <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.2rem; text-shadow: 0 0 25px var(--neon-fire); margin-bottom: 5px;">🧬 ЭВОЛЮЦИЯ СОВЕРШИЛАСЬ!</h1>
+                        <h3 style="color: var(--neon-fire); margin: 10px 0; font-family: 'Comfortaa';" id="lu-era-name">
+                            ${oldEraObj.name} ➔ <span style="color: var(--gold);">${newEraObj.name}</span>
+                        </h3>
+                        
+                        <div style="background: rgba(0, 255, 102, 0.1); border: 1.5px solid var(--neon-green); border-radius: 12px; padding: 15px; margin: 20px 0;">
+                            <div style="font-size: 1.8rem; font-weight: 900; color: var(--neon-green); font-family: 'Comfortaa';">+${me.last_levelup_exp} EXP НАЧИСЛЕНО!</div>
+                            <div style="font-size: 0.75rem; color: var(--steel); margin-top: 5px; text-transform: uppercase;">Накопленный бонус за прохождение Эпох!</div>
+                        </div>
+
+                        <p style="font-size: 0.9rem; color: #fff; font-style: italic; line-height: 1.6; max-width: 480px; margin: 0 auto 20px;">
+                            «Древний связующий резонанс свершился! Твоя железная воля за столом сокрушила преграды. Твой пронатор окреп, а связки превратились в гранитные канаты. Добро пожаловать в высшую касту!»
+                        </p>
+                        
+                        <button class="brutal-btn" style="width: 100%; padding: 12px; font-weight: 900;" onclick="closeLevelUpModal()">ПРИНЯТЬ НОВУЮ СИЛУ</button>
+                    `;
+                    openModal('modal-levelup');
+                }
+            }
+        }
+
+        async function closeLevelUpModal() {
+            closeModal('modal-levelup');
+            if (currentUser) {
+                const me = allUsers.find(u => u.id === currentUser.id);
+                if (me) {
+                    // Сбрасываем флаг, чтобы окно больше не всплывало
+                    me.pending_levelup = false;
+                    delete me.last_levelup_old;
+                    delete me.last_levelup_new;
+                    delete me.last_levelup_exp;
+
+                    currentUser = me;
+                    localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
+                    await syncUserToSupabase(currentUser);
+                    updateExpTabUI();
+                    renderLeaderboard();
+                }
+            }
+        }
+
 
     </script>
 
