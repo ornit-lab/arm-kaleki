@@ -2755,57 +2755,84 @@ function renderLeaderboard() {
 // 🔮 JS ДВИЖОК ПРОФИЛЯ, GOD MODE И ИНСПЕКЦИИ
 // ====================================================
 
-// 1. Загрузка данных активного игрока в UI Профиля
+
+
+// ====================================================
+// 🪝⚡ ЖЕЛЕЗОБЕТОННОЕ СОХРАНЕНИЕ СТИЛЯ БОРЬБЫ
+// ====================================================
+
+// 1. Загрузка стиля в селект при открытии профиля
 function loadProfileToUI() {
     if (!currentUser) return;
 
     const era = getEraByExp(currentUser.exp);
-    document.getElementById('my-era-title').innerText = `Эпоха ${era.id}: ${era.name}`;
-    document.getElementById('my-exp-val').innerText = `${currentUser.exp} EXP`;
+    const eraTitleEl = document.getElementById('my-era-title');
+    const expValEl = document.getElementById('my-exp-val');
+    if (eraTitleEl) eraTitleEl.innerText = `Эпоха ${era.id}: ${era.name}`;
+    if (expValEl) expValEl.innerText = `${currentUser.exp} EXP`;
 
     const range = era.maxExp - era.minExp;
     const currentInEra = currentUser.exp - era.minExp;
     let fillPct = Math.min(100, Math.max(5, Math.floor((currentInEra / range) * 100)));
-    document.getElementById('my-exp-bar').style.width = `${fillPct}%`;
+    const expBarEl = document.getElementById('my-exp-bar');
+    if (expBarEl) expBarEl.style.width = `${fillPct}%`;
 
-    const charName = currentUser.name.toLowerCase();
-    document.getElementById('my-char-img').src = getCharImgPath(currentUser);
-    document.getElementById('my-short-title').innerText = currentUser.title || 'БОЕЦ ЛИГИ';
+    const charImgEl = document.getElementById('my-char-img');
+    const shortTitleEl = document.getElementById('my-short-title');
+    if (charImgEl && typeof getCharImgPath === 'function') charImgEl.src = getCharImgPath(currentUser);
+    if (shortTitleEl) shortTitleEl.innerText = currentUser.title || 'БОЕЦ ЛИГИ';
 
-    // 10-бальные оценки только для чтения
+    // 10-бальные оценки
     const d = currentUser.danger || 5;
     const s = currentUser.strength_rating || 5;
     const e = currentUser.endurance || 5;
 
-    document.getElementById('my-bar-danger').style.width = `${d * 10}%`;
-    document.getElementById('my-bar-strength').style.width = `${s * 10}%`;
-    document.getElementById('my-bar-endurance').style.width = `${e * 10}%`;
+    const barDanger = document.getElementById('my-bar-danger');
+    const barStrength = document.getElementById('my-bar-strength');
+    const barEndurance = document.getElementById('my-bar-endurance');
+    if (barDanger) barDanger.style.width = `${d * 10}%`;
+    if (barStrength) barStrength.style.width = `${s * 10}%`;
+    if (barEndurance) barEndurance.style.width = `${e * 10}%`;
 
-    document.getElementById('my-val-danger').innerText = `${d}/10`;
-    document.getElementById('my-val-strength').innerText = `${s}/10`;
-    document.getElementById('my-val-endurance').innerText = `${e}/10`;
+    const valDanger = document.getElementById('my-val-danger');
+    const valStrength = document.getElementById('my-val-strength');
+    const valEndurance = document.getElementById('my-val-endurance');
+    if (valDanger) valDanger.innerText = `${d}/10`;
+    if (valStrength) valStrength.innerText = `${s}/10`;
+    if (valEndurance) valEndurance.innerText = `${e}/10`;
 
-    // Стиль и Замеры
-    document.getElementById('my-style-select').value = (currentUser.style === 'Верх') ? 'Верх' : 'Крюк';
-    document.getElementById('my-forearm').value = currentUser.forearm || '';
-    document.getElementById('my-height').value = currentUser.height || '';
-    document.getElementById('my-weight').value = currentUser.weight || '';
-    document.getElementById('my-age').value = currentUser.age || '';
+    // 🔥 ФИКС СТИЛЯ БОРЬБЫ: Точная установка выпадающего списка
+    const styleSelect = document.getElementById('my-style-select');
+    if (styleSelect) {
+        const userStyle = currentUser.style || 'Крюк';
+        styleSelect.value = (userStyle === 'Верх') ? 'Верх' : 'Крюк';
+    }
 
-    document.getElementById('my-pron').value = currentUser.pronator || '';
-    document.getElementById('my-beam').value = currentUser.beam || '';
-    document.getElementById('my-pull').value = currentUser.pull || '';
-    document.getElementById('my-abduct').value = currentUser.abduct || '';
-    document.getElementById('my-curl').value = currentUser.curl || '';
+    // Замеры
+    if (document.getElementById('my-forearm')) document.getElementById('my-forearm').value = currentUser.forearm || '';
+    if (document.getElementById('my-height')) document.getElementById('my-height').value = currentUser.height || '';
+    if (document.getElementById('my-weight')) document.getElementById('my-weight').value = currentUser.weight || '';
+    if (document.getElementById('my-age')) document.getElementById('my-age').value = currentUser.age || '';
 
-    document.getElementById('my-lore-input').value = currentUser.lore || '';
+    if (document.getElementById('my-pron')) document.getElementById('my-pron').value = currentUser.pronator || '';
+    if (document.getElementById('my-beam')) document.getElementById('my-beam').value = currentUser.beam || '';
+    if (document.getElementById('my-pull')) document.getElementById('my-pull').value = currentUser.pull || '';
+    if (document.getElementById('my-abduct')) document.getElementById('my-abduct').value = currentUser.abduct || '';
+    if (document.getElementById('my-curl')) document.getElementById('my-curl').value = currentUser.curl || '';
+
+    if (document.getElementById('my-lore-input')) document.getElementById('my-lore-input').value = currentUser.lore || '';
 }
 
-// 2. Мягкое сохранение профиля БЕЗ уродских alert()
+// 2. Железобетонное сохранение стиля в память и Supabase
 async function saveSelfProfile() {
     if (!currentUser) return;
 
-    currentUser.style = document.getElementById('my-style-select').value;
+    // 🔥 Считываем выбранный стиль
+    const styleSelect = document.getElementById('my-style-select');
+    if (styleSelect) {
+        currentUser.style = styleSelect.value;
+    }
+
     currentUser.forearm = parseFloat(document.getElementById('my-forearm').value) || null;
     currentUser.height = parseFloat(document.getElementById('my-height').value) || null;
     currentUser.weight = parseFloat(document.getElementById('my-weight').value) || null;
@@ -2819,9 +2846,16 @@ async function saveSelfProfile() {
 
     currentUser.lore = document.getElementById('my-lore-input').value;
 
+    // 🔥 Обязательно обновляем игрока в глобальном массиве allUsers
+    const idx = allUsers.findIndex(u => u.id === currentUser.id);
+    if (idx !== -1) {
+        allUsers[idx] = { ...currentUser };
+    }
+
+    // Сохраняем локально и в облаке Supabase
     await saveUserData();
 
-    // 🔥 Плавное зеленое уведомление на самой кнопке!
+    // Зеленая кнопка
     const btn = document.getElementById('btn-save-profile');
     if (btn) {
         btn.classList.add('success-state');
