@@ -2113,6 +2113,12 @@
                 </svg>
                 МОЙ ПРОФИЛЬ
             </button>
+                        <!-- ВСТАВЛЯЕМ СЮДА В NAV-MENU -->
+            <button class="nav-btn" onclick="switchTab('fights', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 17.5L3 6M10 21l-7-3 3-7M9.5 6.5L21 18M14 3l7 3-3 7"/></svg>
+                ЛОГ БОЁВ И ВЫЗОВЫ
+            </button>
+
 
             <!-- 🏛️ Панель Архитектора -->
             <button class="nav-btn" id="god-btn" style="display: none; border-color: var(--gold); color: var(--gold);"
@@ -2297,6 +2303,39 @@
                 </svg>
                 МОЙ ПРОФИЛЬ И БИОМЕТРИЯ
             </div>
+
+         </section>
+
+                    <!-- ⚔️ ВКЛАДКА 4: ЛОГ БОЁВ И ВЫЗОВЫ -->
+        <section id="tab-fights" class="tab-section">
+            <div class="section-header">
+                <svg class="btn-icon-svg" style="color: var(--neon-red); margin-right: 10px; width: 24px; height: 24px;" viewBox="0 0 24 24"><path d="M14.5 17.5L3 6M10 21l-7-3 3-7M9.5 6.5L21 18M14 3l7 3-3 7"/></svg>
+                АРЕНА: ОФИЦИАЛЬНЫЙ ЛОГ БОЁВ И ВЫЗОВЫ
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+                <!-- Активные заявки -->
+                <div class="brutal-card" style="border-color: var(--neon-fire);">
+                    <h3 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1rem; margin-bottom: 12px;">
+                        ⏳ ЗАЯВКИ НА СУДЕЙСТВО (ОЖИДАЮТ АРХИТЕКТОРА)
+                    </h3>
+                    <div id="pending-fights-list" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="color: var(--steel); font-size: 0.85rem;">Загрузка вызовов...</div>
+                    </div>
+                </div>
+
+                <!-- История -->
+                <div class="brutal-card">
+                    <h3 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1rem; margin-bottom: 12px;">
+                        📜 ИСТОРИЯ ЗАВЕРШЁННЫХ СПАРРИНГОВ
+                    </h3>
+                    <div id="history-fights-list" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="color: var(--steel); font-size: 0.85rem;">История чиста...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
             <!-- Главная Сетка Профиля -->
             <div class="profile-main-grid">
@@ -2560,6 +2599,19 @@
         </div>
 
 
+            <!-- ⚖️ МОДАЛКА СУДЕЙСТВА БОРИСА -->
+    <div id="modal-judge-fight" class="modal-overlay">
+        <div class="modal-box" style="border-color: var(--gold); text-align: center;">
+            <h2 style="font-family: 'Comfortaa'; color: var(--gold); margin-bottom: 10px;">⚖️ РЕШЕНИЕ АРХИТЕКТОРА</h2>
+            <p style="font-size: 0.85rem; color: var(--steel); margin-bottom: 15px;" id="judge-fight-desc">Кто одержал победу за столом?</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;" id="judge-buttons-box"></div>
+
+            <button class="brutal-btn danger" style="width: 100%; margin-top: 15px;" onclick="closeModal('modal-judge-fight')">ОТМЕНА</button>
+        </div>
+    </div>
+
+
     </main>
 
     <!-- 🔐 МОДАЛКА ВХОДА И РЕГИСТРАЦИИ -->
@@ -2689,33 +2741,34 @@
             {id: 20, name: "Абсолютный чемпион", minExp: 20000, maxExp: 999999, phase: 7, lore: "Бог Стола. Покоритель всех Рейдовых Боссов. Главный Герой Мультиверса «ARM-KALEKI»!"}
         ];
 
-        // 24 Дефолтных Ветерана Лиги
+                // 24 Дефолтных Ветерана Лиги (Эпохи закреплены, EXP = 0)
         const defaultSeededPlayers = [
-            {id: "seed_timur", name: "Тимур", exp: 11000},
-            {id: "seed_egor", name: "Егор", exp: 9500},
-            {id: "seed_boris", name: "Борис", exp: 9500},
-            {id: "seed_vanya_1", name: "Ваня", exp: 8000},
-            {id: "seed_grisha", name: "Гриша", exp: 5800},
-            {id: "seed_german", name: "Герман", exp: 4800},
-            {id: "seed_artur", name: "Артур", exp: 4800},
-            {id: "seed_arseniy", name: "Арсений", exp: 2200},
-            {id: "seed_lesha_1", name: "Лёша", exp: 2200},
-            {id: "seed_stas", name: "Стас", exp: 2200},
-            {id: "seed_vanya_2", name: "Ваня", exp: 2200},
-            {id: "seed_maksim", name: "Максим", exp: 1600},
-            {id: "seed_lesha_2", name: "Лёша", exp: 1600},
-            {id: "seed_gera", name: "Гера", exp: 1600},
-            {id: "seed_efim", name: "Ефим", exp: 1100},
-            {id: "seed_gleb", name: "Глеб", exp: 1100},
-            {id: "seed_zhora", name: "Жора", exp: 1100},
-            {id: "seed_venya", name: "Веня", exp: 700},
-            {id: "seed_denis", name: "Денис", exp: 400},
-            {id: "seed_nikita", name: "Никита", exp: 150},
-            {id: "seed_andrey", name: "Андрей", exp: 150},
-            {id: "seed_igor", name: "Игорь", exp: 150},
-            {id: "seed_artem", name: "Артём", exp: 150},
-            {id: "seed_raf", name: "Раф", exp: 0}
+            {id: "seed_timur", name: "Тимур", era_id: 15, exp: 0},
+            {id: "seed_egor", name: "Егор", era_id: 13, exp: 0},
+            {id: "seed_boris", name: "Борис", era_id: 13, exp: 0},
+            {id: "seed_vanya_1", name: "Ваня", era_id: 12, exp: 0},
+            {id: "seed_grisha", name: "Гриша", era_id: 10, exp: 0},
+            {id: "seed_german", name: "Герман", era_id: 9, exp: 0},
+            {id: "seed_artur", name: "Артур", era_id: 9, exp: 0},
+            {id: "seed_arseniy", name: "Арсений", era_id: 6, exp: 0},
+            {id: "seed_lesha_1", name: "Лёша", era_id: 6, exp: 0},
+            {id: "seed_stas", name: "Стас", era_id: 6, exp: 0},
+            {id: "seed_vanya_2", name: "Ваня", era_id: 6, exp: 0},
+            {id: "seed_maksim", name: "Максим", era_id: 5, exp: 0},
+            {id: "seed_lesha_2", name: "Лёша", era_id: 5, exp: 0},
+            {id: "seed_gera", name: "Гера", era_id: 5, exp: 0},
+            {id: "seed_efim", name: "Ефим", era_id: 4, exp: 0},
+            {id: "seed_gleb", name: "Глеб", era_id: 4, exp: 0},
+            {id: "seed_zhora", name: "Жора", era_id: 4, exp: 0},
+            {id: "seed_venya", name: "Веня", era_id: 3, exp: 0},
+            {id: "seed_denis", name: "Денис", era_id: 2, exp: 0},
+            {id: "seed_nikita", name: "Никита", era_id: 1, exp: 0},
+            {id: "seed_andrey", name: "Андрей", era_id: 1, exp: 0},
+            {id: "seed_igor", name: "Игорь", era_id: 1, exp: 0},
+            {id: "seed_artem", name: "Артём", era_id: 1, exp: 0},
+            {id: "seed_raf", name: "Раф", era_id: 1, exp: 0}
         ];
+
 
         // ====================================================
         // 🚀 ИСПРАВЛЕННЫЙ СТАРТ И АВТО-ВХОД БЕЗ ВЫПАДЕНИЯ МОДАЛКИ
@@ -2746,21 +2799,23 @@
             setInterval(updateCooldownsUI, 1000);
         };
 
-        // ====================================================
-        // 🏆 ИСПРАВЛЕННАЯ ЗАГРУЗКА (РАЗДЕЛЕНИЕ ВАНЬ ПО УНИКАЛЬНОМУ ID)
+                // ====================================================
+        // 🏆 ОБНОВЛЕННАЯ ЗАГРУЗКА БОЙЦОВ (СОХРАНЕНИЕ ЭПОХ И СОРТИРОВКА)
         // ====================================================
         async function loadAllPlayers() {
             let {data, error} = await _supabase.from('profiles').select('*');
             const dbUsers = (data && !error) ? data : [];
 
-            // 1. Проходим по базовым ветеранам и связываем их с Supabase СТРОГО ПО ID
+            // 1. Проходим по ветеранам и сохраняем их родной era_id
             let mergedUsers = defaultSeededPlayers.map(p => {
-                const era = getEraByExp(p.exp);
+                const era = getEraById(p.era_id || 1);
 
-                // 🔥 Ищем совпадение СТРОГО ПО ID (seed_vanya_1 не будет путаться с seed_vanya_2!)
+                // Ищем совпадение строго по ID
                 const dbMatch = dbUsers.find(dbU => dbU.id === p.id);
 
                 if (dbMatch) {
+                    // Если у игрока из базы еще нет era_id — присваиваем дефолтный из списка ветеранов
+                    if (!dbMatch.era_id) dbMatch.era_id = p.era_id || 1;
                     return dbMatch;
                 } else {
                     return {
@@ -2768,7 +2823,8 @@
                         name: p.name,
                         username: '',
                         pin: '',
-                        exp: p.exp,
+                        era_id: p.era_id || 1, // 🔥 Фиксируем родную Эпоху!
+                        exp: p.exp || 0,
                         title: era.name,
                         forearm: null, height: null, weight: null, age: null,
                         pronator: null, beam: null, pull: null, abduct: null, curl: null,
@@ -2778,19 +2834,30 @@
                 }
             });
 
-            // 2. Добавляем новых игроков, зарегистрировавшихся под уникальными id
+            // 2. Добавляем новых зарегистрированных пользователей
             dbUsers.forEach(dbU => {
                 const alreadyInList = mergedUsers.some(mU => mU.id === dbU.id);
                 if (!alreadyInList) {
+                    if (!dbU.era_id) dbU.era_id = 1;
                     mergedUsers.push(dbU);
                 }
             });
 
             allUsers = mergedUsers;
-            allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
+
+            // 🔥 СОРТИРОВКА: Сначала высшая Эпоха (era_id), затем фарм EXP
+            allUsers.sort((a, b) => {
+                const eraA = Number(a.era_id) || 1;
+                const eraB = Number(b.era_id) || 1;
+                if (eraB !== eraA) {
+                    return eraB - eraA; // Кто в высшей Эпохе — тот выше в Топе
+                }
+                return (Number(b.exp) || 0) - (Number(a.exp) || 0); // При равной Эпохе — у кого больше EXP
+            });
 
             renderLeaderboard();
         }
+
 
 
 
@@ -2954,6 +3021,11 @@
             } else if (tabId === 'profile') {
                 loadProfileToUI();
             }
+               if (tabId === 'fights') {
+       loadBattlesLog(); // 🔥 Загружаем вызовы!
+   }
+   
+
         };
 
 
@@ -3016,7 +3088,7 @@
         // ====================================================
         // 🏆 УЛЬТИМАТИВНЫЙ ЛИДЕРБОРД: 3D-КЛАВИШИ + ВСЕ ЭФФЕКТЫ И ПУК
         // ====================================================
-        function renderLeaderboard() {
+                function renderLeaderboard() {
             const container = document.getElementById('leaderboard-container');
             if (!container) return;
 
@@ -3026,12 +3098,22 @@
             }
 
             try {
-                allUsers.sort((a, b) => (Number(b.exp) || 0) - (Number(a.exp) || 0));
+                // 🔥 Сортировка сначала по Эпохе (era_id), а затем по нафармленному EXP
+                allUsers.sort((a, b) => {
+                    const eraA = Number(a.era_id) || 1;
+                    const eraB = Number(b.era_id) || 1;
+                    if (eraB !== eraA) {
+                        return eraB - eraA;
+                    }
+                    return (Number(b.exp) || 0) - (Number(a.exp) || 0);
+                });
 
                 const html = allUsers.map((user, index) => {
                     if (!user) return '';
-                    const safeExp = Number(user.exp) || 0;
-                    const era = getEraByExp(safeExp);
+                    
+                    // 🔥 Главный фикс: берем Эпоху СТРОГО по era_id игрока!
+                    const era = (typeof getEraById === 'function') ? getEraById(user.era_id || 1) : erasData[0];
+                    
                     const rankNum = index + 1;
                     const rankBadgeText = `${rankNum}.`;
                     const isMe = currentUser && (user.id === currentUser.id || user.username === currentUser.username);
@@ -3044,6 +3126,7 @@
                     let isEarthTier = false;
                     let isDeadTier = false;
                     let isStinkyTier = false;
+
 
                     if (rankNum <= 3) {
                         rankFontClass = 'rank-top3';   // 🔥 1-3 места: Пылающая Лава
@@ -3893,7 +3976,158 @@ function inspectUser(id) {
         }
 
 
+// ====================================================
+// ⚔️ ЛОГИКА ТУРНИРНОГО ЛОГА И СУДЕЙСТВА
+// ====================================================
 
+// 1. Получение Эпохи СТРОГО по era_id (1-20)
+function getEraById(eraId) {
+    const safeId = Math.min(20, Math.max(1, parseInt(eraId) || 1));
+    return erasData.find(e => e.id === safeId) || erasData[0];
+}
+
+// 2. Универсальный считыватель Эпохи игрока
+function getPlayerEra(userObj) {
+    if (!userObj) return erasData[0];
+    const eraId = userObj.era_id || 1;
+    return getEraById(eraId);
+}
+
+// 3. Вызов на спарринг -> создание заявки
+async function startEarlySparring() {
+    if (!currentUser) return;
+    const targetId = document.getElementById('early-sparring-target').value;
+    const target = allUsers.find(u => u.id === targetId);
+    if (!target) return;
+
+    if (target.id === currentUser.id) {
+        alert("Нельзя бросить вызов самому себе!");
+        return;
+    }
+
+    const currentEra = getPlayerEra(currentUser);
+    const targetEra = getPlayerEra(target);
+
+    if (confirm(`Бросить вызов ${target.name} (${targetEra.id} Эпоха)? Заявка улетит в «Лог Боёв» на утверждение Борису.`)) {
+        const battleObj = {
+            id: 'btl_' + Date.now(),
+            challenger_id: currentUser.id,
+            challenger_name: currentUser.name,
+            challenger_era: currentEra.id,
+            target_id: target.id,
+            target_name: target.name,
+            target_era: targetEra.id,
+            status: 'pending',
+            winner_id: null,
+            winner_name: null,
+            created_at: new Date().toLocaleDateString('ru-RU') + ' ' + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'})
+        };
+
+        await _supabase.from('battles').insert([battleObj]);
+        alert("⚔️ Вызов отправлен в «Лог Боёв»! Ждём решения Бориса.");
+        loadBattlesLog();
+    }
+}
+
+// 4. Отрисовка вкладки «Лог Боёв»
+async function loadBattlesLog() {
+    const pendingContainer = document.getElementById('pending-fights-list');
+    const historyContainer = document.getElementById('history-fights-list');
+    if (!pendingContainer || !historyContainer) return;
+
+    let { data } = await _supabase.from('battles').select('*').order('created_at', { ascending: false });
+    const battles = data || [];
+
+    const isBoris = currentUser && (currentUser.name.toUpperCase() === 'БОРИС' || currentUser.username === 'boris');
+
+    // Активные заявки
+    const pending = battles.filter(b => b.status === 'pending');
+    if (pending.length === 0) {
+        pendingContainer.innerHTML = '<div style="color: var(--steel); font-style: italic; text-align: center; padding: 15px;">Активных вызовов нет...</div>';
+    } else {
+        pendingContainer.innerHTML = pending.map(b => `
+            <div class="brutal-card" style="border-color: var(--neon-fire); padding: 10px; margin: 0;">
+                <div style="font-size: 0.85rem; font-weight: 900; color: var(--gold); margin-bottom: 4px;">
+                    ⚔️ ${b.challenger_name} (${b.challenger_era} Эпоха) ➔ VS ➔ ${b.target_name} (${b.target_era} Эпоха)
+                </div>
+                <div style="font-size: 0.75rem; color: var(--steel);">Время: ${b.created_at}</div>
+                
+                ${isBoris ? `
+                    <button class="brutal-btn" style="margin-top: 8px; width: 100%; font-size: 0.75rem; background: linear-gradient(135deg, var(--gold), var(--neon-fire)); color:#000;" onclick="openJudgeModal('${b.id}')">
+                        ⚖️ РАЗРЕШИТЬ ИСХОД БОЯ (СУДЕЙСТВО)
+                    </button>
+                ` : `
+                    <div style="margin-top: 6px; font-size: 0.75rem; color: var(--neon-fire); font-style: italic;">⏳ Ожидает решения Бориса</div>
+                `}
+            </div>
+        `).join('');
+    }
+
+    // История
+    const history = battles.filter(b => b.status === 'resolved');
+    if (history.length === 0) {
+        historyContainer.innerHTML = '<div style="color: var(--steel); font-style: italic; text-align: center; padding: 15px;">История спаррингов чиста...</div>';
+    } else {
+        historyContainer.innerHTML = history.map(b => `
+            <div class="brutal-card" style="padding: 10px; margin: 0; border-color: #2a2a38;">
+                <div style="font-size: 0.85rem; color: #fff;">
+                    👑 Победитель: <strong style="color: var(--gold);">${b.winner_name}</strong>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--steel); margin-top: 2px;">
+                    Дуэль: ${b.challenger_name} vs ${b.target_name} | ${b.created_at}
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// 5. Модалка выбора победителя для Бориса
+async function openJudgeModal(fightId) {
+    let { data } = await _supabase.from('battles').select('*').eq('id', fightId).single();
+    if (!data) return;
+
+    const btnBox = document.getElementById('judge-buttons-box');
+    document.getElementById('judge-fight-desc').innerText = `Спарринг: ${data.challenger_name} (${data.challenger_era} Эпоха) против ${data.target_name} (${data.target_era} Эпоха)`;
+
+    btnBox.innerHTML = `
+        <button class="brutal-btn" style="padding: 12px; font-size: 0.9rem;" onclick="confirmBattleWinner('${data.id}', '${data.challenger_id}', '${data.challenger_name}')">
+            🏆 ПОБЕДИЛ ${data.challenger_name.toUpperCase()}
+        </button>
+        <button class="brutal-btn" style="padding: 12px; font-size: 0.9rem;" onclick="confirmBattleWinner('${data.id}', '${data.target_id}', '${data.target_name}')">
+            🏆 ПОБЕДИЛ ${data.target_name.toUpperCase()}
+        </button>
+    `;
+
+    openModal('modal-judge-fight');
+}
+
+// 6. Подтверждение боя Борисом и АП ЭПОХИ
+async function confirmBattleWinner(fightId, winnerId, winnerName) {
+    let { data: fight } = await _supabase.from('battles').select('*').eq('id', fightId).single();
+    if (!fight) return;
+
+    await _supabase.from('battles').update({
+        status: 'resolved',
+        winner_id: winnerId,
+        winner_name: winnerName
+    }).eq('id', fightId);
+
+    // Если победил претендент, повышаем его Эпоху!
+    if (winnerId === fight.challenger_id && fight.target_era >= fight.challenger_era) {
+        const challenger = allUsers.find(u => u.id === fight.challenger_id);
+        if (challenger) {
+            challenger.era_id = Math.min(20, fight.target_era + 1);
+            const newEraObj = getEraById(challenger.era_id);
+            challenger.title = newEraObj.name;
+            await syncUserToSupabase(challenger);
+        }
+    }
+
+    closeModal('modal-judge-fight');
+    alert(`👑 Победителем объявлен: ${winnerName}!`);
+    await loadAllPlayers();
+    loadBattlesLog();
+}
 
     </script>
 </body>
