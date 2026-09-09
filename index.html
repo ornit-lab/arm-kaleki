@@ -2769,7 +2769,7 @@ function loadProfileToUI() {
     document.getElementById('my-exp-bar').style.width = `${fillPct}%`;
 
     const charName = currentUser.name.toLowerCase();
-    document.getElementById('my-char-img').src = `char_${charName}.webp`;
+    document.getElementById('my-char-img').src = getCharImgPath(currentUser);
     document.getElementById('my-short-title').innerText = currentUser.title || 'БОЕЦ ЛИГИ';
 
     // 10-бальные оценки только для чтения
@@ -2889,7 +2889,7 @@ function inspectUser(id) {
         <div class="profile-main-grid">
             <div class="char-card-box">
                 <div class="char-short-title">${user.title || era.name}</div>
-                <img src="char_${charName}.webp" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
+                 <img src="${getCharImgPath(user)}" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
                 <div style="margin-top: 10px; font-weight: 900; color: var(--gold); font-size: 0.85rem; font-family: 'Comfortaa';">
                     Стиль: ${user.style || 'Крюк'}
                 </div>
@@ -3245,6 +3245,29 @@ function updateExpTabUI() {
         }, 100);
     }
 }
+
+
+// 🔥 УМНАЯ ФУНКЦИЯ ОПРЕДЕЛЕНИЯ ФАЙЛА ПЕРСОНАЖА (ИЗБЕГАЕМ 404 НА РУССКИХ ИМЕНАХ)
+function getCharImgPath(userObj) {
+    if (!userObj || !userObj.name) return 'char_default.webp';
+
+    const nameLower = userObj.name.toLowerCase().trim();
+    const usernameLower = (userObj.username || '').toLowerCase().trim();
+
+    // 1. Прямой маппинг популярных пацанов
+    if (nameLower === 'борис' || usernameLower === 'boris') return 'char_boris.webp';
+    if (nameLower === 'ваня' || usernameLower === 'vanya') return 'char_vanya.webp';
+    if (nameLower === 'никита' || usernameLower === 'nikita') return 'char_nikita.webp';
+    if (nameLower === 'веня' || usernameLower === 'venya') return 'char_venya.webp';
+
+    // 2. Если имя латиницей или есть username
+    if (userObj.username && userObj.username.trim() !== '') {
+        return `char_${userObj.username.toLowerCase().trim()}.webp`;
+    }
+
+    return 'char_default.webp';
+}
+
 
 
     </script>
