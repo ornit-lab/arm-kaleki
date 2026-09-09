@@ -3350,13 +3350,20 @@ function getEraByExp(exp, userObj) {
             checkCd('btn-train-sparring', 'cd-sparring', currentUser.cd_sparring);
         }
 
+                // ====================================================
+        // ⚡️ ИСПРАВЛЕННЫЙ СПИСОК КАНДИДАТОВ ДЛЯ СПАРРИНГА
+        // ====================================================
         function loadEarlySparringOptions() {
             const select = document.getElementById('early-sparring-target');
+            if(!select) return;
+            
             select.innerHTML = allUsers.map(u => {
-                const era = getEraByExp(u.exp);
+                // 🔥 Главный фикс: берем Эпоху СТРОГО по личному era_id конкретного бойца u!
+                const era = getEraById(u.era_id || 1);
                 return `<option value="${u.id}">${u.name} (Эпоха ${era.id}: ${era.name})</option>`;
             }).join('');
         }
+
 
         async function startEarlySparring() {
             const targetId = document.getElementById('early-sparring-target').value;
