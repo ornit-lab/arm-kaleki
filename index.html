@@ -3281,26 +3281,39 @@ function updateExpTabUI() {
 }
 
 
-// 🔥 УМНАЯ ФУНКЦИЯ ОПРЕДЕЛЕНИЯ ФАЙЛА ПЕРСОНАЖА (ИЗБЕГАЕМ 404 НА РУССКИХ ИМЕНАХ)
+// ====================================================
+// 🔥 ТОЧНЫЙ МАППИНГ: МОДЕЛЬКА ВАНИ ДЛЯ seed_vanya_2
+// ====================================================
 function getCharImgPath(userObj) {
     if (!userObj || !userObj.name) return 'char_default.webp';
 
+    const userId = userObj.id || '';
     const nameLower = userObj.name.toLowerCase().trim();
     const usernameLower = (userObj.username || '').toLowerCase().trim();
 
-    // 1. Прямой маппинг популярных пацанов
+    // 1. ВАНЯ №2 (Получает модельку char_vanya.webp!)
+    if (userId === 'seed_vanya_2') {
+        return 'char_vanya.webp';
+    }
+
+    // 2. ВАНЯ №1 (Пока на заглушке или char_vanya_1.webp)
+    if (userId === 'seed_vanya_1') {
+        return 'char_default.webp';
+    }
+
+    // 3. Остальные бойцы с готовыми модельками
     if (nameLower === 'борис' || usernameLower === 'boris') return 'char_boris.webp';
-    if (nameLower === 'ваня' || usernameLower === 'vanya') return 'char_vanya.webp';
     if (nameLower === 'никита' || usernameLower === 'nikita') return 'char_nikita.webp';
     if (nameLower === 'веня' || usernameLower === 'venya') return 'char_venya.webp';
 
-    // 2. Если имя латиницей или есть username
+    // 4. Поиск по юзернейму (если кто-то зарегистрировался под уникальным логином)
     if (userObj.username && userObj.username.trim() !== '') {
         return `char_${userObj.username.toLowerCase().trim()}.webp`;
     }
 
     return 'char_default.webp';
 }
+
 
 
 
