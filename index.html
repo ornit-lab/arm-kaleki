@@ -3457,33 +3457,44 @@ function loadProfileToUI() {
             }).join('');
         }
 
-        // 4. ИНСПЕКЦИЯ ДРУГИХ БОЙЦЕВ С ИСПРАВЛЕННОЙ МОДАЛКОЙ И 3D-КАРТОЧКАМИ
-        function inspectUser(id) {
-            const user = allUsers.find(u => u.id === id);
-            if (!user) return;
+        // ====================================================
+// 🔍 ИНСПЕКЦИЯ БОЙЦА (ВЗРЫВ ПРАВИЛЬНО НА ПОЛКЕ ОЦЕНОК)
+// ====================================================
+function inspectUser(id) {
+    const user = allUsers.find(u => u.id === id);
+    if (!user) return;
 
-            const era = getEraByExp(user.exp);
-            const charName = user.name.toLowerCase();
+    const era = getEraByExp(user.exp);
+    const charImgPath = (typeof getCharImgPath === 'function') ? getCharImgPath(user) : 'char_default.webp';
 
-            const inspectBox = document.getElementById('modal-inspect');
-            const boxContent = inspectBox.querySelector('.modal-box');
+    const inspectBox = document.getElementById('modal-inspect');
+    if (!inspectBox) return;
+    const boxContent = inspectBox.querySelector('.modal-box');
 
-            boxContent.innerHTML = `
+    const d = user.danger || 5;
+    const s = user.strength_rating || 5;
+    const e = user.endurance || 5;
+    const ex = user.explosion || 3;
+
+    boxContent.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h2 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1.1rem; margin: 0;">👤 ПАСПОРТ БОЙЦА: ${user.name}</h2>
             <button class="brutal-btn danger" style="padding: 4px 10px;" onclick="closeModal('modal-inspect')">✕</button>
         </div>
 
         <div class="profile-main-grid">
+            <!-- 1. Аниме Персонаж -->
             <div class="char-card-box">
                 <div class="char-short-title">${user.title || era.name}</div>
-                 <img src="${getCharImgPath(user)}" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
+                <img src="${charImgPath}" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
                 <div style="margin-top: 10px; font-weight: 900; color: var(--gold); font-size: 0.85rem; font-family: 'Comfortaa';">
                     Стиль: ${user.style || 'Крюк'}
                 </div>
             </div>
 
+            <!-- 2. Правая Колонка -->
             <div class="stats-column-box">
+                <!-- Оранжево-фиолетовая Колба EXP -->
                 <div class="gold-lava-card">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-family: 'Comfortaa';">
                         <span style="font-size: 0.85rem; font-weight: 900; color: var(--gold);">${era.id} Эпоха: ${era.name}</span>
@@ -3494,24 +3505,35 @@ function loadProfileToUI() {
                     </div>
                 </div>
 
+                <!-- ПОЛКА ОЦЕНОК (ВСЕ 4 ПОКАЗАТЕЛЯ ВМЕСТЕ) -->
                 <div class="ratings-shelf-card">
+                    <div style="font-size: 0.8rem; font-weight: 900; color: var(--gold); margin-bottom: 12px; font-family: 'Comfortaa';">
+                        🧪 ОЦЕНКА БОЙЦА (ОПРЕДЕЛЯЕТСЯ АРХИТЕКТОРОМ):
+                    </div>
                     <div class="shelf-flask-row">
                         <span class="shelf-label">☣️ Опасность:</span>
-                        <div class="shelf-tube-outer"><div class="shelf-liquid-danger" style="width: ${(user.danger || 5) * 10}%;"></div></div>
-                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${user.danger || 5}/10</span>
+                        <div class="shelf-tube-outer"><div class="shelf-liquid-danger" style="width: ${d * 10}%;"></div></div>
+                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${d}/10</span>
                     </div>
                     <div class="shelf-flask-row">
                         <span class="shelf-label" style="color: #ff0055;">💥 Сила:</span>
-                        <div class="shelf-tube-outer"><div class="shelf-liquid-strength" style="width: ${(user.strength_rating || 5) * 10}%;"></div></div>
-                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${user.strength_rating || 5}/10</span>
+                        <div class="shelf-tube-outer"><div class="shelf-liquid-strength" style="width: ${s * 10}%;"></div></div>
+                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${s}/10</span>
                     </div>
                     <div class="shelf-flask-row">
                         <span class="shelf-label" style="color: #00ff66;">🔋 Выносливость:</span>
-                        <div class="shelf-tube-outer"><div class="shelf-liquid-endurance" style="width: ${(user.endurance || 5) * 10}%;"></div></div>
-                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${user.endurance || 5}/10</span>
+                        <div class="shelf-tube-outer"><div class="shelf-liquid-endurance" style="width: ${e * 10}%;"></div></div>
+                        <span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${e}/10</span>
+                    </div>
+                    <!-- 🔥 ВЗРЫВ СТРОГО НА ПОЛКЕ 4-Й СТРОКОЙ! -->
+                    <div class="shelf-flask-row explosion-row">
+                        <span class="shelf-label" style="color: #ff5500; font-weight: 900;">💥 Взрыв:</span>
+                        <div class="shelf-tube-outer"><div class="shelf-liquid-explosion" style="width: ${(ex / 5) * 100}%;"></div></div>
+                        <span style="color: #ffcc00; font-weight: 900; font-size: 0.85rem;">${ex}/5</span>
                     </div>
                 </div>
 
+                <!-- 3D Замеры и Биометрия (включая Трицепс) -->
                 <div class="gold-lava-card">
                     <div class="gold-lava-title">📏 БИОМЕТРИЯ И СИЛОВЫЕ ПОКАЗАТЕЛИ</div>
                     <div class="stats-3d-grid" style="font-size: 0.8rem;">
@@ -3524,9 +3546,11 @@ function loadProfileToUI() {
                         <div class="stat-3d-card"><div class="stat-card-header">Натяжка</div><strong>${user.pull ? user.pull + ' кг' : '-'}</strong></div>
                         <div class="stat-3d-card"><div class="stat-card-header">Отведение</div><strong>${user.abduct ? user.abduct + ' кг' : '-'}</strong></div>
                         <div class="stat-3d-card"><div class="stat-card-header">Скручивание</div><strong>${user.curl ? user.curl + ' кг' : '-'}</strong></div>
+                        <div class="stat-3d-card"><div class="stat-card-header">Трицепс</div><strong>${user.triceps ? user.triceps + ' кг' : '-'}</strong></div>
                     </div>
                 </div>
 
+                <!-- Характеристика -->
                 <div class="lore-collapsible-box open">
                     <button class="lore-toggle-btn">📜 ХАРАКТЕРИСТИКА И СТИЛЬ</button>
                     <div class="lore-content-text" style="display: block;">
@@ -3534,19 +3558,11 @@ function loadProfileToUI() {
                     </div>
                 </div>
             </div>
-
-               <div class="shelf-flask-row explosion-row">
-       <span class="shelf-label" style="color: #ff5500; font-weight: 900;">💥 Взрыв:</span>
-       <div class="shelf-tube-outer"><div class="shelf-liquid-explosion" style="width: ${((user.explosion || 3) / 5) * 100}%;"></div></div>
-       <span style="color: #ffcc00; font-weight: 900; font-size: 0.85rem;">${user.explosion || 3}/5</span>
-   </div>
-   
-
         </div>
     `;
 
-            openModal('modal-inspect');
-        }
+    openModal('modal-inspect');
+}
 
         async function updateGodUser(id, field, val) {
             const user = allUsers.find(u => u.id === id);
