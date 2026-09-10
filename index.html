@@ -4183,8 +4183,8 @@ function getEraByExp(exp, userObj) {
         }
 
 
-        // ====================================================
-        // 🔥 ТОЧНЫЙ МАППИНГ: МОДЕЛЬКА ВАНИ ДЛЯ seed_vanya_2
+               // ====================================================
+        // 🔥 ТОЧНЫЙ МАППИНГ МОДЕЛЕК С УЧЕТОМ УНИКАЛЬНЫХ ID
         // ====================================================
         function getCharImgPath(userObj) {
             if (!userObj || !userObj.name) return 'char_default.webp';
@@ -4198,23 +4198,44 @@ function getEraByExp(exp, userObj) {
                 return 'char_vanya.webp';
             }
 
-            // 2. ВАНЯ №1 (Пока на заглушке или char_vanya_1.webp)
+            // 2. ВАНЯ №1 (Пока на заглушке)
             if (userId === 'seed_vanya_1') {
                 return 'char_default.webp';
             }
 
-            // 3. Остальные бойцы с готовыми модельками
+            // 3. 🔥 НОВЫЕ БОЙЦЫ (Строго по ID и имени)
+            if (userId === 'seed_timur' || nameLower === 'тимур' || usernameLower === 'timur') {
+                return 'char_timur.webp';
+            }
+            if (userId === 'seed_artur' || nameLower === 'артур' || usernameLower === 'artur') {
+                return 'char_artur.webp';
+            }
+            if (userId === 'seed_egor' || nameLower === 'егор' || usernameLower === 'egor') {
+                return 'char_egor.webp';
+            }
+            if (userId === 'seed_gleb' || nameLower === 'глеб' || usernameLower === 'gleb') {
+                return 'char_gleb.webp';
+            }
+            if (userId === 'seed_maksim' || nameLower === 'максим' || usernameLower === 'maksim') {
+                return 'char_maksim.webp';
+            }
+            if (userId === 'seed_german' || nameLower === 'герман' || usernameLower === 'german') {
+                return 'char_german.webp';
+            }
+
+            // 4. Остальные бойцы с готовыми модельками
             if (nameLower === 'борис' || usernameLower === 'boris') return 'char_boris.webp';
             if (nameLower === 'никита' || usernameLower === 'nikita') return 'char_nikita.webp';
             if (nameLower === 'веня' || usernameLower === 'venya') return 'char_venya.webp';
 
-            // 4. Поиск по юзернейму (если кто-то зарегистрировался под уникальным логином)
+            // 5. Поиск по юзернейму (для новых регистраций)
             if (userObj.username && userObj.username.trim() !== '') {
                 return `char_${userObj.username.toLowerCase().trim()}.webp`;
             }
 
             return 'char_default.webp';
         }
+
 
 
 // ====================================================
