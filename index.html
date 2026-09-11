@@ -5162,17 +5162,14 @@ let battleLoopId = null;
 let lastTimestamp = 0; // Для контроля скорости на разных мониторах
 
 
-        // ====================================================
-        // 🔥 ОФИЦИАЛЬНЫЙ РОСТЕР ИЗ 9 ЭТАПОВ ЛИГИ
-        // ====================================================
-               // ====================================================
-        // 🔥 ОФИЦИАЛЬНЫЙ РОСТЕР ЭТАПОВ (БЕЗ КОЛЯНА, С РОТАЦИЕЙ БОССОВ)
+                // ====================================================
+        // 🔥 РОСТЕР ЭТАПОВ С МЯГКИМИ ШТРАФАМИ ПРИ ПОРАЖЕНИИ
         // ====================================================
         const STAGES_DATA = [
             {
                 id: 'stage_1', mode: 'table',
                 tierName: 'STAGE 1: 💩 ВОНЮЧКИ',
-                bossName: 'Раф', bossAvatar: 'char_default.webp', bossEra: 1,
+                bossName: 'Раф', bossAvatar: 'char_raf.webp', bossEra: 1,
                 rewardExp: 35, rewardCrystals: 20, penaltyCrystals: 10,
                 basePower: 20, speed: 0.9, durationSec: 35,
                 lore: 'Первый экзамен за столом. Разминает связки.'
@@ -5205,7 +5202,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_5', mode: 'table',
                 tierName: 'STAGE 5: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (1/2)',
                 bossName: 'Ваня (AI)', bossAvatar: 'char_vanya.webp', bossEra: 12,
-                rewardExp: 170, rewardCrystals: 95, penaltyCrystals: 30,
+                rewardExp: 170, rewardCrystals: 95, penaltyCrystals: 15, // 🔥 Ваня: снижено до 15
                 basePower: 65, speed: 1.6, durationSec: 45,
                 lore: 'Наглый и коварный крюк Вани. Настоящая проверка столом!'
             },
@@ -5213,7 +5210,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_6', mode: 'table',
                 tierName: 'STAGE 6: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (2/2)',
                 bossName: 'Герман', bossAvatar: 'char_german.webp', bossEra: 12,
-                rewardExp: 210, rewardCrystals: 120, penaltyCrystals: 35,
+                rewardExp: 210, rewardCrystals: 120, penaltyCrystals: 20, // 🔥 Герман: снижено до 20
                 basePower: 75, speed: 1.8, durationSec: 45,
                 lore: 'Железный верх и непробиваемый трицепс.'
             },
@@ -5221,7 +5218,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_7', mode: 'smash',
                 tierName: 'STAGE 7: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (ФИНАЛ)',
                 bossName: 'Мастер Спида', bossAvatar: 'char_default.webp', bossEra: 10,
-                rewardExp: 250, rewardCrystals: 150, penaltyCrystals: 45,
+                rewardExp: 250, rewardCrystals: 150, penaltyCrystals: 30, // 🔥 Стас/Мастер Спида: снижено до 30
                 targetScore: 22, spawnRate: 850,
                 lore: 'Бешеная скорость кистей и опасные ловушки-бомбы!'
             },
@@ -5229,7 +5226,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_8', mode: 'osu',
                 tierName: 'STAGE 8: 🌌 МЛЕЧНЫЕ КОРОЛИ',
                 bossName: '🌀 Испытание Концентрации III', bossAvatar: 'char_artur.webp', bossEra: 13,
-                rewardExp: 350, rewardCrystals: 210, penaltyCrystals: 55,
+                rewardExp: 350, rewardCrystals: 210, penaltyCrystals: 35, // 🔥 Испытание 3: снижено до 35
                 targetScore: 8, spawnRate: 3500,
                 lore: 'Финальный ритм-штурм перед встречей с Лавовым Королём.'
             },
@@ -5237,7 +5234,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_9', mode: 'table',
                 tierName: 'STAGE 9: 🔥 ГОРЯЧИЕ ПАРНИ (ФИНАЛ БОСС)',
                 bossName: 'ТИМУР 🌋', bossAvatar: 'char_timur.webp', bossEra: 15,
-                rewardExp: 900, rewardCrystals: 500, penaltyCrystals: 100,
+                rewardExp: 900, rewardCrystals: 500, penaltyCrystals: 40, // 🔥 Тимур: снижено с 100 до 40!
                 basePower: 125, speed: 2.3, durationSec: 60, hasPhases: true,
                 lore: 'ФИНАЛ НА КИБЕР-СТОЛЕ. Расплавленный гранит. Сдвинь короля с места!'
             }
