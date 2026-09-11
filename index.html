@@ -2072,6 +2072,445 @@
                 filter: brightness(1.35) drop-shadow(0 0 12px #ffaa00);
             }
         }
+
+
+
+                /* ====================================================
+           🎮 СТИЛИ КИБЕР-АРЕНЫ "АРЕНА ПРОНАТОРОВ"
+           ==================================================== */
+        .cyber-battle-arena {
+            background: radial-gradient(circle at center, #1e1333 0%, #0a0612 100%);
+            border: 2px solid #a855f7;
+            border-bottom: 6px solid #4a044e;
+            border-radius: 18px;
+            padding: 25px 20px;
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            gap: 20px;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 30px rgba(168, 85, 247, 0.2);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .fighter-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .fighter-name {
+            font-family: 'Comfortaa', cursive;
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .fighter-big-avatar {
+            width: 140px;
+            height: 180px;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7));
+            transition: transform 0.15s ease;
+        }
+
+        .stamina-bar-holder {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 6px;
+            border: 1px solid #333;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .stamina-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff66, #ffcc00);
+            transition: width 0.2s ease;
+        }
+
+        .boss-stamina-fill {
+            background: linear-gradient(90deg, #ff0055, #ff5500);
+        }
+
+        .stamina-text {
+            font-size: 0.65rem;
+            color: var(--steel);
+            font-family: 'Comfortaa';
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .table-center-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .position-bar-outer {
+            width: 100%;
+            height: 16px;
+            background: #050508;
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .position-indicator-cursor {
+            position: absolute;
+            top: 0;
+            width: 18px;
+            height: 100%;
+            background: #fff;
+            box-shadow: 0 0 12px #fff, 0 0 20px var(--gold);
+            transform: translateX(-50%);
+            transition: left 0.1s linear;
+        }
+
+        .arm-clash-visual {
+            width: 220px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .clashing-hands-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));
+        }
+
+        /* OSU Ритм-Панель */
+        .rhythm-bar-container {
+            background: linear-gradient(145deg, #161220, #0c0814);
+            border: 2px solid #a855f7;
+            border-bottom: 5px solid #4a044e;
+            border-radius: 14px;
+            padding: 18px 20px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+            user-select: none;
+        }
+
+        .rhythm-bar-track {
+            width: 100%;
+            height: 38px;
+            background: #050509;
+            border: 2px solid #2a2a3e;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rhythm-sweet-spot {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background: rgba(0, 255, 102, 0.25);
+            border-left: 2px dashed #00ff66;
+            border-right: 2px dashed #00ff66;
+            box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.4);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .rhythm-cursor-slider {
+            position: absolute;
+            top: 2px;
+            width: 12px;
+            height: 30px;
+            background: linear-gradient(180deg, #fff, var(--gold));
+            border-radius: 4px;
+            box-shadow: 0 0 12px #fff, 0 0 18px var(--gold);
+            transform: translateX(-50%);
+        }
+
+        .hit-feedback-popup {
+            position: absolute;
+            top: 25%;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(0,0,0,0.9);
+            pointer-events: none;
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .hit-perfect { color: #00ff66; text-shadow: 0 0 20px #00ff66; transform: scale(1.3); opacity: 1; }
+        .hit-good { color: #ffcc00; text-shadow: 0 0 15px #ffcc00; transform: scale(1.1); opacity: 1; }
+        .hit-miss { color: #ff0055; text-shadow: 0 0 15px #ff0055; transform: scale(0.9); opacity: 1; }
+
+        @media (max-width: 850px) {
+            .cyber-battle-arena { grid-template-columns: 1fr; gap: 10px; }
+            .fighter-big-avatar { height: 120px; }
+        }
+
+
+                /* 🔴 КРАСНАЯ ЗОНА: ДИКИЙ УРОН */
+        .rhythm-red-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background: rgba(255, 0, 55, 0.35);
+            border-left: 2px solid #ff0055;
+            border-right: 2px solid #ff0055;
+            box-shadow: inset 0 0 15px rgba(255, 0, 55, 0.6), 0 0 10px rgba(255, 0, 55, 0.4);
+            transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), width 0.3s ease;
+        }
+
+        /* Эффект, когда стамина на нуле */
+        .stamina-exhausted {
+            animation: blinkExhausted 0.4s infinite alternate;
+            filter: grayscale(0.8) brightness(0.7);
+        }
+
+        @keyframes blinkExhausted {
+            0% { box-shadow: 0 0 5px #ff0055; border-color: #ff0055; }
+            100% { box-shadow: 0 0 25px #ff0000, inset 0 0 10px #ff0000; border-color: #ff5500; }
+        }
+
+        /* Бейдж с иконкой руки на аватаре бойца */
+        .fighter-era-icon-badge {
+            position: absolute;
+            bottom: -6px;
+            right: 10px;
+            background: rgba(10, 10, 16, 0.9);
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+        }
+
+        /* 🟡 ЖЕЛТАЯ ЗОНА-ЛОВУШКА (ЯД) */
+        .rhythm-trap-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background: rgba(255, 204, 0, 0.35);
+            border-left: 2px solid #ffcc00;
+            border-right: 2px solid #ffcc00;
+            box-shadow: inset 0 0 15px rgba(255, 204, 0, 0.6);
+            transition: left 0.4s ease, width 0.3s ease;
+        }
+
+                /* ====================================================
+           🎯 СТИЛИ ЧИСТОГО РЕЖИМА OSU!
+           ==================================================== */
+        .osu-playfield-arena {
+            width: 100%;
+            height: 420px;
+            background: radial-gradient(circle at center, #1c102b 0%, #08040f 100%);
+            border
+: 2px solid #00ff66;
+            border-bottom: 6px solid #006622;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+            cursor: crosshair;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.8), inset 0 0 35px rgba(0, 255, 102, 0.15);
+        }
+
+        .osu-countdown-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cinzel', cursive;
+            font-size: 2.8rem;
+            color: var(--gold);
+            font-weight: 900;
+            text-shadow: 0 0 25px var(--gold);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Одиночный кружок OSU */
+        .osu-circle {
+            position: absolute;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff0055, #880022);
+            border: 3px solid #fff;
+            box-shadow: 0 0 18px #ff0055;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: 'Comfortaa';
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+        }
+        .osu-circle:active {
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        /* Сужающееся кольцо (Approach Circle) */
+        .osu-approach-ring {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border: 2px solid #00ff66;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: osuApproachAnim 1s linear forwards;
+        }
+        @keyframes osuApproachAnim {
+            0% { transform: scale(2.2); opacity: 0.3; }
+            100% { transform: scale(1.0); opacity: 1; }
+        }
+
+                /* ⚪️ БЕЛЫЙ СЛАЙДЕР С SVG СТРЕЛКОЙ И ВОДЯНОЙ РЯБЬЮ */
+        .osu-white-slider-container {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .osu-white-slider-track {
+            width: 180px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .osu-white-slider-handle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffffff 0%, #e0e0e0 60%, rgba(255, 255, 255, 0.4) 100%);
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+            position: absolute;
+            top: -10px;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s ease;
+        }
+        .osu-white-slider-handle:active {
+            transform: scale(1.1);
+        }
+
+
+
+                /* Разрешаем кликам пролетать сквозь зоны и курсор */
+        .rhythm-sweet-spot, .rhythm-trap-zone, .rhythm-red-zone, .rhythm-cursor-slider {
+            pointer-events: none !important;
+        }
+
+
+                /* 🌊 БЕЛЫЕ ЭЛЛИПСЫ OSU (ВИБРАЦИЯ НА ВОДЕ) */
+        .osu-ellipse-bubble {
+            position: absolute;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(200, 220, 255, 0.4) 60%, rgba(255, 255, 255, 0.1) 100%);
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0b0813;
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease, opacity 0.2s ease;
+            user-select: none;
+        }
+
+        .osu-water-ring {
+            position: absolute;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: waterRippleAnim 1.6s ease-out infinite;
+        }
+
+        @keyframes waterRippleAnim {
+            0% { transform: scale(0.6); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* 🔨 СЕТКА "СЛОМАЙ КИСТЬ" */
+        .smash-arena-board {
+            width: 100%;
+            max-width: 440px;
+            height: 420px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 12px;
+            background: radial-gradient(circle, #1a1429 0%, #090610 100%);
+            border: 2px solid #ff5500;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(255, 85, 0, 0.2);
+            user-select: none;
+        }
+
+        .smash-slot {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px dashed #443355;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: background 0.15s ease;
+        }
+        .smash-slot:active {
+            background: rgba(255, 85, 0, 0.15);
+        }
+
+        .smash-content {
+            font-size: 2.5rem;
+            animation: popUpHand 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));
+        }
+        @keyframes popUpHand {
+            0% { transform: scale(0.3) translateY(30px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+
     </style>
 </head>
 
@@ -2111,6 +2550,16 @@
                 </svg>
                 ОПЫТ И ТРЕНИРОВКИ
             </button>
+
+                        <!-- 🎮 ВКЛАДКА: АРЕНА ПРОНАТОРОВ -->
+            <button class="nav-btn" style="border-color: #a855f7; color: #c084fc;" onclick="switchTab('minigame', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="6" width="20" height="12" rx="2"/>
+                    <path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/>
+                </svg>
+                АРЕНА ПРОНАТОРОВ 🎮
+            </button>
+
 
             <!-- 👤 Мой профиль -->
             <button class="nav-btn" onclick="switchTab('profile', this)">
@@ -2296,6 +2745,178 @@
                 </div>
             </div>
         </section>
+        <!-- 🎮 ВКЛАДКА: АРЕНА ПРОНАТОРОВ 2.0 -->
+        <section id="tab-minigame" class="tab-section">
+            
+            <!-- ШАПКА ИГРЫ -->
+            <div style="display: flex; justify-content: space-between; align-items: center; background: linear-gradient(145deg, #181224, #0d0816); border: 2px solid #a855f7; border-radius: 14px; padding: 12px 20px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <h2 style="font-family: 'Cinzel'; color: var(--gold); font-size: 1.2rem; margin: 0;">АРЕНА ПРОНАТОРОВ: КИБЕР-СТОЛ 2.0</h2>
+                    <p style="font-size: 0.75rem; color: var(--steel); margin: 0; font-family: 'Comfortaa';">Кибер-стол (Статы) ⚔️ Чистый OSU! (Скилл и Реакция)</p>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <div style="background: rgba(168, 85, 247, 0.15); border: 1.5px solid #a855f7; border-radius: 10px; padding: 6px 14px; font-family: 'Comfortaa'; font-weight: 900; color: #c084fc; font-size: 0.9rem;">
+                        💎 <span id="game-crystals-val">0</span> КРИСТАЛЛОВ
+                    </div>
+
+                    <button class="brutal-btn" style="padding: 6px 12px; font-size: 0.75rem; background: linear-gradient(135deg, #a855f7, #6b21a8); color:#fff;" onclick="openExchangeModal()">
+                        ОБМЕН EXP ⚡
+                    </button>
+                    <button class="brutal-btn" style="padding: 6px 12px; font-size: 0.75rem; background: linear-gradient(135deg, var(--gold), var(--neon-fire));" onclick="openShopModal()">
+                        🛒 БУСТЕРЫ
+                    </button>
+                </div>
+            </div>
+
+            <!-- 1. КАРТА ЭТАПОВ (8 БОЙЦОВ С КУЛДАУНАМИ ПО 10 МИНУТ) -->
+            <div id="minigame-stage-screen">
+                <h3 style="color: var(--gold); font-family: 'Comfortaa'; margin-bottom: 15px; font-size: 1rem;">🗺️ ШТУРМ КИБЕР-ЛИГИ:</h3>
+                <div id="stages-grid-container" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            </div>
+
+            <!-- 2. БОЕВОЙ ЭКРАН (РЕЖИМ 1: ЛОВЛЯ ЗОН НА СТОЛЕ) -->
+            <div id="minigame-battle-screen" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <button class="brutal-btn danger" style="padding: 6px 14px; font-size: 0.8rem;" onclick="exitBattle()">
+                        🏳️ СДАТЬСЯ / В МЕНЮ
+                    </button>
+                    <div id="battle-mode-badge" style="background: var(--neon-fire); color:#fff; font-family: 'Comfortaa'; font-size: 0.8rem; font-weight: 900; padding: 4px 12px; border-radius: 20px;">
+                        РЕЖИМ: КИБЕР-СТОЛ
+                    </div>
+                </div>
+
+                <div class="cyber-battle-arena" id="battle-arena-box">
+                    <!-- ЛЕВЫЙ БОЕЦ -->
+                    <div class="fighter-side player-side">
+                        <div class="fighter-name" id="player-battle-name">ВЫ</div>
+                        <div style="position: relative;">
+                            <img id="player-battle-avatar" src="char_default.webp" class="fighter-big-avatar">
+                            <div class="fighter-era-icon-badge">
+                                <img id="player-battle-hand-icon" src="arm_icon_1.webp" style="width: 24px; height: 24px; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="stamina-bar-holder">
+                            <div class="stamina-bar-fill" id="player-stamina-bar" style="width: 100%;"></div>
+                        </div>
+                        <span class="stamina-text" id="player-stamina-text">СТАМИНА: 100%</span>
+                    </div>
+
+                    <!-- ЦЕНТР: СТОЛ И СЦЕПКА РУК -->
+                    <div class="table-center-zone">
+                        <div class="position-bar-outer">
+                            <div class="position-indicator-cursor" id="position-cursor" style="left: 50%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--steel); font-family: 'Comfortaa'; margin-top: 4px; width: 100%;">
+                            <span>ТВОЯ ПОДУШКА</span>
+                            <span>ЦЕНТР</span>
+                            <span>ПОДУШКА ВРАГА</span>
+                        </div>
+
+                        <div class="arm-clash-visual" id="arm-clash-element">
+                            <div class="hand-svg-wrapper" id="hands-interactive-angle" style="transform: rotate(0deg); transition: transform 0.15s ease;">
+                                <svg viewBox="0 0 240 160" class="clashing-hands-svg">
+                                    <rect x="20" y="145" width="200" height="12" fill="#5c3a21" rx="3" stroke="#8c5a3c" stroke-width="2"/>
+                                    <path d="M 30 140 Q 70 80 110 90" stroke="var(--neon-fire)" stroke-width="16" stroke-linecap="round" fill="none"/>
+                                    <circle cx="110" cy="90" r="10" fill="var(--gold)"/>
+                                    <path d="M 210 140 Q 170 80 130 90" stroke="#a855f7" stroke-width="16" stroke-linecap="round" fill="none"/>
+                                    <circle cx="130" cy="90" r="10" fill="#c084fc"/>
+                                    <circle cx="120" cy="90" r="6" fill="#fff" filter="drop-shadow(0 0 8px var(--gold))"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div id="hit-feedback-floating" class="hit-feedback-popup"></div>
+                    </div>
+
+                    <!-- ПРАВЫЙ БОЕЦ -->
+                    <div class="fighter-side boss-side">
+                        <div class="fighter-name" id="boss-battle-name">ТИМУР</div>
+                        <div style="position: relative;">
+                            <img id="boss-battle-avatar" src="char_default.webp" class="fighter-big-avatar">
+                            <div class="fighter-era-icon-badge">
+                                <img id="boss-battle-hand-icon" src="arm_icon_15.webp" style="width: 24px; height: 24px; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="stamina-bar-holder">
+                            <div class="stamina-bar-fill boss-stamina-fill" id="boss-stamina-bar" style="width: 100%;"></div>
+                        </div>
+                        <span class="stamina-text" id="boss-stamina-text">СТАМИНА: 100%</span>
+                    </div>
+                </div>
+
+                <!-- ТАЙМИНГ-ПАНЕЛЬ КИБЕР-СТОЛА -->
+                <div class="rhythm-bar-container" id="rhythm-control-zone" onclick="handleRhythmClick()">
+                    <div class="rhythm-bar-track" id="rhythm-track-box">
+                        <div class="rhythm-sweet-spot" id="rhythm-green-zone" style="left: 20%; width: 14%;"></div>
+                        <div class="rhythm-trap-zone" id="rhythm-yellow-zone" style="left: 45%; width: 9%;"></div>
+                        <div class="rhythm-red-zone" id="rhythm-red-zone" style="left: 70%; width: 7%;"></div>
+                        <div class="rhythm-cursor-slider" id="rhythm-moving-cursor" style="left: 0%;"></div>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <span style="font-family: 'Comfortaa'; font-size: 0.8rem; color: var(--gold); font-weight: 900;">
+                            ⚡ КЛИКАЙ В ЗЕЛЕНУЮ 🟢 ИЛИ КРАСНУЮ 🔴! ИЗБЕГАЙ ЖЕЛТУЮ ЛОВУШКУ 🟡! (ИЛИ ПРОБЕЛ) ⚡
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+                       <!-- 3. БОЕВОЙ ЭКРАН (РЕЖИМ 2: ЧИСТЫЙ OSU! НА КАСАНИЯ И СВАЙПЫ) -->
+            <div id="minigame-osu-screen" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <button class="brutal-btn danger" style="padding: 6px 14px; font-size: 0.8rem;" onclick="exitOsuBattle()">
+                        🏳️ СДАТЬСЯ
+                    </button>
+                    <div style="display:flex; align-items:center; gap: 15px;">
+                        <div style="color: var(--gold); font-family: 'Comfortaa'; font-size: 0.9rem; font-weight:900;">
+                            ОЧКИ OSU: <span id="osu-score-val" style="color:#00ff66;">0</span> / <span id="osu-score-target">1000</span>
+                        </div>
+                        <div style="color: #ff0055; font-family: 'Comfortaa'; font-size: 0.9rem; font-weight:900;">
+                            ОШИБКИ: <span id="osu-misses-val">0</span> / 3
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OSU ИГРОВОЕ ПОЛЕ -->
+                <div id="osu-playfield" class="osu-playfield-arena">
+                    <div id="osu-center-countdown" class="osu-countdown-text">READY...</div>
+                </div>
+            </div>
+
+            <!-- 🔥 ВОТ СЮДА ВСТАВЛЯЕТСЯ НОВЫЙ РЕЖИМ 3: "СЛОМАЙ КИСТЬ" -->
+            <div id="minigame-smash-screen" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <button class="brutal-btn danger" style="padding: 6px 14px; font-size: 0.8rem;" onclick="exitSmashBattle()">
+                        🏳️ СДАТЬСЯ
+                    </button>
+                    <div style="display:flex; align-items:center; gap: 15px;">
+                        <div style="color: var(--gold); font-family: 'Comfortaa'; font-size: 0.9rem; font-weight:900;">
+                            СЛОМАНО: <span id="smash-score-val" style="color:#00ff66;">0</span> / <span id="smash-score-target">20</span>
+                        </div>
+                        <div style="color: #ff0055; font-family: 'Comfortaa'; font-size: 0.9rem; font-weight:900;">
+                            ОШИБКИ: <span id="smash-misses-val">0</span> / 3
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Сетка 3х3 для кистей -->
+                <div class="smash-arena-board" id="smash-grid-board"></div>
+            </div>
+
+        </section>
+
+
+        <!-- 🏆 МОДАЛКА ЛИДЕРБОРДА КРИСТАЛЛОВ -->
+        <div id="modal-crystal-leaderboard" class="modal-overlay">
+            <div class="modal-box" style="border-color: #00ff66; max-width: 500px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
+                    <h2 style="font-family: 'Cinzel'; color: #00ff66; margin: 0;">💎 ТОП ПО КРИСТАЛЛАМ ВОЛИ</h2>
+                    <button class="brutal-btn danger" style="padding: 4px 10px;" onclick="closeModal('modal-crystal-leaderboard')">✕</button>
+                </div>
+                <div id="crystal-leaderboard-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto;">
+                    Загрузка топа...
+                </div>
+            </div>
+        </div>
 
         <!-- 👤 ВКЛАДКА 3: МОЙ ПРОФИЛЬ -->
         <section id="tab-profile" class="tab-section">
@@ -2750,6 +3371,41 @@
     </div>
 
 
+
+        <!-- 🛒 МОДАЛКА МАГАЗИНА БУСТЕРОВ -->
+    <div id="modal-game-shop" class="modal-overlay">
+        <div class="modal-box" style="border-color: #a855f7; max-width: 650px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
+                <h2 style="font-family: 'Cinzel'; color: var(--gold); margin: 0;">🛒 ЛАВКА АЛХИМИИ ПРОНАТОРА</h2>
+                <button class="brutal-btn danger" style="padding: 4px 10px;" onclick="closeModal('modal-game-shop')">✕</button>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--steel); margin-bottom: 15px;">Покупай мощные зелья за Кристаллы Воли для штурма боссов!</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;" id="boosters-shop-list">
+                <!-- Карточки зелий -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚡️ МОДАЛКА ОБМЕНА EXP НА КРИСТАЛЛЫ -->
+    <div id="modal-exchange-crystals" class="modal-overlay">
+        <div class="modal-box" style="border-color: var(--neon-fire); max-width: 400px; text-align: center;">
+            <h3 style="font-family: 'Comfortaa'; color: var(--gold); margin-bottom: 10px;">💎 ОБМЕН EXP НА КРИСТАЛЛЫ</h3>
+            <p style="font-size: 0.85rem; color: var(--steel); margin-bottom: 15px;">Курс: 100 Реального EXP = 50 Кристаллов Воли</p>
+            
+            <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border: 1.5px solid #333; margin-bottom: 15px;">
+                <div style="color: var(--steel); font-size: 0.8rem;">Твой текущий баланс:</div>
+                <div style="color: #a855f7; font-size: 1.2rem; font-weight: 900;" id="exchange-user-exp">0 EXP</div>
+            </div>
+
+            <button class="brutal-btn" style="width: 100%; margin-bottom: 8px;" onclick="exchangeExpToCrystals(100, 50)">ОБМЕНЯТЬ 100 EXP ➔ 50 💎</button>
+            <button class="brutal-btn" style="width: 100%; margin-bottom: 8px;" onclick="exchangeExpToCrystals(500, 270)">ОБМЕНЯТЬ 500 EXP ➔ 270 💎 (+20 Бонус!)</button>
+            <button class="brutal-btn danger" style="width: 100%; background: #222;" onclick="closeModal('modal-exchange-crystals')">ОТМЕНА</button>
+        </div>
+    </div>
+
+
+
     <script>
         // ====================================================
         // 🔐 НАСТРОЙКИ SUPABASE И СТРУКТУРА ЭПОХ
@@ -3079,6 +3735,13 @@ function getEraByExp(exp, userObj) {
                if (tabId === 'fights') {
        loadBattlesLog(); // 🔥 Загружаем вызовы!
    }
+
+               if (tabId === 'leaderboard') renderLeaderboard();
+            else if (tabId === 'exp') { updateExpTabUI(); loadEarlySparringOptions(); }
+            else if (tabId === 'profile') loadProfileToUI();
+            else if (tabId === 'fights') loadBattlesLog();
+            else if (tabId === 'minigame') initMinigameUI(); // 🔥 Инициализируем Арену Пронаторов!
+
    
 
         };
@@ -4484,6 +5147,959 @@ async function openJudgeModal(fightId) {
             }
         }
 
+
+        
+
+// ====================================================
+// 🎮 КИБЕР-АРЕНА 3.0: ХАРДКОР С 3 РЕЖИМАМИ, НАКАЗАНИЯМИ И OSU-ЭЛИТОЙ
+// ====================================================
+
+let userCrystals = 0;
+let playerUnlockedStage = 1;
+let playerStageCds = {};
+let currentBattleBoss = null;
+let battleLoopId = null;
+
+        // ====================================================
+        // 🔥 ОФИЦИАЛЬНЫЙ РОСТЕР ИЗ 9 ЭТАПОВ ЛИГИ
+        // ====================================================
+        const STAGES_DATA = [
+            {
+                id: 'stage_1', mode: 'table',
+                tierName: 'STAGE 1: 💩 ВОНЮЧКИ',
+                bossName: 'Раф', bossAvatar: 'char_default.webp', bossEra: 1,
+                rewardExp: 35, rewardCrystals: 20, penaltyCrystals: 10,
+                basePower: 20, speed: 0.9, durationSec: 35,
+                lore: 'Первый экзамен за столом. Разминает связки.'
+            },
+            {
+                id: 'stage_2', mode: 'osu',
+                tierName: 'STAGE 2: 💩 ВОНЮЧКИ',
+                bossName: '🌀 Испытание Концентрации I', bossAvatar: 'char_default.webp', bossEra: 2,
+                rewardExp: 55, rewardCrystals: 35, penaltyCrystals: 15,
+                targetScore: 6, spawnRate: 4200,
+                lore: 'Ритм-барьер. Пройди волны белых вибраций для допуска к боссу.'
+            },
+            {
+                id: 'stage_3', mode: 'smash',
+                tierName: 'STAGE 3: 💀 ВОССТАВШИЕ',
+                bossName: 'Арсений', bossAvatar: 'char_arseniy.webp', bossEra: 6,
+                rewardExp: 90, rewardCrystals: 55, penaltyCrystals: 20,
+                targetScore: 16, spawnRate: 950, // Ускоренная кисть
+                lore: 'Оборотень дворовых столов. Режим: СЛОМАЙ КИСТЬ!'
+            },
+            {
+                id: 'stage_4', mode: 'osu',
+                tierName: 'STAGE 4: 💀 ВОССТАВШИЕ',
+                bossName: '🌀 Испытание Концентрации II', bossAvatar: 'char_default.webp', bossEra: 7,
+                rewardExp: 130, rewardCrystals: 75, penaltyCrystals: 25,
+                targetScore: 7, spawnRate: 3900,
+                lore: 'Ритм-проверка связок перед элитой.'
+            },
+            {
+                id: 'stage_5', mode: 'table',
+                tierName: 'STAGE 5: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (1/2)',
+                bossName: 'Ваня (AI)', bossAvatar: 'char_vanya.webp', bossEra: 12,
+                rewardExp: 170, rewardCrystals: 95, penaltyCrystals: 30,
+                basePower: 65, speed: 1.6, durationSec: 45,
+                lore: 'Наглый и коварный крюк Вани. Настоящая проверка столом!'
+            },
+            {
+                id: 'stage_6', mode: 'table',
+                tierName: 'STAGE 6: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (2/2)',
+                bossName: 'Герман', bossAvatar: 'char_german.webp', bossEra: 12,
+                rewardExp: 210, rewardCrystals: 120, penaltyCrystals: 35,
+                basePower: 75, speed: 1.8, durationSec: 45,
+                lore: 'Железный верх и непробиваемый трицепс.'
+            },
+            {
+                id: 'stage_7', mode: 'smash',
+                tierName: 'STAGE 7: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (ФИНАЛ)',
+                bossName: 'Стас', bossAvatar: 'char_default.webp', bossEra: 10,
+                rewardExp: 250, rewardCrystals: 150, penaltyCrystals: 45,
+                targetScore: 22, spawnRate: 850,
+                lore: 'Бешеная скорость кистей и опасные ловушки-бомбы!'
+            },
+            {
+                id: 'stage_8', mode: 'osu',
+                tierName: 'STAGE 8: 🌌 МЛЕЧНЫЕ КОРОЛИ',
+                bossName: '🌀 Испытание Концентрации III', bossAvatar: 'char_artur.webp', bossEra: 13,
+                rewardExp: 350, rewardCrystals: 210, penaltyCrystals: 55,
+                targetScore: 8, spawnRate: 3500,
+                lore: 'Финальный ритм-штурм перед встречей с Лавовым Королём.'
+            },
+            {
+                id: 'stage_9', mode: 'table',
+                tierName: 'STAGE 9: 🔥 ГОРЯЧИЕ ПАРНИ (ФИНАЛ БОСС)',
+                bossName: 'ТИМУР 🌋', bossAvatar: 'char_timur.webp', bossEra: 15,
+                rewardExp: 900, rewardCrystals: 500, penaltyCrystals: 100,
+                basePower: 125, speed: 2.3, durationSec: 60, hasPhases: true,
+                lore: 'ФИНАЛ НА КИБЕР-СТОЛЕ. Расплавленный гранит. Сдвинь короля с места!'
+            }
+        ];
+
+// Состояние Стола (Режим 1)
+let gameState = {
+    inBattle: false, position: 50, playerStamina: 100, bossStamina: 100,
+    cursorPos: 0, cursorSpeed: 1.8, cursorDirection: 1,
+    greenLeft: 20, greenWidth: 14, yellowLeft: 45, yellowWidth: 9, redLeft: 70, redWidth: 7,
+    isExhausted: false, exhaustedTimer: 0, combo: 0, zoneShiftCounter: 0,
+    battleTimeLeft: 0, timerInterval: null, playerStats: {}
+};
+
+
+// Загрузка прогресса
+function loadPlayerProgress() {
+    if (!currentUser) return;
+    playerUnlockedStage = currentUser.unlocked_stage || 1;
+    userCrystals = currentUser.crystals || 0;
+    playerStageCds = currentUser.stage_cds || {};
+}
+
+// Рендер карты этапов с постоянным лидербордом снизу
+function initMinigameUI() {
+    loadPlayerProgress();
+    const grid = document.getElementById('stages-grid-container');
+    const crystalEl = document.getElementById('game-crystals-val');
+    if (crystalEl) crystalEl.innerText = userCrystals;
+    if (!grid) return;
+
+    const now = Date.now();
+
+    let html = STAGES_DATA.map((st, index) => {
+        const stageNum = index + 1;
+        const isUnlocked = stageNum <= playerUnlockedStage;
+        const isCompleted = stageNum < playerUnlockedStage;
+
+        const cdTime = playerStageCds[st.id] || 0;
+        const isOnCd = now < cdTime;
+        const remSec = Math.max(0, Math.ceil((cdTime - now) / 1000));
+        const cdMin = Math.floor(remSec / 60);
+        const cdSec = remSec % 60;
+
+        let modeBadge = st.mode === 'osu' ? '🎯 OSU ЭЛЛИПСЫ' : (st.mode === 'smash' ? '🔨 СЛОМАЙ КИСТЬ' : '🤼 КИБЕР-СТОЛ');
+        let modeColor = st.mode === 'osu' ? '#00ff66' : (st.mode === 'smash' ? '#ff5500' : '#a855f7');
+
+        let actionHtml = '';
+        if (!isUnlocked) {
+            actionHtml = `<div style="color: var(--steel); font-size: 0.75rem; font-weight: bold;">🔒 ЗАКРЫТО</div>`;
+        } else if (isOnCd) {
+            actionHtml = `<div style="color: var(--neon-fire); font-size: 0.75rem; font-weight: 900;">⏳ КД: ${cdMin}м ${cdSec}с</div>`;
+        } else {
+            actionHtml = `<button class="brutal-btn" style="padding: 10px 18px;" onclick="startStageGame('${st.id}')">${isCompleted ? '⚔️ ПОВТОРИТЬ' : '⚔️ В БОЙ'}</button>`;
+        }
+
+        return `
+            <div class="brutal-card" style="border-color: ${isUnlocked ? modeColor : '#333'}; opacity: ${isUnlocked && !isOnCd ? '1' : '0.6'}; display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 50px; height: 50px; border-radius: 50%; background: #0a0a0e; border: 2px solid ${isUnlocked ? 'var(--gold)' : '#555'}; display: flex; align-items: center; justify-content: center;">
+                        <img src="arm_icon_${st.bossEra}.webp" style="width: 30px; height: 30px; object-fit: contain;" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                    </div>
+                    <div>
+                        <div style="font-size: 0.7rem; color: var(--gold); font-weight: 900;">${st.tierName} <span style="color: ${modeColor};">[${modeBadge}]</span></div>
+                        <h3 style="color: #fff; font-family: 'Comfortaa'; font-size: 1rem; margin: 2px 0;">${st.bossName}</h3>
+                        <div style="font-size: 0.75rem; color: var(--steel); font-style: italic;">${st.lore}</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="text-align: right; font-size: 0.75rem;">
+                        <div style="color: #a855f7; font-weight: bold;">+${st.rewardExp} EXP | +${st.rewardCrystals} 💎</div>
+                        <div style="color: #ff0055; font-size: 0.65rem;">Штраф при проигрыше: -${st.penaltyCrystals} 💎</div>
+                    </div>
+                    ${actionHtml}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    // 🔥 ДОБАВЛЯЕМ ВСТРОЕННЫЙ ИГРОВОЙ ЛИДЕРБОРД В САМОМ НИЗУ
+    html += `
+        <div class="brutal-card" style="border-color: #00ff66; margin-top: 30px; padding: 20px;">
+            <h3 style="font-family: 'Cinzel'; color: #00ff66; margin-bottom: 15px; font-size: 1.1rem;">💎 ТОП ФАРМЕРОВ КРИСТАЛЛОВ ВОЛИ</h3>
+            <div id="embedded-crystal-leaderboard" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- Динамически заполняется -->
+            </div>
+        </div>
+    `;
+
+    grid.innerHTML = html;
+    renderEmbeddedCrystalLeaderboard();
+}
+
+        // ====================================================
+        // 💎 ВСТРОЕННЫЙ ТОП КРИСТАЛЛОВ (3D КАРТОЧКИ + SVG ИКОНКИ)
+        // ====================================================
+        function renderEmbeddedCrystalLeaderboard() {
+            const box = document.getElementById('embedded-crystal-leaderboard');
+            if (!box) return;
+
+            const sorted = [...allUsers].sort((a, b) => (Number(b.crystals) || 0) - (Number(a.crystals) || 0));
+
+            box.innerHTML = sorted.slice(0, 10).map((u, idx) => {
+                const era = getEraById(u.era_id || 1);
+                const isMe = currentUser && u.id === currentUser.id;
+                const rankNum = idx + 1;
+
+                // Топовые места получают элитные цвета рамки
+                let rankBorder = '#2a2a3e';
+                let rankShadow = 'none';
+                if (rankNum === 1) { rankBorder = 'var(--gold)'; rankShadow = '0 0 15px rgba(255, 204, 0, 0.4)'; }
+                else if (rankNum === 2) { rankBorder = '#c0c0c0'; rankShadow = '0 0 12px rgba(192, 192, 192, 0.3)'; }
+                else if (rankNum === 3) { rankBorder = '#cd7f32'; rankShadow = '0 0 12px rgba(205, 127, 50, 0.3)'; }
+
+                return `
+                    <div style="background: linear-gradient(145deg, #14141c, #0a0a0f); border: 2px solid ${isMe ? 'var(--neon-green)' : rankBorder}; border-bottom: 4px solid ${isMe ? '#008833' : '#111'}; border-radius: 12px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6), ${rankShadow}; transform: translateY(0); transition: transform 0.2s ease;">
+                        <div style="display:flex; align-items:center; gap: 14px;">
+                            <span style="font-weight: 900; color: ${rankNum === 1 ? 'var(--gold)' : 'var(--steel)'}; font-size: 1rem; font-family: 'Cinzel'; width: 24px;">#${rankNum}</span>
+                            
+                            <div style="width: 36px; height: 36px; background: #000; border-radius: 50%; border: 1.5px solid var(--gold); display:flex; align-items:center; justify-content:center;">
+                                <img src="arm_icon_${era.id}.webp" style="width:22px; height:22px; object-fit:contain;" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                            </div>
+
+                            <div>
+                                <div style="font-size: 0.9rem; font-weight: bold; color: #fff; font-family: 'Comfortaa';">
+                                    ${u.name} ${isMe ? '<span style="color:var(--neon-green); font-size:0.75rem; background:rgba(0,255,102,0.1); padding:2px 6px; border-radius:4px; border:1px solid var(--neon-green);">ВЫ</span>' : ''}
+                                </div>
+                                <div style="font-size: 0.7rem; color: var(--steel); font-family: 'Comfortaa';">${era.name}</div>
+                            </div>
+                        </div>
+
+                        <!-- 💎 SVG ИКОНКА КРИСТАЛЛА С СВЕЧЕНИЕМ -->
+                        <div style="display: flex; align-items: center; gap: 8px; background: rgba(0, 255, 102, 0.08); border: 1.5px solid rgba(0, 255, 102, 0.3); padding: 6px 12px; border-radius: 10px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff66" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px #00ff66);">
+                                <path d="M6 3h12l4 6-10 13L2 9z"></path>
+                                <path d="M11 3L2 9l8 13"></path>
+                                <path d="M13 3l9 6-8 13"></path>
+                            </svg>
+                            <span style="font-size: 1rem; font-weight: 900; color: #00ff66; font-family: 'Comfortaa';">${u.crystals || 0}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+// Распределение по режимам
+function startStageGame(stageId) {
+    const st = STAGES_DATA.find(s => s.id === stageId);
+    if (!st) return;
+
+    const cd = playerStageCds[st.id] || 0;
+    if (Date.now() < cd) { alert("Боец на кулдауне!"); return; }
+
+    currentBattleBoss = st;
+
+    if (st.mode === 'table') startTableBattle(st);
+    else if (st.mode === 'osu') startOsuBattle(st);
+    else if (st.mode === 'smash') startSmashBattle(st);
+}
+
+        // ====================================================
+        // ⚡️ КОНВЕРТАЦИЯ РЕАЛЬНЫХ ЗАМЕРОВ ИЗ ПРОФИЛЯ В БОЕВЫЕ СТАТЫ
+        // ====================================================
+        function calcPlayerCombatStats() {
+            if (!currentUser) return { power: 55, maxStamina: 120, staminaRegen: 1.2, sweetBonus: 0, burst: 8 };
+
+            const pron = Number(currentUser.pronator) || 0;
+            const beam = Number(currentUser.beam) || 0;
+            const curl = Number(currentUser.curl) || 0;
+            const triceps = Number(currentUser.triceps) || 0;
+
+            const power = Math.round(55 + (pron * 0.5) + (beam * 0.4) + (curl * 0.3) + (triceps * 0.2));
+            const endRating = currentUser.endurance || 5;
+            const maxStamina = 100 + (endRating * 10);
+            const staminaRegen = 0.9 + (endRating * 0.15);
+            const burst = (currentUser.explosion || 3) * 4;
+
+            let sweetBonus = 0;
+            if (currentUser.style === 'Универсал') sweetBonus = 4;
+            if (currentUser.style === 'Верх') sweetBonus = 3;
+
+            return { power, maxStamina, staminaRegen, sweetBonus, burst };
+        }
+
+
+// ====================================================
+// 🤼 РЕЖИМ 1: КИБЕР-СТОЛ (Затяжной, комфортный)
+// ====================================================
+function startTableBattle(st) {
+    const pStats = calcPlayerCombatStats();
+
+    gameState.inBattle = true;
+    gameState.position = 50;
+    gameState.playerStamina = pStats.maxStamina;
+    gameState.bossStamina = 100;
+    gameState.cursorPos = 0;
+    gameState.cursorDirection = 1;
+    gameState.cursorSpeed = st.speed * 1.2;
+    gameState.isExhausted = false;
+    gameState.exhaustedTimer = 0;
+    gameState.combo = 0;
+    gameState.zoneShiftCounter = 0;
+    gameState.battleTimeLeft = st.durationSec || 45;
+    gameState.playerStats = pStats;
+
+    document.getElementById('minigame-stage-screen').style.display = 'none';
+    document.getElementById('minigame-osu-screen').style.display = 'none';
+    document.getElementById('minigame-smash-screen').style.display = 'none';
+    document.getElementById('minigame-battle-screen').style.display = 'block';
+
+    document.getElementById('player-battle-name').innerText = currentUser ? currentUser.name : 'ВЫ';
+    document.getElementById('boss-battle-name').innerText = st.bossName;
+    
+    const myEra = getPlayerEra ? getPlayerEra(currentUser) : {id: 1};
+    document.getElementById('player-battle-avatar').src = getCharImgPath(currentUser);
+    document.getElementById('player-battle-hand-icon').src = `arm_icon_${myEra.id}.webp`;
+    document.getElementById('boss-battle-avatar').src = st.bossAvatar;
+    document.getElementById('boss-battle-hand-icon').src = `arm_icon_${st.bossEra}.webp`;
+
+    randomizeZones();
+
+    if (battleLoopId) cancelAnimationFrame(battleLoopId);
+    battleLoopId = requestAnimationFrame(gameLoopUpdate);
+
+    if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+    gameState.timerInterval = setInterval(() => {
+        if (!gameState.inBattle) return;
+        gameState.battleTimeLeft--;
+        if (gameState.battleTimeLeft <= 0) {
+            clearInterval(gameState.timerInterval);
+            endBattle(gameState.position >= 50); // Кто ближе к победе по истечении времени
+        }
+    }, 1000);
+}
+
+function randomizeZones() {
+    gameState.greenWidth = 15;
+    gameState.greenLeft = Math.floor(Math.random() * 30) + 5;
+    gameState.yellowWidth = 10;
+    gameState.yellowLeft = gameState.greenLeft + gameState.greenWidth + 4;
+    gameState.redWidth = 7;
+    gameState.redLeft = gameState.yellowLeft + gameState.yellowWidth + 4;
+    if (gameState.redLeft + gameState.redWidth > 92) gameState.redLeft = 75;
+
+    const g = document.getElementById('rhythm-green-zone');
+    const y = document.getElementById('rhythm-yellow-zone');
+    const r = document.getElementById('rhythm-red-zone');
+    if(g) { g.style.left = `${gameState.greenLeft}%`; g.style.width = `${gameState.greenWidth}%`; }
+    if(y) { y.style.left = `${gameState.yellowLeft}%`; y.style.width = `${gameState.yellowWidth}%`; }
+    if(r) { r.style.left = `${gameState.redLeft}%`; r.style.width = `${gameState.redWidth}%`; }
+}
+
+function gameLoopUpdate() {
+    if (!gameState.inBattle) return;
+
+    gameState.cursorPos += gameState.cursorSpeed * gameState.cursorDirection;
+    if (gameState.cursorPos >= 100) { gameState.cursorPos = 100; gameState.cursorDirection = -1; }
+    else if (gameState.cursorPos <= 0) { gameState.cursorPos = 0; gameState.cursorDirection = 1; }
+
+    const curEl = document.getElementById('rhythm-moving-cursor');
+    if (curEl) curEl.style.left = `${gameState.cursorPos}%`;
+
+    if (gameState.isExhausted) {
+        gameState.exhaustedTimer -= 0.016;
+        if (gameState.exhaustedTimer <= 0) gameState.isExhausted = false;
+    } else {
+        gameState.playerStamina = Math.min(gameState.playerStats.maxStamina, gameState.playerStamina + (gameState.playerStats.staminaRegen * 0.12));
+    }
+
+    let push = (currentBattleBoss.basePower * 0.0018);
+    if (gameState.isExhausted) push *= 2.2;
+    gameState.position = Math.max(0, Math.min(100, gameState.position - push));
+
+    updateBattleUI();
+
+    if (gameState.position >= 96) { endBattle(true); return; }
+    if (gameState.position <= 4) { endBattle(false); return; }
+
+    battleLoopId = requestAnimationFrame(gameLoopUpdate);
+}
+
+function handleRhythmClick() {
+    if (!gameState.inBattle || gameState.isExhausted) return;
+    const cur = gameState.cursorPos;
+
+    // Красная
+    if (cur >= gameState.redLeft && cur <= gameState.redLeft + gameState.redWidth) {
+        triggerHitFeedback('🔴 В МЯСО! x2.5', 'hit-perfect');
+        gameState.position = Math.min(100, gameState.position + (gameState.playerStats.power * 0.1) * 2.5);
+        gameState.playerStamina -= 20;
+        checkStaminaDepletion();
+        onSuccessfulHit();
+        return;
+    }
+    // Желтая ловушка
+    if (cur >= gameState.yellowLeft && cur <= gameState.yellowLeft + gameState.yellowWidth) {
+        triggerHitFeedback('🟡 ЛОВУШКА! (-25 СТАМИНЫ)', 'hit-miss');
+        gameState.playerStamina -= 25;
+        checkStaminaDepletion();
+        return;
+    }
+    // Зеленая
+    if (cur >= gameState.greenLeft && cur <= gameState.greenLeft + gameState.greenWidth) {
+        triggerHitFeedback('🟢 КОНТРОЛЬ', 'hit-good');
+        gameState.position = Math.min(100, gameState.position + (gameState.playerStats.power * 0.05));
+        gameState.playerStamina -= 6;
+        checkStaminaDepletion();
+        onSuccessfulHit();
+        return;
+    }
+    // Промах
+    triggerHitFeedback('ПРОМАХ', 'hit-miss');
+    gameState.position = Math.max(0, gameState.position - 4);
+    gameState.playerStamina -= 10;
+    checkStaminaDepletion();
+}
+
+function checkStaminaDepletion() {
+    if (gameState.playerStamina <= 0) {
+        gameState.playerStamina = 0;
+        gameState.isExhausted = true;
+        gameState.exhaustedTimer = 2.0;
+        triggerHitFeedback('⚡ РУКА ЗАБИТА! ⚡', 'hit-miss');
+    }
+}
+
+function onSuccessfulHit() {
+    gameState.zoneShiftCounter++;
+    if (gameState.zoneShiftCounter >= 3) {
+        gameState.zoneShiftCounter = 0;
+        randomizeZones();
+    }
+}
+
+function updateBattleUI() {
+    const pos = document.getElementById('position-cursor');
+    if (pos) pos.style.left = `${gameState.position}%`;
+
+    const hands = document.getElementById('hands-interactive-angle');
+    if (hands) hands.style.transform = `rotate(${(gameState.position - 50) * 0.45}deg)`;
+
+    const pPct = Math.round((gameState.playerStamina / gameState.playerStats.maxStamina) * 100);
+    const pBar = document.getElementById('player-stamina-bar');
+    if (pBar) pBar.style.width = `${pPct}%`;
+    document.getElementById('player-stamina-text').innerText = `СТАМИНА: ${pPct}% (${gameState.battleTimeLeft}с)`;
+}
+
+
+               // ====================================================
+        // 🎯 РЕЖИМ 2: ПУТЬ ВОСХОЖДЕНИЯ (OSU С БЕЛЫМИ СЛАЙДЕРАМИ И SVG)
+        // ====================================================
+        let osuState = {
+            active: false, score: 0, targetScore: 6, misses: 0, maxMisses: 3, nextExpectedNum: 1
+        };
+
+        function startOsuBattle(st) {
+            osuState.active = true;
+            osuState.score = 0;
+            osuState.targetScore = st.targetScore || 6;
+            osuState.misses = 0;
+            osuState.nextExpectedNum = 1;
+
+            document.getElementById('minigame-stage-screen').style.display = 'none';
+            document.getElementById('minigame-battle-screen').style.display = 'none';
+            document.getElementById('minigame-smash-screen').style.display = 'none';
+            document.getElementById('minigame-osu-screen').style.display = 'block';
+
+            document.getElementById('osu-score-val').innerText = '0';
+            document.getElementById('osu-score-target').innerText = osuState.targetScore;
+            document.getElementById('osu-misses-val').innerText = '0';
+
+            const arena = document.getElementById('osu-playfield');
+            arena.innerHTML = '<div id="osu-center-countdown" class="osu-countdown-text">READY...</div>';
+
+            const countdown = document.getElementById('osu-center-countdown');
+            countdown.style.opacity = '1';
+
+            setTimeout(() => {
+                countdown.innerText = 'GO!';
+                setTimeout(() => {
+                    countdown.style.opacity = '0';
+                    spawnOsuVariedWave(st.spawnRate || 4200);
+                }, 500);
+            }, 700);
+        }
+
+        function spawnOsuVariedWave(waveTime) {
+            if (!osuState.active) return;
+            const arena = document.getElementById('osu-playfield');
+            if (!arena) return;
+
+            arena.querySelectorAll('.osu-ellipse-bubble, .osu-white-slider-container').forEach(el => el.remove());
+
+            const randType = Math.random();
+            if (randType < 0.35) {
+                spawnSinglePlainEllipse(arena, waveTime);
+            } else if (randType < 0.7) {
+                spawnOsuWhiteSlider(arena, waveTime);
+            } else {
+                spawnOsuSequencePattern(arena, waveTime);
+            }
+        }
+
+        function spawnSinglePlainEllipse(arena, waveTime) {
+            const el = document.createElement('div');
+            el.className = 'osu-ellipse-bubble';
+            const x = Math.floor(Math.random() * (arena.clientWidth - 160)) + 80;
+            const y = Math.floor(Math.random() * (arena.clientHeight - 160)) + 80;
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.innerHTML = `<div class="osu-water-ring"></div>`;
+
+            let clicked = false;
+            let timer = null;
+
+            el.onmousedown = (e) => {
+                e.stopPropagation();
+                if (clicked || !osuState.active) return;
+                clicked = true;
+                if (timer) clearTimeout(timer);
+                el.style.transform = 'translate(-50%, -50%) scale(1.3)';
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 150);
+
+                osuState.score++;
+                document.getElementById('osu-score-val').innerText = osuState.score;
+                if (osuState.score >= osuState.targetScore) endOsuBattle(true);
+                else setTimeout(() => spawnOsuVariedWave(waveTime), 500);
+            };
+
+            timer = setTimeout(() => {
+                if (!clicked && osuState.active) {
+                    clicked = true;
+                    if (el.parentNode) el.remove();
+                    registerOsuMiss();
+                    setTimeout(() => spawnOsuVariedWave(waveTime), 600);
+                }
+            }, waveTime);
+            arena.appendChild(el);
+        }
+
+        // 🔥 ПЛАВНЫЙ БЕЛЫЙ СЛАЙДЕР СО СТРЕЛКОЙ
+        function spawnOsuWhiteSlider(arena, waveTime) {
+            const container = document.createElement('div');
+            container.className = 'osu-white-slider-container';
+            const x = Math.floor(Math.random() * (arena.clientWidth - 220)) + 110;
+            const y = Math.floor(Math.random() * (arena.clientHeight - 120)) + 60;
+            container.style.left = `${x}px`;
+            container.style.top = `${y}px`;
+
+            const track = document.createElement('div');
+            track.className = 'osu-white-slider-track';
+
+            const handle = document.createElement('div');
+            handle.className = 'osu-white-slider-handle';
+            handle.innerHTML = `
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+                <div class="osu-water-ring" style="top:-10px; left:-10px; right:-10px; bottom:-10px;"></div>
+            `;
+
+            track.appendChild(handle);
+            container.appendChild(track);
+
+            let isDragging = false;
+            let completed = false;
+            let timer = null;
+
+            handle.addEventListener('mousedown', (e) => { e.stopPropagation(); isDragging = true; });
+            handle.addEventListener('touchstart', (e) => { e.stopPropagation(); isDragging = true; }, { passive: false });
+
+            const onMove = (e) => {
+                if (!isDragging || completed || !osuState.active) return;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const rect = track.getBoundingClientRect();
+                const offsetX = Math.max(0, Math.min(130, clientX - rect.left - 25));
+                handle.style.left = `${offsetX}px`;
+
+                if (offsetX >= 115) {
+                    completed = true; isDragging = false;
+                    window.removeEventListener('mousemove', onMove);
+                    window.removeEventListener('touchmove', onMove);
+                    if (timer) clearTimeout(timer);
+                    container.style.opacity = '0';
+                    setTimeout(() => container.remove(), 200);
+
+                    osuState.score++;
+                    document.getElementById('osu-score-val').innerText = osuState.score;
+                    if (osuState.score >= osuState.targetScore) endOsuBattle(true);
+                    else setTimeout(() => spawnOsuVariedWave(waveTime), 500);
+                }
+            };
+
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('touchmove', onMove, { passive: false });
+            window.addEventListener('mouseup', () => { isDragging = false; });
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            timer = setTimeout(() => {
+                if (!completed && osuState.active) {
+                    completed = true; isDragging = false;
+                    window.removeEventListener('mousemove', onMove);
+                    window.removeEventListener('touchmove', onMove);
+                    if (container.parentNode) container.remove();
+                    registerOsuMiss();
+                    setTimeout(() => spawnOsuVariedWave(waveTime), 600);
+                }
+            }, waveTime + 600);
+
+            arena.appendChild(container);
+        }
+
+        function spawnOsuSequencePattern(arena, waveTime) {
+            osuState.nextExpectedNum = 1;
+            let leftInSeq = 3, seqDone = false, timer = null;
+            const elements = [];
+
+            for (let i = 1; i <= 3; i++) {
+                const el = document.createElement('div');
+                el.className = 'osu-ellipse-bubble';
+                const x = Math.floor(Math.random() * (arena.clientWidth - 160)) + 80;
+                const y = Math.floor(Math.random() * (arena.clientHeight - 160)) + 80;
+                el.style.left = `${x}px`; el.style.top = `${y}px`;
+                el.innerHTML = `<span style="position:relative; z-index:2;">${i}</span><div class="osu-water-ring"></div>`;
+
+                el.onmousedown = (e) => {
+                    e.stopPropagation();
+                    if (seqDone || !osuState.active) return;
+                    if (i === osuState.nextExpectedNum) {
+                        osuState.nextExpectedNum++;
+                        el.style.transform = 'translate(-50%, -50%) scale(1.3)';
+                        el.style.opacity = '0';
+                        setTimeout(() => el.remove(), 150);
+                        leftInSeq--;
+                        if (leftInSeq === 0) {
+                            seqDone = true; if (timer) clearTimeout(timer);
+                            osuState.score++;
+                            document.getElementById('osu-score-val').innerText = osuState.score;
+                            if (osuState.score >= osuState.targetScore) endOsuBattle(true);
+                            else setTimeout(() => spawnOsuVariedWave(waveTime), 600);
+                        }
+                    } else {
+                        seqDone = true; if (timer) clearTimeout(timer);
+                        elements.forEach(item => item.remove());
+                        registerOsuMiss();
+                        setTimeout(() => spawnOsuVariedWave(waveTime), 700);
+                    }
+                };
+                elements.push(el);
+                arena.appendChild(el);
+            }
+
+            timer = setTimeout(() => {
+                if (!seqDone && osuState.active) {
+                    seqDone = true;
+                    elements.forEach(item => item.remove());
+                    registerOsuMiss();
+                    setTimeout(() => spawnOsuVariedWave(waveTime), 600);
+                }
+            }, waveTime + 500);
+        }
+
+        function registerOsuMiss() {
+            if (!osuState.active) return;
+            osuState.misses++;
+            document.getElementById('osu-misses-val').innerText = osuState.misses;
+            if (osuState.misses >= osuState.maxMisses) endOsuBattle(false);
+        }
+
+        function endOsuBattle(isWin) { osuState.active = false; endBattle(isWin); }
+        function exitOsuBattle() { osuState.active = false; exitBattle(); }
+
+
+        // ====================================================
+        // 🔨 РЕЖИМ 3: "СЛОМАЙ КИСТЬ" (+10% СКОРОСТИ СПАВНА)
+        // ====================================================
+        let smashState = {
+            active: false, score: 0, targetScore: 16, misses: 0, maxMisses: 3, spawnInterval: null
+        };
+
+        function startSmashBattle(st) {
+            smashState.active = true;
+            smashState.score = 0;
+            smashState.targetScore = st.targetScore || 16;
+            smashState.misses = 0;
+
+            document.getElementById('minigame-stage-screen').style.display = 'none';
+            document.getElementById('minigame-battle-screen').style.display = 'none';
+            document.getElementById('minigame-osu-screen').style.display = 'none';
+            document.getElementById('minigame-smash-screen').style.display = 'block';
+
+            document.getElementById('smash-score-val').innerText = '0';
+            document.getElementById('smash-score-target').innerText = smashState.targetScore;
+            document.getElementById('smash-misses-val').innerText = '0';
+
+            buildSmashGrid();
+            runSmashSpawner(st.spawnRate || 950);
+        }
+
+        function buildSmashGrid() {
+            const grid = document.getElementById('smash-grid-board');
+            if (!grid) return;
+            grid.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'smash-slot';
+                slot.dataset.index = i;
+
+                slot.onclick = () => {
+                    if (!smashState.active) return;
+                    const content = slot.querySelector('.smash-content');
+                    if (content) {
+                        if (content.classList.contains('is-bomb')) {
+                            registerSmashMiss(); content.remove();
+                        } else if (content.classList.contains('is-hand')) {
+                            smashState.score++;
+                            document.getElementById('smash-score-val').innerText = smashState.score;
+                            content.remove();
+                            if (smashState.score >= smashState.targetScore) endSmashBattle(true);
+                        }
+                    } else {
+                        registerSmashMiss();
+                    }
+                };
+                grid.appendChild(slot);
+            }
+        }
+
+        function runSmashSpawner(rate) {
+            if (smashState.spawnInterval) clearInterval(smashState.spawnInterval);
+
+            smashState.spawnInterval = setInterval(() => {
+                if (!smashState.active) return;
+                const slots = document.querySelectorAll('.smash-slot');
+                const emptySlots = Array.from(slots).filter(s => s.children.length === 0);
+                if (emptySlots.length === 0) return;
+
+                const randomSlot = emptySlots[Math.floor(Math.random() * emptySlots.length)];
+                const isBomb = Math.random() < 0.25;
+
+                const item = document.createElement('div');
+                item.className = `smash-content ${isBomb ? 'is-bomb' : 'is-hand'}`;
+                item.innerHTML = isBomb ? '💣' : '🦾';
+                randomSlot.appendChild(item);
+
+                // Рука исчезает быстрее на 10% (1.05с)
+                setTimeout(() => {
+                    if (item.parentNode) {
+                        item.remove();
+                        if (!isBomb) registerSmashMiss();
+                    }
+                }, 1050);
+
+            }, rate);
+        }
+
+        function registerSmashMiss() {
+            if (!smashState.active) return;
+            smashState.misses++;
+            document.getElementById('smash-misses-val').innerText = smashState.misses;
+            if (smashState.misses >= 3) endSmashBattle(false);
+        }
+
+        function endSmashBattle(isWin) {
+            smashState.active = false;
+            if (smashState.spawnInterval) clearInterval(smashState.spawnInterval);
+            endBattle(isWin);
+        }
+
+        function exitSmashBattle() {
+            smashState.active = false;
+            if (smashState.spawnInterval) clearInterval(smashState.spawnInterval);
+            exitBattle();
+        }
+
+function runSmashSpawner(rate) {
+    if (smashState.spawnInterval) clearInterval(smashState.spawnInterval);
+
+    smashState.spawnInterval = setInterval(() => {
+        if (!smashState.active) return;
+
+        const slots = document.querySelectorAll('.smash-slot');
+        const emptySlots = Array.from(slots).filter(s => s.children.length === 0);
+        if (emptySlots.length === 0) return;
+
+        const randomSlot = emptySlots[Math.floor(Math.random() * emptySlots.length)];
+        const isBomb = Math.random() < 0.25; // 25% шанс бомбы
+
+        const item = document.createElement('div');
+        item.className = `smash-content ${isBomb ? 'is-bomb' : 'is-hand'}`;
+        item.innerHTML = isBomb ? '💣' : '🦾';
+
+        randomSlot.appendChild(item);
+
+        setTimeout(() => {
+            if (item.parentNode) {
+                item.remove();
+                if (!isBomb) registerSmashMiss(); // Пропустили кисть
+            }
+        }, 1300);
+
+    }, rate);
+}
+
+function registerSmashMiss() {
+    if (!smashState.active) return;
+    smashState.misses++;
+    document.getElementById('smash-misses-val').innerText = smashState.misses;
+    if (smashState.misses >= 3) endSmashBattle(false);
+}
+
+function endSmashBattle(isWin) {
+    smashState.active = false;
+    if (smashState.spawnInterval) clearInterval(smashState.spawnInterval);
+    endBattle(isWin);
+}
+
+function exitSmashBattle() {
+    smashState.active = false;
+    if (smashState.spawnInterval) clearInterval(smashState.spawnInterval);
+    exitBattle();
+}
+
+
+// ====================================================
+// 🏆 ФИНАЛ, НАГРАДЫ, НАКАЗАНИЯ И СИНХРОНИЗАЦИЯ С SUPABASE
+// ====================================================
+async function endBattle(isWin) {
+    gameState.inBattle = false;
+    if (battleLoopId) cancelAnimationFrame(battleLoopId);
+    if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+
+    const st = currentBattleBoss;
+
+    if (isWin) {
+        userCrystals += st.rewardCrystals;
+        const gainedExp = st.rewardExp;
+        
+        // Кулдаун 10 минут
+        playerStageCds[st.id] = Date.now() + (10 * 60 * 1000);
+
+        const idx = STAGES_DATA.findIndex(s => s.id === st.id);
+        if (idx + 1 >= playerUnlockedStage) {
+            playerUnlockedStage = Math.min(STAGES_DATA.length + 1, idx + 2);
+        }
+
+        if (currentUser) {
+            currentUser.exp = (currentUser.exp || 0) + gainedExp;
+            currentUser.crystals = userCrystals;
+            currentUser.unlocked_stage = playerUnlockedStage;
+            currentUser.stage_cds = playerStageCds;
+            await syncUserToSupabase(currentUser);
+        }
+
+        alert(`🏆 ПОБЕДА НАД ${st.bossName}!\n\nПолучено:\n+${gainedExp} EXP\n+${st.rewardCrystals} 💎 Кристаллов Воли!\n\n⏳ Кулдаун на этап: 10 минут.`);
+    } else {
+        // 🔥 НАКАЗАНИЕ: ВЫЧЕТ КРИСТАЛЛОВ ЗА ПОРАЖЕНИЕ (-10 / -pen)
+        const penalty = st.penaltyCrystals || 10;
+        userCrystals = Math.max(0, userCrystals - penalty);
+
+        if (currentUser) {
+            currentUser.crystals = userCrystals;
+            await syncUserToSupabase(currentUser);
+        }
+
+        alert(`💀 ТЕБЯ СМЯЛИ В РЕЖИМЕ "${st.tierName}"!\n\nШТРАФ ЗА ПОРАЖЕНИЕ:\n-${penalty} 💎 Кристаллов Воли забрали в казну Лиги!`);
+    }
+
+    exitBattle();
+}
+
+function exitBattle() {
+    gameState.inBattle = false;
+    osuState.active = false;
+    smashState.active = false;
+    if (battleLoopId) cancelAnimationFrame(battleLoopId);
+    if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+    if (osuState.spawnInterval) clearInterval(osuState.spawnInterval);
+    if (smashState.spawnInterval) clearInterval(smashState.spawnInterval);
+
+    document.getElementById('minigame-battle-screen').style.display = 'none';
+    document.getElementById('minigame-osu-screen').style.display = 'none';
+    document.getElementById('minigame-smash-screen').style.display = 'none';
+    document.getElementById('minigame-stage-screen').style.display = 'block';
+    initMinigameUI();
+}
+
+// Вспомогательные
+function triggerHitFeedback(text, cssClass) {
+    const el = document.getElementById('hit-feedback-floating');
+    if (!el) return;
+    el.innerText = text;
+    el.className = `hit-feedback-popup ${cssClass}`;
+    setTimeout(() => { if (el) el.className = 'hit-feedback-popup'; }, 400);
+}
+
+function openExchangeModal() {
+    if (!currentUser) return;
+    document.getElementById('exchange-user-exp').innerText = `${currentUser.exp || 0} EXP`;
+    openModal('modal-exchange-crystals');
+}
+
+async function exchangeExpToCrystals(expCost, crystalGain) {
+    if (!currentUser || (currentUser.exp || 0) < expCost) { alert("Недостаточно EXP!"); return; }
+    currentUser.exp -= expCost;
+    userCrystals += crystalGain;
+    currentUser.crystals = userCrystals;
+    await syncUserToSupabase(currentUser);
+    updateExpTabUI();
+    initMinigameUI();
+    closeModal('modal-exchange-crystals');
+    alert(`💎 Получено +${crystalGain} Кристаллов Воли!`);
+}
+
+function openShopModal() {
+    const list = document.getElementById('boosters-shop-list');
+    if (!list) return;
+    const BOOSTERS = [
+        { id: 'b_power', name: '🧪 Эликсир Силы (+20% Урона)', cost: 40 },
+        { id: 'b_stamina', name: '🔋 Глоток Выносливости', cost: 35 },
+        { id: 'b_focus', name: '🎯 Фокус Реакции', cost: 30 }
+    ];
+    list.innerHTML = BOOSTERS.map(b => `
+        <div style="background: rgba(0,0,0,0.4); border: 1.5px solid #a855f7; border-radius: 10px; padding: 12px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <div style="font-size: 0.85rem; font-weight:bold; color:#fff;">${b.name}</div>
+                <div style="font-size: 0.75rem; color: #00ff66; margin-top:2px;">Цена: ${b.cost} 💎</div>
+            </div>
+            <button class="brutal-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="buyBooster('${b.id}', ${b.cost})">КУПИТЬ</button>
+        </div>
+    `).join('');
+    openModal('modal-game-shop');
+}
+
+function buyBooster(id, cost) {
+    if (userCrystals < cost) { alert("Недостаточно Кристаллов!"); return; }
+    userCrystals -= cost;
+    if (currentUser) { currentUser.crystals = userCrystals; syncUserToSupabase(currentUser); }
+    initMinigameUI();
+    alert("Бустер активирован!");
+    closeModal('modal-game-shop');
+}
+
+
+
+        // ====================================================
+        // ⌨️ ЖЕЛЕЗНЫЙ ПРОБЕЛ И КЛИКИ НА КИБЕР-СТОЛЕ
+        // ====================================================
+        window.addEventListener('keydown', (e) => {
+            // Нажатие пробела на кибер-столе
+            if (e.code === 'Space' && gameState.inBattle) {
+                e.preventDefault(); // Запрещаем скролл страницы
+                handleRhythmClick();
+            }
+        });
+
+        // Клик мышкой по любой точке боевой арены стола
+        document.addEventListener('click', (e) => {
+            if (gameState.inBattle) {
+                // Если клик не по кнопке "Сдаться"
+                if (!e.target.closest('button')) {
+                    handleRhythmClick();
+                }
+            }
+        });
 
     </script>
 
