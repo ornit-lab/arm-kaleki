@@ -5381,18 +5381,34 @@ function initMinigameUI() {
         }
 
 
-                // Пул бойцов для ротации (только активные и красивые карточки)
-        const ACTIVE_FIGHTERS_POOL = [
-            { name: 'Раф', avatar: 'char_default.webp', era: 1, power: 20 },
-            { name: 'Никита', avatar: 'char_nikita.webp', era: 4, power: 35 },
-            { name: 'Веня', avatar: 'char_venya.webp', era: 8, power: 50 },
-            { name: 'Ваня (Кибер-Крюк)', avatar: 'char_vanya.webp', era: 12, power: 70 },
-            { name: 'Герман', avatar: 'char_german.webp', era: 12, power: 75 },
-            { name: 'Борис', avatar: 'char_boris.webp', era: 10, power: 60 },
-            { name: 'Егор', avatar: 'char_egor.webp', era: 13, power: 90 }
+                // ====================================================
+        // 🗂️ КАТЕГОРИИ БОЙЦОВ ДЛЯ РОТАЦИИ ПО ЭТАПАМ
+        // ====================================================
+        
+        // Пул для этапа "ВОНЮЧКИ" (Stage 1)
+        const POOL_BEGINNERS = [
+            { name: 'Раф', avatar: 'char_default.webp', era: 1, power: 22 },
+            { name: 'Никита', avatar: 'char_nikita.webp', era: 4, power: 30 }
         ];
 
-        // Обновленная функция старта игры с динамической сменой бойца
+        // Пул для этапа "АВТОРИТЕТНЫЕ СВИНКИ" (Stage 5, 6, 7)
+        const POOL_INTERMEDIATE = [
+            { name: 'Ваня (AI)', avatar: 'char_vanya.webp', era: 12, power: 65 },
+            { name: 'Герман', avatar: 'char_german.webp', era: 12, power: 75 },
+            { name: 'Гера', avatar: 'char_default.webp', era: 5, power: 55 },
+            { name: 'Максим', avatar: 'char_maksim.webp', era: 12, power: 70 },
+            { name: 'Стас', avatar: 'char_default.webp', era: 10, power: 60 }
+        ];
+
+        // Пул для этапа "ГОРЯЧИЕ ПАРНИ" (Stage 9)
+        const POOL_TOP = [
+            { name: 'ТИМУР 🌋', avatar: 'char_timur.webp', era: 15, power: 125 },
+            { name: 'Егор', avatar: 'char_egor.webp', era: 13, power: 95 },
+            { name: 'Борис', avatar: 'char_boris.webp', era: 10, power: 85 }
+        ];
+
+
+                // Обновленная функция старта игры с ротацией по тирам
         function startStageGame(stageId) {
             const st = STAGES_DATA.find(s => s.id === stageId);
             if (!st) return;
@@ -5400,21 +5416,34 @@ function initMinigameUI() {
             const cd = playerStageCds[st.id] || 0;
             const now = Date.now();
 
-            // 🔥 ЛОГИКА РОТАЦИИ:
-            // Если КД прошел и это режим "Кибер-стол" (и это НЕ финальный Тимур)
-            if (now >= cd && st.mode === 'table' && st.id !== 'stage_9') {
-                // Выбираем случайного бойца из пула
-                const randomFighter = ACTIVE_FIGHTERS_POOL[Math.floor(Math.random() * ACTIVE_FIGHTERS_POOL.length)];
-                
-                // Подменяем данные в текущем этапе
-                st.bossName = randomFighter.name;
-                st.bossAvatar = randomFighter.avatar;
-                st.bossEra = randomFighter.era;
-                st.basePower = randomFighter.power;
+            // 🔥 ЛОГИКА РОТАЦИИ ПО ТИРАМ:
+            if (now >= cd) {
+                let selectedFighter = null;
+
+                // 1. Если это 1-й этап (Вонючки)
+                if (st.id === 'stage_1') {
+                    selectedFighter = POOL_BEGINNERS[Math.floor(Math.random() * POOL_BEGINNERS.length)];
+                } 
+                // 2. Если это Свинки (Stage 5, 6, 7)
+                else if (st.id === 'stage_5' || st.id === 'stage_6' || st.id === 'stage_7') {
+                    selectedFighter = POOL_INTERMEDIATE[Math.floor(Math.random() * POOL_INTERMEDIATE.length)];
+                }
+                // 3. Если это Финал (Stage 9)
+                else if (st.id === 'stage_9') {
+                    selectedFighter = POOL_TOP[Math.floor(Math.random() * POOL_TOP.length)];
+                }
+
+                // Если боец был выбран (т.е. это боевой этап, а не OSU-испытание)
+                if (selectedFighter) {
+                    st.bossName = selectedFighter.name;
+                    st.bossAvatar = selectedFighter.avatar;
+                    st.bossEra = selectedFighter.era;
+                    st.basePower = selectedFighter.power;
+                }
             }
 
             if (now < cd) { 
-                alert("Боец на кулдауне!"); 
+                alert("Боец еще восстанавливается!"); 
                 return; 
             }
 
@@ -5424,6 +5453,7 @@ function initMinigameUI() {
             else if (st.mode === 'osu') startOsuBattle(st);
             else if (st.mode === 'smash') startSmashBattle(st);
         }
+
 
 
         // ====================================================
