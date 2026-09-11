@@ -5165,6 +5165,9 @@ let lastTimestamp = 0; // Для контроля скорости на разн
         // ====================================================
         // 🔥 ОФИЦИАЛЬНЫЙ РОСТЕР ИЗ 9 ЭТАПОВ ЛИГИ
         // ====================================================
+               // ====================================================
+        // 🔥 ОФИЦИАЛЬНЫЙ РОСТЕР ЭТАПОВ (БЕЗ КОЛЯНА, С РОТАЦИЕЙ БОССОВ)
+        // ====================================================
         const STAGES_DATA = [
             {
                 id: 'stage_1', mode: 'table',
@@ -5176,7 +5179,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
             },
             {
                 id: 'stage_2', mode: 'osu',
-                tierName: 'STAGE 2: 💩 ВОНЮЧКИ',
+                tierName: 'STAGE 2: 💩 ПУТЬ ВОСХОЖДЕНИЯ',
                 bossName: '🌀 Испытание Концентрации I', bossAvatar: 'char_default.webp', bossEra: 2,
                 rewardExp: 55, rewardCrystals: 35, penaltyCrystals: 15,
                 targetScore: 6, spawnRate: 4200,
@@ -5185,14 +5188,14 @@ let lastTimestamp = 0; // Для контроля скорости на разн
             {
                 id: 'stage_3', mode: 'smash',
                 tierName: 'STAGE 3: 💀 ВОССТАВШИЕ',
-                bossName: 'Арсений', bossAvatar: 'char_arseniy.webp', bossEra: 6,
+                bossName: 'Претендент', bossAvatar: 'char_default.webp', bossEra: 6,
                 rewardExp: 90, rewardCrystals: 55, penaltyCrystals: 20,
-                targetScore: 16, spawnRate: 950, // Ускоренная кисть
+                targetScore: 16, spawnRate: 950,
                 lore: 'Оборотень дворовых столов. Режим: СЛОМАЙ КИСТЬ!'
             },
             {
                 id: 'stage_4', mode: 'osu',
-                tierName: 'STAGE 4: 💀 ВОССТАВШИЕ',
+                tierName: 'STAGE 4: 💀 ПУТЬ ВОСХОЖДЕНИЯ',
                 bossName: '🌀 Испытание Концентрации II', bossAvatar: 'char_default.webp', bossEra: 7,
                 rewardExp: 130, rewardCrystals: 75, penaltyCrystals: 25,
                 targetScore: 7, spawnRate: 3900,
@@ -5217,7 +5220,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
             {
                 id: 'stage_7', mode: 'smash',
                 tierName: 'STAGE 7: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (ФИНАЛ)',
-                bossName: 'Стас', bossAvatar: 'char_default.webp', bossEra: 10,
+                bossName: 'Мастер Спида', bossAvatar: 'char_default.webp', bossEra: 10,
                 rewardExp: 250, rewardCrystals: 150, penaltyCrystals: 45,
                 targetScore: 22, spawnRate: 850,
                 lore: 'Бешеная скорость кистей и опасные ловушки-бомбы!'
@@ -5380,20 +5383,51 @@ function initMinigameUI() {
             }).join('');
         }
 
-// Распределение по режимам
-function startStageGame(stageId) {
-    const st = STAGES_DATA.find(s => s.id === stageId);
-    if (!st) return;
 
-    const cd = playerStageCds[st.id] || 0;
-    if (Date.now() < cd) { alert("Боец на кулдауне!"); return; }
+                // Пул бойцов для ротации (только активные и красивые карточки)
+        const ACTIVE_FIGHTERS_POOL = [
+            { name: 'Раф', avatar: 'char_default.webp', era: 1, power: 20 },
+            { name: 'Никита', avatar: 'char_nikita.webp', era: 4, power: 35 },
+            { name: 'Веня', avatar: 'char_venya.webp', era: 8, power: 50 },
+            { name: 'Ваня (Кибер-Крюк)', avatar: 'char_vanya.webp', era: 12, power: 70 },
+            { name: 'Герман', avatar: 'char_german.webp', era: 12, power: 75 },
+            { name: 'Борис', avatar: 'char_boris.webp', era: 10, power: 60 },
+            { name: 'Егор', avatar: 'char_egor.webp', era: 13, power: 90 }
+        ];
 
-    currentBattleBoss = st;
+        // Обновленная функция старта игры с динамической сменой бойца
+        function startStageGame(stageId) {
+            const st = STAGES_DATA.find(s => s.id === stageId);
+            if (!st) return;
 
-    if (st.mode === 'table') startTableBattle(st);
-    else if (st.mode === 'osu') startOsuBattle(st);
-    else if (st.mode === 'smash') startSmashBattle(st);
-}
+            const cd = playerStageCds[st.id] || 0;
+            const now = Date.now();
+
+            // 🔥 ЛОГИКА РОТАЦИИ:
+            // Если КД прошел и это режим "Кибер-стол" (и это НЕ финальный Тимур)
+            if (now >= cd && st.mode === 'table' && st.id !== 'stage_9') {
+                // Выбираем случайного бойца из пула
+                const randomFighter = ACTIVE_FIGHTERS_POOL[Math.floor(Math.random() * ACTIVE_FIGHTERS_POOL.length)];
+                
+                // Подменяем данные в текущем этапе
+                st.bossName = randomFighter.name;
+                st.bossAvatar = randomFighter.avatar;
+                st.bossEra = randomFighter.era;
+                st.basePower = randomFighter.power;
+            }
+
+            if (now < cd) { 
+                alert("Боец на кулдауне!"); 
+                return; 
+            }
+
+            currentBattleBoss = st;
+
+            if (st.mode === 'table') startTableBattle(st);
+            else if (st.mode === 'osu') startOsuBattle(st);
+            else if (st.mode === 'smash') startSmashBattle(st);
+        }
+
 
         // ====================================================
         // ⚡️ КОНВЕРТАЦИЯ РЕАЛЬНЫХ ЗАМЕРОВ ИЗ ПРОФИЛЯ В БОЕВЫЕ СТАТЫ
@@ -5842,6 +5876,9 @@ function updateBattleUI() {
             active: false, score: 0, targetScore: 16, misses: 0, maxMisses: 3, spawnInterval: null
         };
 
+                // ====================================================
+        // 🔨 РЕЖИМ 3: "СЛОМАЙ КИСТЬ" (ХАРДКОРНЫЙ СПАВН И УСКОРЕНИЕ)
+        // ====================================================
         function startSmashBattle(st) {
             smashState.active = true;
             smashState.score = 0;
@@ -5858,8 +5895,39 @@ function updateBattleUI() {
             document.getElementById('smash-misses-val').innerText = '0';
 
             buildSmashGrid();
-            runSmashSpawner(st.spawnRate || 950);
+            
+            // 🔥 Делаем спавн кистей очень быстрым (каждые 650-750мс)
+            runSmashSpawner(st.spawnRate || 700);
         }
+
+        function runSmashSpawner(rate) {
+            if (smashState.spawnInterval) clearInterval(smashState.spawnInterval);
+
+            smashState.spawnInterval = setInterval(() => {
+                if (!smashState.active) return;
+                const slots = document.querySelectorAll('.smash-slot');
+                const emptySlots = Array.from(slots).filter(s => s.children.length === 0);
+                if (emptySlots.length === 0) return;
+
+                const randomSlot = emptySlots[Math.floor(Math.random() * emptySlots.length)];
+                const isBomb = Math.random() < 0.28; // 28% шанс бомбы
+
+                const item = document.createElement('div');
+                item.className = `smash-content ${isBomb ? 'is-bomb' : 'is-hand'}`;
+                item.innerHTML = isBomb ? '💣' : '🦾';
+                randomSlot.appendChild(item);
+
+                // 🔥 Кисть исчезает всего за 750 миллисекунд! Нужно реагировать мгновенно
+                setTimeout(() => {
+                    if (item.parentNode) {
+                        item.remove();
+                        if (!isBomb) registerSmashMiss(); // Пропуск кисти = ошибка
+                    }
+                }, 750);
+
+            }, rate);
+        }
+
 
         function buildSmashGrid() {
             const grid = document.getElementById('smash-grid-board');
@@ -5986,52 +6054,64 @@ function exitSmashBattle() {
 }
 
 
-// ====================================================
-// 🏆 ФИНАЛ, НАГРАДЫ, НАКАЗАНИЯ И СИНХРОНИЗАЦИЯ С SUPABASE
-// ====================================================
-async function endBattle(isWin) {
-    gameState.inBattle = false;
-    if (battleLoopId) cancelAnimationFrame(battleLoopId);
-    if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+        // ====================================================
+        // ⏳ УМНЫЕ КУЛДАУНЫ ПОД КАЖДЫЙ РЕЖИМ И БОССА
+        // ====================================================
+        async function endBattle(isWin) {
+            gameState.inBattle = false;
+            if (battleLoopId) cancelAnimationFrame(battleLoopId);
+            if (gameState.timerInterval) clearInterval(gameState.timerInterval);
 
-    const st = currentBattleBoss;
+            const st = currentBattleBoss;
 
-    if (isWin) {
-        userCrystals += st.rewardCrystals;
-        const gainedExp = st.rewardExp;
-        
-        // Кулдаун 10 минут
-        playerStageCds[st.id] = Date.now() + (10 * 60 * 1000);
+            if (isWin) {
+                userCrystals += st.rewardCrystals;
+                const gainedExp = st.rewardExp;
+                
+                // 🔥 РАСЧЕТ ИНДИВИДУАЛЬНОГО КУЛДАУНА
+                let cdMinutes = 4; // Стандарт для кибер-стола
+                
+                if (st.mode === 'osu') {
+                    cdMinutes = 20; // OSU фармится легко ➔ 20 минут КД
+                } else if (st.mode === 'smash') {
+                    cdMinutes = 15; // Сломай кисть ➔ 15 минут КД
+                } else if (st.id === 'stage_1') {
+                    cdMinutes = 15; // Колян («Раф») защищен от абуза ➔ 15 минут КД
+                } else if (st.id === 'stage_9') {
+                    cdMinutes = 2;  // Тимур ➔ Хардкорный босс, КД всего 2 минуты на реванш!
+                }
 
-        const idx = STAGES_DATA.findIndex(s => s.id === st.id);
-        if (idx + 1 >= playerUnlockedStage) {
-            playerUnlockedStage = Math.min(STAGES_DATA.length + 1, idx + 2);
+                playerStageCds[st.id] = Date.now() + (cdMinutes * 60 * 1000);
+
+                const idx = STAGES_DATA.findIndex(s => s.id === st.id);
+                if (idx + 1 >= playerUnlockedStage) {
+                    playerUnlockedStage = Math.min(STAGES_DATA.length + 1, idx + 2);
+                }
+
+                if (currentUser) {
+                    currentUser.exp = (currentUser.exp || 0) + gainedExp;
+                    currentUser.crystals = userCrystals;
+                    currentUser.unlocked_stage = playerUnlockedStage;
+                    currentUser.stage_cds = playerStageCds;
+                    await syncUserToSupabase(currentUser);
+                }
+
+                alert(`🏆 ПОБЕДА: ${st.bossName}!\n\nПолучено:\n+${gainedExp} EXP\n+${st.rewardCrystals} 💎 Кристаллов Воли!\n\n⏳ Кулдаун на этап: ${cdMinutes} минут.`);
+            } else {
+                const penalty = st.penaltyCrystals || 10;
+                userCrystals = Math.max(0, userCrystals - penalty);
+
+                if (currentUser) {
+                    currentUser.crystals = userCrystals;
+                    await syncUserToSupabase(currentUser);
+                }
+
+                alert(`💀 ТЕБЯ СМЯЛИ: "${st.tierName}"!\n\nШТРАФ ЗА ПОРАЖЕНИЕ:\n-${penalty} 💎 Кристаллов Воли забрали в казну Лиги!`);
+            }
+
+            exitBattle();
         }
 
-        if (currentUser) {
-            currentUser.exp = (currentUser.exp || 0) + gainedExp;
-            currentUser.crystals = userCrystals;
-            currentUser.unlocked_stage = playerUnlockedStage;
-            currentUser.stage_cds = playerStageCds;
-            await syncUserToSupabase(currentUser);
-        }
-
-        alert(`🏆 ПОБЕДА НАД ${st.bossName}!\n\nПолучено:\n+${gainedExp} EXP\n+${st.rewardCrystals} 💎 Кристаллов Воли!\n\n⏳ Кулдаун на этап: 10 минут.`);
-    } else {
-        // 🔥 НАКАЗАНИЕ: ВЫЧЕТ КРИСТАЛЛОВ ЗА ПОРАЖЕНИЕ (-10 / -pen)
-        const penalty = st.penaltyCrystals || 10;
-        userCrystals = Math.max(0, userCrystals - penalty);
-
-        if (currentUser) {
-            currentUser.crystals = userCrystals;
-            await syncUserToSupabase(currentUser);
-        }
-
-        alert(`💀 ТЕБЯ СМЯЛИ В РЕЖИМЕ "${st.tierName}"!\n\nШТРАФ ЗА ПОРАЖЕНИЕ:\n-${penalty} 💎 Кристаллов Воли забрали в казну Лиги!`);
-    }
-
-    exitBattle();
-}
 
 function exitBattle() {
     gameState.inBattle = false;
