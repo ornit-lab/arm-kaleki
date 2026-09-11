@@ -4845,59 +4845,76 @@ function getEraByExp(exp, userObj) {
             }
         }
 
-
-               // ====================================================
-        // 🔥 ТОЧНЫЙ МАППИНГ МОДЕЛЕК С УЧЕТОМ УНИКАЛЬНЫХ ID
+        // ====================================================
+        // 🖼️ УЛЬТРА-СОВМЕСТИМЫЙ МАППИНГ КАРТИНОК БОЙЦОВ
         // ====================================================
         function getCharImgPath(userObj) {
-            if (!userObj || !userObj.name) return 'char_default.webp';
+            if (!userObj) return 'char_default.webp';
 
-            const userId = userObj.id || '';
-            const nameLower = userObj.name.toLowerCase().trim();
+            const userId = (userObj.id || '').toLowerCase().trim();
+            const nameLower = (userObj.name || '').toLowerCase().trim();
             const usernameLower = (userObj.username || '').toLowerCase().trim();
 
-            // 1. ВАНЯ №2 (Получает модельку char_vanya.webp!)
-            if (userId === 'seed_vanya_2') {
+            // 🟢 ВАНЯ №2 (Эксклюзивная моделька)
+            if (userId === 'seed_vanya_2' || userId.includes('vanya_2')) {
                 return 'char_vanya.webp';
             }
 
-            // 2. ВАНЯ №1 (Пока на заглушке)
-            if (userId === 'seed_vanya_1') {
+            // ⚪️ ВАНЯ №1 (Стандартная заглушка)
+            if (userId === 'seed_vanya_1' || userId.includes('vanya_1')) {
                 return 'char_default.webp';
             }
 
-            // 3. 🔥 НОВЫЕ БОЙЦЫ (Строго по ID и имени)
-            if (userId === 'seed_timur' || nameLower === 'тимур' || usernameLower === 'timur') {
-                return 'char_timur.webp';
-            }
-            if (userId === 'seed_artur' || nameLower === 'артур' || usernameLower === 'artur') {
-                return 'char_artur.webp';
-            }
-            if (userId === 'seed_egor' || nameLower === 'егор' || usernameLower === 'egor') {
-                return 'char_egor.webp';
-            }
-            if (userId === 'seed_gleb' || nameLower === 'глеб' || usernameLower === 'gleb') {
+            // ⚡️ ГЛЕБ (Проверенный)
+            if (userId.includes('gleb') || nameLower === 'глеб' || usernameLower === 'gleb') {
                 return 'char_gleb.webp';
             }
-            if (userId === 'seed_maksim' || nameLower === 'максим' || usernameLower === 'maksim') {
-                return 'char_maksim.webp';
-            }
-            if (userId === 'seed_german' || nameLower === 'герман' || usernameLower === 'german') {
-                return 'char_german.webp';
+
+            // ⚡️ СТАС (Умный поиск по ID и имени)
+            if (userId.includes('stas') || nameLower === 'стас' || usernameLower === 'stas') {
+                return 'char_stas.webp';
             }
 
-            // 4. Остальные бойцы с готовыми модельками
-            if (nameLower === 'борис' || usernameLower === 'boris') return 'char_boris.webp';
-            if (nameLower === 'никита' || usernameLower === 'nikita') return 'char_nikita.webp';
-            if (nameLower === 'веня' || usernameLower === 'venya') return 'char_venya.webp';
+            // ⚡️ ДЕНИС
+            if (userId.includes('denis') || nameLower === 'денис' || usernameLower === 'denis') {
+                return 'char_denis.webp';
+            }
 
-            // 5. Поиск по юзернейму (для новых регистраций)
-            if (userObj.username && userObj.username.trim() !== '') {
-                return `char_${userObj.username.toLowerCase().trim()}.webp`;
+            // ⚡️ ГЕРА
+            if (userId.includes('gera') || nameLower === 'гера' || usernameLower === 'gera') {
+                return 'char_gera.webp';
+            }
+
+            // ⚡️ ЖОРА
+            if (userId.includes('zhora') || userId.includes('jora') || nameLower === 'жора' || usernameLower === 'zhora') {
+                return 'char_zhora.webp';
+            }
+
+            // ⚡️ РАФ
+            if (userId.includes('raf') || nameLower === 'раф' || usernameLower === 'raf') {
+                return 'char_raf.webp';
+            }
+
+            // 👑 ВЕТЕРАНЫ И ОСТАЛЬНЫЕ БОССЫ
+            if (userId.includes('timur') || nameLower === 'тимур' || usernameLower === 'timur') return 'char_timur.webp';
+            if (userId.includes('artur') || nameLower === 'артур' || usernameLower === 'artur') return 'char_artur.webp';
+            if (userId.includes('egor') || nameLower === 'егор' || usernameLower === 'egor') return 'char_egor.webp';
+            if (userId.includes('maksim') || nameLower === 'максим' || usernameLower === 'maksim') return 'char_maksim.webp';
+            if (userId.includes('german') || nameLower === 'герман' || usernameLower === 'german') return 'char_german.webp';
+            
+            if (userId.includes('boris') || nameLower === 'борис' || usernameLower === 'boris') return 'char_boris.webp';
+            if (userId.includes('nikita') || nameLower === 'никита' || usernameLower === 'nikita') return 'char_nikita.webp';
+            if (userId.includes('venya') || nameLower === 'веня' || usernameLower === 'venya') return 'char_venya.webp';
+
+            // Авто-подхват для любых новых регистраций по юзернейму
+            if (usernameLower !== '') {
+                return `char_${usernameLower}.webp`;
             }
 
             return 'char_default.webp';
         }
+
+
 
 
 
