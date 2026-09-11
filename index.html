@@ -5159,6 +5159,8 @@ let playerUnlockedStage = 1;
 let playerStageCds = {};
 let currentBattleBoss = null;
 let battleLoopId = null;
+let lastTimestamp = 0; // Для контроля скорости на разных мониторах
+
 
         // ====================================================
         // 🔥 ОФИЦИАЛЬНЫЙ РОСТЕР ИЗ 9 ЭТАПОВ ЛИГИ
@@ -5437,6 +5439,8 @@ function startTableBattle(st) {
     gameState.zoneShiftCounter = 0;
     gameState.battleTimeLeft = st.durationSec || 45;
     gameState.playerStats = pStats;
+    lastTimestamp = 0; // Сбрасываем время перед началом боя
+
 
     document.getElementById('minigame-stage-screen').style.display = 'none';
     document.getElementById('minigame-osu-screen').style.display = 'none';
@@ -5485,34 +5489,57 @@ function randomizeZones() {
     if(r) { r.style.left = `${gameState.redLeft}%`; r.style.width = `${gameState.redWidth}%`; }
 }
 
-function gameLoopUpdate() {
-    if (!gameState.inBattle) return;
+        function gameLoopUpdate(timestamp) {
+            if (!gameState.inBattle) return;
 
-    gameState.cursorPos += gameState.cursorSpeed * gameState.cursorDirection;
-    if (gameState.cursorPos >= 100) { gameState.cursorPos = 100; gameState.cursorDirection = -1; }
-    else if (gameState.cursorPos <= 0) { gameState.cursorPos = 0; gameState.cursorDirection = 1; }
+            // Расчет Delta Time (нормализуем под 60 FPS)
+            if (!lastTimestamp) lastTimestamp = timestamp;
+            const deltaTime = (timestamp - lastTimestamp) / 16.66; 
+            lastTimestamp = timestamp;
 
-    const curEl = document.getElementById('rhythm-moving-cursor');
-    if (curEl) curEl.style.left = `${gameState.cursorPos}%`;
+            // 1. Движение OSU-курсора (умножаем на deltaTime)
+            gameState.cursorPos += (gameState.cursorSpeed * gameState.cursorDirection) * deltaTime;
+            
+            if (gameState.cursorPos >= 100) { 
+                gameState.cursorPos = 100; 
+                gameState.cursorDirection = -1; 
+            } else if (gameState.cursorPos <= 0) { 
+                gameState.cursorPos = 0; 
+                gameState.cursorDirection = 1; 
+            }
 
-    if (gameState.isExhausted) {
-        gameState.exhaustedTimer -= 0.016;
-        if (gameState.exhaustedTimer <= 0) gameState.isExhausted = false;
-    } else {
-        gameState.playerStamina = Math.min(gameState.playerStats.maxStamina, gameState.playerStamina + (gameState.playerStats.staminaRegen * 0.12));
-    }
+            const cursorEl = document.getElementById('rhythm-moving-cursor');
+            if (cursorEl) cursorEl.style.left = `${gameState.cursorPos}%`;
 
-    let push = (currentBattleBoss.basePower * 0.0018);
-    if (gameState.isExhausted) push *= 2.2;
-    gameState.position = Math.max(0, Math.min(100, gameState.position - push));
+            // 2. Реген стамины (тоже через deltaTime)
+            if (gameState.isExhausted) {
+                gameState.exhaustedTimer -= 0.016 * deltaTime;
+                if (gameState.exhaustedTimer <= 0) {
+                    gameState.isExhausted = false;
+                    const trackBox = document.getElementById('rhythm-track-box');
+                    if (trackBox) trackBox.classList.remove('stamina-exhausted');
+                }
+            } else {
+                gameState.playerStamina = Math.min(
+                    gameState.playerStats.maxStamina, 
+                    gameState.playerStamina + (gameState.playerStats.staminaRegen * 0.12 * deltaTime)
+                );
+            }
 
-    updateBattleUI();
+            // 3. Давление босса (умножаем на deltaTime)
+            let bossPushRate = (currentBattleBoss.basePower * 0.0018) * deltaTime;
+            if (gameState.isExhausted) bossPushRate *= 2.2;
 
-    if (gameState.position >= 96) { endBattle(true); return; }
-    if (gameState.position <= 4) { endBattle(false); return; }
+            gameState.position = Math.max(0, Math.min(100, gameState.position - bossPushRate));
 
-    battleLoopId = requestAnimationFrame(gameLoopUpdate);
-}
+            updateBattleUI();
+
+            if (gameState.position >= 96) { endBattle(true); return; }
+            if (gameState.position <= 4) { endBattle(false); return; }
+
+            battleLoopId = requestAnimationFrame(gameLoopUpdate);
+        }
+
 
 function handleRhythmClick() {
     if (!gameState.inBattle || gameState.isExhausted) return;
