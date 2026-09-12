@@ -2511,6 +2511,45 @@
         }
 
 
+                /* 🟢 НЕОНОВАЯ SVG-КНОПКА ПРОФИЛЯ В ЛИДЕРБОРДЕ */
+        .btn-profile-neon {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(0, 255, 102, 0.15), rgba(0, 50, 20, 0.4));
+            border: 1.5px solid var(--neon-green, #00ff66);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            outline: none;
+            padding: 0;
+            box-shadow: 0 0 12px rgba(0, 255, 102, 0.35), inset 0 0 8px rgba(0, 255, 102, 0.2);
+            transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .btn-profile-neon:hover {
+            transform: translateY(-2px) scale(1.06);
+            background: linear-gradient(135deg, rgba(0, 255, 102, 0.3), rgba(0, 100, 40, 0.6));
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.7), inset 0 0 12px rgba(0, 255, 102, 0.4);
+        }
+
+        .btn-profile-neon:active {
+            transform: scale(0.94);
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+        }
+
+        .btn-profile-neon svg {
+            width: 19
+px;
+            height: 19px;
+            stroke: var(--neon-green, #00ff66);
+            filter: drop-shadow(0 0 5px rgba(0, 255, 102, 0.8));
+            transition: stroke 0.2s ease;
+        }
+
+
     </style>
 </head>
 
@@ -4013,7 +4052,12 @@ function getEraByExp(exp, userObj) {
                             <span class="player-era-text">${era.id} Эпоха</span>
                         </div>
                     </div>
-                    <button class="neon-green-btn" style="position:relative; z-index:1;" onclick="inspectUser('${user.id}')">ПРОФИЛЬ</button>
+                   <button class="btn-profile-neon" title="Открыть профиль" onclick="openUserProfile('${u.id}')">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+</button>
                 </div>
             `;
                 }).join('');
