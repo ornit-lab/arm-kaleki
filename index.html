@@ -1,10 +1,10 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARM-KALEKI</title>
+    <title>ARM-KALEKI | Лаборатория Воли и Пронатора</title>
     <!-- Подключение Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -5402,27 +5402,39 @@ function initMinigameUI() {
         // 🗂️ КАТЕГОРИИ БОЙЦОВ ДЛЯ РОТАЦИИ ПО ЭТАПАМ
         // ====================================================
         
-        // Пул для этапа "ВОНЮЧКИ" (Stage 1)
+                // ====================================================
+        // 🗂️ КАНОНИЧНЫЕ ПУЛЫ РОТАЦИИ ПО СКРИНШОТУ
+        // ====================================================
+        
+        // 1. Вонючки (1 Эпоха)
         const POOL_BEGINNERS = [
-            { name: 'Раф', avatar: 'char_default.webp', era: 1, power: 22 },
-            { name: 'Никита', avatar: 'char_nikita.webp', era: 4, power: 30 }
+            { name: 'Раф', avatar: 'char_raf.webp', era: 1, power: 22 },
+            { name: 'Никита', avatar: 'char_nikita.webp', era: 1, power: 25 }
         ];
 
-        // Пул для этапа "АВТОРИТЕТНЫЕ СВИНКИ" (Stage 5, 6, 7)
+        // 2. Авторитетные свинки (4 - 8 Эпохи)
         const POOL_INTERMEDIATE = [
-            { name: 'Ваня (AI)', avatar: 'char_vanya.webp', era: 12, power: 65 },
-            { name: 'Герман', avatar: 'char_german.webp', era: 12, power: 75 },
-            { name: 'Гера', avatar: 'char_default.webp', era: 5, power: 55 },
-            { name: 'Максим', avatar: 'char_maksim.webp', era: 12, power: 70 },
-            { name: 'Стас', avatar: 'char_default.webp', era: 10, power: 60 }
+            { name: 'Стас', avatar: 'char_stas.webp', era: 8, power: 60 },
+            { name: 'Максим', avatar: 'char_maksim.webp', era: 5, power: 55 },
+            { name: 'Гера', avatar: 'char_gera.webp', era: 5, power: 50 },
+            { name: 'Глеб', avatar: 'char_gleb.webp', era: 4, power: 45 },
+            { name: 'Жора', avatar: 'char_zhora.webp', era: 4, power: 45 }
         ];
 
-        // Пул для этапа "ГОРЯЧИЕ ПАРНИ" (Stage 9)
+        // 3. Млечные Короли (11 - 13 Эпохи)
+        const POOL_MILKY = [
+            { name: 'Ваня (AI)', avatar: 'char_vanya.webp', era: 13, power: 75 },
+            { name: 'Герман', avatar: 'char_german.webp', era: 12, power: 72 },
+            { name: 'Артур', avatar: 'char_artur.webp', era: 11, power: 68 }
+        ];
+
+        // 4. Горячие парни (14 - 15 Эпохи)
         const POOL_TOP = [
             { name: 'ТИМУР 🌋', avatar: 'char_timur.webp', era: 15, power: 125 },
-            { name: 'Егор', avatar: 'char_egor.webp', era: 13, power: 95 },
-            { name: 'Борис', avatar: 'char_boris.webp', era: 10, power: 85 }
+            { name: 'Егор', avatar: 'char_egor.webp', era: 14, power: 95 },
+            { name: 'Борис', avatar: 'char_boris.webp', era: 14, power: 90 }
         ];
+
 
 
                 // Обновленная функция старта игры с ротацией по тирам
@@ -5474,29 +5486,81 @@ function initMinigameUI() {
 
 
                 // ====================================================
-        // 🤖 УМНЫЙ ДЕТЕКТОР АВАТАРКИ И РУКИ БОССА
+        // 🤖 СВЕРХТОЧНЫЙ ДЕТЕКТОР ЭПОХ И АВАТАРОК (СТРОГО ПО ТАБЛИЦЕ ЛИГИ)
         // ====================================================
         function getBossVisuals(bossName, originalAvatar, originalEra) {
-            const name = (bossName || '').toLowerCase();
-            let avatar = originalAvatar || 'char_default.webp';
-            let era = originalEra || 1;
+            const name = (bossName || '').toLowerCase().trim();
+            
+            // 15 ЭПОХА (Лавовый Армер)
+            if (name.includes('тимур') || name.includes('timur')) {
+                return { avatar: 'char_timur.webp', era: 15 };
+            }
+            // 14 ЭПОХА (Кристаллический Армер)
+            if (name.includes('егор') || name.includes('egor')) {
+                return { avatar: 'char_egor.webp', era: 14 };
+            }
+            if (name.includes('борис') || name.includes('boris')) {
+                return { avatar: 'char_boris.webp', era: 14 };
+            }
+            // 13 ЭПОХА (Галактический Армер)
+            if (name.includes('ваня') || name.includes('vanya')) {
+                return { avatar: 'char_vanya.webp', era: 13 };
+            }
+            // 12 ЭПОХА (Роботизированный Армер)
+            if (name.includes('герман') || name.includes('german')) {
+                return { avatar: 'char_german.webp', era: 12 };
+            }
+            if (name.includes('гриша') || name.includes('grisha')) {
+                return { avatar: 'char_default.webp', era: 12 };
+            }
+            // 11 ЭПОХА (Янтарный Армер) — АРТУР!
+            if (name.includes('артур') || name.includes('artur')) {
+                return { avatar: 'char_artur.webp', era: 11 };
+            }
+            // 8 ЭПОХА (Каменный Армер)
+            if (name.includes('стас') || name.includes('stas')) {
+                return { avatar: 'char_stas.webp', era: 8 };
+            }
+            // 5 ЭПОХА (Армрестлер полноценный)
+            if (name.includes('максим') || name.includes('maksim')) {
+                return { avatar: 'char_maksim.webp', era: 5 };
+            }
+            if (name.includes('гера') || name.includes('gera')) {
+                return { avatar: 'char_gera.webp', era: 5 };
+            }
+            if (name.includes('лёша') || name.includes('леша') || name.includes('lesha')) {
+                return { avatar: 'char_default.webp', era: 5 };
+            }
+            // 4 ЭПОХА (Обычный Человек)
+            if (name.includes('глеб') || name.includes('gleb')) {
+                return { avatar: 'char_gleb.webp', era: 4 };
+            }
+            if (name.includes('жора') || name.includes('zhora') || name.includes('jora')) {
+                return { avatar: 'char_zhora.webp', era: 4 };
+            }
+            if (name.includes('ефим') || name.includes('efim')) {
+                return { avatar: 'char_default.webp', era: 4 };
+            }
+            // 3 ЭПОХА (Подобие Человека)
+            if (name.includes('веня') || name.includes('venya')) {
+                return { avatar: 'char_venya.webp', era: 3 };
+            }
+            // 2 ЭПОХА (Зомби)
+            if (name.includes('денис') || name.includes('denis')) {
+                return { avatar: 'char_denis.webp', era: 2 };
+            }
+            // 1 ЭПОХА (Скелет)
+            if (name.includes('никита') || name.includes('nikita')) {
+                return { avatar: 'char_nikita.webp', era: 1 };
+            }
+            if (name.includes('раф') || name.includes('raf')) {
+                return { avatar: 'char_raf.webp', era: 1 };
+            }
 
-            if (name.includes('раф') || name.includes('raf')) { avatar = 'char_raf.webp'; era = 1; }
-            else if (name.includes('никита') || name.includes('nikita')) { avatar = 'char_nikita.webp'; era = 4; }
-            else if (name.includes('веня') || name.includes('venya')) { avatar = 'char_venya.webp'; era = 8; }
-            else if (name.includes('ваня') || name.includes('vanya')) { avatar = 'char_vanya.webp'; era = 12; }
-            else if (name.includes('герман') || name.includes('german')) { avatar = 'char_german.webp'; era = 12; }
-            else if (name.includes('максим') || name.includes('maksim')) { avatar = 'char_maksim.webp'; era = 12; }
-            else if (name.includes('стас') || name.includes('stas')) { avatar = 'char_stas.webp'; era = 7; }
-            else if (name.includes('гера') || name.includes('gera')) { avatar = 'char_gera.webp'; era = 5; }
-            else if (name.includes('глеб') || name.includes('gleb')) { avatar = 'char_gleb.webp'; era = 6; }
-            else if (name.includes('денис') || name.includes('denis')) { avatar = 'char_denis.webp'; era = 5; }
-            else if (name.includes('жора') || name.includes('zhora')) { avatar = 'char_zhora.webp'; era = 8; }
-            else if (name.includes('борис') || name.includes('boris')) { avatar = 'char_boris.webp'; era = 10; }
-            else if (name.includes('егор') || name.includes('egor')) { avatar = 'char_egor.webp'; era = 13; }
-            else if (name.includes('тимур') || name.includes('timur')) { avatar = 'char_timur.webp'; era = 15; }
-
-            return { avatar, era };
+            return {
+                avatar: originalAvatar || 'char_default.webp',
+                era: originalEra || 1
+            };
         }
 
 
