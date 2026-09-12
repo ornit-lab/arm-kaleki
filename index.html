@@ -6472,6 +6472,37 @@ function buyBooster(id, cost) {
             }
         });
 
+
+                // ====================================================
+        // 👁️ ФУНКЦИЯ ОТКРЫТИЯ ПРОФИЛЯ БОЙЦА ИЗ ЛИДЕРБОРДА
+        // ====================================================
+        function openUserProfile(userId) {
+            const targetUser = allUsers.find(u => String(u.id) === String(userId));
+            if (!targetUser) return;
+
+            // Если в вашем коде уже есть функция просмотра — вызываем её
+            if (typeof inspectUser === 'function') { inspectUser(userId); return; }
+            if (typeof openInspectModal === 'function') { openInspectModal(userId); return; }
+            if (typeof viewUserProfile === 'function') { viewUserProfile(userId); return; }
+            if (typeof openProfileModal === 'function') { openProfileModal(userId); return; }
+
+            // Иначе открываем модалку просмотра напрямую
+            const modal = document.getElementById('modal-inspect-user') || document.getElementById('modal-view-profile');
+            if (modal) {
+                const nameEl = document.getElementById('inspect-name') || modal.querySelector('h2');
+                const imgEl = document.getElementById('inspect-img') || modal.querySelector('img');
+                
+                if (nameEl) nameEl.innerText = targetUser.name;
+                if (imgEl && typeof getCharImgPath === 'function') imgEl.src = getCharImgPath(targetUser);
+
+                if (typeof openModal === 'function') openModal(modal.id);
+                else { modal.classList.add('active'); modal.style.display = 'flex'; }
+            } else {
+                alert(`📋 ПРОФИЛЬ БОЙЦА:\n\nИмя: ${targetUser.name}\nЭпоха: ${targetUser.era_id || 1}\nКристаллы: ${targetUser.crystals || 0} 💎`);
+            }
+        }
+
+
     </script>
 
 
