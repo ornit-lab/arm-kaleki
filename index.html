@@ -5036,6 +5036,19 @@ async function loadBattlesLog() {
                     ⚔️ ${b.challenger_name} (${b.challenger_era} Эпоха) ➔ VS ➔ ${b.target_name} (${b.target_era} Эпоха)
                 </div>
                 <div style="font-size: 0.75rem; color: var(--steel);">Время: ${b.created_at}</div>
+                ${
+    isBoris
+        ? `
+            <button
+                class="brutal-btn danger"
+                style="margin-top: 8px; width: 100%; font-size: 0.7rem;"
+                onclick="deleteBattle('${b.id}')">
+                🗑️ УДАЛИТЬ ЗАЯВКУ
+            </button>
+          `
+        : ''
+}
+
                 
                 ${isBoris ? `
                     <button class="brutal-btn" style="margin-top: 8px; width: 100%; font-size: 0.75rem; background: linear-gradient(135deg, var(--gold), var(--neon-fire)); color:#000;" onclick="openJudgeModal('${b.id}')">
@@ -5053,16 +5066,41 @@ async function loadBattlesLog() {
     if (history.length === 0) {
         historyContainer.innerHTML = '<div style="color: var(--steel); font-style: italic; text-align: center; padding: 15px;">История спаррингов чиста...</div>';
     } else {
-        historyContainer.innerHTML = history.map(b => `
-            <div class="brutal-card" style="padding: 10px; margin: 0; border-color: #2a2a38;">
-                <div style="font-size: 0.85rem; color: #fff;">
-                    👑 Победитель: <strong style="color: var(--gold);">${b.winner_name}</strong>
-                </div>
-                <div style="font-size: 0.75rem; color: var(--steel); margin-top: 2px;">
-                    Дуэль: ${b.challenger_name} vs ${b.target_name} | ${b.created_at}
-                </div>
-            </div>
-        `).join('');
+       historyContainer.innerHTML = history.map(b => `
+    <div class="brutal-card"
+         style="padding: 10px; margin: 0; border-color: #2a2a38;">
+
+        <div style="font-size: 0.85rem; color: #fff;">
+            👑 Победитель:
+            <strong style="color: var(--gold);">
+                ${b.winner_name || 'Не указан'}
+            </strong>
+        </div>
+
+        <div style="font-size: 0.75rem; color: var(--steel); margin-top: 4px;">
+            Участники:
+            ${b.challenger_name} vs ${b.target_name}
+        </div>
+
+        <div style="font-size: 0.7rem; color: var(--steel); margin-top: 3px;">
+            Дата: ${b.created_at || '—'}
+        </div>
+
+        ${
+            isBoris
+                ? `
+                    <button
+                        class="brutal-btn danger"
+                        style="margin-top: 8px; width: 100%; font-size: 0.7rem;"
+                        onclick="deleteBattle('${b.id}')">
+                        🗑️ УДАЛИТЬ ЗАПИСЬ
+                    </button>
+                  `
+                : ''
+        }
+    </div>
+`).join('');
+
     }
 }
 
@@ -5151,6 +5189,43 @@ async function openJudgeModal(fightId) {
             // Если победитель прямо сейчас сидит на сайте
             checkPendingLevelUp();
         }
+
+        // ====================================================
+// 🗑️ УДАЛЕНИЕ ЗАПИСИ ИЗ ЛОГА БОЁВ
+// ====================================================
+async function deleteBattle(fightId) {
+    if (!currentUser) {
+        alert('Нужно войти в аккаунт.');
+        return;
+    }
+
+    const isBoris =
+        currentUser.name &&
+        currentUser.name.toUpperCase() === 'БОРИС' ||
+        currentUser.username === 'boris';
+
+    if (!isBoris) {
+        alert('Удалять записи может только Борис.');
+        return;
+    }
+
+    if (!confirm('Удалить эту запись из лога боёв?')) return;
+
+    const { error } = await _supabase
+        .from('battles')
+        .delete()
+        .eq('id', fightId);
+
+    if (error) {
+        console.error('Ошибка удаления боя:', error);
+        alert('Не удалось удалить запись.');
+        return;
+    }
+
+    alert('Запись удалена.');
+    await loadBattlesLog();
+}
+
 
                 function checkPendingLevelUp() {
             if (!currentUser) return;
