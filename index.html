@@ -5178,16 +5178,15 @@ let currentBattleBoss = null;
 let battleLoopId = null;
 let lastTimestamp = 0; // Для контроля скорости на разных мониторах
 
-
-                // ====================================================
-        // 🔥 РОСТЕР ЭТАПОВ С МЯГКИМИ ШТРАФАМИ ПРИ ПОРАЖЕНИИ
+        // ====================================================
+        // 🔥 РОСТЕР ЭТАПОВ БЕЗ НАГРАДЫ EXP (ТОЛЬКО КРИСТАЛЛЫ 💎)
         // ====================================================
         const STAGES_DATA = [
             {
                 id: 'stage_1', mode: 'table',
                 tierName: 'STAGE 1: 💩 ВОНЮЧКИ',
-                bossName: 'Раф', bossAvatar: 'char_raf.webp', bossEra: 1,
-                rewardExp: 35, rewardCrystals: 20, penaltyCrystals: 10,
+                bossName: 'Раф', bossAvatar: 'char_default.webp', bossEra: 1,
+                rewardCrystals: 20, penaltyCrystals: 10,
                 basePower: 20, speed: 0.9, durationSec: 35,
                 lore: 'Первый экзамен за столом. Разминает связки.'
             },
@@ -5195,7 +5194,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_2', mode: 'osu',
                 tierName: 'STAGE 2: 💩 ПУТЬ ВОСХОЖДЕНИЯ',
                 bossName: '🌀 Испытание Концентрации I', bossAvatar: 'char_default.webp', bossEra: 2,
-                rewardExp: 55, rewardCrystals: 35, penaltyCrystals: 15,
+                rewardCrystals: 35, penaltyCrystals: 15,
                 targetScore: 6, spawnRate: 4200,
                 lore: 'Ритм-барьер. Пройди волны белых вибраций для допуска к боссу.'
             },
@@ -5203,7 +5202,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_3', mode: 'smash',
                 tierName: 'STAGE 3: 💀 ВОССТАВШИЕ',
                 bossName: 'Претендент', bossAvatar: 'char_default.webp', bossEra: 6,
-                rewardExp: 90, rewardCrystals: 55, penaltyCrystals: 20,
+                rewardCrystals: 55, penaltyCrystals: 20,
                 targetScore: 16, spawnRate: 950,
                 lore: 'Оборотень дворовых столов. Режим: СЛОМАЙ КИСТЬ!'
             },
@@ -5211,7 +5210,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_4', mode: 'osu',
                 tierName: 'STAGE 4: 💀 ПУТЬ ВОСХОЖДЕНИЯ',
                 bossName: '🌀 Испытание Концентрации II', bossAvatar: 'char_default.webp', bossEra: 7,
-                rewardExp: 130, rewardCrystals: 75, penaltyCrystals: 25,
+                rewardCrystals: 75, penaltyCrystals: 25,
                 targetScore: 7, spawnRate: 3900,
                 lore: 'Ритм-проверка связок перед элитой.'
             },
@@ -5219,7 +5218,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_5', mode: 'table',
                 tierName: 'STAGE 5: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (1/2)',
                 bossName: 'Ваня (AI)', bossAvatar: 'char_vanya.webp', bossEra: 12,
-                rewardExp: 170, rewardCrystals: 95, penaltyCrystals: 15, // 🔥 Ваня: снижено до 15
+                rewardCrystals: 95, penaltyCrystals: 15,
                 basePower: 65, speed: 1.6, durationSec: 45,
                 lore: 'Наглый и коварный крюк Вани. Настоящая проверка столом!'
             },
@@ -5227,7 +5226,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_6', mode: 'table',
                 tierName: 'STAGE 6: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (2/2)',
                 bossName: 'Герман', bossAvatar: 'char_german.webp', bossEra: 12,
-                rewardExp: 210, rewardCrystals: 120, penaltyCrystals: 20, // 🔥 Герман: снижено до 20
+                rewardCrystals: 120, penaltyCrystals: 20,
                 basePower: 75, speed: 1.8, durationSec: 45,
                 lore: 'Железный верх и непробиваемый трицепс.'
             },
@@ -5235,7 +5234,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_7', mode: 'smash',
                 tierName: 'STAGE 7: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (ФИНАЛ)',
                 bossName: 'Мастер Спида', bossAvatar: 'char_default.webp', bossEra: 10,
-                rewardExp: 250, rewardCrystals: 150, penaltyCrystals: 30, // 🔥 Стас/Мастер Спида: снижено до 30
+                rewardCrystals: 150, penaltyCrystals: 30,
                 targetScore: 22, spawnRate: 850,
                 lore: 'Бешеная скорость кистей и опасные ловушки-бомбы!'
             },
@@ -5243,7 +5242,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_8', mode: 'osu',
                 tierName: 'STAGE 8: 🌌 МЛЕЧНЫЕ КОРОЛИ',
                 bossName: '🌀 Испытание Концентрации III', bossAvatar: 'char_artur.webp', bossEra: 13,
-                rewardExp: 350, rewardCrystals: 210, penaltyCrystals: 35, // 🔥 Испытание 3: снижено до 35
+                rewardCrystals: 210, penaltyCrystals: 35,
                 targetScore: 8, spawnRate: 3500,
                 lore: 'Финальный ритм-штурм перед встречей с Лавовым Королём.'
             },
@@ -5251,7 +5250,7 @@ let lastTimestamp = 0; // Для контроля скорости на разн
                 id: 'stage_9', mode: 'table',
                 tierName: 'STAGE 9: 🔥 ГОРЯЧИЕ ПАРНИ (ФИНАЛ БОСС)',
                 bossName: 'ТИМУР 🌋', bossAvatar: 'char_timur.webp', bossEra: 15,
-                rewardExp: 900, rewardCrystals: 500, penaltyCrystals: 40, // 🔥 Тимур: снижено с 100 до 40!
+                rewardCrystals: 500, penaltyCrystals: 40,
                 basePower: 125, speed: 2.3, durationSec: 60, hasPhases: true,
                 lore: 'ФИНАЛ НА КИБЕР-СТОЛЕ. Расплавленный гранит. Сдвинь короля с места!'
             }
@@ -5275,7 +5274,9 @@ function loadPlayerProgress() {
     playerStageCds = currentUser.stage_cds || {};
 }
 
-// Рендер карты этапов с постоянным лидербордом снизу
+// ====================================================
+// 🗺️ ОТРИСОВКА КАРТЫ ЭТАПОВ И ЛИДЕРБОРДА КРИСТАЛЛОВ
+// ====================================================
 function initMinigameUI() {
     loadPlayerProgress();
     const grid = document.getElementById('stages-grid-container');
@@ -5296,8 +5297,11 @@ function initMinigameUI() {
         const cdMin = Math.floor(remSec / 60);
         const cdSec = remSec % 60;
 
-        let modeBadge = st.mode === 'osu' ? '🎯 OSU ЭЛЛИПСЫ' : (st.mode === 'smash' ? '🔨 СЛОМАЙ КИСТЬ' : '🤼 КИБЕР-СТОЛ');
+        let modeBadge = st.mode === 'osu' ? '🎯 РИТМ-ПУТЬ (OSU)' : (st.mode === 'smash' ? '🔨 СЛОМАЙ КИСТЬ' : '🤼 КИБЕР-СТОЛ');
         let modeColor = st.mode === 'osu' ? '#00ff66' : (st.mode === 'smash' ? '#ff5500' : '#a855f7');
+
+        // Вычисляем визуальные данные босса (рука + аватар)
+        const visuals = getBossVisuals(st.bossName, st.bossAvatar, st.bossEra);
 
         let actionHtml = '';
         if (!isUnlocked) {
@@ -5312,7 +5316,7 @@ function initMinigameUI() {
             <div class="brutal-card" style="border-color: ${isUnlocked ? modeColor : '#333'}; opacity: ${isUnlocked && !isOnCd ? '1' : '0.6'}; display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; flex-wrap: wrap; gap: 10px;">
                 <div style="display: flex; align-items: center; gap: 14px;">
                     <div style="width: 50px; height: 50px; border-radius: 50%; background: #0a0a0e; border: 2px solid ${isUnlocked ? 'var(--gold)' : '#555'}; display: flex; align-items: center; justify-content: center;">
-                        <img src="arm_icon_${st.bossEra}.webp" style="width: 30px; height: 30px; object-fit: contain;" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                        <img src="arm_icon_${visuals.era}.webp" style="width: 30px; height: 30px; object-fit: contain;" onerror="this.onerror=null; this.src='arm_icon.webp';">
                     </div>
                     <div>
                         <div style="font-size: 0.7rem; color: var(--gold); font-weight: 900;">${st.tierName} <span style="color: ${modeColor};">[${modeBadge}]</span></div>
@@ -5322,8 +5326,8 @@ function initMinigameUI() {
                 </div>
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="text-align: right; font-size: 0.75rem;">
-                        <div style="color: #a855f7; font-weight: bold;">+${st.rewardExp} EXP | +${st.rewardCrystals} 💎</div>
-                        <div style="color: #ff0055; font-size: 0.65rem;">Штраф при проигрыше: -${st.penaltyCrystals} 💎</div>
+                        <div style="color: #00ff66; font-weight: bold; font-size: 0.85rem;">Награда: +${st.rewardCrystals} 💎</div>
+                        <div style="color: #ff0055; font-size: 0.65rem;">Штраф при поражении: -${st.penaltyCrystals} 💎</div>
                     </div>
                     ${actionHtml}
                 </div>
@@ -5331,13 +5335,11 @@ function initMinigameUI() {
         `;
     }).join('');
 
-    // 🔥 ДОБАВЛЯЕМ ВСТРОЕННЫЙ ИГРОВОЙ ЛИДЕРБОРД В САМОМ НИЗУ
+    // Лидерборд кристаллов внизу
     html += `
         <div class="brutal-card" style="border-color: #00ff66; margin-top: 30px; padding: 20px;">
             <h3 style="font-family: 'Cinzel'; color: #00ff66; margin-bottom: 15px; font-size: 1.1rem;">💎 ТОП ФАРМЕРОВ КРИСТАЛЛОВ ВОЛИ</h3>
-            <div id="embedded-crystal-leaderboard" style="display: flex; flex-direction: column; gap: 8px;">
-                <!-- Динамически заполняется -->
-            </div>
+            <div id="embedded-crystal-leaderboard" style="display: flex; flex-direction: column; gap: 8px;"></div>
         </div>
     `;
 
@@ -5473,6 +5475,33 @@ function initMinigameUI() {
 
 
 
+                // ====================================================
+        // 🤖 УМНЫЙ ДЕТЕКТОР АВАТАРКИ И РУКИ БОССА
+        // ====================================================
+        function getBossVisuals(bossName, originalAvatar, originalEra) {
+            const name = (bossName || '').toLowerCase();
+            let avatar = originalAvatar || 'char_default.webp';
+            let era = originalEra || 1;
+
+            if (name.includes('раф') || name.includes('raf')) { avatar = 'char_raf.webp'; era = 1; }
+            else if (name.includes('никита') || name.includes('nikita')) { avatar = 'char_nikita.webp'; era = 4; }
+            else if (name.includes('веня') || name.includes('venya')) { avatar = 'char_venya.webp'; era = 8; }
+            else if (name.includes('ваня') || name.includes('vanya')) { avatar = 'char_vanya.webp'; era = 12; }
+            else if (name.includes('герман') || name.includes('german')) { avatar = 'char_german.webp'; era = 12; }
+            else if (name.includes('максим') || name.includes('maksim')) { avatar = 'char_maksim.webp'; era = 12; }
+            else if (name.includes('стас') || name.includes('stas')) { avatar = 'char_stas.webp'; era = 7; }
+            else if (name.includes('гера') || name.includes('gera')) { avatar = 'char_gera.webp'; era = 5; }
+            else if (name.includes('глеб') || name.includes('gleb')) { avatar = 'char_gleb.webp'; era = 6; }
+            else if (name.includes('денис') || name.includes('denis')) { avatar = 'char_denis.webp'; era = 5; }
+            else if (name.includes('жора') || name.includes('zhora')) { avatar = 'char_zhora.webp'; era = 8; }
+            else if (name.includes('борис') || name.includes('boris')) { avatar = 'char_boris.webp'; era = 10; }
+            else if (name.includes('егор') || name.includes('egor')) { avatar = 'char_egor.webp'; era = 13; }
+            else if (name.includes('тимур') || name.includes('timur')) { avatar = 'char_timur.webp'; era = 15; }
+
+            return { avatar, era };
+        }
+
+
         // ====================================================
         // ⚡️ КОНВЕРТАЦИЯ РЕАЛЬНЫХ ЗАМЕРОВ ИЗ ПРОФИЛЯ В БОЕВЫЕ СТАТЫ
         // ====================================================
@@ -5519,7 +5548,6 @@ function startTableBattle(st) {
     gameState.playerStats = pStats;
     lastTimestamp = 0; // Сбрасываем время перед началом боя
 
-
     document.getElementById('minigame-stage-screen').style.display = 'none';
     document.getElementById('minigame-osu-screen').style.display = 'none';
     document.getElementById('minigame-smash-screen').style.display = 'none';
@@ -5528,11 +5556,19 @@ function startTableBattle(st) {
     document.getElementById('player-battle-name').innerText = currentUser ? currentUser.name : 'ВЫ';
     document.getElementById('boss-battle-name').innerText = st.bossName;
     
+    // Игрок
     const myEra = getPlayerEra ? getPlayerEra(currentUser) : {id: 1};
     document.getElementById('player-battle-avatar').src = getCharImgPath(currentUser);
-    document.getElementById('player-battle-hand-icon').src = `arm_icon_${myEra.id}.webp`;
-    document.getElementById('boss-battle-avatar').src = st.bossAvatar;
-    document.getElementById('boss-battle-hand-icon').src = `arm_icon_${st.bossEra}.webp`;
+    const myHandEl = document.getElementById('player-battle-hand-icon');
+    if (myHandEl) myHandEl.src = `arm_icon_${myEra.id}.webp`;
+
+     // 🔥 Автоматически вычисляем правильную картинку и руку босса по его имени
+    const bossVisuals = getBossVisuals(st.bossName, st.bossAvatar, st.bossEra);
+    
+    document.getElementById('boss-battle-avatar').src = bossVisuals.avatar;
+    const bossHandEl = document.getElementById('boss-battle-hand-icon');
+    if (bossHandEl) bossHandEl.src = `arm_icon_${bossVisuals.era}.webp`;
+
 
     randomizeZones();
 
@@ -5549,6 +5585,7 @@ function startTableBattle(st) {
         }
     }, 1000);
 }
+
 
 function randomizeZones() {
     gameState.greenWidth = 15;
@@ -6098,8 +6135,8 @@ function exitSmashBattle() {
 }
 
 
-        // ====================================================
-        // ⏳ УМНЫЕ КУЛДАУНЫ ПОД КАЖДЫЙ РЕЖИМ И БОССА
+               // ====================================================
+        // ⏳ УМНЫЕ КУЛДАУНЫ ПОД КАЖДЫЙ РЕЖИМ И БОССА (БЕЗ EXP)
         // ====================================================
         async function endBattle(isWin) {
             gameState.inBattle = false;
@@ -6110,7 +6147,6 @@ function exitSmashBattle() {
 
             if (isWin) {
                 userCrystals += st.rewardCrystals;
-                const gainedExp = st.rewardExp;
                 
                 // 🔥 РАСЧЕТ ИНДИВИДУАЛЬНОГО КУЛДАУНА
                 let cdMinutes = 4; // Стандарт для кибер-стола
@@ -6120,7 +6156,7 @@ function exitSmashBattle() {
                 } else if (st.mode === 'smash') {
                     cdMinutes = 15; // Сломай кисть ➔ 15 минут КД
                 } else if (st.id === 'stage_1') {
-                    cdMinutes = 15; // Колян («Раф») защищен от абуза ➔ 15 минут КД
+                    cdMinutes = 15; // Раф защищен от абуза ➔ 15 минут КД
                 } else if (st.id === 'stage_9') {
                     cdMinutes = 2;  // Тимур ➔ Хардкорный босс, КД всего 2 минуты на реванш!
                 }
@@ -6133,14 +6169,14 @@ function exitSmashBattle() {
                 }
 
                 if (currentUser) {
-                    currentUser.exp = (currentUser.exp || 0) + gainedExp;
+                    // 🔥 EXP БОЛЬШЕ НЕ ПРИБАВЛЯЕТСЯ (только кристаллы и этапы)
                     currentUser.crystals = userCrystals;
                     currentUser.unlocked_stage = playerUnlockedStage;
                     currentUser.stage_cds = playerStageCds;
                     await syncUserToSupabase(currentUser);
                 }
 
-                alert(`🏆 ПОБЕДА: ${st.bossName}!\n\nПолучено:\n+${gainedExp} EXP\n+${st.rewardCrystals} 💎 Кристаллов Воли!\n\n⏳ Кулдаун на этап: ${cdMinutes} минут.`);
+                alert(`🏆 ПОБЕДА: ${st.bossName}!\n\nПолучено:\n+${st.rewardCrystals} 💎 Кристаллов Воли!\n\n⏳ Кулдаун на этап: ${cdMinutes} минут.`);
             } else {
                 const penalty = st.penaltyCrystals || 10;
                 userCrystals = Math.max(0, userCrystals - penalty);
@@ -6150,11 +6186,13 @@ function exitSmashBattle() {
                     await syncUserToSupabase(currentUser);
                 }
 
+                // 🔥 Исправлены кавычки в алерте поражения
                 alert(`💀 ТЕБЯ СМЯЛИ: "${st.tierName}"!\n\nШТРАФ ЗА ПОРАЖЕНИЕ:\n-${penalty} 💎 Кристаллов Воли забрали в казну Лиги!`);
             }
 
             exitBattle();
         }
+
 
 
 function exitBattle() {
