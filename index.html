@@ -4052,12 +4052,13 @@ function getEraByExp(exp, userObj) {
                             <span class="player-era-text">${era.id} Эпоха</span>
                         </div>
                     </div>
-                   <button class="btn-profile-neon" title="Открыть профиль" onclick="openUserProfile('${u.id}')">
+                   <button class="btn-profile-neon" title="Открыть профиль" onclick="openUserProfile('${user.id}')">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
         <circle cx="12" cy="7" r="4"></circle>
     </svg>
 </button>
+
                 </div>
             `;
                 }).join('');
