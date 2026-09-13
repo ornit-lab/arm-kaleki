@@ -6533,7 +6533,7 @@ function initMinigameUI() {
 
         // 3. Млечные Короли (11 - 13 Эпохи)
         const POOL_MILKY = [
-            { name: 'Ваня (AI)', avatar: 'char_vanya.webp', era: 13, power: 75 },
+            { name: 'Ваня ', avatar: 'char_vanya.webp', era: 13, power: 75 },
             { name: 'Герман', avatar: 'char_german.webp', era: 12, power: 72 },
             { name: 'Артур', avatar: 'char_artur.webp', era: 11, power: 68 }
         ];
@@ -6887,13 +6887,14 @@ function updateBattleUI() {
 
 
         // ====================================================
-        // 🎯 ПРОДВИНУТЫЙ OSU-ДВИЖОК (ЦИФРЫ, ЖЕЛТЫЕ ТРИПЛЫ И БАЛАНС)
+        // 🎯 ПОЛНОСТЬЮ АДАПТИРОВАННЫЙ КИБЕР-ДВИЖОК OSU (ФИНАЛ)
         // ====================================================
         let osuState = {
             active: false,
             score: 0,
             targetScore: 25,
             misses: 0,
+            maxMisses: 5, // Максимум 5 промахов
             spawnInterval: null,
             expectedDigit: 1,
             recentTypes: []
@@ -6907,20 +6908,30 @@ function updateBattleUI() {
             osuState.expectedDigit = 1;
             osuState.recentTypes = [];
 
+            // Переключаем экраны
             document.getElementById('minigame-stage-screen').style.display = 'none';
             document.getElementById('minigame-battle-screen').style.display = 'none';
             document.getElementById('minigame-smash-screen').style.display = 'none';
-            document.getElementById('minigame-osu-screen').style.display = 'block';
+            
+            const osuScreen = document.getElementById('minigame-osu-screen');
+            if (osuScreen) osuScreen.style.display = 'block';
 
+            // Обнуляем показатели на экране
             const scoreEl = document.getElementById('osu-score-val');
             const targetEl = document.getElementById('osu-score-target');
+            const missesEl = document.getElementById('osu-misses-val');
+            
             if (scoreEl) scoreEl.innerText = '0';
             if (targetEl) targetEl.innerText = osuState.targetScore;
+            if (missesEl) missesEl.innerText = '0';
 
             window.removeEventListener('keydown', handleOsuKeyboard);
             window.addEventListener('keydown', handleOsuKeyboard);
 
-            runOsuSpawner(st.spawnRate || 1300);
+            // Мягкий старт спавнера через 50мс для рассчета размеров арены
+            setTimeout(() => {
+                runOsuSpawner(st.spawnRate || 1200);
+            }, 50);
         }
 
         function getBalancedOsuType() {
@@ -6933,94 +6944,128 @@ function updateBattleUI() {
             return chosen;
         }
 
+        function spawnSingleOsuTarget() {
+            if (!osuState.active) return;
+            
+            // Используем твою оригинальную игровую зону
+            const arena = document.getElementById('osu-playfield') || document.getElementById('osu-game-area');
+            if (!arena) return;
+
+            // Лимит: не больше 3 активных кругов на экране
+            if (arena.children.length >= 3) return;
+
+            const node = document.createElement('div');
+            const type = getBalancedOsuType();
+
+            // Точные динамические координаты
+            const areaW = arena.clientWidth > 100 ? arena.clientWidth : 400;
+            const areaH = arena.clientHeight > 100 ? arena.clientHeight : 350;
+
+            const posX = Math.floor(Math.random() * (areaW - 80));
+            const posY = Math.floor(Math.random() * (areaH - 80));
+
+            // Стилизация кружка
+            node.style.position = 'absolute';
+            node.style.left = Math.max(15, posX) + 'px';
+            node.style.top = Math.max(15, posY) + 'px';
+            node.style.width = '64px';
+            node.style.height = '64px';
+            node.style.borderRadius = '50%';
+            node.style.display = 'flex';
+            node.style.alignItems = 'center';
+            node.style.justifyContent = 'center';
+            node.style.cursor = 'pointer';
+            node.style.zIndex = '100';
+            node.style.userSelect = 'none';
+            node.style.fontFamily = "'Comfortaa', sans-serif";
+            node.style.fontWeight = "900";
+            node.style.fontSize = "1.2rem";
+
+            let lifeTime = 1400; // Базовое время жизни
+
+            if (type === 'digit') {
+                // 🎹 ПК: Цифры на клавиатуре / Мобилка: Клик по порядку
+                const currentNum = osuState.expectedDigit;
+                node.style.background = 'radial-gradient(circle, #3b82f6, #1d4ed8)';
+                node.style.border = '2.5px solid #93c5fd';
+                node.style.color = '#ffffff';
+                node.style.boxShadow = '0 0 18px rgba(59, 130, 246, 0.9)';
+                node.innerText = currentNum;
+                node.dataset.digit = currentNum;
+
+                osuState.expectedDigit = (osuState.expectedDigit % 9) + 1;
+
+                node.onclick = (e) => {
+                    e.stopPropagation();
+                    registerOsuHit();
+                    node.remove();
+                };
+            } 
+            else if (type === 'triple') {
+                // 🟡 Желтый трипл (3 клика)
+                let clicksLeft = 3;
+                node.style.background = 'radial-gradient(circle, #f59e0b, #b45309)';
+                node.style.border = '2.5px solid #fde68a';
+                node.style.color = '#ffffff';
+                node.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.9)';
+                node.innerText = '3x';
+
+                node.onclick = (e) => {
+                    e.stopPropagation();
+                    clicksLeft--;
+                    node.style.transform = 'scale(1.18)';
+                    setTimeout(() => node.style.transform = 'scale(1)', 100);
+
+                    if (clicksLeft > 0) {
+                        node.innerText = clicksLeft + 'x';
+                    } else {
+                        registerOsuHit();
+                        node.remove();
+                    }
+                };
+                lifeTime = 1950; // Даем больше времени
+            } 
+            else {
+                // 🎯 Обычный стандартный зеленый кружок
+                node.style.background = 'radial-gradient(circle, #00ff66, #008833)';
+                node.style.border = '2.5px solid #ffffff';
+                node.style.color = '#ffffff';
+                node.style.boxShadow = '0 0 18px #00ff66';
+                node.innerText = '🎯';
+
+                node.onclick = (e) => {
+                    e.stopPropagation();
+                    registerOsuHit();
+                    node.remove();
+                };
+            }
+
+            arena.appendChild(node);
+
+            // Обработка промаха по времени
+            setTimeout(() => {
+                if (node && node.parentNode) {
+                    node.remove();
+                    registerOsuMiss();
+                }
+            }, lifeTime);
+        }
+
         function runOsuSpawner(rate) {
-            const container = document.getElementById('osu-game-area');
-            if (!container) return;
-            container.innerHTML = '';
+            const arena = document.getElementById('osu-playfield') || document.getElementById('osu-game-area');
+            if (!arena) return;
+            arena.innerHTML = '';
+            arena.style.position = 'relative';
 
             if (osuState.spawnInterval) clearInterval(osuState.spawnInterval);
 
+            // Спавним первую цель сразу
+            spawnSingleOsuTarget();
+
+            // Спавним остальные цели по таймеру
             osuState.spawnInterval = setInterval(() => {
                 if (!osuState.active) return;
-
-                if (container.children.length >= 3) return;
-
-                const node = document.createElement('div');
-                const type = getBalancedOsuType();
-                
-                const maxX = Math.max(50, container.clientWidth - 70);
-                const maxY = Math.max(50, container.clientHeight - 70);
-                const posX = Math.max(10, Math.floor(Math.random() * maxX));
-                const posY = Math.max(10, Math.floor(Math.random() * maxY));
-
-                node.style.position = 'absolute';
-                node.style.left = posX + 'px';
-                node.style.top = posY + 'px';
-                node.style.width = '60px';
-                node.style.height = '60px';
-                node.style.borderRadius = '50%';
-                node.style.display = 'flex';
-                node.style.alignItems = 'center';       // 🔥 ИСПРАВЛЕНО
-                node.style.justifyContent = 'center';  // 🔥 ИСПРАВЛЕНО
-                node.style.cursor = 'pointer';
-                node.style.zIndex = '10';
-
-                let lifeTime = 1300;
-
-                if (type === 'digit') {
-                    const currentNum = osuState.expectedDigit;
-                    node.className = 'osu-num-node';
-                    node.innerText = currentNum;
-                    node.dataset.digit = currentNum;
-                    osuState.expectedDigit = (osuState.expectedDigit % 9) + 1;
-
-                    node.onclick = (e) => {
-                        e.stopPropagation();
-                        registerOsuHit();
-                        node.remove();
-                    };
-                } 
-                else if (type === 'triple') {
-                    node.className = 'osu-triple-node';
-                    let clicksLeft = 3;
-                    node.innerText = '3x';
-
-                    node.onclick = (e) => {
-                        e.stopPropagation();
-                        clicksLeft--;
-                        node.classList.add('triple-animate');
-                        setTimeout(() => node.classList.remove('triple-animate'), 150);
-
-                        if (clicksLeft > 0) {
-                            node.innerText = clicksLeft + 'x';
-                        } else {
-                            registerOsuHit();
-                            node.remove();
-                        }
-                    };
-                    lifeTime = 1800;
-                } 
-                else {
-                    node.style.background = 'radial-gradient(circle, #00ff66, #008833)';
-                    node.style.border = '2px solid #fff';
-                    node.style.boxShadow = '0 0 15px #00ff66';
-                    node.innerText = '🎯';
-
-                    node.onclick = (e) => {
-                        e.stopPropagation();
-                        registerOsuHit();
-                        node.remove();
-                    };
-                }
-
-                container.appendChild(node);
-
-                setTimeout(() => {
-                    if (node.parentNode) {
-                        node.remove();
-                    }
-                }, lifeTime);
-
+                spawnSingleOsuTarget();
             }, rate);
         }
 
@@ -7028,14 +7073,11 @@ function updateBattleUI() {
             if (!osuState.active) return;
             const key = e.key;
             if (key >= '1' && key <= '9') {
-                const targetNode = Array.from(document.querySelectorAll('.osu-num-node')).find(n => n.dataset.digit === key);
+                const targetNode = Array.from(document.querySelectorAll('#osu-playfield div, #osu-game-area div')).find(n => n.dataset.digit === key);
                 if (targetNode) {
                     targetNode.click();
                 } else {
-                    osuState.misses++;
-                    if (osuState.misses >= 5) {
-                        endOsuBattle(false);
-                    }
+                    registerOsuMiss();
                 }
             }
         }
@@ -7050,209 +7092,42 @@ function updateBattleUI() {
             }
         }
 
+        function registerOsuMiss() {
+            if (!osuState.active) return;
+            osuState.misses++;
+            
+            const missesEl = document.getElementById('osu-misses-val');
+            if (missesEl) missesEl.innerText = osuState.misses;
+
+            if (osuState.misses >= osuState.maxMisses) {
+                endOsuBattle(false);
+            }
+        }
+
         function endOsuBattle(isWin) {
             osuState.active = false;
             if (osuState.spawnInterval) clearInterval(osuState.spawnInterval);
             window.removeEventListener('keydown', handleOsuKeyboard);
 
-            document.getElementById('minigame-osu-screen').style.display = 'none';
+            const osuScreen = document.getElementById('minigame-osu-screen');
+            if (osuScreen) osuScreen.style.display = 'none';
 
             if (isWin) {
-                alert("🎯 ИСПЫТАНИЕ КОНЦЕНТРАЦИИ ПРОЙДЕНО!\nРитм-барьер сломлен, путь к боссу открыт.");
+                alert("🎯 ИСПЫТАНИЕ КОНЦЕНТРАЦИИ ПРОЙДЕНО!\nРитм-барьер сломлен!");
                 endBattle(true);
             } else {
-                alert("💥 СБОЙ КОНЦЕНТРАЦИИ!\nТы сбился с ритма или перепутал порядок.");
+                alert("💥 СБОЙ КОНЦЕНТРАЦИИ!\nТы совершил слишком много ошибок или пропусков.");
                 endBattle(false);
             }
         }
+
+        function exitOsuBattle() {
+            osuState.active = false;
+            if (osuState.spawnInterval) clearInterval(osuState.spawnInterval);
+            window.removeEventListener('keydown', handleOsuKeyboard);
+            exitBattle();
+        }
       
-
-        function spawnOsuVariedWave(waveTime) {
-            if (!osuState.active) return;
-            const arena = document.getElementById('osu-playfield');
-            if (!arena) return;
-
-            arena.querySelectorAll('.osu-ellipse-bubble, .osu-white-slider-container').forEach(el => el.remove());
-
-            const randType = Math.random();
-            if (randType < 0.35) {
-                spawnSinglePlainEllipse(arena, waveTime);
-            } else if (randType < 0.7) {
-                spawnOsuWhiteSlider(arena, waveTime);
-            } else {
-                spawnOsuSequencePattern(arena, waveTime);
-            }
-        }
-
-        function spawnSinglePlainEllipse(arena, waveTime) {
-            const el = document.createElement('div');
-            el.className = 'osu-ellipse-bubble';
-            const x = Math.floor(Math.random() * (arena.clientWidth - 160)) + 80;
-            const y = Math.floor(Math.random() * (arena.clientHeight - 160)) + 80;
-            el.style.left = `${x}px`;
-            el.style.top = `${y}px`;
-            el.innerHTML = `<div class="osu-water-ring"></div>`;
-
-            let clicked = false;
-            let timer = null;
-
-            el.onmousedown = (e) => {
-                e.stopPropagation();
-                if (clicked || !osuState.active) return;
-                clicked = true;
-                if (timer) clearTimeout(timer);
-                el.style.transform = 'translate(-50%, -50%) scale(1.3)';
-                el.style.opacity = '0';
-                setTimeout(() => el.remove(), 150);
-
-                osuState.score++;
-                document.getElementById('osu-score-val').innerText = osuState.score;
-                if (osuState.score >= osuState.targetScore) endOsuBattle(true);
-                else setTimeout(() => spawnOsuVariedWave(waveTime), 500);
-            };
-
-            timer = setTimeout(() => {
-                if (!clicked && osuState.active) {
-                    clicked = true;
-                    if (el.parentNode) el.remove();
-                    registerOsuMiss();
-                    setTimeout(() => spawnOsuVariedWave(waveTime), 600);
-                }
-            }, waveTime);
-            arena.appendChild(el);
-        }
-
-        // 🔥 ПЛАВНЫЙ БЕЛЫЙ СЛАЙДЕР СО СТРЕЛКОЙ
-        function spawnOsuWhiteSlider(arena, waveTime) {
-            const container = document.createElement('div');
-            container.className = 'osu-white-slider-container';
-            const x = Math.floor(Math.random() * (arena.clientWidth - 220)) + 110;
-            const y = Math.floor(Math.random() * (arena.clientHeight - 120)) + 60;
-            container.style.left = `${x}px`;
-            container.style.top = `${y}px`;
-
-            const track = document.createElement('div');
-            track.className = 'osu-white-slider-track';
-
-            const handle = document.createElement('div');
-            handle.className = 'osu-white-slider-handle';
-            handle.innerHTML = `
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-                <div class="osu-water-ring" style="top:-10px; left:-10px; right:-10px; bottom:-10px;"></div>
-            `;
-
-            track.appendChild(handle);
-            container.appendChild(track);
-
-            let isDragging = false;
-            let completed = false;
-            let timer = null;
-
-            handle.addEventListener('mousedown', (e) => { e.stopPropagation(); isDragging = true; });
-            handle.addEventListener('touchstart', (e) => { e.stopPropagation(); isDragging = true; }, { passive: false });
-
-            const onMove = (e) => {
-                if (!isDragging || completed || !osuState.active) return;
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const rect = track.getBoundingClientRect();
-                const offsetX = Math.max(0, Math.min(130, clientX - rect.left - 25));
-                handle.style.left = `${offsetX}px`;
-
-                if (offsetX >= 115) {
-                    completed = true; isDragging = false;
-                    window.removeEventListener('mousemove', onMove);
-                    window.removeEventListener('touchmove', onMove);
-                    if (timer) clearTimeout(timer);
-                    container.style.opacity = '0';
-                    setTimeout(() => container.remove(), 200);
-
-                    osuState.score++;
-                    document.getElementById('osu-score-val').innerText = osuState.score;
-                    if (osuState.score >= osuState.targetScore) endOsuBattle(true);
-                    else setTimeout(() => spawnOsuVariedWave(waveTime), 500);
-                }
-            };
-
-            window.addEventListener('mousemove', onMove);
-            window.addEventListener('touchmove', onMove, { passive: false });
-            window.addEventListener('mouseup', () => { isDragging = false; });
-            window.addEventListener('touchend', () => { isDragging = false; });
-
-            timer = setTimeout(() => {
-                if (!completed && osuState.active) {
-                    completed = true; isDragging = false;
-                    window.removeEventListener('mousemove', onMove);
-                    window.removeEventListener('touchmove', onMove);
-                    if (container.parentNode) container.remove();
-                    registerOsuMiss();
-                    setTimeout(() => spawnOsuVariedWave(waveTime), 600);
-                }
-            }, waveTime + 600);
-
-            arena.appendChild(container);
-        }
-
-        function spawnOsuSequencePattern(arena, waveTime) {
-            osuState.nextExpectedNum = 1;
-            let leftInSeq = 3, seqDone = false, timer = null;
-            const elements = [];
-
-            for (let i = 1; i <= 3; i++) {
-                const el = document.createElement('div');
-                el.className = 'osu-ellipse-bubble';
-                const x = Math.floor(Math.random() * (arena.clientWidth - 160)) + 80;
-                const y = Math.floor(Math.random() * (arena.clientHeight - 160)) + 80;
-                el.style.left = `${x}px`; el.style.top = `${y}px`;
-                el.innerHTML = `<span style="position:relative; z-index:2;">${i}</span><div class="osu-water-ring"></div>`;
-
-                el.onmousedown = (e) => {
-                    e.stopPropagation();
-                    if (seqDone || !osuState.active) return;
-                    if (i === osuState.nextExpectedNum) {
-                        osuState.nextExpectedNum++;
-                        el.style.transform = 'translate(-50%, -50%) scale(1.3)';
-                        el.style.opacity = '0';
-                        setTimeout(() => el.remove(), 150);
-                        leftInSeq--;
-                        if (leftInSeq === 0) {
-                            seqDone = true; if (timer) clearTimeout(timer);
-                            osuState.score++;
-                            document.getElementById('osu-score-val').innerText = osuState.score;
-                            if (osuState.score >= osuState.targetScore) endOsuBattle(true);
-                            else setTimeout(() => spawnOsuVariedWave(waveTime), 600);
-                        }
-                    } else {
-                        seqDone = true; if (timer) clearTimeout(timer);
-                        elements.forEach(item => item.remove());
-                        registerOsuMiss();
-                        setTimeout(() => spawnOsuVariedWave(waveTime), 700);
-                    }
-                };
-                elements.push(el);
-                arena.appendChild(el);
-            }
-
-            timer = setTimeout(() => {
-                if (!seqDone && osuState.active) {
-                    seqDone = true;
-                    elements.forEach(item => item.remove());
-                    registerOsuMiss();
-                    setTimeout(() => spawnOsuVariedWave(waveTime), 600);
-                }
-            }, waveTime + 500);
-        }
-
-        function registerOsuMiss() {
-            if (!osuState.active) return;
-            osuState.misses++;
-            document.getElementById('osu-misses-val').innerText = osuState.misses;
-            if (osuState.misses >= osuState.maxMisses) endOsuBattle(false);
-        }
-
-        function exitOsuBattle() { osuState.active = false; exitBattle(); }
 
 
         // ====================================================
