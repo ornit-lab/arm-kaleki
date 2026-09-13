@@ -2967,6 +2967,34 @@ px;
     box-shadow: 0 1px 0 #005522, 0 3px 10px rgba(0, 255, 102, 0.35);
 }
 
+
+        /* 🎹 СТИЛИ ДЛЯ OSU-ЦИФР И ЖЕЛТЫХ ТРИПЛ-КРУЖКОВ */
+        .osu-num-node {
+            background: radial-gradient(circle, #3b82f6, #1d4ed8) !important;
+            border: 2px solid #93c5fd !important;
+            color: #fff !important;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+        }
+        
+        .osu-triple-node {
+            background: radial-gradient(circle, #f59e0b, #b45309) !important;
+            border: 2px solid #fde68a !important;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.9) !important;
+        }
+
+        /* Анимация пульсации при клике на трипл-круг */
+        @keyframes triplePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); filter: brightness(1.5); }
+            100% { transform: scale(1); }
+        }
+        .triple-animate {
+            animation: triplePulse 0.15s ease-out;
+        }
+
     </style>
 </head>
 
@@ -6245,13 +6273,13 @@ function renderExpPipeline() {
                 basePower: 25, speed: 1.0, durationSec: 40,
                 lore: 'Первый экзамен за столом. Награда: 1 кристалл.'
             },
-            {
+             {
                 id: 'stage_2', mode: 'osu',
                 tierName: 'STAGE 2: 💩 ПУТЬ ВОСХОЖДЕНИЯ',
                 bossName: '🌀 Испытание Концентрации I', bossAvatar: 'char_default.webp', bossEra: 2,
                 rewardCrystals: 1, penaltyCrystals: 1,
-                targetScore: 6, spawnRate: 4200,
-                lore: 'Ритм-барьер. Награда: 1 кристалл.'
+                targetScore: 25, spawnRate: 1400, // 🔥 25 целей, динамический спавн
+                lore: 'Ритм-барьер. 25 точных попаданий для допуска к боссу.'
             },
             {
                 id: 'stage_3', mode: 'smash',
@@ -6261,13 +6289,13 @@ function renderExpPipeline() {
                 targetScore: 16, spawnRate: 950,
                 lore: 'Режим: СЛОМАЙ КИСТЬ! Награда: 1 кристалл.'
             },
-            {
+             {
                 id: 'stage_4', mode: 'osu',
                 tierName: 'STAGE 4: 💀 ПУТЬ ВОСХОЖДЕНИЯ',
                 bossName: '🌀 Испытание Концентрации II', bossAvatar: 'char_default.webp', bossEra: 7,
                 rewardCrystals: 2, penaltyCrystals: 2,
-                targetScore: 7, spawnRate: 3900,
-                lore: 'Ритм-проверка. Награда: 2 кристалла.'
+                targetScore: 30, spawnRate: 1100, // 🔥 30 целей
+                lore: 'Ритм-проверка связок. Нарастающая сложность.'
             },
             {
                 id: 'stage_5', mode: 'table',
@@ -6298,8 +6326,8 @@ function renderExpPipeline() {
                 tierName: 'STAGE 8: 🌌 МЛЕЧНЫЕ КОРОЛИ',
                 bossName: '🌀 Испытание Концентрации III', bossAvatar: 'char_artur.webp', bossEra: 13,
                 rewardCrystals: 5, penaltyCrystals: 3,
-                targetScore: 8, spawnRate: 3500,
-                lore: 'Галактический ритм. Награда: 5 кристаллов.'
+                targetScore: 35, spawnRate: 850, // 🔥 35 целей на пределе скорости
+                lore: 'Финальный хардкорный ритм-штурм перед Лавовым Королём.'
             },
             {
                 id: 'stage_9', mode: 'table',
@@ -6856,43 +6884,188 @@ function updateBattleUI() {
 }
 
 
-               // ====================================================
-        // 🎯 РЕЖИМ 2: ПУТЬ ВОСХОЖДЕНИЯ (OSU С БЕЛЫМИ СЛАЙДЕРАМИ И SVG)
+
+
+        // ====================================================
+        // 🎯 ПРОДВИНУТЫЙ OSU-ДВИЖОК (ЦИФРЫ, ЖЕЛТЫЕ ТРИПЛЫ И БАЛАНС)
         // ====================================================
         let osuState = {
-            active: false, score: 0, targetScore: 6, misses: 0, maxMisses: 3, nextExpectedNum: 1
+            active: false,
+            score: 0,
+            targetScore: 25,
+            misses: 0,
+            spawnInterval: null,
+            expectedDigit: 1,
+            recentTypes: []
         };
 
         function startOsuBattle(st) {
             osuState.active = true;
             osuState.score = 0;
-            osuState.targetScore = st.targetScore || 6;
+            osuState.targetScore = st.targetScore || 25;
             osuState.misses = 0;
-            osuState.nextExpectedNum = 1;
+            osuState.expectedDigit = 1;
+            osuState.recentTypes = [];
 
             document.getElementById('minigame-stage-screen').style.display = 'none';
             document.getElementById('minigame-battle-screen').style.display = 'none';
             document.getElementById('minigame-smash-screen').style.display = 'none';
             document.getElementById('minigame-osu-screen').style.display = 'block';
 
-            document.getElementById('osu-score-val').innerText = '0';
-            document.getElementById('osu-score-target').innerText = osuState.targetScore;
-            document.getElementById('osu-misses-val').innerText = '0';
+            const scoreEl = document.getElementById('osu-score-val');
+            const targetEl = document.getElementById('osu-score-target');
+            if (scoreEl) scoreEl.innerText = '0';
+            if (targetEl) targetEl.innerText = osuState.targetScore;
 
-            const arena = document.getElementById('osu-playfield');
-            arena.innerHTML = '<div id="osu-center-countdown" class="osu-countdown-text">READY...</div>';
+            window.removeEventListener('keydown', handleOsuKeyboard);
+            window.addEventListener('keydown', handleOsuKeyboard);
 
-            const countdown = document.getElementById('osu-center-countdown');
-            countdown.style.opacity = '1';
-
-            setTimeout(() => {
-                countdown.innerText = 'GO!';
-                setTimeout(() => {
-                    countdown.style.opacity = '0';
-                    spawnOsuVariedWave(st.spawnRate || 4200);
-                }, 500);
-            }, 700);
+            runOsuSpawner(st.spawnRate || 1300);
         }
+
+        function getBalancedOsuType() {
+            const types = ['standard', 'digit', 'triple'];
+            const available = types.filter(t => !osuState.recentTypes.slice(-2).includes(t));
+            const chosen = available.length > 0 ? available[Math.floor(Math.random() * available.length)] : 'standard';
+            
+            osuState.recentTypes.push(chosen);
+            if (osuState.recentTypes.length > 5) osuState.recentTypes.shift();
+            return chosen;
+        }
+
+        function runOsuSpawner(rate) {
+            const container = document.getElementById('osu-game-area');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (osuState.spawnInterval) clearInterval(osuState.spawnInterval);
+
+            osuState.spawnInterval = setInterval(() => {
+                if (!osuState.active) return;
+
+                if (container.children.length >= 3) return;
+
+                const node = document.createElement('div');
+                const type = getBalancedOsuType();
+                
+                const maxX = Math.max(50, container.clientWidth - 70);
+                const maxY = Math.max(50, container.clientHeight - 70);
+                const posX = Math.max(10, Math.floor(Math.random() * maxX));
+                const posY = Math.max(10, Math.floor(Math.random() * maxY));
+
+                node.style.position = 'absolute';
+                node.style.left = posX + 'px';
+                node.style.top = posY + 'px';
+                node.style.width = '60px';
+                node.style.height = '60px';
+                node.style.borderRadius = '50%';
+                node.style.display = 'flex';
+                node.style.alignItems = 'center';       // 🔥 ИСПРАВЛЕНО
+                node.style.justifyContent = 'center';  // 🔥 ИСПРАВЛЕНО
+                node.style.cursor = 'pointer';
+                node.style.zIndex = '10';
+
+                let lifeTime = 1300;
+
+                if (type === 'digit') {
+                    const currentNum = osuState.expectedDigit;
+                    node.className = 'osu-num-node';
+                    node.innerText = currentNum;
+                    node.dataset.digit = currentNum;
+                    osuState.expectedDigit = (osuState.expectedDigit % 9) + 1;
+
+                    node.onclick = (e) => {
+                        e.stopPropagation();
+                        registerOsuHit();
+                        node.remove();
+                    };
+                } 
+                else if (type === 'triple') {
+                    node.className = 'osu-triple-node';
+                    let clicksLeft = 3;
+                    node.innerText = '3x';
+
+                    node.onclick = (e) => {
+                        e.stopPropagation();
+                        clicksLeft--;
+                        node.classList.add('triple-animate');
+                        setTimeout(() => node.classList.remove('triple-animate'), 150);
+
+                        if (clicksLeft > 0) {
+                            node.innerText = clicksLeft + 'x';
+                        } else {
+                            registerOsuHit();
+                            node.remove();
+                        }
+                    };
+                    lifeTime = 1800;
+                } 
+                else {
+                    node.style.background = 'radial-gradient(circle, #00ff66, #008833)';
+                    node.style.border = '2px solid #fff';
+                    node.style.boxShadow = '0 0 15px #00ff66';
+                    node.innerText = '🎯';
+
+                    node.onclick = (e) => {
+                        e.stopPropagation();
+                        registerOsuHit();
+                        node.remove();
+                    };
+                }
+
+                container.appendChild(node);
+
+                setTimeout(() => {
+                    if (node.parentNode) {
+                        node.remove();
+                    }
+                }, lifeTime);
+
+            }, rate);
+        }
+
+        function handleOsuKeyboard(e) {
+            if (!osuState.active) return;
+            const key = e.key;
+            if (key >= '1' && key <= '9') {
+                const targetNode = Array.from(document.querySelectorAll('.osu-num-node')).find(n => n.dataset.digit === key);
+                if (targetNode) {
+                    targetNode.click();
+                } else {
+                    osuState.misses++;
+                    if (osuState.misses >= 5) {
+                        endOsuBattle(false);
+                    }
+                }
+            }
+        }
+
+        function registerOsuHit() {
+            osuState.score++;
+            const scoreEl = document.getElementById('osu-score-val');
+            if (scoreEl) scoreEl.innerText = osuState.score;
+
+            if (osuState.score >= osuState.targetScore) {
+                endOsuBattle(true);
+            }
+        }
+
+        function endOsuBattle(isWin) {
+            osuState.active = false;
+            if (osuState.spawnInterval) clearInterval(osuState.spawnInterval);
+            window.removeEventListener('keydown', handleOsuKeyboard);
+
+            document.getElementById('minigame-osu-screen').style.display = 'none';
+
+            if (isWin) {
+                alert("🎯 ИСПЫТАНИЕ КОНЦЕНТРАЦИИ ПРОЙДЕНО!\nРитм-барьер сломлен, путь к боссу открыт.");
+                endBattle(true);
+            } else {
+                alert("💥 СБОЙ КОНЦЕНТРАЦИИ!\nТы сбился с ритма или перепутал порядок.");
+                endBattle(false);
+            }
+        }
+      
 
         function spawnOsuVariedWave(waveTime) {
             if (!osuState.active) return;
@@ -7079,7 +7252,6 @@ function updateBattleUI() {
             if (osuState.misses >= osuState.maxMisses) endOsuBattle(false);
         }
 
-        function endOsuBattle(isWin) { osuState.active = false; endBattle(isWin); }
         function exitOsuBattle() { osuState.active = false; exitBattle(); }
 
 
