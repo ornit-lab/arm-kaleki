@@ -6330,10 +6330,7 @@ function loadPlayerProgress() {
 }
 
 // ====================================================
-// 🗺️ ОТРИСОВКА КАРТЫ ЭТАПОВ И ЛИДЕРБОРДА КРИСТАЛЛОВ
-// ====================================================
-// ====================================================
-// 🎮 ОТРИСОВКА АРЕНЫ ПРОНАТОРОВ (С ПОСТЕРАМИ И ВАЙПОМ)
+// 🎮 ОТРИСОВКА АРЕНЫ ПРОНАТОРОВ (С ЖЕЛЕЗНОЙ СИНХРОНИЗАЦИЕЙ)
 // ====================================================
 function initMinigameUI() {
     loadPlayerProgress();
@@ -6358,12 +6355,17 @@ function initMinigameUI() {
         let modeBadge = st.mode === 'osu' ? '🎯 РИТМ-ПУТЬ (OSU)' : (st.mode === 'smash' ? '🔨 СЛОМАЙ КИСТЬ' : '🤼 КИБЕР-СТОЛ');
         let modeColor = st.mode === 'osu' ? '#00ff66' : (st.mode === 'smash' ? '#ff5500' : '#a855f7');
 
-        // 🔥 Выбираем постер игры в зависимости от режима
         let modeCover = 'mode_table.webp';
         if (st.mode === 'osu') modeCover = 'mode_osu.webp';
         else if (st.mode === 'smash') modeCover = 'mode_smash.webp';
 
-        // Вычисляем визуальные данные босса (рука + аватар)
+        // 🔥 Получаем ТОЧНОГО бойца для этого уровня
+        const currentOpponent = getFighterForStage(st);
+        st.bossName = currentOpponent.name;
+        st.bossAvatar = currentOpponent.avatar;
+        st.bossEra = currentOpponent.era;
+        st.basePower = currentOpponent.power;
+
         const visuals = getBossVisuals(st.bossName, st.bossAvatar, st.bossEra);
 
         let actionHtml = '';
@@ -6379,17 +6381,15 @@ function initMinigameUI() {
             <div class="brutal-card" style="border-color: ${isUnlocked ? modeColor : '#333'}; opacity: ${isUnlocked && !isOnCd ? '1' : '0.65'}; display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; flex-wrap: wrap; gap: 12px; background: linear-gradient(145deg, #110d18, #08060c);">
                 <div style="display: flex; align-items: center; gap: 14px;">
                     
-                    <!-- 🎮 1. ПОСТЕР ИГРЫ (НЕЙРО-АРТ МИНИ-ИГРЫ) -->
                     <div style="width: 72px; height: 50px; border-radius: 8px; overflow: hidden; border: 1.5px solid ${isUnlocked ? modeColor : '#444'}; flex-shrink: 0; box-shadow: 0 0 12px rgba(0,0,0,0.8); position: relative;">
                         <img src="${modeCover}" style="width: 100%; height: 100%; object-fit: cover; filter: ${isUnlocked ? 'none' : 'grayscale(100%) brightness(0.4)'};" onerror="this.onerror=null; this.src='arm_icon.webp';">
                     </div>
 
-                    <!-- 🦾 2. ИКОНКА ЭПОХИ РУКИ БОССА -->
-                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #0a0a0e; border: 2px solid ${isUnlocked ? 'var(--gold)' : '#555'}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #0a0a0e; border: 2px solid ${isUnlocked ? 'var(--gold)'
+ : '#555'}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <img src="arm_icon_${visuals.era}.webp" style="width: 26px; height: 26px; object-fit: contain;" onerror="this.onerror=null; this.src='arm_icon.webp';">
                     </div>
 
-                    <!-- 📋 3. ИНФОРМАЦИЯ О БОССЕ -->
                     <div>
                         <div style="font-size: 0.7rem; color: var(--gold); font-weight: 900;">${st.tierName} <span style="color: ${modeColor};">[${modeBadge}]</span></div>
                         <h3 style="color: #fff; font-family: 'Comfortaa'; font-size: 1rem; margin: 2px 0;">${st.bossName}</h3>
@@ -6408,7 +6408,6 @@ function initMinigameUI() {
         `;
     }).join('');
 
-    // Встраиваем лидерборд кристаллов внизу
     html += `
         <div class="brutal-card" style="border-color: #00ff66; margin-top: 30px; padding: 20px;">
             <h3 style="font-family: 'Cinzel'; color: #00ff66; margin-bottom: 15px; font-size: 1.1rem;">💎 ТОП ФАРМЕРОВ КРИСТАЛЛОВ ВОЛИ</h3>
@@ -6520,7 +6519,33 @@ function initMinigameUI() {
 
 
 
-                // Обновленная функция старта игры с ротацией по тирам
+                // ====================================================
+        // 🤼 ХРАНИЛИЩЕ ТЕКУЩИХ СОПЕРНИКОВ НА ЭТАПАХ
+        // ====================================================
+        let stageCurrentFighters = {}; // Запоминает, кто сейчас стоит на каждом этапе
+
+        function getFighterForStage(st) {
+            // Если соперник уже закреплен за этапом — отдаем его
+            if (stageCurrentFighters[st.id]) {
+                return stageCurrentFighters[st.id];
+            }
+
+            let pool = null;
+            if (st.id === 'stage_1') pool = POOL_BEGINNERS;
+            else if (st.id === 'stage_5' || st.id === 'stage_6' || st.id === 'stage_7') pool = POOL_INTERMEDIATE;
+            else if (st.id === 'stage_8') pool = POOL_MILKY;
+            else if (st.id === 'stage_9') pool = POOL_TOP;
+
+            if (pool && pool.length > 0) {
+                const picked = pool[Math.floor(Math.random() * pool.length)];
+                stageCurrentFighters[st.id] = picked;
+                return picked;
+            }
+
+            return { name: st.bossName, avatar: st.bossAvatar, era: st.bossEra, power: st.basePower || 40 };
+        }
+
+        // Старт игры (СТРОГО с тем бойцом, который был на карточке!)
         function startStageGame(stageId) {
             const st = STAGES_DATA.find(s => s.id === stageId);
             if (!st) return;
@@ -6528,36 +6553,17 @@ function initMinigameUI() {
             const cd = playerStageCds[st.id] || 0;
             const now = Date.now();
 
-            // 🔥 ЛОГИКА РОТАЦИИ ПО ТИРАМ:
-            if (now >= cd) {
-                let selectedFighter = null;
-
-                // 1. Если это 1-й этап (Вонючки)
-                if (st.id === 'stage_1') {
-                    selectedFighter = POOL_BEGINNERS[Math.floor(Math.random() * POOL_BEGINNERS.length)];
-                } 
-                // 2. Если это Свинки (Stage 5, 6, 7)
-                else if (st.id === 'stage_5' || st.id === 'stage_6' || st.id === 'stage_7') {
-                    selectedFighter = POOL_INTERMEDIATE[Math.floor(Math.random() * POOL_INTERMEDIATE.length)];
-                }
-                // 3. Если это Финал (Stage 9)
-                else if (st.id === 'stage_9') {
-                    selectedFighter = POOL_TOP[Math.floor(Math.random() * POOL_TOP.length)];
-                }
-
-                // Если боец был выбран (т.е. это боевой этап, а не OSU-испытание)
-                if (selectedFighter) {
-                    st.bossName = selectedFighter.name;
-                    st.bossAvatar = selectedFighter.avatar;
-                    st.bossEra = selectedFighter.era;
-                    st.basePower = selectedFighter.power;
-                }
-            }
-
             if (now < cd) { 
                 alert("Боец еще восстанавливается!"); 
                 return; 
             }
+
+            // Берем зафиксированного бойца
+            const currentOpponent = getFighterForStage(st);
+            st.bossName = currentOpponent.name;
+            st.bossAvatar = currentOpponent.avatar;
+            st.bossEra = currentOpponent.era;
+            st.basePower = currentOpponent.power;
 
             currentBattleBoss = st;
 
@@ -6565,6 +6571,7 @@ function initMinigameUI() {
             else if (st.mode === 'osu') startOsuBattle(st);
             else if (st.mode === 'smash') startSmashBattle(st);
         }
+
 
 
 
@@ -7261,12 +7268,17 @@ function exitSmashBattle() {
 }
 
 
-               async function endBattle(isWin) {
+                   async function endBattle(isWin) {
             gameState.inBattle = false;
             if (battleLoopId) cancelAnimationFrame(battleLoopId);
             if (gameState.timerInterval) clearInterval(gameState.timerInterval);
 
             const st = currentBattleBoss;
+
+            // 🔥 ВОТ СЮДА: Сбрасываем закрепленного соперника, чтобы после КД рулетка выбрала нового!
+            if (st && st.id && typeof stageCurrentFighters !== 'undefined') {
+                delete stageCurrentFighters[st.id];
+            }
 
             if (isWin) {
                 userCrystals += st.rewardCrystals;
@@ -7290,6 +7302,8 @@ function exitSmashBattle() {
 
                 if (currentUser) {
                     currentUser.crystals = userCrystals;
+                    // 🔥 Обновляем исторический рекорд кристаллов для топа
+                    currentUser.max_crystals = Math.max(currentUser.max_crystals || 0, userCrystals);
                     currentUser.unlocked_stage = playerUnlockedStage;
                     currentUser.stage_cds = playerStageCds;
                     await syncUserToSupabase(currentUser);
