@@ -2579,6 +2579,175 @@ px;
         }
 
 
+
+               /* 🧪 ГИДРАВЛИЧЕСКИЙ ТРУБОПРОВОД С РЕАЛЬНОЙ ЖИДКОСТЬЮ EXP */
+        .pipe-scroll-container {
+            overflow-x: auto;
+            padding: 35px 15px 25px 15px;
+            scrollbar-width: thin;
+        }
+
+        .pipe-segment-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Колба / Узел чекпоинта */
+        .pipe-flask-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        .pipe-flask-core {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #1a1528 0%, #0a0812 100%);
+            border: 3px solid #332644;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--steel);
+            font-family: 'Comfortaa';
+            font-weight: 900;
+            font-size: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.9);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            user-select: none;
+        }
+
+        /* Колба заполнена на 100% */
+        .flask-filled .pipe-flask-core {
+            border-color: #ffaa00;
+            background: radial-gradient(circle, #ff5500 0%, #660000 100%);
+            color: #fff;
+            box-shadow: 0 0 22px rgba(255, 85, 0, 0.8), inset 0 0 10px #ffcc00;
+            transform: scale(1.05);
+        }
+
+        /* Награда забрана */
+        .flask-claimed .pipe-flask-core {
+            border-color: #00ff66;
+            background: radial-gradient(circle, #008833 0%, #002211 100%);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.8);
+        }
+
+        /* Сама стеклянная трубка между колбами */
+        .pipe-glass-tube {
+            width: 110px;
+            height: 14px;
+            background: rgba(15, 10, 25, 0.9);
+            border: 2px solid #2a2038;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 -4px; /* Бесшовное соединение с колбами */
+            z-index: 1;
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+        }
+
+        /* Уровень заполнения жижи внутри трубки */
+        .pipe-liquid-flow {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff3300, #ff9900, #ffcc00);
+            box-shadow: 0 0 10px #ff5500;
+            transition: width 0.6s ease-out;
+            position: relative;
+        }
+
+        /* Пульсирующие деления (пузырьки энергии) */
+        .pipe-liquid-flow::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(255,255,255,0.4) 8px, rgba(255,255,255,0.4) 12px);
+            animation: flowStream 1.5s linear infinite;
+        }
+
+        @keyframes flowStream {
+            0% { transform: translateX(-20px); }
+            100% { transform: translateX(0px); }
+        }
+
+        .pipe-reward-tag {
+            margin-top: 8px;
+            font-size: 0.7rem;
+            font-family: 'Comfortaa';
+            font-weight: bold;
+            color: var(--gold);
+            white-space: nowrap;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid #332644;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+                /* ✋ ИНТЕРАКТИВНЫЙ DRAG-ТРУБОПРОВОД С КУРСОРОМ-РУКОЙ */
+        .pipe-scroll-container {
+            width: 100%;
+            overflow-x: hidden; /* Скрыли скроллбар, чтобы двигать только рукой */
+            padding: 15px 5px 25px 5px;
+            cursor: grab; /* Иконка открытой ладони */
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+        }
+        .pipe-scroll-container:active {
+            cursor: grabbing; /* Иконка сжатого кулака при перетаскивании */
+        }
+        .pipe-snake-svg {
+            display: block;
+            pointer-events: auto;
+        }
+        .pipe-flask-wrap {
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .pipe-flask-wrap:hover {
+            transform: scale(1.12);
+        }
+        .pipe-flask-wrap:active {
+            transform: scale(0.95);
+        }
+
+
+                /* 🔍 СТИЛИ SVG КНОПОК ЗУМА */
+        .pipe-zoom-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: transform 0.15s ease, background 0.15s ease;
+            outline: none;
+        }
+        .pipe-zoom-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.15);
+        }
+        .pipe-zoom-btn:active {
+            transform: scale(0.9);
+        }
+        .pipe-zoom-btn svg {
+            filter: drop-shadow(0 0 4px rgba(255, 204, 0, 0.5));
+        }
+        #pipe-track-nodes {
+            transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-origin: left center;
+        }
+
+
+
     </style>
 </head>
 
@@ -2799,22 +2968,57 @@ px;
                 </div>
             </div>
 
-            <!-- ИНТЕРАКТИВНЫЙ ТРУБОПРОВОД КАРТЫ ЭПОХ -->
-            <div class="brutal-card" style="margin-top: 20px;">
-                <div class="map-control-header">
-                    <h3 style="color: var(--gold); font-size: 1rem; font-family: 'Comfortaa'; margin: 0;">ТРУБОПРОВОД
-                        КАРТЫ ЭПОХ</h3>
-                    <!-- Кнопка переключения режимов -->
-                    <button class="brutal-btn" id="map-view-toggle" style="font-size: 0.75rem; padding: 5px 12px;"
-                        onclick="toggleMapViewMode()">
-                        🗺️ ПОКАЗАТЬ ВСЮ КАРТУ
-                    </button>
+                   <!-- 🔥 ТРУБОПРОВОД EXP: ПУТЬ СИЛЫ (BATTLE PASS) -->
+        <div class="brutal-card" style="border-color: var(--gold); padding: 16px; margin-bottom: 25px; position: relative; overflow: hidden; background: linear-gradient(145deg, #120e1a, #07050a);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <h3 style="font-family: 'Cinzel'; color: var(--gold); font-size: 1.1rem; margin: 0; text-shadow: 0 0 12px rgba(255, 204, 0, 0.4);">
+                        ⚡️ ТРУБОПРОВОД EXP: ПУТЬ СИЛЫ
+                    </h3>
+                    <p style="font-size: 0.75rem; color: var(--steel); margin: 2px 0 0 0; font-family: 'Comfortaa';">
+                        Качайся в зале, забирай чекпоинты и фарми редкие Коины 🪙
+                    </p>
                 </div>
-                <!-- Оболочка дорожки -->
-                <div id="exp-path-wrapper" class="exp-path-wrapper">
-                    <div class="exp-path-pipeline" id="exp-path-board"></div>
+                               <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="background: rgba(255, 204, 0, 0.12); border: 1.5px solid var(--gold); border-radius: 8px; padding: 4px 12px; font-family: 'Comfortaa'; font-weight: 900; color: var(--gold); font-size: 0.85rem;">
+                        🪙 <span id="user-coins-display">0</span> КОИНОВ
+                    </div>
+
+                    <!-- 🔍 КНОПКИ ЗУМА КАРТЫ (SVG ЛУПА) -->
+                    <div style="display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.5); border: 1px solid #3b2b54; border-radius: 8px; padding: 2px 6px;">
+                        <button class="pipe-zoom-btn" onclick="zoomExpPipeline(-0.2)" title="Отдалить карту">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a892c7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                        </button>
+                        
+                        <span id="pipe-zoom-val" style="font-size: 0.7rem; color: var(--steel); font-family: 'Comfortaa'; width: 34px; text-align: center;">100%</span>
+
+                        <button class="pipe-zoom-btn" onclick="zoomExpPipeline(0.2)" title="Приблизить карту">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffd700" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Горизонтальная интерактивная труба -->
+            <div class="pipe-scroll-container" id="pipe-scroll-box" style="overflow-x: auto; padding: 25px 10px; scrollbar-width: thin;">
+                <div class="pipe-track-line" id="pipe-track-nodes" style="display: flex; align-items: center; gap: 40px; min-width: 1400px; position: relative;">
+                    <!-- Узлы чекпоинтов генерируются через JS -->
                 </div>
             </div>
+        </div>
+
+
+
         </section>
         <!-- 🎮 ВКЛАДКА: АРЕНА ПРОНАТОРОВ 2.0 -->
         <section id="tab-minigame" class="tab-section">
@@ -3757,7 +3961,7 @@ function getEraByExp(exp, userObj) {
         }
 
 
-        // ====================================================
+               // ====================================================
         // 🔀 БРОНИРОВАННЫЙ ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК
         // ====================================================
         window.switchTab = function (tabId, btn) {
@@ -3781,9 +3985,9 @@ function getEraByExp(exp, userObj) {
             });
 
             // 3. Ищем целевую секцию по ID
-            let target = document.getElementById('tab-' + tabId)
-                || document.getElementById('sec-' + tabId)
-                || document.getElementById(tabId);
+            let target = document.getElementById('tab-' + tabId) ||
+                         document.getElementById('sec-' + tabId) ||
+                         document.getElementById(tabId);
 
             if (target) {
                 target.classList.add('active-view');
@@ -3792,28 +3996,23 @@ function getEraByExp(exp, userObj) {
                 console.error("❌ Секция для '" + tabId + "' не найдена!");
             }
 
-            // 4. Отрисовываем данные секции
+            // 4. Отрисовываем данные секции (без дублей!)
             if (tabId === 'leaderboard') {
                 renderLeaderboard();
             } else if (tabId === 'exp' || tabId === 'training') {
                 updateExpTabUI();
                 loadEarlySparringOptions();
+                renderExpPipeline(); // 🔥 Отрисовываем трубу на экране тренировок
             } else if (tabId === 'profile') {
                 loadProfileToUI();
+                renderExpPipeline(); // 🔥 Отрисовываем трубу в профиле
+            } else if (tabId === 'fights') {
+                loadBattlesLog();
+            } else if (tabId === 'minigame') {
+                initMinigameUI();
             }
-               if (tabId === 'fights') {
-       loadBattlesLog(); // 🔥 Загружаем вызовы!
-   }
-
-               if (tabId === 'leaderboard') renderLeaderboard();
-            else if (tabId === 'exp') { updateExpTabUI(); loadEarlySparringOptions(); }
-            else if (tabId === 'profile') loadProfileToUI();
-            else if (tabId === 'fights') loadBattlesLog();
-            else if (tabId === 'minigame') initMinigameUI(); // 🔥 Инициализируем Арену Пронаторов!
-
-   
-
         };
+
 
 
         async function createNewPlayerFromScratch() {
@@ -3865,6 +4064,8 @@ function getEraByExp(exp, userObj) {
             updateExpTabUI();
             loadEarlySparringOptions();
             renderLeaderboard();
+            renderExpPipeline();
+
         }
 
         function logout() {
@@ -3919,7 +4120,7 @@ function getEraByExp(exp, userObj) {
             document.head.appendChild(style);
         }
 
-        function renderLeaderboard() {
+               function renderLeaderboard() {
             const container = document.getElementById('leaderboard-container');
             if (!container) return;
 
@@ -3941,6 +4142,11 @@ function getEraByExp(exp, userObj) {
 
                 const html = allUsers.map((user, index) => {
                     if (!user) return '';
+
+                    // 🪙 Расчёт Коинов и последнего Чекпоинта для Лидерборда
+                    const userExp = Number(user.exp) || 0;
+                    const currentCp = (typeof EXP_PIPE_CHECKPOINTS !== 'undefined' ? EXP_PIPE_CHECKPOINTS : []).slice().reverse().find(c => userExp >= c.exp);
+                    const cpLabel = currentCp ? `${currentCp.exp} EXP` : '0 EXP';
                     
                     // 🔥 Главный фикс: берем Эпоху СТРОГО по era_id игрока!
                     const era = (typeof getEraById === 'function') ? getEraById(user.era_id || 1) : erasData[0];
@@ -3949,7 +4155,7 @@ function getEraByExp(exp, userObj) {
                     const rankBadgeText = `${rankNum}.`;
                     const isMe = currentUser && (user.id === currentUser.id || user.username === currentUser.username);
                     const userName = user.name || 'Богатырь';
-
+                    const displayTitle = user.title && user.title.trim() !== '' ? user.title : era.name;
 
                     // 1. Определение эффекта по месту в топе
                     let rankFontClass = 'rank-rest';
@@ -3958,7 +4164,6 @@ function getEraByExp(exp, userObj) {
                     let isEarthTier = false;
                     let isDeadTier = false;
                     let isStinkyTier = false;
-
 
                     if (rankNum <= 3) {
                         rankFontClass = 'rank-top3';   // 🔥 1-3 места: Пылающая Лава
@@ -4079,17 +4284,30 @@ function getEraByExp(exp, userObj) {
                             <span class="player-name-text">${userName}</span>
                             ${isMe ? `<span class="you-badge">ВЫ</span>` : ''}
                             <span style="color: var(--steel);">|</span>
-                            <span class="player-title-text">${era.name}</span>
+                            <span class="player-title-text">${displayTitle}</span>
                             <span style="color: var(--steel);">|</span>
                             <span class="player-era-text">${era.id} Эпоха</span>
                         </div>
                     </div>
-                   <button class="btn-profile-neon" title="Открыть профиль" onclick="openUserProfile('${user.id}')">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-    </svg>
-</button>
+
+                                        <!-- Правая часть: Реальный EXP, Коины и Кнопка профиля -->
+                    <div style="display: flex; align-items: center; gap: 10px; position: relative; z-index: 2;">
+                        <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(255,204,0,0.3); border-radius: 8px; padding: 4px 10px;">
+                            <!-- Реальный EXP бойца -->
+                            <span style="font-size: 0.8rem; font-weight: 900; color: #a855f7; font-family: 'Comfortaa';">⚡️ ${userExp} EXP</span>
+                            <span style="color: var(--steel);">|</span>
+                            <!-- Коины -->
+                            <span style="font-size: 0.8rem; font-weight: 900; color: var(--gold); font-family: 'Comfortaa';">🪙 ${user.coins || 0}</span>
+                        </div>
+
+                        <button class="btn-profile-neon" title="Открыть профиль" onclick="openUserProfile('${user.id}')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </button>
+                    </div>
+
 
                 </div>
             `;
@@ -5347,81 +5565,382 @@ let currentBattleBoss = null;
 let battleLoopId = null;
 let lastTimestamp = 0; // Для контроля скорости на разных мониторах
 
+
+
+       // ====================================================
+// 🧪 16 ЧЕКПОИНТОВ С ЦВЕТОВЫМИ ГРАДИЕНТАМИ ЭНЕРГИИ
+// ====================================================
+const EXP_PIPE_CHECKPOINTS = [
+    { id: 'cp_1', exp: 300, coins: 1, colorStart: '#00ff88', colorEnd: '#00ffee', shape: 'flask-round' },
+    { id: 'cp_2', exp: 500, coins: 2, colorStart: '#00d0ff', colorEnd: '#3b82f6', shape: 'flask-conical' },
+    { id: 'cp_3', exp: 700, coins: 2, colorStart: '#38bdf8', colorEnd: '#6366f1', shape: 'flask-hexagon' },
+    { id: 'cp_4', exp: 1000, coins: 2, colorStart: '#6366f1', colorEnd: '#a855f7', shape: 'flask-diamond' },
+    { id: 'cp_5', exp: 1400, coins: 2, colorStart: '#a855f7', colorEnd: '#d946ef', shape: 'flask-capsule' },
+    { id: 'cp_6', exp: 1700, coins: 3, colorStart: '#ec4899', colorEnd: '#f43f5e', shape: 'flask-round' },
+    { id: 'cp_7', exp: 2500, coins: 3, colorStart: '#f43f5e', colorEnd: '#ff5500', shape: 'flask-conical' },
+    { id: 'cp_8', exp: 2800, coins: 5, colorStart: '#ff5500', colorEnd: '#f59e0b', shape: 'flask-diamond' },
+    { id: 'cp_9', exp: 3300, coins: 4, colorStart: '#f59e0b', colorEnd: '#eab308', shape: 'flask-hexagon' },
+    { id: 'cp_10', exp: 3800, coins: 5, colorStart: '#eab308', colorEnd: '#84cc16', shape: 'flask-diamond' },
+    { id: 'cp_11', exp: 4500, coins: 5, colorStart: '#84cc16', colorEnd: '#10b981', shape: 'flask-capsule' },
+    { id: 'cp_12', exp: 5000, coins: 5, colorStart: '#10b981', colorEnd: '#06b6d4', shape: 'flask-round' },
+    { id: 'cp_13', exp: 5500, coins: 5, colorStart: '#06b6d4', colorEnd: '#8b5cf6', shape: 'flask-conical' },
+    { id: 'cp_14', exp: 6300, coins: 5, colorStart: '#8b5cf6', colorEnd: '#ec4899', shape: 'flask-hexagon' },
+    { id: 'cp_15', exp: 7000, coins: 5, colorStart: '#ec4899', colorEnd: '#ef4444', shape: 'flask-diamond' },
+    { id: 'cp_16', exp: 10000, coins: 10, colorStart: '#ff0055', colorEnd: '#ffd700', shape: 'flask-reactor' }
+];
+
+// ====================================================
+// ✋ 1. ДВИЖОК ПЕРЕМЕЩЕНИЯ МЫШКОЙ (DRAG-SCROLL)
+// ====================================================
+function initPipeDragScroll() {
+    const slider = document.getElementById('pipe-scroll-box');
+    if (!slider || slider.dataset.dragInit === 'true') return;
+    slider.dataset.dragInit = 'true';
+
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.style.cursor = 'grabbing';
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+
+    window.addEventListener('mouseleave', () => { isDown = false; if(slider) slider.style.cursor = 'grab'; });
+    window.addEventListener('mouseup', () => { isDown = false; if(slider) slider.style.cursor = 'grab'; });
+
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.6; // Скорость скролла
+        slider.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch для смартфонов
+    let touchStartX = 0;
+    let touchScrollLeft = 0;
+    slider.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].pageX - slider.offsetLeft;
+        touchScrollLeft = slider.scrollLeft;
+    }, { passive: true });
+
+    slider.addEventListener('touchmove', (e) => {
+        const x = e.touches[0].pageX - slider.offsetLeft;
+        const walk = (x - touchStartX) * 1.5;
+        slider.scrollLeft = touchScrollLeft - walk;
+    }, { passive: true });
+}
+
         // ====================================================
-        // 🔥 РОСТЕР ЭТАПОВ БЕЗ НАГРАДЫ EXP (ТОЛЬКО КРИСТАЛЛЫ 💎)
+        // 🔍 ПЛАВНЫЙ ЗУМ ТРУБОПРОВОДА (ОТ 60% ДО 180%)
         // ====================================================
-        const STAGES_DATA = [
+        let currentPipeZoom = 1.0;
+
+        function zoomExpPipeline(delta) {
+            const track = document.getElementById('pipe-track-nodes');
+            const label = document.getElementById('pipe-zoom-val');
+            if (!track) return;
+
+            currentPipeZoom = Math.max(0.6, Math.min(1.8, currentPipeZoom + delta));
+            
+            // Применяем масштаб к контейнеру с SVG
+            track.style.transform = `scale(${currentPipeZoom})`;
+            
+            if (label) {
+                label.innerText = `${Math.round(currentPipeZoom * 100)}%`;
+                label.style.color = currentPipeZoom > 1.0 ? 'var(--gold)' : 'var(--steel)';
+            }
+        }
+
+
+// ====================================================
+// 🧪 2. БОЛЬШОЙ ЗМЕЕВИК С ВНЕШНИМИ ТЕКСТАМИ И РОЗОВЫМ СТАРТОМ
+// ====================================================
+function renderExpPipeline() {
+    const track = document.getElementById('pipe-track-nodes');
+    const coinsValEl = document.getElementById('user-coins-display');
+    if (coinsValEl && currentUser) coinsValEl.innerText = currentUser.coins || 0;
+    if (!track) return;
+
+    initPipeDragScroll(); // Включаем мышь-руку
+
+    const userExp = Number(currentUser ? currentUser.exp : 0) || 0;
+    const claimed = currentUser && currentUser.claimed_checkpoints ? currentUser.claimed_checkpoints : [];
+
+    const points = [];
+    
+    // 🌸 1. РОЗОВО-ФИОЛЕТОВЫЙ СТАРТ
+    points.push({
+        id: 'cp_0', exp: 0, coins: 0, x: 85, y: 165,
+        colorStart: '#d946ef', colorEnd: '#8b5cf6', shape: 'flask-round', isStart: true
+    });
+
+    const stepX = 145; // Увеличенный шаг между узлами
+    EXP_PIPE_CHECKPOINTS.forEach((cp, idx) => {
+        const x = 85 + (idx + 1) * stepX;
+        const waveOffsets = [80, 235, 95, 250, 85, 240, 100, 225];
+        const y = waveOffsets[idx % waveOffsets.length];
+        points.push({ ...cp, x, y, isStart: false });
+    });
+
+    const totalWidth = points[points.length - 1].x + 140;
+    const totalHeight = 330;
+
+    let defsHtml = `
+        <defs>
+            <filter id="pipe-glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="6" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <linearGradient id="metal-pipe-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#191228" stop-opacity="0.95"/>
+                <stop offset="50%" stop-color="#362952" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#0c0817" stop-opacity="0.95"/>
+            </linearGradient>
+            <!-- Розово-фиолетовый старт -->
+            <radialGradient id="start-pink-purple" cx="35%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#f472b6"/>
+                <stop offset="50%" stop-color="#c026d3"/>
+                <stop offset="100%" stop-color="#4c1d95"/>
+            </radialGradient>
+    `;
+
+    for (let i = 0; i < points.length - 1; i++) {
+        defsHtml += `
+            <linearGradient id="grad-segment-${i}" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="${points[i + 1].colorStart}"/>
+                <stop offset="100%" stop-color="${points[i + 1].colorEnd}"/>
+            </linearGradient>
+        `;
+    }
+    defsHtml += `</defs>`;
+
+    let tubesBackHtml = '';
+    let tubesLiquidHtml = '';
+
+    for (let i = 0; i < points.length - 1; i++) {
+        const pA = points[i];
+        const pB = points[i + 1];
+        const midX = (pA.x + pB.x) / 2;
+        const dCurve = `M ${pA.x} ${pA.y} C ${midX} ${pA.y}, ${midX} ${pB.y}, ${pB.x} ${pB.y}`;
+
+        tubesBackHtml += `
+            <path d="${dCurve}" fill="none" stroke="url(#metal-pipe-bg)" stroke-width="28" stroke-linecap="round"/>
+            <path d="${dCurve}" fill="none" stroke="#48346b" stroke-width="24" stroke-linecap="round"/>
+            <path d="${dCurve}" fill="none" stroke="#0e0a1a" stroke-width="17" stroke-linecap="round"/>
+        `;
+
+        const segCapacity = pB.exp - pA.exp;
+        let fillFraction = 0;
+
+        if (userExp >= pB.exp) fillFraction = 1;
+        else if (userExp > pA.exp) {
+            fillFraction = (userExp - pA.exp) / segCapacity;
+            fillFraction = Math.max(0.04, Math.min(0.98, fillFraction));
+        }
+
+        if (fillFraction > 0) {
+            const dist = Math.hypot(pB.x - pA.x, pB.y - pA.y) * 1.08;
+            const dashLength = (dist * fillFraction).toFixed(1);
+            const gapLength = (dist * 2).toFixed(1);
+
+            tubesLiquidHtml += `
+                <path d="${dCurve}" fill="none" stroke="url(#grad-segment-${i})" stroke-width="12.5" stroke-linecap="round"
+                      stroke-dasharray="${dashLength} ${gapLength}" filter="url(#pipe-glow)" style="transition: stroke-dasharray 0.6s ease;"/>
+                <path d="${dCurve}" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"
+                      stroke-dasharray="${Math.max(0, dashLength - 5)} ${gapLength}" stroke-opacity="0.85"/>
+            `;
+        }
+    }
+
+    let flasksHtml = '';
+    points.forEach((p) => {
+        const isReached = userExp >= p.exp;
+        const isClaimed = claimed.includes(p.id);
+
+        let strokeColor = p.isStart ? '#f472b6' : (isClaimed ? '#00ff66' : (isReached ? '#ffd700' : '#523f73'));
+        let fillColor = p.isStart ? 'url(#start-pink-purple)' : (isClaimed ? '#064e3b' : (isReached ? '#7c2d12' : '#191328'));
+        let glowAttr = (isReached || p.isStart) ? 'filter="url(#pipe-glow)"' : '';
+
+        let innerText = p.isStart ? '🚀' : `${p.exp}`;
+
+        let outerStatusBadge = '';
+        if (!p.isStart) {
+            if (isClaimed) outerStatusBadge = `<tspan fill="#00ff66" font-weight="900">ВЗЯТО ✓</tspan>`;
+            else if (isReached) outerStatusBadge = `<tspan fill="#ffd700" font-weight="900">ЗАБРАТЬ +${p.coins}🪙</tspan>`;
+            else outerStatusBadge = `<tspan fill="#b8a5d6">+${p.coins} 🪙</tspan>`;
+        } else {
+            outerStatusBadge = `<tspan fill="#f472b6" font-weight="900">СТАРТ</tspan>`;
+        }
+
+        let flaskGeometry = '';
+        const cx = p.x, cy = p.y;
+
+        switch (p.shape) {
+            case 'flask-conical':
+                flaskGeometry = `<polygon points="${cx},${cy - 28} ${cx + 26},${cy + 26} ${cx - 26},${cy + 26}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="4" stroke-linejoin="round" ${glowAttr}/>`;
+                break;
+            case 'flask-hexagon':
+                flaskGeometry = `<polygon points="${cx},${cy - 30} ${cx + 26},${cy - 15} ${cx + 26},${cy + 15} ${cx},${cy + 30} ${cx - 26},${cy + 15} ${cx - 26},${cy - 15}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="4" stroke-linejoin="round" ${glowAttr}/>`;
+                break;
+            case 'flask-diamond':
+                flaskGeometry = `<polygon points="${cx},${cy - 32} ${cx + 28},${cy} ${cx},${cy + 32} ${cx - 28},${cy}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="4" stroke-linejoin="round" ${glowAttr}/>`;
+                break;
+            case 'flask-capsule':
+                flaskGeometry = `<rect x="${cx - 20}" y="${cy - 30}" width="40" height="60" rx="18" fill="${fillColor}" stroke="${strokeColor}" stroke-width="4" ${glowAttr}/>`;
+                break;
+            case 'flask-reactor':
+                flaskGeometry = `
+                    <circle cx="${cx}" cy="${cy}" r="34" fill="${fillColor}" stroke="#ffd700" stroke-width="5" ${glowAttr}/>
+                    <polygon points="${cx},${cy - 22} ${cx + 20},${cy + 16} ${cx - 20},${cy + 16}" fill="#ff0055" stroke="#fff" stroke-width="2"/>
+                `;
+                break;
+            case 'flask-round':
+            default:
+                flaskGeometry = `
+                    <circle cx="${cx}" cy="${cy}" r="30" fill="${fillColor}" stroke="${strokeColor}" stroke-width="4" ${glowAttr}/>
+                    <circle cx="${cx - 8}" cy="${cy - 8}" r="7" fill="#ffffff" fill-opacity="${(isReached || p.isStart) ? '0.45' : '0.1'}"/>
+                `;
+                break;
+        }
+
+        const onclickAttr = p.isStart ? '' : `onclick="claimPipeCheckpoint('${p.id}')"`;
+        const titleText = p.isStart ? 'Стартовая точка' : `Чекпоинт: ${p.exp} EXP | Награда: +${p.coins} 🪙`;
+        const badgeY = cy > 165 ? cy + 48 : cy - 42;
+
+        flasksHtml += `
+            <g class="pipe-flask-wrap" ${onclickAttr} transform-origin="${cx}px ${cy}px">
+                <title>${titleText}</title>
+                <circle cx="${cx}" cy="${cy}" r="38" fill="none" stroke="#31224a" stroke-width="3" stroke-dasharray="5 4"/>
+                ${flaskGeometry}
+                <text x="${cx}" y="${cy + (p.isStart ? 6 : 5)}" font-family="'Comfortaa', sans-serif" font-weight="900" 
+                      font-size="${p.exp >= 10000 ? '11.5' : (p.exp >= 1000 ? '13' : '15')}" 
+                      fill="#ffffff" text-anchor="middle" pointer-events="none" style="filter: drop-shadow(0 2px 4px #000);">
+                    ${innerText}
+                </text>
+                <g pointer-events="none">
+                    <rect x="${cx - 44}" y="${badgeY - 12}" width="88" height="20" rx="6" fill="#090611" fill-opacity="0.88" stroke="#3b2b54" stroke-width="1.2"/>
+                    <text x="${cx}" y="${badgeY + 2}" font-family="'Comfortaa', sans-serif" font-size="10.5" text-anchor="middle">
+                        ${outerStatusBadge}
+                    </text>
+                </g>
+            </g>
+        `;
+    });
+
+    track.innerHTML = `
+        <svg class="pipe-snake-svg" width="${totalWidth}" height="${totalHeight}" viewBox="0 0 ${totalWidth} ${totalHeight}" 
+             xmlns="http://www.w3.org/2000/svg">
+            ${defsHtml}
+            ${tubesBackHtml}
+            ${tubesLiquidHtml}
+            ${flasksHtml}
+        </svg>
+    `;
+}
+
+
+        // Клик по кружку на трубе — начисление коинов в Supabase
+        async function claimPipeCheckpoint(cpId) {
+            if (!currentUser) return;
+            const cp = EXP_PIPE_CHECKPOINTS.find(c => c.id === cpId);
+            if (!cp) return;
+
+            const userExp = Number(currentUser.exp) || 0;
+            if (userExp < cp.exp) {
+                alert(`🔒 Этот чекпоинт ещё закрыт!\nНужно: ${cp.exp} EXP.\nУ тебя сейчас: ${userExp} EXP.\n\nКачайся в зале и делай тренировки!`);
+                return;
+            }
+
+            currentUser.claimed_checkpoints = currentUser.claimed_checkpoints || [];
+            if (currentUser.claimed_checkpoints.includes(cp.id)) {
+                alert("Ты уже забрал эту награду!");
+                return;
+            }
+
+            currentUser.claimed_checkpoints.push(cp.id);
+            currentUser.coins = (currentUser.coins || 0) + cp.coins;
+
+            await syncUserToSupabase(currentUser);
+            renderExpPipeline();
+            alert(`🎉 ЧЕКПОИНТ ${cp.exp} EXP ПРОЙДЕН!\nПолучено: +${cp.coins} 🪙 Коинов!`);
+        }
+
+                const STAGES_DATA = [
             {
                 id: 'stage_1', mode: 'table',
                 tierName: 'STAGE 1: 💩 ВОНЮЧКИ',
                 bossName: 'Раф', bossAvatar: 'char_default.webp', bossEra: 1,
-                rewardCrystals: 20, penaltyCrystals: 10,
-                basePower: 20, speed: 0.9, durationSec: 35,
-                lore: 'Первый экзамен за столом. Разминает связки.'
+                rewardCrystals: 1, penaltyCrystals: 1,
+                basePower: 25, speed: 1.0, durationSec: 40,
+                lore: 'Первый экзамен за столом. Награда: 1 кристалл.'
             },
             {
                 id: 'stage_2', mode: 'osu',
                 tierName: 'STAGE 2: 💩 ПУТЬ ВОСХОЖДЕНИЯ',
                 bossName: '🌀 Испытание Концентрации I', bossAvatar: 'char_default.webp', bossEra: 2,
-                rewardCrystals: 35, penaltyCrystals: 15,
+                rewardCrystals: 1, penaltyCrystals: 1,
                 targetScore: 6, spawnRate: 4200,
-                lore: 'Ритм-барьер. Пройди волны белых вибраций для допуска к боссу.'
+                lore: 'Ритм-барьер. Награда: 1 кристалл.'
             },
             {
                 id: 'stage_3', mode: 'smash',
                 tierName: 'STAGE 3: 💀 ВОССТАВШИЕ',
                 bossName: 'Претендент', bossAvatar: 'char_default.webp', bossEra: 6,
-                rewardCrystals: 55, penaltyCrystals: 20,
+                rewardCrystals: 1, penaltyCrystals: 1,
                 targetScore: 16, spawnRate: 950,
-                lore: 'Оборотень дворовых столов. Режим: СЛОМАЙ КИСТЬ!'
+                lore: 'Режим: СЛОМАЙ КИСТЬ! Награда: 1 кристалл.'
             },
             {
                 id: 'stage_4', mode: 'osu',
                 tierName: 'STAGE 4: 💀 ПУТЬ ВОСХОЖДЕНИЯ',
                 bossName: '🌀 Испытание Концентрации II', bossAvatar: 'char_default.webp', bossEra: 7,
-                rewardCrystals: 75, penaltyCrystals: 25,
+                rewardCrystals: 2, penaltyCrystals: 2,
                 targetScore: 7, spawnRate: 3900,
-                lore: 'Ритм-проверка связок перед элитой.'
+                lore: 'Ритм-проверка. Награда: 2 кристалла.'
             },
             {
                 id: 'stage_5', mode: 'table',
                 tierName: 'STAGE 5: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (1/2)',
                 bossName: 'Ваня (AI)', bossAvatar: 'char_vanya.webp', bossEra: 12,
-                rewardCrystals: 95, penaltyCrystals: 15,
-                basePower: 65, speed: 1.6, durationSec: 45,
-                lore: 'Наглый и коварный крюк Вани. Настоящая проверка столом!'
+                rewardCrystals: 3, penaltyCrystals: 2,
+                basePower: 55, speed: 1.5, durationSec: 50,
+                lore: 'Техничный крюк. Награда: 3 кристалла.'
             },
             {
                 id: 'stage_6', mode: 'table',
                 tierName: 'STAGE 6: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (2/2)',
                 bossName: 'Герман', bossAvatar: 'char_german.webp', bossEra: 12,
-                rewardCrystals: 120, penaltyCrystals: 20,
-                basePower: 75, speed: 1.8, durationSec: 45,
-                lore: 'Железный верх и непробиваемый трицепс.'
+                rewardCrystals: 3, penaltyCrystals: 2,
+                basePower: 65, speed: 1.7, durationSec: 50,
+                lore: 'Железный трицепс. Награда: 3 кристалла.'
             },
             {
                 id: 'stage_7', mode: 'smash',
                 tierName: 'STAGE 7: 🐗 АВТОРИТЕТНЫЕ СВИНКИ (ФИНАЛ)',
                 bossName: 'Мастер Спида', bossAvatar: 'char_default.webp', bossEra: 10,
-                rewardCrystals: 150, penaltyCrystals: 30,
+                rewardCrystals: 5, penaltyCrystals: 3,
                 targetScore: 22, spawnRate: 850,
-                lore: 'Бешеная скорость кистей и опасные ловушки-бомбы!'
+                lore: 'Бешеные кисти. Награда: 5 кристаллов.'
             },
             {
                 id: 'stage_8', mode: 'osu',
                 tierName: 'STAGE 8: 🌌 МЛЕЧНЫЕ КОРОЛИ',
                 bossName: '🌀 Испытание Концентрации III', bossAvatar: 'char_artur.webp', bossEra: 13,
-                rewardCrystals: 210, penaltyCrystals: 35,
+                rewardCrystals: 5, penaltyCrystals: 3,
                 targetScore: 8, spawnRate: 3500,
-                lore: 'Финальный ритм-штурм перед встречей с Лавовым Королём.'
+                lore: 'Галактический ритм. Награда: 5 кристаллов.'
             },
             {
                 id: 'stage_9', mode: 'table',
                 tierName: 'STAGE 9: 🔥 ГОРЯЧИЕ ПАРНИ (ФИНАЛ БОСС)',
                 bossName: 'ТИМУР 🌋', bossAvatar: 'char_timur.webp', bossEra: 15,
-                rewardCrystals: 500, penaltyCrystals: 40,
-                basePower: 125, speed: 2.3, durationSec: 60, hasPhases: true,
-                lore: 'ФИНАЛ НА КИБЕР-СТОЛЕ. Расплавленный гранит. Сдвинь короля с места!'
+                rewardCrystals: 10, penaltyCrystals: 5,
+                basePower: 95, speed: 2.1, durationSec: 75,
+                lore: 'ФИНАЛ. 75 секунд плотной борьбы. Награда: 10 кристаллов!'
             }
         ];
 
@@ -5735,28 +6254,9 @@ function initMinigameUI() {
         }
 
 
-        // ====================================================
-        // ⚡️ КОНВЕРТАЦИЯ РЕАЛЬНЫХ ЗАМЕРОВ ИЗ ПРОФИЛЯ В БОЕВЫЕ СТАТЫ
-        // ====================================================
         function calcPlayerCombatStats() {
-            if (!currentUser) return { power: 55, maxStamina: 120, staminaRegen: 1.2, sweetBonus: 0, burst: 8 };
-
-            const pron = Number(currentUser.pronator) || 0;
-            const beam = Number(currentUser.beam) || 0;
-            const curl = Number(currentUser.curl) || 0;
-            const triceps = Number(currentUser.triceps) || 0;
-
-            const power = Math.round(55 + (pron * 0.5) + (beam * 0.4) + (curl * 0.3) + (triceps * 0.2));
-            const endRating = currentUser.endurance || 5;
-            const maxStamina = 100 + (endRating * 10);
-            const staminaRegen = 0.9 + (endRating * 0.15);
-            const burst = (currentUser.explosion || 3) * 4;
-
-            let sweetBonus = 0;
-            if (currentUser.style === 'Универсал') sweetBonus = 4;
-            if (currentUser.style === 'Верх') sweetBonus = 3;
-
-            return { power, maxStamina, staminaRegen, sweetBonus, burst };
+            // Равные условия для всех бойцов: побеждает только реакция и тайминг!
+            return { power: 60, maxStamina: 100, staminaRegen: 1.0, sweetBonus: 0, burst: 5 };
         }
 
 
@@ -6368,10 +6868,7 @@ function exitSmashBattle() {
 }
 
 
-               // ====================================================
-        // ⏳ УМНЫЕ КУЛДАУНЫ ПОД КАЖДЫЙ РЕЖИМ И БОССА (БЕЗ EXP)
-        // ====================================================
-        async function endBattle(isWin) {
+               async function endBattle(isWin) {
             gameState.inBattle = false;
             if (battleLoopId) cancelAnimationFrame(battleLoopId);
             if (gameState.timerInterval) clearInterval(gameState.timerInterval);
@@ -6380,18 +6877,15 @@ function exitSmashBattle() {
 
             if (isWin) {
                 userCrystals += st.rewardCrystals;
-                
-                // 🔥 РАСЧЕТ ИНДИВИДУАЛЬНОГО КУЛДАУНА
-                let cdMinutes = 4; // Стандарт для кибер-стола
-                
-                if (st.mode === 'osu') {
-                    cdMinutes = 20; // OSU фармится легко ➔ 20 минут КД
-                } else if (st.mode === 'smash') {
-                    cdMinutes = 15; // Сломай кисть ➔ 15 минут КД
-                } else if (st.id === 'stage_1') {
-                    cdMinutes = 15; // Раф защищен от абуза ➔ 15 минут КД
+
+                // 🔥 КУЛДАУНЫ ИЗ ТЗ
+                let cdMinutes = 10;
+                if (st.id === 'stage_1' || st.id === 'stage_2' || st.id === 'stage_3') {
+                    cdMinutes = 10;
                 } else if (st.id === 'stage_9') {
-                    cdMinutes = 2;  // Тимур ➔ Хардкорный босс, КД всего 2 минуты на реванш!
+                    cdMinutes = 15; // Тимур ➔ 15 минут
+                } else {
+                    cdMinutes = 20; // 4, 5, 6, 7, 8 ➔ 20 минут
                 }
 
                 playerStageCds[st.id] = Date.now() + (cdMinutes * 60 * 1000);
@@ -6402,16 +6896,15 @@ function exitSmashBattle() {
                 }
 
                 if (currentUser) {
-                    // 🔥 EXP БОЛЬШЕ НЕ ПРИБАВЛЯЕТСЯ (только кристаллы и этапы)
                     currentUser.crystals = userCrystals;
                     currentUser.unlocked_stage = playerUnlockedStage;
                     currentUser.stage_cds = playerStageCds;
                     await syncUserToSupabase(currentUser);
                 }
 
-                alert(`🏆 ПОБЕДА: ${st.bossName}!\n\nПолучено:\n+${st.rewardCrystals} 💎 Кристаллов Воли!\n\n⏳ Кулдаун на этап: ${cdMinutes} минут.`);
+                alert(`🏆 ПОБЕДА: ${st.bossName}!\n\nПолучено: +${st.rewardCrystals} 💎 Кристаллов Воли!\n⏳ Кулдаун на этап: ${cdMinutes} минут.`);
             } else {
-                const penalty = st.penaltyCrystals || 10;
+                const penalty = st.penaltyCrystals || 1;
                 userCrystals = Math.max(0, userCrystals - penalty);
 
                 if (currentUser) {
@@ -6419,12 +6912,12 @@ function exitSmashBattle() {
                     await syncUserToSupabase(currentUser);
                 }
 
-                // 🔥 Исправлены кавычки в алерте поражения
-                alert(`💀 ТЕБЯ СМЯЛИ: "${st.tierName}"!\n\nШТРАФ ЗА ПОРАЖЕНИЕ:\n-${penalty} 💎 Кристаллов Воли забрали в казну Лиги!`);
+                alert(`💀 ТЕБЯ СМЯЛИ: "${st.tierName}"!\nШТРАФ ЗА ПОРАЖЕНИЕ: -${penalty} 💎`);
             }
 
             exitBattle();
         }
+
 
 
 
