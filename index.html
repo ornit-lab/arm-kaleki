@@ -5540,24 +5540,46 @@ if (pTrophies) {
             }
         }
 
-        // ====================================================
-        // 🖼️ УЛЬТРА-СОВМЕСТИМЫЙ МАППИНГ КАРТИНОК БОЙЦОВ
+               // ====================================================
+        // 🖼️ УЛЬТРА-СОВМЕСТИМЫЙ МАППИНГ КАРТИНОК БОЙЦОВ (С РАЗДЕЛЕНИЕМ ТЁЗОК)
         // ====================================================
         function getCharImgPath(userObj) {
             if (!userObj) return 'char_default.webp';
 
-            const userId = (userObj.id || '').toLowerCase().trim();
-            const nameLower = (userObj.name || '').toLowerCase().trim();
-            const usernameLower = (userObj.username || '').toLowerCase().trim();
+            const userId = String(userObj.id || '').toLowerCase().trim();
+            const nameLower = String(userObj.name || '').toLowerCase().trim();
+            const usernameLower = String(userObj.username || '').toLowerCase().trim();
+            const titleLower = String(userObj.title || '').toLowerCase().trim();
+            const era = Number(userObj.era_id) || 1;
 
-            // 🟢 ВАНЯ №2 (Эксклюзивная моделька)
-            if (userId === 'seed_vanya_2' || userId.includes('vanya_2')) {
-                return 'char_vanya.webp';
+            // 👑 ТРИ ВАНЯ (РАЗДЕЛЕНИЕ)
+            if (nameLower.includes('ваня') || usernameLower.includes('vanya') || userId.includes('vanya')) {
+                // Ваня (9 место, 7 Эпоха, «Скрытая мощь»)
+                if (era === 7 || titleLower.includes('скрытая мощь') || userId === 'seed_vanya_1' || userId.includes('vanya_1')) {
+                    return 'char_vanya.webp';
+                }
+                // Ваня №2 (4 место, 13 Эпоха, «Тиски»)
+                if (era === 13 || titleLower.includes('тиски') || userId === 'seed_vanya_2' || userId.includes('vanya_2')) {
+                    return 'char_vanya_2.webp';
+                }
+                // Ваня №3 (15 место, 5 Эпоха, «Пупсик» — новенький)
+                if (era === 5 || titleLower.includes('пупсик') || userId.includes('vanya_3')) {
+                    return 'char_vanya_3.webp';
+                }
+                return 'char_vanya_3.webp';
             }
 
-            // ⚪️ ВАНЯ №1 (Стандартная заглушка)
-            if (userId === 'seed_vanya_1' || userId.includes('vanya_1')) {
-                return 'char_default.webp';
+            // ⚡ ДВА НИКИТЫ (РАЗДЕЛЕНИЕ)
+            if (nameLower.includes('никита') || usernameLower.includes('nikita') || userId.includes('nikita')) {
+                // Никита ОЛД (22 место, 1 Эпоха, «Карманный громила»)
+                if (era === 1 || titleLower.includes('карманный') || userId === 'seed_nikita') {
+                    return 'char_nikita.webp';
+                }
+                // Никита Новый (11 место, 6 Эпоха, «Новичок»)
+                if (era === 6 || titleLower.includes('новичок') || userId.includes('nikita_2')) {
+                    return 'char_nikita_2.webp';
+                }
+                return 'char_nikita_2.webp';
             }
 
             // ⚡️ ГЛЕБ (Проверенный)
@@ -5598,7 +5620,6 @@ if (pTrophies) {
             if (userId.includes('german') || nameLower === 'герман' || usernameLower === 'german') return 'char_german.webp';
             
             if (userId.includes('boris') || nameLower === 'борис' || usernameLower === 'boris') return 'char_boris.webp';
-            if (userId.includes('nikita') || nameLower === 'никита' || usernameLower === 'nikita') return 'char_nikita.webp';
             if (userId.includes('venya') || nameLower === 'веня' || usernameLower === 'venya') return 'char_venya.webp';
 
             // Авто-подхват для любых новых регистраций по юзернейму
@@ -6507,10 +6528,6 @@ function initMinigameUI() {
             }).join('');
         }
 
-
-                // ====================================================
-        // 🗂️ КАТЕГОРИИ БОЙЦОВ ДЛЯ РОТАЦИИ ПО ЭТАПАМ
-        // ====================================================
         
                 // ====================================================
         // 🗂️ КАНОНИЧНЫЕ ПУЛЫ РОТАЦИИ ПО СКРИНШОТУ
