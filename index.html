@@ -5810,23 +5810,31 @@
             const era = Number(userObj.era_id) || 1;
 
                         // ====================================================
-            // 👑 ТРИ ВАНИ: ЖЕЛЕЗНЫЙ МАППИНГ (С ГАРАНТИЕЙ ДЛЯ ВАНИ №1)
+            // 👑 ТРИ ВАНИ: ЖЕЛЕЗНАЯ ПРИВЯЗКА ПО ID ИЗ БАЗЫ
             // ====================================================
-            if (nameLower.includes('ваня') || usernameLower.includes('vanya') || userId.includes('vanya')) {
+            if (nameLower.includes('ван') || usernameLower.includes('van') || userId.includes('van')) {
                 
-                // 1. Ваня с 4 места (Старый босс AI, seed_vanya_2 или Тиски) ➔ ДЕФОЛТ
-                if (titleLower.includes('тиски') || userId === 'seed_vanya_2' || userId.includes('vanya_2')) {
+                // 1. ЖИВОЙ ВАНЯ-ЧЕМПИОН (Username: vanya, ID: seed_vanya_2, Скрытая мощь)
+                // 👉 ЕМУ СТРОГО ЕГО ЗАКОННУЮ КАРТОЧКУ char_vanya.webp!
+                if (userId === 'seed_vanya_2' || usernameLower === 'vanya') {
+                    return 'char_vanya.webp';
+                }
+
+                // 2. ВАНЯ-БОСС (Title: Тиски, Username: vanya_pupsi777, ID: seed_vanya_1)
+                // 👉 ЕМУ ДЕФОЛТ СО ЗНАКОМ ВОПРОСА!
+                if (userId === 'seed_vanya_1' || titleLower.includes('тиск') || usernameLower.includes('pupsi777')) {
                     return 'char_default.webp';
                 }
 
-                // 2. Ваня Пупсик (15 место, seed_vanya_3 или Пупсик) ➔ char_vanya_3.webp
-                if (titleLower.includes('пупсик') || userId.includes('vanya_3')) {
+                // 3. ВАНЯ №3 (Title: Пупсик, Username: vanya_pupsi228, ID: usr_1789300531425)
+                // 👉 ЕМУ СВОЯ КАРТОЧКА char_vanya_3.webp!
+                if (userId === 'usr_1789300531425' || usernameLower.includes('pupsi228') || titleLower.includes('пупс')) {
                     return 'char_vanya_3.webp';
                 }
 
-                // 3. ЖИВОЙ ВАНЯ-ЧЕМПИОН (и любой другой реальный Ваня!) ➔ char_vanya.webp
                 return 'char_vanya.webp';
             }
+
 
 
 
