@@ -3193,106 +3193,169 @@
         }
 
 
+          
+
+
+
+
+
+
                 /* ====================================================
-           🎬 АНИМАЦИЯ ОТКРЫТИЯ ПРОФИЛЯ
+           🔥 AAA-СТИЛИ ДЛЯ ПАСПОРТА БОЙЦА (ЖИВЫЕ ЧАСТИЦЫ + СВЕЧЕНИЕ)
            ==================================================== */
-        @keyframes profileSlideIn {
-            0% { opacity: 0; transform: scale(0.8) translateY(50px); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+
+        /* 1. ЭПИЧЕСКАЯ АНИМАЦИЯ ПОЯВЛЕНИЯ КАРТОЧКИ (ПЛАВНЫЙ ВЗРЫВ И СТАБИЛИЗАЦИЯ) */
+        @keyframes epicModalBlast {
+            0% {
+                opacity: 0;
+                transform: scale(0.68) translateY(60px) rotateX(16deg);
+                filter: blur(14px) brightness(2);
+            }
+            55% {
+                opacity: 1;
+                transform: scale(1.03) translateY(-6px) rotateX(-2deg);
+                filter: blur(0px) brightness(1.25);
+            }
+            78% {
+                transform: scale(0.985) translateY(2px) rotateX(1deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0) rotateX(0deg);
+                filter: blur(0px) brightness(1);
+            }
         }
 
         #modal-inspect .modal-box {
             position: relative;
-            animation: profileSlideIn 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            animation: epicModalBlast 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             overflow: hidden;
-            border-radius: 20px;
+            border-radius: 22px;
             z-index: 10;
+            transform-origin: center center;
+            perspective: 1000px;
         }
 
-        /* 🌌 ОБЩИЙ КОНТЕЙНЕР ЭФФЕКТОВ ЗА РАМКАМИ */
+        /* 2. ПОЛНОРАЗМЕРНЫЙ ХОЛСТ ЭФФЕКТОВ ЗА ВСЕМ ОКНОМ */
         .tier-background-fx {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; /* СТРОГО ЗА ВСЕМИ КАРТОЧКАМИ */
+            z-index: 0;
             pointer-events: none;
+            overflow: hidden;
         }
 
-        /* 🌋 1. СОЛНЦЕЕДЫ (Реальное пламя и жар) */
+        /* 🌋 ТИР 1: СОЛНЦЕЕДЫ (АДСКОЕ ПЫЛАЮЩЕЕ ПЛАМЯ И ЛЕТЯЩИЕ ИСКРЫ) */
         .inspect-tier-suneaters {
-            border: 2px solid #ff4400 !important;
-            background: radial-gradient(circle at 50% 100%, #3a0a00 0%, #0a0505 100%) !important;
-            box-shadow: 0 0 40px rgba(255, 68, 0, 0.5);
+            border: 2.5px solid #ff4500 !important;
+            background: radial-gradient(circle at 50% 110%, #520c00 0%, #1f0300 45%, #080203 100%) !important;
+            box-shadow: 0 0 50px rgba(255, 69, 0, 0.85), inset 0 0 45px rgba(255, 85, 0, 0.45) !important;
         }
-        .fx-fire-glow {
+        .fx-lava-fire-storm {
             position: absolute;
-            bottom: -20%; left: 0; width: 100%; height: 80%;
-            background: radial-gradient(ellipse at bottom, rgba(255, 68, 0, 0.6) 0%, transparent 70%);
-            filter: blur(30px);
-            animation: pulseHeat 2s infinite alternate;
+            bottom: -15%; left: -10%; width: 120%; height: 85%;
+            background: radial-gradient(ellipse at bottom, rgba(255, 69, 0, 0.85) 0%, rgba(255, 140, 0, 0.45) 45%, transparent 75%);
+            filter: blur(35px);
+            animation: fireInfernoPulse 2.2s ease-in-out infinite alternate;
         }
-        .fx-ember {
+        .fx-live-ember {
             position: absolute;
-            width: 4px; height: 4px; background: #ffaa00;
-            border-radius: 50%; filter: blur(1px);
-            animation: riseEmber 3s infinite linear;
+            bottom: -10px; width: 6px; height: 6px;
+            background: #fff3a8; border-radius: 50%;
+            box-shadow: 0 0 10px #ff5500, 0 0 20px #ff2200;
+            animation: liveEmberFly linear infinite;
         }
 
-        /* 🌌 2. МЛЕЧНЫЕ КОРОЛИ (Туманность и звезды) */
+        /* 🌌 ТИР 2: МЛЕЧНЫЕ КОРОЛИ (ЯРКИЙ НЕОНОВЫЙ КОСМОС И ЗВЕЗДНЫЙ ШТОРМ) */
         .inspect-tier-milky {
-            border: 2px solid #00d2ff !important;
-            background: radial-gradient(circle at 50% 0%, #001a33 0%, #050508 100%) !important;
-            box-shadow: 0 0 40px rgba(0, 210, 255, 0.4);
+            border: 2.5px solid #00d4ff !important;
+            background: radial-gradient(circle at 50% 0%, #00284d 0%, #001026 50%, #03040c 100%) !important;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.8), inset 0 0 45px rgba(0, 212, 255, 0.35) !important;
         }
-        .fx-nebula {
+        .fx-milky-plasma {
             position: absolute;
-            width: 150%; height: 150%; top: -25%; left: -25%;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 210, 255, 0.15) 0%, transparent 50%);
-            filter: blur(60px);
-            animation: rotateNebula 10s linear infinite;
+            top: -20%; left: -20%; width: 140%; height: 140%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.35) 0%, rgba(99, 102, 241, 0.25) 45%, transparent 70%);
+            filter: blur(40px);
+            animation: cosmosNebulaTwist 12s linear infinite;
+        }
+        .fx-milky-star {
+            position: absolute;
+            color: #a5f3fc; font-size: 0.9rem;
+            filter: drop-shadow(0 0 6px #00d4ff);
+            animation: starGlitter linear infinite;
         }
 
-        /* 🪨 3. КОЧЕВНИКИ (Пылевая буря) */
+        /* 🪨 ТИР 3: КОЧЕВНИКИ (БУРЯ ПЕСКА И ГРЯЗЕВЫЕ ВИХРИ) */
         .inspect-tier-nomads {
-            border: 2px solid #854d0e !important;
-            background: radial-gradient(circle at 50% 100%, #291a0a 0%, #0a0805 100%) !important;
-            box-shadow: 0 0 30px rgba(133, 77, 14, 0.4);
+            border: 2.5px solid #d97706 !important;
+            background: radial-gradient(circle at 50% 100%, #3d1e03 0%, #1c0e02 50%, #080401 100%) !important;
+            box-shadow: 0 0 45px rgba(217, 119, 6, 0.75), inset 0 0 40px rgba(217, 119, 6, 0.3) !important;
         }
-        .fx-dust-cloud {
+        .fx-nomad-sandstorm {
             position: absolute;
-            bottom: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(45deg, rgba(133, 77, 14, 0.05), transparent 100px);
-            filter: blur(20px);
-            animation: driftDust 5s infinite linear;
+            width: 200%; height: 100%;
+            background: repeating-linear-gradient(60deg, rgba(217, 119, 6, 0.18) 0px, transparent 40px, rgba(245, 158, 11, 0.12) 80px);
+            filter: blur(12px);
+            animation: sandStormRun 4s linear infinite;
+        }
+        .fx-nomad-rock {
+            position: absolute;
+            bottom: -15px; font-size: 1rem; opacity: 0.8;
+            animation: rockSwirlFly linear infinite;
         }
 
-        /* 💀 4. ВОССТАВШИЕ (Склеп и кости) */
+        /* 💀 ТИР 4: ВОССТАВШИЕ (ПОДНИМАЮЩИЕСЯ СКЕЛЕТЫ И ПРИЗРАЧНЫЙ СКЛЕП) */
         .inspect-tier-risen {
-            border: 2px solid #64748b !important;
-            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%) !important;
-            box-shadow: 0 0 30px rgba(100, 116, 139, 0.4);
+            border: 2.5px solid #94a3b8 !important;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0b1120 50%, #020408 100%) !important;
+            box-shadow: 0 0 45px rgba(148, 163, 184, 0.7), inset 0 0 40px rgba(148, 163, 184, 0.35) !important;
         }
-        .fx-bone { position: absolute; font-size: 1.2rem; opacity: 0.2; animation: floatBone 4s infinite ease-in-out; }
-
-        /* 🦨 5. ВОНЮЧКИ (Токсичный пар) */
-        .inspect-tier-stinkers {
-            border: 2px solid #22c55e !important;
-            background: radial-gradient(circle at 50% 100%, #052e16 0%, #010a01 100%) !important;
-            box-shadow: 0 0 35px rgba(34, 197, 94, 0.4);
-        }
-        .fx-toxic-vapor {
+        .fx-crypt-fog {
             position: absolute;
-            bottom: -10%; left: 0; width: 100%; height: 60%;
-            background: radial-gradient(ellipse at bottom, rgba(34, 197, 94, 0.3) 0%, transparent 70%);
+            bottom: 0; left: 0; width: 100%; height: 70%;
+            background: radial-gradient(ellipse at bottom, rgba(148, 163, 184, 0.35) 0%, transparent 70%);
             filter: blur(25px);
-            animation: riseVapor 3s infinite ease-out;
+            animation: cryptFogFloat 3.5s ease-in-out infinite alternate;
+        }
+        .fx-risen-bone {
+            position: absolute;
+            bottom: -20px; font-size: 1.4rem;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+            animation: risingBoneFly linear infinite;
         }
 
-        /* АНИМАЦИИ ГРАФИКИ */
-        @keyframes pulseHeat { 0% { opacity: 0.5; transform: scaleY(1); } 100% { opacity: 1; transform: scaleY(1.3); } }
-        @keyframes riseEmber { 0% { transform: translateY(300px) translateX(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-100px) translateX(20px); opacity: 0; } }
-        @keyframes rotateNebula { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes driftDust { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        @keyframes riseVapor { 0% { transform: translateY(50px) scaleX(1); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: translateY(-100px) scaleX(1.5); opacity: 0; } }
+        /* 🦨 ТИР 5: ВОНЮЧКИ (ГУСТОЙ ЯДОВИТЫЙ ГАЗ И ПУЗЫРИ) */
+        .inspect-tier-stinkers {
+            border: 2.5px solid #22c55e !important;
+            background: radial-gradient(circle at 50% 110%, #094017 0%, #03210a 50%, #010a03 100%) !important;
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.85), inset 0 0 45px rgba(34, 197, 94, 0.4) !important;
+        }
+        .fx-toxic-fart-glow {
+            position: absolute;
+            bottom: -15%; left: 0; width: 100%; height: 75%;
+            background: radial-gradient(ellipse at bottom, rgba(34, 197, 94, 0.65) 0%, rgba(74, 222, 128, 0.25) 50%, transparent 75%);
+            filter: blur(30px);
+            animation: toxicGasPulse 2.5s ease-in-out infinite alternate;
+        }
+        .fx-stinker-bubble {
+            position: absolute;
+            bottom: -15px; font-size: 1.3rem;
+            filter: drop-shadow(0 0 8px #22c55e);
+            animation: fartBubbleFly linear infinite;
+        }
+
+        /* АНИМАЦИИ ПОЛЕТА ЧАСТИЦ СНИЗУ ВВЕРХ */
+        @keyframes fireInfernoPulse { 0% { transform: scale(0.95); opacity: 0.7; } 100% { transform: scale(1.18); opacity: 1; } }
+        @keyframes liveEmberFly { 0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; } 15% { opacity: 1; } 80% { opacity: 0.9; } 100% { transform: translateY(-480px) translateX(35px) scale(1.4); opacity: 0; } }
+        @keyframes cosmosNebulaTwist { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.15); } 100% { transform: rotate(360deg) scale(1); } }
+        @keyframes starGlitter { 0% { transform: translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 30% { opacity: 1; transform: translateY(-120px) scale(1.2) rotate(90deg); } 70% { opacity: 0.9; } 100% { transform: translateY(-440px) scale(0.5) rotate(220deg); opacity: 0; } }
+        @keyframes sandStormRun { 0% { transform: translateX(-50%); } 100% { transform: translateX(0%); } }
+        @keyframes rockSwirlFly { 0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; } 20% { opacity: 0.9; } 80% { opacity: 0.8; } 100% { transform: translateY(-450px) translateX(-50px) rotate(540deg); opacity: 0; } }
+        @keyframes cryptFogFloat { 0% { transform: scaleY(0.85); opacity: 0.5; } 100% { transform: scaleY(1.2); opacity: 0.9; } }
+        @keyframes risingBoneFly { 0% { transform: translateY(0) rotate(0deg) scale(0.7); opacity: 0; } 20% { opacity: 0.95; } 80% { opacity: 0.85; } 100% { transform: translateY(-480px) rotate(360deg) scale(1.1); opacity: 0; } }
+        @keyframes toxicGasPulse { 0% { transform: scale(0.92); opacity: 0.65; } 100% { transform: scale(1.2); opacity: 1; } }
+        @keyframes fartBubbleFly { 0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; } 25% { opacity: 0.95; } 70% { transform: translateY(-260px) translateX(25px) scale(1.2); opacity: 0.85; } 100% { transform: translateY(-480px) translateX(-20px) scale(1.6); opacity: 0; } }
 
     </style>
 </head>
@@ -4749,6 +4812,10 @@
         // 🔀 БРОНИРОВАННЫЙ ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК
         // ====================================================
         window.switchTab = function (tabId, btn) {
+             // 🔥 Звук переключения вкладок «поньк»
+            const tabSfx = new Audio('tab-click.mp3');
+            tabSfx.volume = 0.4;
+            tabSfx.play().catch(() => {});
             console.log("👉 Переключение на вкладку:", tabId);
 
             // 1. Подсвечиваем активную кнопку в сайдбаре
@@ -5576,11 +5643,14 @@
             }).join('');
         }
 
+                // ====================================================
+        // 🔍 ИНСПЕКЦИЯ БОЙЦА (ЭПИЧЕСКОЕ ШОУ + ЛЕТЯЩИЕ ЧАСТИЦЫ)
+        // ====================================================
         function inspectUser(id) {
             const user = allUsers.find(u => u.id === id);
             if (!user) return;
 
-            // 1. Определение Ранга
+            // 1. Определение Ранга по Лидерборду
             const sortedUsers = [...allUsers].sort((a, b) => {
                 const eraA = Number(a.era_id) || 1;
                 const eraB = Number(b.era_id) || 1;
@@ -5589,7 +5659,7 @@
             });
             const rankNum = sortedUsers.findIndex(u => u.id === user.id) + 1 || 21;
 
-            // 2. Выбор Тира
+            // 2. Выбор Тира, Звука и Генерация Физических Частиц
             let tierClass = '';
             let sfxName = '';
             let fxHtml = '';
@@ -5597,38 +5667,64 @@
             if (rankNum <= 3) {
                 tierClass = 'inspect-tier-suneaters';
                 sfxName = 'sun-eaters.mp3';
-                fxHtml = '<div class="fx-fire-glow"></div>';
-                for(let i=0; i<15; i++) fxHtml += `<div class="fx-ember" style="left:${Math.random()*100}%; animation-delay:${Math.random()*3}s"></div>`;
+                fxHtml = '<div class="fx-lava-fire-storm"></div>';
+                for (let i = 0; i < 22; i++) {
+                    const left = Math.random() * 95;
+                    const delay = Math.random() * 3.5;
+                    const duration = 2.2 + Math.random() * 2;
+                    fxHtml += `<div class="fx-live-ember" style="left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
+                }
             } else if (rankNum <= 7) {
                 tierClass = 'inspect-tier-milky';
                 sfxName = 'milky-kings.mp3';
-                fxHtml = '<div class="fx-nebula"></div>';
+                fxHtml = '<div class="fx-milky-plasma"></div>';
+                for (let i = 0; i < 18; i++) {
+                    const left = Math.random() * 95;
+                    const delay = Math.random() * 4;
+                    const duration = 3 + Math.random() * 3;
+                    fxHtml += `<div class="fx-milky-star" style="left: ${left}%; top: ${Math.random()*80}%; animation-delay: ${delay}s; animation-duration: ${duration}s;">✦</div>`;
+                }
             } else if (rankNum <= 14) {
                 tierClass = 'inspect-tier-nomads';
                 sfxName = 'nomads.mp3';
-                fxHtml = '<div class="fx-dust-cloud"></div>';
+                fxHtml = '<div class="fx-nomad-sandstorm"></div>';
+                for (let i = 0; i < 12; i++) {
+                    const left = Math.random() * 95;
+                    const delay = Math.random() * 3;
+                    const duration = 2.5 + Math.random() * 2;
+                    fxHtml += `<div class="fx-nomad-rock" style="left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s;">🪨</div>`;
+                }
             } else if (rankNum <= 19) {
                 tierClass = 'inspect-tier-risen';
                 sfxName = 'risen.mp3';
-                for(let i=0; i<6; i++) fxHtml += `<div class="fx-bone" style="left:${Math.random()*90}%; animation-delay:${Math.random()*4}s">💀</div>`;
-                for(let i=0; i<6; i++) fxHtml += `<div class="fx-bone" style="left:${Math.random()*90}%; animation-delay:${Math.random()*4}s">🦴</div>`;
+                fxHtml = '<div class="fx-crypt-fog"></div>';
+                for (let i = 0; i < 10; i++) {
+                    const left = Math.random() * 90;
+                    const delay = Math.random() * 3.5;
+                    const duration = 3 + Math.random() * 2;
+                    fxHtml += `<div class="fx-risen-bone" style="left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s;">💀</div>`;
+                }
             } else {
                 tierClass = 'inspect-tier-stinkers';
                 sfxName = 'stinkers.mp3';
-                fxHtml = '<div class="fx-toxic-vapor"></div>';
+                fxHtml = '<div class="fx-toxic-fart-glow"></div>';
+                for (let i = 0; i < 14; i++) {
+                    const left = Math.random() * 95;
+                    const delay = Math.random() * 3;
+                    const duration = 2.5 + Math.random() * 2;
+                    fxHtml += `<div class="fx-stinker-bubble" style="left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s;">🟢</div>`;
+                }
             }
 
-            // 3. Звук
+            // 3. Запуск звука открытия профиля
             if (sfxName) {
                 const sfx = new Audio(sfxName);
-                sfx.volume = 0.5;
+                sfx.volume = 0.6;
                 sfx.play().catch(() => {});
             }
 
             const inspectBox = document.getElementById('modal-inspect');
             const boxContent = inspectBox.querySelector('.modal-box');
-            
-            // 🔥 ОЧИЩАЕМ СТАРЫЕ ТИРЫ И СТАВИМ НОВЫЙ НА ВЕСЬ БОКС
             boxContent.className = 'modal-box ' + tierClass;
 
             const era = getEraById(user.era_id || 1);
@@ -5636,8 +5732,13 @@
             const safeExp = Number(user.exp) || 0;
             const expFillPct = Math.min(100, Math.max(8, safeExp % 100 === 0 && safeExp > 0 ? 100 : safeExp % 100));
 
+            const d = user.danger || 5;
+            const s = user.strength_rating || 5;
+            const e = user.endurance || 5;
+            const ex = user.explosion || 3;
+
             boxContent.innerHTML = `
-                <!-- ФОНОВЫЕ ЭФФЕКТЫ ЗА КОНТЕНТОМ -->
+                <!-- ФОНОВЫЕ ЭФФЕКТЫ И ЧАСТИЦЫ ЗА ВСЕМ КОНТЕНТОМ -->
                 <div class="tier-background-fx">${fxHtml}</div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; position: relative; z-index: 5;">
@@ -5647,7 +5748,7 @@
 
                 <div class="profile-main-grid" style="position: relative; z-index: 5;">
                     <!-- Левая Колонка: Персонаж -->
-                    <div class="char-card-box" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
+                    <div class="char-card-box" style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(6px);">
                         <div class="char-short-title">${user.title || era.name}</div>
                         <img src="${charImgPath}" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
                         <div style="margin-top: 10px; font-weight: 900; color: var(--gold); font-size: 0.85rem; font-family: 'Comfortaa';">
@@ -5658,45 +5759,65 @@
                     <!-- Правая Колонка -->
                     <div class="stats-column-box">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 5px;">
-                            <div style="background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-bottom: 4px solid var(--neon-fire); border-radius: 14px; padding: 10px 12px; display: flex; align-items: center; gap: 10px;">
-                                <div class="arm-icon-box" style="width: 36px; height: 36px;">
+                            <div style="background: rgba(0,0,0,0.65); border: 1px solid rgba(255,255,255,0.12); border-bottom: 4px solid var(--neon-fire); border-radius: 14px; padding: 10px 12px; display: flex; align-items: center; gap: 10px;">
+                                <div class="arm-icon-box" style="width: 36px; height: 36px; min-width: 36px;">
                                     <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
                                 </div>
-                                <div style="display: flex; flex-direction: column;">
-                                    <span style="font-size: 0.65rem; color: var(--steel);">Эпоха:</span>
-                                    <span style="font-size: 0.85rem; font-weight: 900; color: var(--gold);">${era.id}. ${era.name}</span>
+                                <div style="display: flex; flex-direction: column; overflow: hidden;">
+                                    <span style="font-size: 0.65rem; color: var(--steel); font-family: 'Comfortaa'; font-weight: 700;">ЭПОХА:</span>
+                                    <span style="font-size: 0.85rem; font-weight: 900; color: var(--gold); font-family: 'Comfortaa'; white-space: nowrap;">${era.id}. ${era.name}</span>
                                 </div>
                             </div>
-                            <div style="background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-bottom: 4px solid #a855f7; border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center;">
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-size: 0.65rem; color: var(--steel);">Опыт:</span>
+                            <div style="background: rgba(0,0,0,0.65); border: 1px solid rgba(255,255,255,0.12); border-bottom: 4px solid #a855f7; border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 5px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Comfortaa';">
+                                    <span style="font-size: 0.65rem; color: var(--steel); font-weight: 700;">ОПЫТ:</span>
                                     <span style="font-size: 0.8rem; font-weight: 900; color: #a855f7;">${safeExp} EXP</span>
                                 </div>
-                                <div class="exp-horiz-flask-outer" style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-top: 4px;">
+                                <div class="exp-horiz-flask-outer" style="height: 12px; background: rgba(255, 255, 255, 0.08); border-radius: 6px;">
                                     <div class="exp-horiz-flask-liquid" style="width: ${expFillPct}%;"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- ПОЛКА ОЦЕНОК И ОСТАЛЬНОЕ... -->
-                        <div class="ratings-shelf-card" style="background: rgba(0,0,0,0.5);">
-                            <div style="font-size: 0.8rem; font-weight: 900; color: var(--gold); margin-bottom: 10px;">🧪 ТТХ БОЙЦА:</div>
-                            <div class="shelf-flask-row"><span class="shelf-label">Опасность:</span><div class="shelf-tube-outer"><div class="shelf-liquid-danger" style="width: ${user.danger*10}%;"></div></div><span style="color:#fff; font-weight:900;">${user.danger}/10</span></div>
-                            <div class="shelf-flask-row"><span class="shelf-label" style="color:#ff0055;">Сила:</span><div class="shelf-tube-outer"><div class="shelf-liquid-strength" style="width: ${user.strength_rating*10}%;"></div></div><span style="color:#fff; font-weight:900;">${user.strength_rating}/10</span></div>
-                            <div class="shelf-flask-row"><span class="shelf-label" style="color:#00ff66;">Выносливость:</span><div class="shelf-tube-outer"><div class="shelf-liquid-endurance" style="width: ${user.endurance*10}%;"></div></div><span style="color:#fff; font-weight:900;">${user.endurance}/10</span></div>
+                        <!-- Полка оценок -->
+                        <div class="ratings-shelf-card" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);">
+                            <div style="font-size: 0.8rem; font-weight: 900; color: var(--gold); margin-bottom: 12px; font-family: 'Comfortaa';">
+                                🧪 ОЦЕНКА БОЙЦА (АРХИТЕКТОР):
+                            </div>
+                            <div class="shelf-flask-row"><span class="shelf-label">Опасность:</span><div class="shelf-tube-outer"><div class="shelf-liquid-danger" style="width: ${d * 10}%;"></div></div><span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${d}/10</span></div>
+                            <div class="shelf-flask-row"><span class="shelf-label" style="color: #ff0055;">Сила:</span><div class="shelf-tube-outer"><div class="shelf-liquid-strength" style="width: ${s * 10}%;"></div></div><span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${s}/10</span></div>
+                            <div class="shelf-flask-row"><span class="shelf-label" style="color: #00ff66;">Выносливость:</span><div class="shelf-tube-outer"><div class="shelf-liquid-endurance" style="width: ${e * 10}%;"></div></div><span style="color: #fff; font-weight: 900; font-size: 0.8rem;">${e}/10</span></div>
+                            <div class="shelf-flask-row explosion-row"><span class="shelf-label" style="color: #ff5500; font-weight: 900;">💥 Взрыв:</span><div class="shelf-tube-outer"><div class="shelf-liquid-explosion" style="width: ${(ex / 5) * 100}%;"></div></div><span style="color: #ffcc00; font-weight: 900; font-size: 0.85rem;">${ex}/5</span></div>
                         </div>
 
-                        <div class="gold-lava-card" style="background: rgba(0,0,0,0.5);">
-                             <div class="stats-3d-grid">
-                                <div class="stat-3d-card"><span>Вес</span><strong>${user.weight || '-'} кг</strong></div>
-                                <div class="stat-3d-card"><span>Рост</span><strong>${user.height || '-'} см</strong></div>
-                                <div class="stat-3d-card"><span>Предплечье</span><strong>${user.forearm || '-'} см</strong></div>
-                                <div class="stat-3d-card"><span>Луч</span><strong>${user.beam || '-'} кг</strong></div>
-                             </div>
+                        <!-- Биометрия -->
+                        <div class="gold-lava-card" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);">
+                            <div class="gold-lava-title">📏 БИОМЕТРИЯ И СИЛОВЫЕ ПОКАЗАТЕЛИ (КГ)</div>
+                            <div class="stats-3d-grid" style="font-size: 0.8rem;">
+                                <div class="stat-3d-card"><div class="stat-card-header">Предплечье</div><strong>${user.forearm ? user.forearm + ' см' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Рост</div><strong>${user.height ? user.height + ' см' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Вес</div><strong>${user.weight ? user.weight + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Возраст</div><strong>${user.age || '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Пронация</div><strong>${user.pronator ? user.pronator + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Луч</div><strong>${user.beam ? user.beam + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Натяжка</div><strong>${user.pull ? user.pull + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Отведение</div><strong>${user.abduct ? user.abduct + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Скручивание</div><strong>${user.curl ? user.curl + ' кг' : '-'}</strong></div>
+                                <div class="stat-3d-card"><div class="stat-card-header">Трицепс</div><strong>${user.triceps ? user.triceps + ' кг' : '-'}</strong></div>
+                            </div>
+                        </div>
+
+                        <!-- Лор -->
+                        <div class="lore-collapsible-box open" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);">
+                            <button class="lore-toggle-btn">📜 ХАРАКТЕРИСТИКА И СТИЛЬ</button>
+                            <div class="lore-content-text" style="display: block;">
+                                ${user.lore || 'Характеристика пока не заполнена.'}
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
+
             openModal('modal-inspect');
         }
 
