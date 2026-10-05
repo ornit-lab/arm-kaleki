@@ -3591,6 +3591,180 @@
             .logout-btn-pink { font-size: 0.6rem; padding: 3px 6px; }
         }
 
+
+                /* ====================================================
+           👑 3D СТИЛИ ДЛЯ ЛОГОВ БОЁВ И ВЫЗОВОВ
+           ==================================================== */
+        @font-face {
+            font-family: 'RubikWetPaint';
+            src: url('RubikWetPaint-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Пульсация свежих актуальных вызовов */
+        @keyframes freshCallPulse {
+            0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 170, 0, 0.3); border-color: #ffaa00; }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 170, 0, 0.7); border-color: #ffcc00; }
+            100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 170, 0, 0.3); border-color: #ffaa00; }
+        }
+        .fresh-challenge-card {
+            animation: freshCallPulse 2s infinite ease-in-out;
+            background: linear-gradient(145deg, #1b1612, #0d0a08) !important;
+        }
+
+        /* 3D карточка прошедшего боя */
+        .epic-battle-card {
+            background: linear-gradient(145deg, #13131c, #09090f);
+            border: 2px solid #2a2a3e;
+            border-bottom: 5px solid #111;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08);
+            transform: translateY(0);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .epic-battle-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.8), 0 0 20px rgba(255, 204, 0, 0.25);
+        }
+
+        /* Величественный блок победителя */
+        .winner-hero-box {
+            text-align: center;
+            background: radial-gradient(circle at 50% 30%, rgba(255, 204, 0, 0.12) 0%, transparent 70%);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            margin-bottom: 12px;
+        }
+        .winner-crown-icon {
+            font-size: 1.6rem;
+            filter: drop-shadow(0 0 10px #ffcc00);
+            animation: crownFloat 2s ease-in-out infinite alternate;
+            display: inline-block;
+            margin-bottom: 2px;
+        }
+        @keyframes crownFloat {
+            0% { transform: translateY(0) rotate(-3deg); }
+            100% { transform: translateY(-4px) rotate(3deg); }
+        }
+        .winner-label-sub {
+            font-size: 0.65rem;
+            color: var(--steel);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Comfortaa', sans-serif;
+            display: block;
+        }
+        .winner-name-title {
+            font-family: 'RubikWetPaint', cursive, sans-serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            text-shadow: 0 2px 15px rgba(255, 204, 0, 0.6), 0 0 5px #fff;
+            margin: 4px 0;
+        }
+
+        /* Мягкий неоновый стиль для даты и времени */
+        .battle-timestamp-pill {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        /* Иконки эпох в строке бойцов */
+        .fighter-era-avatar {
+            width: 28px; height: 28px; background: #000;
+            border-radius: 50%; border: 1.5px solid var(--gold);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        }
+        .fighter-era-avatar img { width: 18px; height: 18px; object-fit: contain; }
+
+
+                /* ====================================================
+           🔥 3D-КНОПКИ СУДЕЙСТВА С ОГНЕННЫМ И ТОКСИЧНЫМ СВЕЧЕНИЕМ
+           ==================================================== */
+
+        /* Базовая 3D кнопка */
+        .admin-action-btn-3d {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 16px;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 900;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            border-radius: 12px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);
+            transform: translateY(0);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .admin-action-btn-3d:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+
+        .admin-action-btn-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        /* 🗑️ КНОПКА УДАЛЕНИЯ (Красно-жёлтый огонь сзади) */
+        .btn-danger-fire {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: #fff;
+            border: 1.5px solid #f87171;
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+            animation: fireButtonGlow 2s infinite alternate;
+        }
+
+        @keyframes fireButtonGlow {
+            0% { box-shadow: 0 6px 15px rgba(220, 38, 38, 0.5), 0 0 10px rgba(255, 165, 0, 0.3); }
+            50% { box-shadow: 0 8px 25px rgba(239, 68, 68, 0.8), 0 0 25px rgba(250, 204, 21, 0.6); }
+            100% { box-shadow: 0 6px 15px rgba(220, 38, 38, 0.5), 0 0 10px rgba(255, 165, 0, 0.3); }
+        }
+
+        /* ⚖️ КНОПКА СУДЕЙСТВА (Зелено-салатовое неоновое свечение) */
+        .btn-success-matrix {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: #ffffff;
+            border: 1.5px solid #4ade80;
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+            animation: matrixButtonGlow 2s infinite alternate;
+        }
+
+        @keyframes matrixButtonGlow {
+            0% { box-shadow: 0 6px 15px rgba(22, 163, 74, 0.5), 0 0 10px rgba(74, 222, 128, 0.3); }
+            50% { box-shadow: 0 8px 25px rgba(34, 197, 94, 0.85), 0 0 25px rgba(74, 222, 128, 0.7); }
+            100% { box-shadow: 0 6px 15px rgba(22, 163, 74, 0.5), 0 0 10px rgba(74, 222, 128, 0.3); }
+        }
+
     </style>
 </head>
 
@@ -6497,19 +6671,22 @@
             }
         }
 
-        // 4. Отрисовка вкладки «Лог Боёв»
+                // ====================================================
+        // ⚔️ ОТРЕДАКТИРОВАННАЯ ФУНКЦИЯ ЛОГОВ БОЁВ (ЭПИЧНЫЕ КАРТОЧКИ + ИКОНКИ ЭПОХ)
+        // ====================================================
         async function loadBattlesLog() {
             const pendingContainer = document.getElementById('pending-fights-list');
             const historyContainer = document.getElementById('history-fights-list');
             if (!pendingContainer || !historyContainer) return;
 
-            let {data} = await _supabase.from('battles').select('*').order('created_at', {ascending: false});
+            let { data } = await _supabase.from('battles').select('*').order('created_at', { ascending: false });
             const battles = data || [];
 
             const isBoris = currentUser && (currentUser.name.toUpperCase() === 'БОРИС' || currentUser.username === 'boris');
 
             // Активные заявки
             const pending = battles.filter(b => b.status === 'pending');
+            
             // 🔴 ОБНОВЛЕНИЕ КРАСНОГО БЕЙДЖА НА ВКЛАДКЕ
             const badgeEl = document.getElementById('badge-battles-count');
             if (badgeEl) {
@@ -6518,82 +6695,112 @@
                     badgeEl.innerText = count;
                     badgeEl.style.display = 'inline-flex';
                 } else {
-                    badgeEl.style.display = 'none'; // Если вызовов нет — скрываем кружок
+                    badgeEl.style.display = 'none';
                 }
             }
 
             if (pending.length === 0) {
                 pendingContainer.innerHTML = '<div style="color: var(--steel); font-style: italic; text-align: center; padding: 15px;">Активных вызовов нет...</div>';
             } else {
-                pendingContainer.innerHTML = pending.map(b => `
-            <div class="brutal-card" style="border-color: var(--neon-fire); padding: 10px; margin: 0;">
-                <div style="font-size: 0.85rem; font-weight: 900; color: var(--gold); margin-bottom: 4px;">
-                    ⚔️ ${b.challenger_name} (${b.challenger_era} Эпоха) ➔ VS ➔ ${b.target_name} (${b.target_era} Эпоха)
-                </div>
-                <div style="font-size: 0.75rem; color: var(--steel);">Время: ${b.created_at}</div>
-                ${isBoris
-                        ? `
-            <button
-                class="brutal-btn danger"
-                style="margin-top: 8px; width: 100%; font-size: 0.7rem;"
-                onclick="deleteBattle('${b.id}')">
-                🗑️ УДАЛИТЬ ЗАЯВКУ
+                pendingContainer.innerHTML = pending.map(b => {
+                    const cEra = Number(b.challenger_era) || 1;
+                    const tEra = Number(b.target_era) || 1;
+                    
+                    return `
+                        <div class="brutal-card fresh-challenge-card" style="padding: 14px; margin-bottom: 12px; border-radius: 14px;">
+                            <div style="font-size: 0.85rem; font-weight: 900; color: var(--gold); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <div class="fighter-era-avatar"><img src="arm_icon_${cEra}.webp" onerror="this.src='arm_icon.webp'"></div>
+                                    <span>${b.challenger_name}</span>
+                                </div>
+                                <span style="color: var(--neon-fire); font-size: 0.75rem;">VS</span>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span>${b.target_name}</span>
+                                    <div class="fighter-era-avatar"><img src="arm_icon_${tEra}.webp" onerror="this.src='arm_icon.webp'"></div>
+                                </div>
+                            </div>
+                            
+                            <div style="font-size: 0.75rem; color: var(--steel); font-family: 'Comfortaa';">🕒 Создано: ${b.created_at || '—'}</div>
+                            
+                             ${isBoris ? `
+        <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <button class="admin-action-btn-3d btn-success-matrix" onclick="openJudgeModal('${b.id}')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
+                    <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
+                    <path d="M7 21h10"></path>
+                    <path d="M12 3v18"></path>
+                    <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path>
+                </svg>
+                СУДИТЬ БОЙ
             </button>
-          `
-                        : ''
-                    }
-
-                
-                ${isBoris ? `
-                    <button class="brutal-btn" style="margin-top: 8px; width: 100%; font-size: 0.75rem; background: linear-gradient(135deg, var(--gold), var(--neon-fire)); color:#000;" onclick="openJudgeModal('${b.id}')">
-                        ⚖️ РАЗРЕШИТЬ ИСХОД БОЯ (СУДЕЙСТВО)
-                    </button>
-                ` : `
-                    <div style="margin-top: 6px; font-size: 0.75rem; color: var(--neon-fire); font-style: italic;">⏳ Ожидает решения Бориса</div>
-                `}
-            </div>
-        `).join('');
+            <button class="admin-action-btn-3d btn-danger-fire" style="max-width: 50px;" onclick="deleteBattle('${b.id}')" title="Удалить заявку">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+            </button>
+        </div>
+    ` : `
+        <div style="margin-top: 8px; font-size: 0.75rem; color: var(--neon-fire); font-style: italic;">⏳ Ожидает решения Бориса</div>
+    `}
+                        </div>
+                    `;
+                }).join('');
             }
 
-            // История
+            // История прошедших спаррингов (Эпичные 3D карточки)
             const history = battles.filter(b => b.status === 'resolved');
             if (history.length === 0) {
                 historyContainer.innerHTML = '<div style="color: var(--steel); font-style: italic; text-align: center; padding: 15px;">История спаррингов чиста...</div>';
             } else {
-                historyContainer.innerHTML = history.map(b => `
-    <div class="brutal-card"
-         style="padding: 10px; margin: 0; border-color: #2a2a38;">
+                historyContainer.innerHTML = history.map(b => {
+                    const winnerName = b.winner_name || 'Не указан';
+                    const cEra = Number(b.challenger_era) || 1;
+                    const tEra = Number(b.target_era) || 1;
 
-        <div style="font-size: 0.85rem; color: #fff;">
-            👑 Победитель:
-            <strong style="color: var(--gold);">
-                ${b.winner_name || 'Не указан'}
-            </strong>
+                    return `
+                        <div class="epic-battle-card">
+                            <!-- Величественный блок победителя с короной и Rubik Wet Paint шрифтом -->
+                            <div class="winner-hero-box">
+                                <div class="winner-crown-icon">👑</div>
+                                <span class="winner-label-sub">WINNER</span>
+                                <div class="winner-name-title">${winnerName}</div>
+                            </div>
+
+                            <!-- Участники с иконками эпох -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.85rem; font-family: 'Comfortaa'; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div class="fighter-era-avatar"><img src="arm_icon_${cEra}.webp" onerror="this.src='arm_icon.webp'"></div>
+                                    <span style="color: #fff; font-weight: bold;">${b.challenger_name}</span>
+                                </div>
+                                <span style="color: var(--steel); font-weight: 900; font-size: 0.75rem;">VS</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: #fff; font-weight: bold; text-align: right;">${b.target_name}</span>
+                                    <div class="fighter-era-avatar"><img src="arm_icon_${tEra}.webp" onerror="this.src='arm_icon.webp'"></div>
+                                </div>
+                            </div>
+
+                            <!-- Мягкий неоновый таймстамп даты и времени -->
+                            <div style="text-align: center; margin-bottom: ${isBoris ? '10px' : '0'};">
+                                <div class="battle-timestamp-pill">
+                                    🕒 ${b.created_at || '—'}
+                                </div>
+                            </div>
+
+                                ${isBoris ? `
+        <div style="margin-top: 12px;">
+            <button class="admin-action-btn-3d btn-danger-fire" onclick="deleteBattle('${b.id}')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                УДАЛИТЬ ЗАПИСЬ
+            </button>
         </div>
-
-        <div style="font-size: 0.75rem; color: var(--steel); margin-top: 4px;">
-            Участники:
-            ${b.challenger_name} vs ${b.target_name}
-        </div>
-
-        <div style="font-size: 0.7rem; color: var(--steel); margin-top: 3px;">
-            Дата: ${b.created_at || '—'}
-        </div>
-
-        ${isBoris
-                        ? `
-                    <button
-                        class="brutal-btn danger"
-                        style="margin-top: 8px; width: 100%; font-size: 0.7rem;"
-                        onclick="deleteBattle('${b.id}')">
-                        🗑️ УДАЛИТЬ ЗАПИСЬ
-                    </button>
-                  `
-                        : ''
-                    }
-    </div>
-`).join('');
-
+    ` : ''}
+                    `;
+                }).join('');
             }
         }
 
