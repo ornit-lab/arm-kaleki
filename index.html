@@ -3778,6 +3778,17 @@
 
 <body>
 
+            <!-- 🎵 ФОНОВЫЙ МУЗЫКАЛЬНЫЙ ПЛЕЕР -->
+        <div id="bg-music-widget" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); border: 1.5px solid var(--gold); border-radius: 20px; padding: 4px 12px; margin-left: 10px; box-shadow: 0 0 15px rgba(255,204,0,0.2);">
+            <button id="music-toggle-btn" onclick="toggleBackgroundMusic()" style="background: none; border: none; color: var(--gold); cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: 'Comfortaa'; font-size: 0.75rem; font-weight: 900;">
+                <span id="music-icon">🔇</span> 
+                <span id="music-text">МУЗЫКА ВЫКЛ</span>
+            </button>
+            <!-- Сам аудиоэлемент (loop значит будет играть по кругу) -->
+            <audio id="site-bg-audio" src="background-track.mp3" loop preload="auto"></audio>
+        </div>
+
+
     <!-- 🛡️ САЙДБАР (30%) -->
     <aside class="sidebar">
 
@@ -8735,6 +8746,31 @@ if (maxCoinsEl && currentUser) {
             }
             loadAdminWithdraws();
         }
+
+
+                // 🎵 Управление фоновой музыкой
+        function toggleBackgroundMusic() {
+            const audio = document.getElementById('site-bg-audio');
+            const icon = document.getElementById('music-icon');
+            const text = document.getElementById('music-text');
+            if (!audio) return;
+
+            if (audio.paused) {
+                audio.volume = 0.35; // Комфортная фоновая громкость (35%)
+                audio.play().then(() => {
+                    icon.innerText = '🔊';
+                    text.innerText = 'МУЗЫКА ВКЛ';
+                }).catch(err => {
+                    console.log("Браузер заблокировал автовоспроизведение:", err);
+                    alert("Кликни еще раз, чтобы активировать аудиопоток!");
+                });
+            } else {
+                audio.pause();
+                icon.innerText = '🔇';
+                text.innerText = 'МУЗЫКА ВЫКЛ';
+            }
+        }
+
 
 
     </script>
