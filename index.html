@@ -3778,15 +3778,14 @@
 
 <body>
 
-            <!-- 🎵 ФОНОВЫЙ МУЗЫКАЛЬНЫЙ ПЛЕЕР -->
-        <div id="bg-music-widget" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); border: 1.5px solid var(--gold); border-radius: 20px; padding: 4px 12px; margin-left: 10px; box-shadow: 0 0 15px rgba(255,204,0,0.2);">
-            <button id="music-toggle-btn" onclick="toggleBackgroundMusic()" style="background: none; border: none; color: var(--gold); cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: 'Comfortaa'; font-size: 0.75rem; font-weight: 900;">
-                <span id="music-icon">🔇</span> 
-                <span id="music-text">МУЗЫКА ВЫКЛ</span>
-            </button>
-            <!-- Сам аудиоэлемент (loop значит будет играть по кругу) -->
-            <audio id="site-bg-audio" src="background-track.mp3" loop preload="auto"></audio>
-        </div>
+           <!-- 🎵 ПЛЕЕР -->
+    <div id="bg-music-widget" style="position: fixed; top: 10px; right: 10px; z-index: 9999; background: rgba(0,0,0,0.8); border: 2px solid gold; padding: 5px 15px; border-radius: 20px;">
+        <button onclick="window.toggleBackgroundMusic()" style="background:none; border:none; color:gold; cursor:pointer; font-weight:900;">
+            <span id="music-icon">🔇</span> <span id="music-text">МУЗЫКА ВЫКЛ</span>
+        </button>
+        <audio id="site-bg-audio" src="background-track.mp3" loop></audio>
+    </div>
+
 
 
     <!-- 🛡️ САЙДБАР (30%) -->
@@ -8748,35 +8747,37 @@ if (maxCoinsEl && currentUser) {
         }
 
 
-                    // 🎵 Отладочное управление музыкой
-        function toggleBackgroundMusic() {
+               // 🎵 Глобальная функция управления музыкой
+        window.toggleBackgroundMusic = function() {
+            // Тест: если после клика вылетит это окно, значит связь ЕСТЬ
+            alert("Кнопка нажата! Ищем аудио..."); 
+
             const audio = document.getElementById('site-bg-audio');
             const icon = document.getElementById('music-icon');
             const text = document.getElementById('music-text');
+
             if (!audio) {
-                console.error("❌ Элемент <audio id='site-bg-audio'> не найден на странице!");
+                alert("Ошибка: Тег <audio id='site-bg-audio'> не найден в HTML!");
                 return;
             }
 
-            console.log("🔊 Попытка включить трек. Состояние paused:", audio.paused, "Источник:", audio.src);
-
             if (audio.paused) {
                 audio.volume = 0.4;
-                audio.play().then(() => {
-                    console.log("✅ Трек успешно заиграл!");
-                    icon.innerText = '🔊';
-                    text.innerText = 'МУЗЫКА ВКЛ';
-                }).catch(err => {
-                    console.error("❌ Ошибка воспроизведения (возможно 404 или политика браузера):", err);
-                    alert("Ошибка звука! Проверь консоль (F12).");
-                });
+                audio.play()
+                    .then(() => {
+                        icon.innerText = '🔊';
+                        text.innerText = 'МУЗЫКА ВКЛ';
+                    })
+                    .catch(err => {
+                        alert("Браузер блокирует звук! Нужно сначала кликнуть в любом месте сайта, а потом на кнопку.");
+                        console.error(err);
+                    });
             } else {
                 audio.pause();
-                console.log("⏸️ Трек на паузе.");
                 icon.innerText = '🔇';
                 text.innerText = 'МУЗЫКА ВЫКЛ';
             }
-        }
+        };
 
 
 
