@@ -3170,6 +3170,30 @@
         .triple-animate {
             animation: triplePulse 0.15s ease-out;
         }
+
+                /* 📱 АДАПТИВНЫЕ БАННЕРЫ (ПК = СЛИМ-ЛЕНТА, МОБИЛКА = 16:9) */
+        .top-responsive-banner {
+            width: 100%;
+            height: 150px; /* Для ПК: компактная слим-лента */
+            object-fit: cover;
+            object-position: center;
+            border-radius: 14px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.35);
+            display: block;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        /* 📲 Для смартфонов и планшетов (экраны до 768px) */
+        @media (max-width: 768px) {
+            .top-responsive-banner {
+                height: auto;
+                aspect-ratio: 16 / 9; /* Полный 16:9 сочный постер на мобиле! */
+                border-radius: 12px;
+            }
+        }
+
     </style>
 </head>
 
@@ -3306,12 +3330,11 @@
                 <button class="lava-flame-btn" onclick="openModal('modal-eras')">ЭПОХИ</button>
             </div>
 
-                <!-- 🏆 БАННЕР ЛИДЕРБОРДА (ФОРМАТ 16:9) -->
-    <div class="section-top-banner" style="width: 100%; margin-bottom: 20px;">
-        <img src="banner_leaderboard.webp" alt="Лидерборд" 
-             style="width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; border: 2.5px solid var(--gold); box-shadow: 0 0 25px rgba(255, 204, 0, 0.35); display: block;"
-             onerror="this.style.display='none';">
+            <!-- 🏆 АДАПТИВНЫЙ БАННЕР ЛИДЕРБОРДА -->
+    <div class="section-top-banner" style="width: 100%;">
+        <img src="banner_leaderboard.webp" alt="Лидерборд" class="top-responsive-banner" onerror="this.style.display='none';">
     </div>
+
 
 
             <!-- Компактный Чистый Лидерборд -->
@@ -4014,12 +4037,11 @@
 
                 <!-- Центральный контент -->
                 <div class="shop-main-content">
-                        <!-- 🏛️ БАННЕР МАГАЗИНА (ФОРМАТ 16:9) -->
-    <div class="section-top-banner" style="width: 100%; margin-bottom: 20px;">
-        <img src="banner_shop.webp" alt="Магазин" 
-             style="width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; border: 2.5px solid var(--gold); box-shadow: 0 0 30px rgba(255, 204, 0, 0.4); display: block;"
-             onerror="this.style.display='none';">
+                     <!-- 🏛️ АДАПТИВНЫЙ БАННЕР МАГАЗИНА -->
+    <div class="section-top-banner" style="width: 100%;">
+        <img src="banner_shop.webp" alt="Магазин" class="top-responsive-banner" onerror="this.style.display='none';">
     </div>
+
 
 
                     <!-- Главная баннер-плашка курса -->
