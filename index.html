@@ -3171,28 +3171,27 @@
             animation: triplePulse 0.15s ease-out;
         }
 
-                /* 📱 АДАПТИВНЫЕ БАННЕРЫ (ПК = СЛИМ-ЛЕНТА, МОБИЛКА = 16:9) */
+               /* 🖼️ БАННЕРЫ 16:9 (НА ПК — ЦЕНТРИРОВАНЫЙ АККУРАТНЫЙ РАЗМЕР, НА МОБИЛЕ — НА ВСЮ ШИРИНУ) */
         .top-responsive-banner {
             width: 100%;
-            height: 150px; /* Для ПК: компактная слим-лента */
+            max-width: 650px; /* На ПК зажимаем ширину, чтобы 16:9 не раздувался */
+            aspect-ratio: 16 / 9; /* Сохраняем полный формат 16:9 без всяких обрезок! */
             object-fit: cover;
-            object-position: center;
             border-radius: 14px;
             border: 2px solid var(--gold);
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.35);
+            box-shadow: 0 0 25px rgba(255, 204, 0, 0.35);
             display: block;
-            margin-bottom: 16px;
-            transition: all 0.3s ease;
+            margin: 0 auto 16px auto; /* Выравнивание ровно по центру */
         }
 
-        /* 📲 Для смартфонов и планшетов (экраны до 768px) */
+        /* 📱 На мобиле растягивается на 100% ширины (как тебе уже понравилось!) */
         @media (max-width: 768px) {
             .top-responsive-banner {
-                height: auto;
-                aspect-ratio: 16 / 9; /* Полный 16:9 сочный постер на мобиле! */
+                max-width: 100%;
                 border-radius: 12px;
             }
         }
+
 
     </style>
 </head>
