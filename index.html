@@ -3357,6 +3357,94 @@
         @keyframes toxicGasPulse { 0% { transform: scale(0.92); opacity: 0.65; } 100% { transform: scale(1.2); opacity: 1; } }
         @keyframes fartBubbleFly { 0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; } 25% { opacity: 0.95; } 70% { transform: translateY(-260px) translateX(25px) scale(1.2); opacity: 0.85; } 100% { transform: translateY(-480px) translateX(-20px) scale(1.6); opacity: 0; } }
 
+
+
+
+
+                /* ====================================================
+           🌋 ЖИВАЯ КИНЕМАТОГРАФИЧЕСКАЯ ЛЕНТА ЛИДЕРБОРДА
+           ==================================================== */
+        .leaderboard-row-card {
+            position: relative;
+            transform: translateY(0) scale(1);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease, border-color 0.35s ease;
+            will-change: transform;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .leaderboard-row-card:hover {
+            transform: translateY(-12px) scale(1.04); /* Жирный массивный подпрыг */
+            z-index: 10;
+        }
+
+        /* Основа лужи под карточкой */
+        .leaderboard-row-card::after {
+            content: '';
+            position: absolute;
+            bottom: -10px; left: 5%; width: 90%; height: 14px;
+            border-radius: 50%; opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: -1; pointer-events: none; filter: blur(6px);
+        }
+        .leaderboard-row-card:hover::after {
+            opacity: 1; transform: scale(1.15);
+            animation: puddlePulse 1.5s infinite alternate;
+        }
+
+        /* 🌋 ТИР 1: Солнцееды (Лужа расплавленной лавы) */
+        .leaderboard-row-card.tier-suneaters-card:hover::after {
+            background: radial-gradient(circle, rgba(255, 69, 0, 0.95) 0%, rgba(255, 140, 0, 0.6) 50%, transparent 80%);
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.9);
+        }
+        .leaderboard-row-card.tier-suneaters-card:hover {
+            border-color: #ff4500 !important;
+            box-shadow: 0 16px 35px rgba(255, 69, 0, 0.45), 0 0 20px rgba(255, 140, 0, 0.3);
+        }
+
+        /* 🌌 ТИР 2: Млечные короли (Лужа неоновой плазмы) */
+        .leaderboard-row-card.tier-milky-card:hover::after {
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.95) 0%, rgba(99, 102, 241, 0.6) 50%, transparent 80%);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.9);
+        }
+        .leaderboard-row-card.tier-milky-card:hover {
+            border-color: #00d4ff !important;
+            box-shadow: 0 16px 35px rgba(0, 212, 255, 0.45), 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 🪨 ТИР 3: Кочевники (Лужа густой грязи) */
+        .leaderboard-row-card.tier-nomads-card:hover::after {
+            background: radial-gradient(circle, rgba(217, 119, 6, 0.95) 0%, rgba(120, 53, 15, 0.6) 50%, transparent 80%);
+            box-shadow: 0 0 25px rgba(217, 119, 6, 0.8);
+        }
+        .leaderboard-row-card.tier-nomads-card:hover {
+            border-color: #d97706 !important;
+            box-shadow: 0 16px 35px rgba(217, 119, 6, 0.45), 0 0 20px rgba(120, 53, 15, 0.3);
+        }
+
+        /* 💀 ТИР 4: Восставшие (Лужа призрачного тумана) */
+        .leaderboard-row-card.tier-risen-card:hover::after {
+            background: radial-gradient(circle, rgba(148, 163, 184, 0.9) 0%, rgba(51, 65, 85, 0.6) 50%, transparent 80%);
+            box-shadow: 0 0 25px rgba(148, 163, 184, 0.8);
+        }
+        .leaderboard-row-card.tier-risen-card:hover {
+            border-color: #94a3b8 !important;
+            box-shadow: 0 16px 35px rgba(148, 163, 184, 0.45), 0 0 20px rgba(51, 65, 85, 0.3);
+        }
+
+        /* 🦨 ТИР 5: Вонючки (Лужа ядовитой зелёной жижи) */
+        .leaderboard-row-card.tier-stinkers-card:hover::after {
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.95) 0%, rgba(21, 128, 61, 0.6) 50%, transparent 80%);
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.9);
+        }
+        .leaderboard-row-card.tier-stinkers-card:hover {
+            border-color: #22c55e !important;
+            box-shadow: 0 16px 35px rgba(34, 197, 94, 0.45), 0 0 20px rgba(21, 128, 61, 0.3);
+        }
+
+        @keyframes puddlePulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
     </style>
 </head>
 
@@ -4975,6 +5063,9 @@
             document.head.appendChild(style);
         }
 
+                // ====================================================
+        // 🏆 ЛИДЕРБОРД С ПОДПРЫГОМ КАРТОЧЕК И ЛУЖАМИ СТИХИЙ
+        // ====================================================
         function renderLeaderboard() {
             const container = document.getElementById('leaderboard-container');
             if (!container) return;
@@ -4998,13 +5089,11 @@
                 const html = allUsers.map((user, index) => {
                     if (!user) return '';
 
-                    // 🪙 Расчёт Коинов и последнего Чекпоинта для Лидерборда
                     const userExp = Number(user.exp) || 0;
                     const currentCp = (typeof EXP_PIPE_CHECKPOINTS !== 'undefined' ? EXP_PIPE_CHECKPOINTS : []).slice().reverse().find(c => userExp >= c.exp);
                     const cpLabel = currentCp ? `${currentCp.exp} EXP` : '0 EXP';
 
-                    // 🔥 Главный фикс: берем Эпоху СТРОГО по era_id игрока!
-                    const era = (typeof getEraById === 'function') ? getEraById(user.era_id || 1) : erasData[0];
+                    const era = (typeof getEraById === 'function') ? getEraById(user.era_id || 1) : (typeof erasData !== 'undefined' ? erasData[0] : { id: 1, name: 'Скелет' });
 
                     const rankNum = index + 1;
                     const rankBadgeText = `${rankNum}.`;
@@ -5012,8 +5101,9 @@
                     const userName = user.name || 'Богатырь';
                     const displayTitle = user.title && user.title.trim() !== '' ? user.title : era.name;
 
-                    // 1. Определение эффекта по месту в топе
+                    // 1. Определение эффекта и КЛАССА ЛУЖИ по месту в топе
                     let rankFontClass = 'rank-rest';
+                    let puddleTierClass = 'tier-stinkers-card';
                     let isFireTier = false;
                     let isSpaceTier = false;
                     let isEarthTier = false;
@@ -5021,19 +5111,24 @@
                     let isStinkyTier = false;
 
                     if (rankNum <= 3) {
-                        rankFontClass = 'rank-top3';   // 🔥 1-3 места: Пылающая Лава
+                        rankFontClass = 'rank-top3';
+                        puddleTierClass = 'tier-suneaters-card'; // 🔥 Лава
                         isFireTier = true;
                     } else if (rankNum >= 4 && rankNum <= 7) {
-                        rankFontClass = 'rank-space';  // 🌌 4-7 места: Космос
+                        rankFontClass = 'rank-space';
+                        puddleTierClass = 'tier-milky-card';     // 🌌 Плазма
                         isSpaceTier = true;
                     } else if (rankNum >= 8 && rankNum <= 14) {
-                        rankFontClass = 'rank-earth';  // 🪨 8-14 места: Земля
+                        rankFontClass = 'rank-earth';
+                        puddleTierClass = 'tier-nomads-card';    // 🪨 Грязь
                         isEarthTier = true;
                     } else if (rankNum >= 15 && rankNum <= 19) {
-                        rankFontClass = 'rank-dead';   // 💀 15-19 места: Склеп
+                        rankFontClass = 'rank-dead';
+                        puddleTierClass = 'tier-risen-card';     // 💀 Туман
                         isDeadTier = true;
                     } else if (rankNum >= 20) {
-                        rankFontClass = 'rank-stinky'; // 🦨 20+ места: ТОКСИЧНЫЙ ПУК!
+                        rankFontClass = 'rank-stinky';
+                        puddleTierClass = 'tier-stinkers-card';  // 🦨 Токсичный газ
                         isStinkyTier = true;
                     }
 
@@ -5048,66 +5143,66 @@
                     let fireInnerHtml = '';
                     if (isFireTier) {
                         fireInnerHtml = `
-                    <div class="fire-micro-layer">
-                        <div class="fire-spark" style="animation-delay: ${delayVal1}s; animation-duration: ${durationOffset1}s; left: 15%;">🔸</div>
-                        <div class="fire-spark" style="animation-delay: ${delayVal2}s; animation-duration: ${durationOffset1 * 1.2}s; left: 45%;">🔥</div>
-                        <div class="fire-spark" style="animation-delay: ${delayVal3}s; animation-duration: ${durationOffset1 * 0.9}s; left: 75%;">🔸</div>
-                        <div class="lava-drip"></div>
-                    </div>
-                `;
+                            <div class="fire-micro-layer">
+                                <div class="fire-spark" style="animation-delay: ${delayVal1}s; animation-duration: ${durationOffset1}s; left: 15%;">🔸</div>
+                                <div class="fire-spark" style="animation-delay: ${delayVal2}s; animation-duration: ${durationOffset1 * 1.2}s; left: 45%;">🔥</div>
+                                <div class="fire-spark" style="animation-delay: ${delayVal3}s; animation-duration: ${durationOffset1 * 0.9}s; left: 75%;">🔸</div>
+                                <div class="lava-drip"></div>
+                            </div>
+                        `;
                     }
 
                     // 3. Космос (4-7)
                     let spaceInnerHtml = '';
                     if (isSpaceTier) {
                         spaceInnerHtml = `
-                    <div class="space-micro-cosmos">
-                        <div class="space-cloud cloud-cyan" style="animation-delay: ${delayVal1}s;"></div>
-                        <div class="space-cloud cloud-purple" style="animation-delay: ${delayVal2}s;"></div>
-                        <div class="space-star star-p1" style="animation-delay: ${delayVal1}s;">✦</div>
-                        <div class="space-star star-p2" style="animation-delay: ${delayVal2}s;">★</div>
-                        <div class="space-star star-p3" style="animation-delay: ${delayVal3}s;">✨</div>
-                    </div>
-                `;
+                            <div class="space-micro-cosmos">
+                                <div class="space-cloud cloud-cyan" style="animation-delay: ${delayVal1}s;"></div>
+                                <div class="space-cloud cloud-purple" style="animation-delay: ${delayVal2}s;"></div>
+                                <div class="space-star star-p1" style="animation-delay: ${delayVal1}s;">✦</div>
+                                <div class="space-star star-p2" style="animation-delay: ${delayVal2}s;">★</div>
+                                <div class="space-star star-p3" style="animation-delay: ${delayVal3}s;">✨</div>
+                            </div>
+                        `;
                     }
 
                     // 4. Земля (8-14)
                     let earthInnerHtml = '';
                     if (isEarthTier) {
                         earthInnerHtml = `
-                    <div class="earth-micro-layer">
-                        <div class="earth-stone stone-1" style="animation-delay: ${delayVal1}s; animation-duration: ${durationOffset2}s;">🪨</div>
-                        <div class="earth-stone stone-2" style="animation-delay: ${delayVal2}s; animation-duration: ${durationOffset2 + 4}s;">▪</div>
-                        <span class="earth-dust dust-1" style="animation-delay: ${delayVal1}s;">·</span>
-                    </div>
-                `;
+                            <div class="earth-micro-layer">
+                                <div class="earth-stone stone-1" style="animation-delay: ${delayVal1}s; animation-duration: ${durationOffset2}s;">🪨</div>
+                                <div class="earth-stone stone-2" style="animation-delay: ${delayVal2}s; animation-duration: ${durationOffset2 + 4}s;">▪️</div>
+                                <span class="earth-dust dust-1" style="animation-delay: ${delayVal1}s;">·</span>
+                            </div>
+                        `;
                     }
 
                     // 5. Склеп (15-19)
                     let deadInnerHtml = '';
                     if (isDeadTier) {
                         deadInnerHtml = `
-                    <div class="dead-micro-crypt">
-                        <div class="crypt-web web-left">🕸️</div>
-                        <div class="crypt-particle particle-bone-1" style="animation-delay: ${delayVal1}s;">🦴</div>
-                        <div class="crypt-particle particle-skull" style="animation-delay: ${delayVal2}s;">💀</div>
-                    </div>
-                `;
+                            <div class="dead-micro-crypt">
+                                <div class="crypt-web web-left">🕸</div>
+                                <div class="crypt-particle particle-bone-1" style="animation-delay: ${delayVal1}s;">🦴</div>
+                                <div class="crypt-particle particle-skull" style="animation-delay: ${delayVal2}s;">💀</div>
+                            </div>
+                        `;
                     }
 
                     // 6. 🦨 Токсичный пук (20+)
                     let stinkyInnerHtml = '';
                     if (isStinkyTier) {
                         stinkyInnerHtml = `
-                    <div class="stinky-micro-gas">
-                        <div class="stinky-bubble bubble-1" style="animation-delay: ${delayVal1}s;">🟢</div>
-                        <div class="stinky-bubble bubble-2" style="animation-delay: ${delayVal2}s;">💨</div>
-                        <div class="stinky-bubble bubble-3" style="animation-delay: ${delayVal3}s;">🟢</div>
-                    </div>
-                `;
+                            <div class="stinky-micro-gas">
+                                <div class="stinky-bubble bubble-1" style="animation-delay: ${delayVal1}s;">🟢</div>
+                                <div class="stinky-bubble bubble-2" style="animation-delay: ${delayVal2}s;">💨</div>
+                                <div class="stinky-bubble bubble-3" style="animation-delay: ${delayVal3}s;">🟢</div>
+                            </div>
+                        `;
                     }
 
-                    // 🔥 7. Генерация аккуратных левых надписей с минимальным отступом
+                    // 7. Разделители тиров
                     let separatorHtml = '';
                     if (rankNum === 1) {
                         separatorHtml = `<div class="tier-separator fire-tier">🔥 Солнцееды</div>`;
@@ -5121,51 +5216,47 @@
                         separatorHtml = `<div class="tier-separator stinky-tier">💩 Вонючки</div>`;
                     }
 
-                    // Сборка всей 3D-клавиши
+                    // 🔥 ВСТАВЛЕНЫ КЛАССЫ ПОДПРЫГА И ЛУЖ: leaderboard-row-card ${puddleTierClass}
                     return `
-                ${separatorHtml}
-                <div class="leaderboard-row ${isFireTier ? 'fire-tier-row' : ''} ${isSpaceTier ? 'space-tier-row' : ''} ${isEarthTier ? 'earth-tier-row' : ''} ${isDeadTier ? 'dead-tier-row' : ''} ${isStinkyTier ? 'stinky-tier-row' : ''}" style="${isMe ? 'border-color: var(--neon-green) !important;' : ''}">
-                    ${fireInnerHtml}
-                    ${spaceInnerHtml}
-                    ${earthInnerHtml}
-                    ${deadInnerHtml}
-                    ${stinkyInnerHtml}
-                    <div class="player-info-main" style="position:relative; z-index:1;">
-                        <div class="arm-icon-box">
-                            <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                        ${separatorHtml}
+                        <div class="leaderboard-row leaderboard-row-card ${puddleTierClass} ${isFireTier ? 'fire-tier-row' : ''} ${isSpaceTier ? 'space-tier-row' : ''} ${isEarthTier ? 'earth-tier-row' : ''} ${isDeadTier ? 'dead-tier-row' : ''} ${isStinkyTier ? 'stinky-tier-row' : ''}" style="${isMe ? 'border-color: var(--neon-green) !important;' : ''}">
+                            ${fireInnerHtml}
+                            ${spaceInnerHtml}
+                            ${earthInnerHtml}
+                            ${deadInnerHtml}
+                            ${stinkyInnerHtml}
+                            <div class="player-info-main" style="position:relative; z-index:1;">
+                                <div class="arm-icon-box">
+                                    <img src="arm_icon_${era.id}.webp" class="arm-icon-img" onerror="this.onerror=null; this.src='arm_icon.webp';">
+                                </div>
+                                <div class="rank-badge ${rankFontClass}">${rankBadgeText}</div>
+                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <span class="player-name-text">${userName}</span>
+                                    ${isMe ? `<span class="you-badge">ВЫ</span>` : ''}
+                                    <span style="color: var(--steel);">|</span>
+                                    <span class="player-title-text">${displayTitle}</span>
+                                    <span style="color: var(--steel);">|</span>
+                                    <span class="player-era-text">${era.id} Эпоха</span>
+                                </div>
+                            </div>
+
+                            <!-- Правая часть: EXP, Коины и Кнопка профиля -->
+                            <div style="display: flex; align-items: center; gap: 10px; position: relative; z-index: 2;">
+                                <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(255,204,0,0.3); border-radius: 8px; padding: 4px 10px;">
+                                    <span style="font-size: 0.8rem; font-weight: 900; color: #a855f7; font-family: 'Comfortaa';">⚡️ ${userExp} EXP</span>
+                                    <span style="color: var(--steel);">|</span>
+                                    <span style="font-size: 0.8rem; font-weight: 900; color: var(--gold); font-family: 'Comfortaa';">🪙 ${user.coins || 0}</span>
+                                </div>
+
+                                <button class="btn-profile-neon" title="Открыть профиль" onclick="openUserProfile('${user.id}')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                        <div class="rank-badge ${rankFontClass}">${rankBadgeText}</div>
-                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <span class="player-name-text">${userName}</span>
-                            ${isMe ? `<span class="you-badge">ВЫ</span>` : ''}
-                            <span style="color: var(--steel);">|</span>
-                            <span class="player-title-text">${displayTitle}</span>
-                            <span style="color: var(--steel);">|</span>
-                            <span class="player-era-text">${era.id} Эпоха</span>
-                        </div>
-                    </div>
-
-                                        <!-- Правая часть: Реальный EXP, Коины и Кнопка профиля -->
-                    <div style="display: flex; align-items: center; gap: 10px; position: relative; z-index: 2;">
-                        <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(255,204,0,0.3); border-radius: 8px; padding: 4px 10px;">
-                            <!-- Реальный EXP бойца -->
-                            <span style="font-size: 0.8rem; font-weight: 900; color: #a855f7; font-family: 'Comfortaa';">⚡️ ${userExp} EXP</span>
-                            <span style="color: var(--steel);">|</span>
-                            <!-- Коины -->
-                            <span style="font-size: 0.8rem; font-weight: 900; color: var(--gold); font-family: 'Comfortaa';">🪙 ${user.coins || 0}</span>
-                        </div>
-
-                        <button class="btn-profile-neon" title="Открыть профиль" onclick="openUserProfile('${user.id}')">
-                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                        </button>
-                    </div>
-
-
-                </div>
-            `;
+                    `;
                 }).join('');
 
                 container.innerHTML = html;
