@@ -3300,15 +3300,24 @@
 
 
 
-        <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
+                <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
         <section id="tab-leaderboard" class="tab-section active-view">
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;" &gt; <button
-                class="lava-flame-btn" onclick="openModal('modal-eras')">ЭПОХИ</button>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;"> 
+                <button class="lava-flame-btn" onclick="openModal('modal-eras')">ЭПОХИ</button>
+            </div>
+
+            <!-- 🖼️ ГОРИЗОНТАЛЬНЫЙ БАННЕР ЛИДЕРБОРДА СО СКРУГЛЕНИЕМ -->
+            <div class="section-top-banner
+">
+                <img src="banner_leaderboard.webp" alt="Лидерборд Лиги" 
+                     style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 16px; border: 2px solid var(--gold); box-shadow: 0 0 25px rgba(255, 204, 0, 0.25); display: block; margin-bottom: 20px;"
+                     onerror="this.style.display='none';">
             </div>
 
             <!-- Компактный Чистый Лидерборд -->
             <div id="leaderboard-container"></div>
         </section>
+
 
         <!-- ⚡ ВАКЛАДКА 2: ОПЫТ И ТРЕНИРОВКИ -->
         <section id="tab-exp" class="tab-section">
@@ -4005,6 +4014,13 @@
 
                 <!-- Центральный контент -->
                 <div class="shop-main-content">
+                                        <!-- 🖼️ ГОРИЗОНТАЛЬНЫЙ БАННЕР МАГАЗИНА СО СКРУГЛЕНИЕМ -->
+                    <div class="section-top-banner">
+                        <img src="banner_shop.webp" alt="Банк и Магазин Лиги" 
+                             style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 16px; border: 2px solid var(--gold); box-shadow: 0 0 25px rgba(255, 204, 0, 0.3); display: block; margin-bottom: 20px;"
+                             onerror="this.style.display='none';">
+                    </div>
+
                     <!-- Главная баннер-плашка курса -->
                     <div class="shop-rate-banner">
                         <div class="rate-badge">⚖️ ОФИЦИАЛЬНЫЙ КУРС БАНКА ЛИГИ</div>
@@ -4022,6 +4038,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Баланс игрока на витрине -->
                     <div class="shop-balances-bar">
