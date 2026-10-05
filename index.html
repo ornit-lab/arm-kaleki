@@ -3193,6 +3193,149 @@
         }
 
 
+                /* ====================================================
+           🔮 СТИЛИ ЭФФЕКТОВ ТИРОВ В ПАСПОРТЕ БОЙЦА
+           ==================================================== */
+        .char-card-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+
+        /* 🌋 1. СОЛНЦЕЕДЫ (Горящая лава + огонь) */
+        .char-card-box.tier-suneaters {
+            border: 3.5px solid #ff3300 !important;
+            box-shadow: 0 0 30px rgba(255, 68, 0, 0.9), inset 0 0 15px rgba(255, 68, 0, 0.5) !important;
+            background: linear-gradient(180deg, #180500 0%, #080000 100%) !important;
+        }
+        .inspect-ambient-fire {
+            position: absolute;
+            bottom: -5px; left: 0; right: 0;
+            height: 50px;
+            pointer-events: none;
+            z-index: 2;
+            display: flex;
+            justify-content: space-around;
+        }
+        .flame-particle {
+            font-size: 1.4rem;
+            animation: burnUp 1.4s ease-in infinite alternate;
+            opacity: 0.85;
+            filter: drop-shadow(0 0 6px #ff4400);
+        }
+
+        /* 🌌 2. МЛЕЧНЫЕ КОРОЛИ (Голубое свечение + облака) */
+        .char-card-box.tier-milky {
+            border: 3.5px solid #00d2ff !important;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.8), inset 0 0 15px rgba(0, 210, 255, 0.4) !important;
+            background: linear-gradient(180deg, #001220 0%, #00040a 100%) !important;
+        }
+        .inspect-ambient-clouds {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        .cosmic-cloud {
+            position: absolute;
+            width: 120px; height: 120px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: driftCloud 6s ease-in-out infinite alternate;
+        }
+
+        /* 🪨 3. КОЧЕВНИКИ (Коричневая грязь/пыль) */
+        .char-card-box.tier-nomads {
+            border: 3.5px solid #b45309 !important;
+            box-shadow: 0 0 25px rgba(180, 83, 9, 0.7), inset 0 0 12px rgba(180, 83, 9, 0.3) !important;
+            background: linear-gradient(180deg, #1c0d02 0%, #070300 100%) !important;
+        }
+        .inspect-ambient-nomads {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40px;
+            pointer-events: none;
+            z-index: 2;
+            display: flex;
+            justify-content: space-around;
+        }
+        .dust-particle {
+            font-size: 1rem;
+            animation: swirlDust 2s linear infinite;
+            opacity: 0.7;
+        }
+
+        /* 💀 4. ВОССТАВШИЕ (Серая кость + скелетики) */
+        .char-card-box.tier-risen {
+            border: 3.5px solid #94a3b8 !important;
+            box-shadow: 0 0 25px rgba(148, 163, 184, 0.7), inset 0 0 12px rgba(148, 163, 184, 0.3) !important;
+            background: linear-gradient(180deg, #0f172a 0%, #020617 100%) !important;
+        }
+        .inspect-ambient-risen {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .bone-particle {
+            position: absolute;
+            font-size: 1.1rem;
+            animation: floatBone 3s ease-in-out infinite;
+            opacity: 0.65;
+        }
+
+        /* 🦨 5. ВОНЮЧКИ (Токсичный зеленый + пердеж) */
+        .char-card-box.tier-stinkers {
+            border: 3.5px solid #22c55e !important;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.8), inset 0 0 15px rgba(34, 197, 94, 0.4) !important;
+            background: linear-gradient(180deg, #052e16 0%, #011c00 100%) !important;
+        }
+        .inspect-ambient-stinkers {
+            position: absolute;
+            bottom: 5px; left: 0; right: 0;
+            height: 45px;
+            pointer-events: none;
+            z-index: 2;
+            display: flex;
+            justify-content: space-around;
+        }
+        .gas-particle {
+            font-size: 1.2rem;
+            animation: bubbleFart 1.5s ease-out infinite;
+            opacity: 0;
+        }
+
+        /* ====================================================
+           АНИМАЦИИ ЭФФЕКТОВ
+           ==================================================== */
+        @keyframes burnUp {
+            0% { transform: translateY(15px) scale(0.85); opacity: 0.3; }
+            100% { transform: translateY(-10px) scale(1.15); opacity: 0.95; }
+        }
+        @keyframes driftCloud {
+            0% { transform: translate(-10px, -10px) scale(1); }
+            100% { transform: translate(15px, 15px) scale(1.2); }
+        }
+        @keyframes swirlDust {
+            0% { transform: translateY(10px) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-25px) rotate(360deg); opacity: 0; }
+        }
+        @keyframes floatBone {
+            0% { transform: translateY(160px) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-10px) rotate(180deg); opacity: 0; }
+        }
+        @keyframes bubbleFart {
+            0% { transform: translateY(10px) scale(0.6); opacity: 0; }
+            40% { opacity: 0.9; }
+            100% { transform: translateY(-30px) scale(1.3); opacity: 0; }
+        }
+
     </style>
 </head>
 
@@ -5476,12 +5619,87 @@
         }
 
 
-        // ====================================================
-        // 🔍 ИНСПЕКЦИЯ БОЙЦА (РАЗДЕЛЬНАЯ ЭПОХА И EXP В ПАСПОРТЕ)
+                // ====================================================
+        // 🔍 ИНСПЕКЦИЯ БОЙЦА (ИНТЕРАКТИВНОЕ ШОУ ТИРОВ С SFX ЗВУКОМ)
         // ====================================================
         function inspectUser(id) {
             const user = allUsers.find(u => u.id === id);
             if (!user) return;
+
+            // 🔥 1. Расчет места в топе (строго по правилам Лидерборда!)
+            const sortedUsers = [...allUsers].sort((a, b) => {
+                const eraA = Number(a.era_id) || 1;
+                const eraB = Number(b.era_id) || 1;
+                if (eraB !== eraA) return eraB - eraA;
+                return (Number(b.exp) || 0) - (Number(a.exp) || 0);
+            });
+            const rankIndex = sortedUsers.findIndex(u => u.id === user.id);
+            const rankNum = rankIndex !== -1 ? rankIndex + 1 : 21; // Если не нашли — кидаем в Вонючки (21+)
+
+            // 🔥 2. Определение эффектов, рамок и звуков
+            let tierClass = '';
+            let sfxName = '';
+            let ambientHtml = '';
+
+            if (rankNum <= 3) {
+                tierClass = 'tier-suneaters';
+                sfxName = 'sun-eaters.mp3';
+                ambientHtml = `
+                    <div class="inspect-ambient-fire">
+                        <span class="flame-particle" style="animation-delay: 0.1s;">🔥</span>
+                        <span class="flame-particle" style="animation-delay: 0.4s;">🔥</span>
+                        <span class="flame-particle" style="animation-delay: 0.2s;">🔥</span>
+                        <span class="flame-particle" style="animation-delay: 0.6s;">🔥</span>
+                    </div>
+                `;
+            } else if (rankNum >= 4 && rankNum <= 7) {
+                tierClass = 'tier-milky';
+                sfxName = 'milky-kings.mp3';
+                ambientHtml = `
+                    <div class="inspect-ambient-clouds">
+                        <div class="cosmic-cloud" style="top: 10px; left: -10px; animation-delay: 0s;"></div>
+                        <div class="cosmic-cloud" style="bottom: 10px; right: -10px; animation-delay: 2s;"></div>
+                    </div>
+                `;
+            } else if (rankNum >= 8 && rankNum <= 14) {
+                tierClass = 'tier-nomads';
+                sfxName = 'nomads.mp3';
+                ambientHtml = `
+                    <div class="inspect-ambient-nomads">
+                        <span class="dust-particle" style="animation-delay: 0.1s;">🪨</span>
+                        <span class="dust-particle" style="animation-delay: 0.7s;">▪</span>
+                        <span class="dust-particle" style="animation-delay: 0.3s;">🪨</span>
+                        <span class="dust-particle" style="animation-delay: 0.9s;">▪</span>
+                    </div>
+                `;
+            } else if (rankNum >= 15 && rankNum <= 19) {
+                tierClass = 'tier-risen';
+                sfxName = 'risen.mp3';
+                ambientHtml = `
+                    <div class="inspect-ambient-risen">
+                        <span class="bone-particle" style="left: 15%; animation-delay: 0.1s;">💀</span>
+                        <span class="bone-particle" style="left: 45%; animation-delay: 1.2s;">🦴</span>
+                        <span class="bone-particle" style="left: 75%; animation-delay: 0.5s;">💀</span>
+                    </div>
+                `;
+            } else {
+                tierClass = 'tier-stinkers';
+                sfxName = 'stinkers.mp3';
+                ambientHtml = `
+                    <div class="inspect-ambient-stinkers">
+                        <span class="gas-particle" style="animation-delay: 0.1s;">🟢</span>
+                        <span class="gas-particle" style="animation-delay: 0.5s;">💨</span>
+                        <span class="gas-particle" style="animation-delay: 0.3s;">🟢</span>
+                    </div>
+                `;
+            }
+
+            // 🔥 3. Запуск аудио-эффекта
+            if (sfxName) {
+                const sfx = new Audio(sfxName);
+                sfx.volume = 0.65; // Средняя громкость
+                sfx.play().catch(e => console.warn("Аудио заблокировано браузером до первого клика:", e));
+            }
 
             const era = getPlayerEra ? getPlayerEra(user) : getEraById(user.era_id || 1);
             const charImgPath = (typeof getCharImgPath === 'function') ? getCharImgPath(user) : 'char_default.webp';
@@ -5504,11 +5722,12 @@
                 </div>
 
                 <div class="profile-main-grid">
-                    <!-- 1. Левая Колонка: Персонаж -->
-                    <div class="char-card-box">
-                        <div class="char-short-title">${user.title || era.name}</div>
-                        <img src="${charImgPath}" class="char-full-img" onerror="this.onerror=null; this.src='char_default.webp';">
-                        <div style="margin-top: 10px; font-weight: 900; color: var(--gold); font-size: 0.85rem; font-family: 'Comfortaa';">
+                    <!-- 1. Левая Колонка: Персонаж С ДИНАМИЧЕСКИМ ТИРОМ -->
+                    <div class="char-card-box ${tierClass}">
+                        ${ambientHtml} <!-- Сюда вставляются летящие газы/скелеты/пламя -->
+                        <div class="char-short-title" style="position: relative; z-index: 3;">${user.title || era.name}</div>
+                        <img src="${charImgPath}" class="char-full-img" style="position: relative; z-index: 2;" onerror="this.onerror=null; this.src='char_default.webp';">
+                        <div style="margin-top: 10px; font-weight: 900; color: var(--gold); font-size: 0.85rem; font-family: 'Comfortaa'; position: relative; z-index: 3;">
                             Стиль: ${user.style || 'Крюк'}
                         </div>
                     </div>
@@ -5516,7 +5735,6 @@
                     <!-- 2. Правая Колонка -->
                     <div class="stats-column-box">
                         
-                        <!-- 🔥 НОВЫЙ ДУЭТ: РАЗДЕЛЬНЫЕ ЭПОХА И EXP -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 5px;">
                             
                             <!-- БЛОК ЭПОХИ -->
