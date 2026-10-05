@@ -347,20 +347,6 @@
                 z-index 0s !important;
         }
 
-        /* 🔥 ЭФФЕКТ УВЕЛИЧЕНИЯ ПРИ НАВЕДЕНИИ МЫШЬЮ ИЛИ ТАПЕ НА СМАРТФОНЕ */
-        .leaderboard-row:hover,
-        .leaderboard-row:active {
-            z-index: 50 !important;
-            /* Выносим активную карточку поверх соседних */
-            transform: scale(1.035) translateY(-3px) !important;
-            /* Увеличиваем и слегка приподнимаем */
-            border-color: var(--gold) !important;
-            /* Красим рамку в золото */
-            background: linear-gradient(145deg, #161622, #0d0d14) !important;
-            /* Объемная тень под карточкой */
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8),
-                0 0 18px rgba(255, 85, 0, 0.35) !important;
-        }
 
 
         /* КВАДРАТИК ИКОНКИ РУКИ (ТОЛЬКО ЧИСТАЯ КАРТИНКА БЕЗ РАМОК И ФОНА) */
@@ -3445,6 +3431,57 @@
             0% { transform: scale(1); opacity: 0.8; }
             100% { transform: scale(1.1); opacity: 1; }
         }
+
+                /* ====================================================
+           🌋 БРОНЕБОЙНЫЙ ПРЫЖОК И ЛУЖИ (FIX)
+           ==================================================== */
+        
+        /* Базовая карточка */
+        .leaderboard-row-card {
+            position: relative !important;
+            transform: translateY(0) scale(1) !important;
+            /* Плавность возврата */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+            z-index: 1;
+            will-change: transform;
+        }
+
+        /* МАССИВНЫЙ ПОДПРЫГ (Принудительно!) */
+        .leaderboard-row-card:hover {
+            transform: translateY(-15px) scale(1.05) !important; /* Увеличил до 15px для заметности */
+            z-index: 50 !important; /* Чтобы была поверх всех */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7) !important;
+        }
+
+        /* Настройка луж через псевдоэлемент */
+        .leaderboard-row-card::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -12px !important;
+            left: 10% !important;
+            width: 80% !important;
+            height: 15px !important;
+            border-radius: 50% !important;
+            opacity: 0 !important;
+            filter: blur(8px) !important;
+            transition: opacity 0.3s ease, transform 0.3s ease !important;
+            pointer-events: none !important;
+            z-index: -1 !important;
+        }
+
+        /* Показ лужи при наведении */
+        .leaderboard-row-card:hover::after {
+            opacity: 1 !important;
+            transform: scale(1.2) !important;
+        }
+
+        /* Цвета луж (Форсированные) */
+        .tier-suneaters-card:hover::after { background: radial-gradient(circle, #ff4500, transparent 80%) !important; box-shadow: 0 0 25px #ff4500 !important; }
+        .tier-milky-card:hover::after { background: radial-gradient(circle, #00d4ff, transparent 80%) !important; box-shadow: 0 0 25px #00d4ff !important; }
+        .tier-nomads-card:hover::after { background: radial-gradient(circle, #d97706, transparent 80%) !important; box-shadow: 0 0 25px #d97706 !important; }
+        .tier-risen-card:hover::after { background: radial-gradient(circle, #94a3b8, transparent 80%) !important; box-shadow: 0 0 25px #94a3b8 !important; }
+        .tier-stinkers-card:hover::after { background: radial-gradient(circle, #22c55e, transparent 80%) !important; box-shadow: 0 0 25px #22c55e !important; }
+
     </style>
 </head>
 
