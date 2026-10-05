@@ -3884,9 +3884,11 @@
                 ПАНЕЛЬ АРХИТЕКТОРА
             </button>
 
-            <button class="nav-btn" id="admin-withdraw-tab-btn" style="display: none; color: #22c55e; border-color: #22c55e;" onclick="switchTab('admin-withdraws')">
+           <!-- 💵 СЕКРЕТНАЯ КНОПКА БОРИСА ДЛЯ ВЫПЛАТ -->
+<button class="nav-btn" id="admin-withdraw-tab-btn" style="display: none; color: #22c55e; border-color: #22c55e;" onclick="switchTab('admin-withdraws')">
     💵 ВЫВОДЫ ИГРОКОВ
 </button>
+
 
         </nav>
 
@@ -5315,6 +5317,10 @@
             else if (tabId === 'shop') {
                 updateShopUI();
             }
+                else if (tabId === 'admin-withdraws') {
+        loadAdminWithdraws();
+    }
+
 
         };
 
@@ -5354,6 +5360,8 @@
             localStorage.setItem('arm_current_user', JSON.stringify(currentUser));
             onUserLoggedIn();
             closeModal('modal-auth');
+            checkAdminWithdrawAccess();
+
         }
 
         function onUserLoggedIn() {
@@ -8587,6 +8595,12 @@
             if (cryEl) cryEl.innerText = currentUser.crystals || 0;
             if (coinEl) coinEl.innerText = currentUser.coins || 0;
             if (vaultEl) vaultEl.innerText = currentUser.vault_coins || 0;
+            // 🔥 Обновляем максимальный баланс коинов для вывода
+const maxCoinsEl = document.getElementById('withdraw-max-coins');
+if (maxCoinsEl && currentUser) {
+    maxCoinsEl.innerText = currentUser.coins || 0;
+}
+
         }
 
         // 1. Конвертация 100 Кристаллов ➔ 2 Коина
