@@ -8747,37 +8747,46 @@ if (maxCoinsEl && currentUser) {
         }
 
 
-               // 🎵 Глобальная функция управления музыкой
+                // 🎵 Фоновая музыка с авто-активацией по первому клику на сайте
         window.toggleBackgroundMusic = function() {
-            // Тест: если после клика вылетит это окно, значит связь ЕСТЬ
-            alert("Кнопка нажата! Ищем аудио..."); 
-
             const audio = document.getElementById('site-bg-audio');
             const icon = document.getElementById('music-icon');
             const text = document.getElementById('music-text');
-
-            if (!audio) {
-                alert("Ошибка: Тег <audio id='site-bg-audio'> не найден в HTML!");
-                return;
-            }
+            if (!audio) return;
 
             if (audio.paused) {
                 audio.volume = 0.4;
-                audio.play()
-                    .then(() => {
-                        icon.innerText = '🔊';
-                        text.innerText = 'МУЗЫКА ВКЛ';
-                    })
-                    .catch(err => {
-                        alert("Браузер блокирует звук! Нужно сначала кликнуть в любом месте сайта, а потом на кнопку.");
-                        console.error(err);
-                    });
+                audio.play().then(() => {
+                    if (icon) icon.innerText = '🔊';
+                    if (text) text.innerText = 'МУЗЫКА ВКЛ';
+                }).catch(err => {
+                    console.log("Браузер ожидает взаимодействия:", err);
+                });
             } else {
                 audio.pause();
-                icon.innerText = '🔇';
-                text.innerText = 'МУЗЫКА ВЫКЛ';
+                if (icon) icon.innerText = '🔇';
+                if (text) text.innerText = 'МУЗЫКА ВЫКЛ';
             }
         };
+
+        // Ловим САМОЕ ПЕРВОЕ нажатие мыши или тап на телефоне в любой точке сайта
+        document.addEventListener('click', function unlockAudioOnFirstClick() {
+            const audio = document.getElementById('site-bg-audio');
+            if (audio && audio.paused) {
+                audio.volume = 0.4;
+                audio.play().then(() => {
+                    const icon = document.getElementById('music-icon');
+                    const text = document.getElementById('music-text');
+                    if (icon) icon.innerText = '🔊';
+                    if (text) text.innerText = 'МУЗЫКА ВКЛ';
+                    console.log("🎵 Музыка автоматически запущена по первому клику игрока!");
+                    
+                    // Удаляем этот обработчик, чтобы он срабатывал ровно 1 раз при входе
+                    document.removeEventListener('click', unlockAudioOnFirstClick);
+                }).catch(() => {});
+            }
+        }, { once: true });
+
 
 
 
