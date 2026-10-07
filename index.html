@@ -4143,31 +4143,33 @@
             }
         }
 
-
-                /* ====================================================
-           🖼️ ЭЛИТНЫЕ АДАПТИВНЫЕ БАННЕРЫ ВРАЗДЕЛОВ (16:9)
+        /* ====================================================
+           🖼️ КОМПАКТНЫЕ БАННЕРЫ В РАЗДЕЛАХ (ОГРАНИЧЕНИЕ ПО ШИРИНЕ)
            ==================================================== */
         .tab-hero-banner {
             width: 100% !important;
-            max-width: 100% !important;
-            aspect-ratio: 16 / 9 !important; /* Автоматическое сохранение пропорции 1920x1080 */
-            object-fit: cover !important;     /* Картинка идеально вписывается без искажений */
+            max-width: 550px !important; /* 🔥 Ограничили ширину, чтобы на ПК не было на весь экран */
+            aspect-ratio: 16 / 9 !important; 
+            object-fit: cover !important;     
             object-position: center !important;
-            border-radius: 16px !important;   /* Красивые скругленные углы */
-            border: 2px solid #5c3a21 !important; /* Тёмно-дубовая рамка */
-            border-top: 2.5px solid var(--gold) !important; /* Золотой кант сверху */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 183, 3, 0.15) !important;
-            margin: 10px 0 20px 0 !important;
+            border-radius: 16px !important;   
+            border: 2px solid #5c3a21 !important; 
+            border-top: 2.5px solid var(--gold) !important; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 15px rgba(255, 183, 3, 0.1) !important;
+            
+            /* Центрирование */
             display: block !important;
+            margin: 10px auto 20px auto !important; /* Сделали margin auto слева и справа */
         }
 
-        /* На мобилках чуток уменьшаем радиус скругления */
-        @media (max-width: 480px) {
+        /* На мобильных (меньше 768px) баннер будет занимать всю доступную ширину */
+        @media (max-width: 768px) {
             .tab-hero-banner {
+                max-width: 100% !important; /* На телефонах остается на всю ширину экрана */
                 border-radius: 12px !important;
-                margin: 5px 0 15px 0 !important;
             }
         }
+
 
 
 
@@ -4560,9 +4562,9 @@
                 </div>
 
             </div>
-
-            <!-- 🖼️ БАННЕР АРЕНЫ ПРОНАТОРОВ -->
-<img src="banner_arena.webp" class="tab-hero-banner" alt="Арена Пронаторов" onerror="this.onerror=null; this.src='banner_arena.webp';">
+            <!-- 🖼️ БАННЕР ЛОГОВ БОЁВ -->
+<img src="banner_fights.webp" class="tab-hero-banner" alt="Лог боёв" onerror="this.onerror=null; this.src='banner_fights.webp';">
+        
 
 
             <!-- 1. КАРТА ЭТАПОВ (8 БОЙЦОВ С КУЛДАУНАМИ ПО 10 МИНУТ) -->
@@ -5187,8 +5189,9 @@
                 АРЕНА: ОФИЦИАЛЬНЫЙ ЛОГ БОЁВ И ВЫЗОВЫ
             </div>
 
-            <!-- 🖼️ БАННЕР ЛОГОВ БОЁВ -->
-<img src="banner_fights.webp" class="tab-hero-banner" alt="Лог боёв" onerror="this.onerror=null; this.src='banner_fights.webp';">
+                <!-- 🖼️ БАННЕР АРЕНЫ ПРОНАТОРОВ -->
+<img src="banner_arena.webp" class="tab-hero-banner" alt="Арена Пронаторов" onerror="this.onerror=null; this.src='banner_arena.webp';">
+
 
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
