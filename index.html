@@ -7511,7 +7511,7 @@
 
 
 
-            // ⚡ ДВА НИКИТЫ (РАЗДЕЛЕНИЕ)
+                       // ⚡️ ДВА НИКИТЫ (РАЗДЕЛЕНИЕ)
             if (nameLower.includes('никита') || usernameLower.includes('nikita') || userId.includes('nikita')) {
                 // Никита ОЛД (22 место, 1 Эпоха, «Карманный громила»)
                 if (era === 1 || titleLower.includes('карманный') || userId === 'seed_nikita') {
@@ -7532,7 +7532,6 @@
             if (userId.includes('lesha') || nameLower.includes('лёша') || nameLower.includes('леша') || usernameLower === 'lesha') {
                 return 'char_lesha.webp';
             }
-
 
             // ⚡️ СТАС (Умный поиск по ID и имени)
             if (userId.includes('stas') || nameLower === 'стас' || usernameLower === 'stas') {
@@ -7564,15 +7563,17 @@
                 return 'char_macar.webp';
             }
 
+            // 🗿 КОРНЕЙ (Добавлен новый боец!)
+            if (userId.includes('kornei') || nameLower.includes('корней') || usernameLower === 'kornei' || usernameLower === 'dark lord') {
+                return 'char_kornei.webp';
+            }
 
             // 👑 ВЕТЕРАНЫ И ОСТАЛЬНЫЕ БОССЫ
             if (userId.includes('timur') || nameLower === 'тимур' || usernameLower === 'timur') return 'char_timur.webp';
-
             if (userId.includes('artur') || nameLower === 'артур' || usernameLower === 'artur') return 'char_artur.webp';
             if (userId.includes('egor') || nameLower === 'егор' || usernameLower === 'egor') return 'char_egor.webp';
             if (userId.includes('maksim') || nameLower === 'максим' || usernameLower === 'maksim') return 'char_maksim.webp';
             if (userId.includes('german') || nameLower === 'герман' || usernameLower === 'german') return 'char_german.webp';
-
             if (userId.includes('boris') || nameLower === 'борис' || usernameLower === 'boris') return 'char_boris.webp';
             if (userId.includes('venya') || nameLower === 'веня' || usernameLower === 'venya') return 'char_venya.webp';
 
