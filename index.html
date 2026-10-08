@@ -4764,7 +4764,8 @@
 
             <!-- Правая кнопка: Эпохи (С покачиванием и возвращенной SVG иконкой) -->
             <button class="eras-neon-glider" onclick="switchTab('eras', this)">
-                <img src="arm_icon_22.webp" class="eras-glider-sticker" onerror="this.style.display='none'">
+                  <!-- 🔥 СТИКЕР: Картинка подставится автоматически через JS при входе -->
+    <img id="glider-sticker-img" class="eras-glider-sticker" alt="Эпоха" onerror="this.style.display='none'">
                 <div class="eras-glider-content">
                     <svg class="eras-svg-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M2 17l10 4 10-4" opacity="0.4" />
@@ -9824,6 +9825,26 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 
 
 
+// ====================================================
+// 🎲 РАНДОМНЫЙ СТИКЕР ЭЛИТНОЙ РУКИ НА КНОПКЕ ПРИ КАЖДОМ ВХОДЕ
+// ====================================================
+function initRandomGliderSticker() {
+    const stickerImg = document.getElementById('glider-sticker-img');
+    if (!stickerImg) return;
+
+    // Генерируем случайное число от 21 до 35 (диапазон высшей элиты)
+    const randomEraId = Math.floor(Math.random() * (35 - 21 + 1)) + 21;
+    
+    // Подставляем рандомный файл рук
+    stickerImg.src = `arm_icon_${randomEraId}.webp`;
+    console.log(`🎲 На кнопку Эпох прилетела элитная рука №${randomEraId}`);
+}
+
+// Запускаем при загрузке страницы
+document.addEventListener('DOMContentLoaded', initRandomGliderSticker);
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initRandomGliderSticker();
+}
 
 
 
