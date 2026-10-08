@@ -6112,14 +6112,26 @@
         }
 
 
-                // ====================================================
+        // ====================================================
         // 🔀 БРОНИРОВАННЫЙ ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК (С ПОДДЕРЖКОЙ 35 ЭПОХ)
         // ====================================================
         window.switchTab = function (tabId, btn) {
-            // 🔥 1. Звук переключения вкладок «поньк»
-            const tabSfx = new Audio('tab-click.mp3');
-            tabSfx.volume = 0.4;
-            tabSfx.play().catch(() => {});
+            // 🔥 1. УНИКАЛЬНЫЙ ЗВУК ДЛЯ ЭПОХ И СТАНДАРТНЫЙ ДЛЯ ОСТАЛЬНЫХ
+            try {
+                let activeSfx;
+                if (tabId === 'eras') {
+                    // 🏛️ Мощный звук для вкладки Эпох (файл должен быть в папке!)
+                    activeSfx = new Audio('era-portal.mp3');
+                    activeSfx.volume = 0.6; 
+                } else {
+                    // Стандартный звук «поньк»
+                    activeSfx = new Audio('tab-click.mp3');
+                    activeSfx.volume = 0.4;
+                }
+                activeSfx.play().catch(() => {});
+            } catch (e) {
+                console.warn("Звуковой файл не найден");
+            }
 
             console.log("👉 Переключение на вкладку:", tabId);
 
@@ -6140,8 +6152,8 @@
                 s.style.display = 'none';
             });
 
-            // 4. Ищем целевую секцию по ID (с правильными операторами ||)
-            let target = document.getElementById('tab-' + tabId) || 
+            // 4. Ищем целевую секцию по ID (ИСПРАВЛЕНО: добавлены ||)
+            let target = document.getElementById('tab-' + tabId) ||  
                          document.getElementById('sec-' + tabId) || 
                          document.getElementById(tabId);
 
@@ -6152,7 +6164,7 @@
                 console.error("❌ Секция для '" + tabId + "' не найдена!");
             }
 
-            // 5. Отрисовываем данные секции
+            // 5. Отрисовываем данные секции (Важно: вызов функции Эпох!)
             if (tabId === 'eras') {
                 if (typeof renderErasTab === 'function') renderErasTab();
             } else if (tabId === 'leaderboard') {
@@ -6173,10 +6185,6 @@
             } else if (tabId === 'admin-withdraws') {
                 if (typeof loadAdminWithdraws === 'function') loadAdminWithdraws();
             }
-                        if (tabId === 'eras') {
-                renderErasTab();
-            }
-
         };
 
         function renderErasTab() {
