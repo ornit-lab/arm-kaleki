@@ -4547,6 +4547,78 @@
 
 
 
+/* ====================================================
+   🎯 АДАПТИВНЫЙ БАННЕР ЭПОХ (ПК: 800x450 / МОБИЛКИ: 100%)
+   ==================================================== */
+.unique-box-fix {
+    display: block !important;
+    width: 800px !important;             /* Базовая ширина для ПК */
+    max-width: 100% !important;          /* 🔥 Главное правило адаптива: на мобилке сжимается по ширине экрана */
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;     /* Жестко держит пропорции 16:9 на любых устройствах */
+    
+    border-radius: 14px !important;
+    border: 2px solid #ffea00 !important;
+    background: #000 !important;
+    
+    /* Сочное неоновое свечение */
+    box-shadow: 0 0 15px #ffea00, 
+                0 0 35px rgba(255, 234, 0, 0.65), 
+                0 0 60px rgba(255, 180, 0, 0.4) !important;
+                
+    margin: 15px auto 25px auto !important;
+    overflow: hidden !important;
+    position: relative !important;
+    padding: 0 !important;
+}
+
+.unique-banner-fix {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;        /* Заполняет весь блок без искажений и сжатий */
+    display: block !important;
+    border-radius: 12px !important;
+}
+
+/* 📱 МОБИЛЬНЫЙ УТИЛИТАРНЫЙ КАСКАД (Экраны уже 850px) */
+@media screen and (max-width: 850px) {
+    .unique-box-fix {
+        width: 92% !important;           /* Оставляет аккуратные отступы по бокам экрана телефона */
+        margin: 10px auto 20px auto !important;
+        box-shadow: 0 0 10px #ffea00, 
+                    0 0 20px rgba(255, 234, 0, 0.5) !important; /* Чуть мягче свечение для мобилок */
+    }
+}
+
+
+/* ====================================================
+   🦾 СТИКЕР РУКИ НА КНОПКЕ ЭПОХ
+   ==================================================== */
+.eras-glider-sticker {
+    position: absolute !important;
+    /* Размещаем в верхнем правом углу */
+    top: -14px !important; 
+    right: -10px !important;
+    
+    width: 32px !important;
+    height: 32px !important;
+    object-fit: contain !important;
+    
+    /* 🔥 Эффект наклейки: наклон под углом + 3D тень */
+    transform: rotate(18deg) !important;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.7)) !important;
+    
+    z-index: 100 !important;
+    pointer-events: none !important; /* Чтобы не мешала нажимать на кнопку */
+    transition: transform 0.2s ease !important;
+}
+
+/* Эффект при наведении на саму кнопку — наклейка чуть-чуть дёргается */
+.eras-neon-glider:hover .eras-glider-sticker {
+    transform: rotate(10deg) scale(1.1) !important;
+}
+
+
     </style>
 </head>
 
@@ -4692,6 +4764,7 @@
 
             <!-- Правая кнопка: Эпохи (С покачиванием и возвращенной SVG иконкой) -->
             <button class="eras-neon-glider" onclick="switchTab('eras', this)">
+                <img src="arm_icon_22.webp" class="eras-glider-sticker" onerror="this.style.display='none'">
                 <div class="eras-glider-content">
                     <svg class="eras-svg-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M2 17l10 4 10-4" opacity="0.4" />
