@@ -4619,6 +4619,231 @@
 }
 
 
+
+
+
+/* ====================================================
+   🎨 ЖЕЛЕЗОБЕТОННЫЙ РЕСТАЙЛИНГ КНОПОК САЙДБАРА
+   ==================================================== */
+
+/* Общие правки для всех кнопок (убираем старые рамки, если мешают) */
+.nav-btn {
+    position: relative !important;
+    overflow: visible !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    transition: all 0.2s ease !important;
+    color: #fff !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* 🏆 ЛИДЕРБОРД: Золото + Оранжевая полоса */
+.nav-leaderboard {
+    background: linear-gradient(135deg, #ffd700, #ff8c00) !important;
+    border-bottom: 4px solid #e65100 !important; /* Оранжевая полоска */
+}
+
+/* ⚡️ ОПЫТ И ТРЕНИРОВКИ: Оранжевый + Красная полоса */
+.nav-exp {
+    background: linear-gradient(135deg, #ff8c00, #ff4500) !important;
+    border-bottom: 4px solid #b71c1c !important; /* Красная полоска */
+}
+
+/* 👤 МОЙ ПРОФИЛЬ: Зеленый + Темно-зеленая полоса */
+.nav-profile {
+    background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
+    border-bottom: 4px solid #1b5e20 !important; /* Темно-зеленая полоска */
+}
+
+/* ⚔️ ЛОГ БОЁВ: Серый + Красная полоса */
+.nav-fights {
+    background: linear-gradient(135deg, #757575, #424242) !important;
+    border-bottom: 4px solid #d32f2f !important; /* Красная полоска */
+}
+
+/* 🛒 МАГАЗИН: Золото + Золотая полоса (как база) */
+.nav-shop {
+    background: linear-gradient(135deg, #ffcc00, #ffaa00) !important;
+    border-bottom: 4px solid #ff8800 !important;
+}
+
+/* 🪙 СТИКЕР МОНЕТКИ В МАГАЗИНЕ */
+.btn-sticker-coin {
+    position: absolute !important;
+    top: -12px !important;
+    right: -10px !important;
+    width: 28px !important;
+    height: 28px !important;
+    object-fit: contain !important;
+    transform: rotate(15deg) !important;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+}
+
+/* Эффект при нажатии (кнопка чуть "проседает") */
+.nav-btn:active {
+    transform: translateY(2px) !important;
+    border-bottom-width: 1px !important;
+}
+
+/* Подсветка при наведении */
+.nav-btn:hover {
+    filter: brightness(1.1) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+}
+/* ====================================================
+   💥 БРОНЕБОЙНЫЙ ОВЕРРАЙД: СНОСИМ ОРЕХОВУЮ ТЕМУ НА КНОПКАХ
+   ==================================================== */
+
+/* 1. Базовый сброс жестких фонов сайдбара */
+html body .nav-menu button.nav-btn,
+html body nav.nav-menu .nav-btn {
+    position: relative !important;
+    overflow: visible !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7) !important;
+    transition: transform 0.15s ease, filter 0.15s ease !important;
+}
+
+/* 🏆 ЛИДЕРБОРД: Золотая заливка + Оранжевая полоса */
+html body .nav-menu button.nav-btn.nav-leaderboard,
+html body .nav-menu button.nav-btn.nav-leaderboard.active,
+html body button.nav-leaderboard {
+    background: linear-gradient(180deg, #FF0000 0%, #e88c00 100%) !important;
+    border: 1.5px solid #ffa200 !important;
+    border-bottom: 5px solid #b24700 !important; /* Толстая оранжевая полоса */
+    box-shadow: 0 4px 15px rgba(232, 140, 0, 0.35) !important;
+}
+
+/* ⚡️ ОПЫТ И ТРЕНИРОВКИ: Оранжевая заливка + Красная полоса */
+html body .nav-menu button.nav-btn.nav-exp,
+html body .nav-menu button.nav-btn.nav-exp.active,
+html body button.nav-exp {
+    background: linear-gradient(180deg, #ff7b00 0%, #d84315 100%) !important;
+    border: 1.5px solid #ff5722 !important;
+    border-bottom: 5px solid #8e0000 !important; /* Красная полоса */
+    box-shadow: 0 4px 15px rgba(216, 67, 21, 0.35) !important;
+}
+
+/* 👤 МОЙ ПРОФИЛЬ: Зелёная заливка + Тёмно-зелёная полоса */
+html body .nav-menu button.nav-btn.nav-profile,
+html body .nav-menu button.nav-btn.nav-profile.active,
+html body button.nav-profile {
+    background: linear-gradient(180deg, #7FFF00 0%, #157f73 100%) !important;
+    border: 1.5px solid #20a396 !important;
+    border-bottom: 5px solid #09473f !important; /* Тёмно-зелёная полоса */
+    box-shadow: 0 4px 15px rgba(21, 127, 115, 0.35) !important;
+}
+
+/* ⚔️ ЛОГ БОЁВ И ВЫЗОВЫ: Серая заливка + Красная полоса */
+html body .nav-menu button.nav-btn.nav-fights,
+html body .nav-menu button.nav-btn.nav-fights.active,
+html body button.nav-fights {
+    background: linear-gradient(180deg, #4f5d75 0%, #2d3142 100%) !important;
+    border: 1.5px solid #6b7a99 !important;
+    border-bottom: 5px solid #E6E6FA !important; /* Насыщенная красная полоса */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* 🛒 МАГАЗИН: Золотая заливка + Оранжево-золотая полоса */
+html body .nav-menu button.nav-btn.nav-shop,
+html body .nav-menu button.nav-btn.nav-shop.active,
+html body button.nav-shop {
+    background: linear-gradient(180deg, #FFD700 0%, #f4a261 100%) !important;
+    border: 1.5px solid #f9bc60 !important;
+    border-bottom: 5px solid #cc6600 !important;
+    box-shadow: 0 4px 15px rgba(244, 162, 97, 0.35) !important;
+}
+
+/* 🪙 СТИКЕР МОНЕТКИ В ПРАВОМ ВЕРХНЕМ УГЛУ МАГАЗИНА */
+.btn-sticker-coin {
+    position: absolute !important;
+    top: -12px !important;
+    right: -10px !important;
+    width: 30px !important;
+    height: 30px !important;
+    object-fit: contain !important;
+    transform: rotate(18deg) !important;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6)) !important;
+    z-index: 50 !important;
+    pointer-events: none !important;
+    display: block !important;
+}
+
+/* Реакция на нажатие (3D-клик) */
+html body .nav-menu button.nav-btn:active {
+    transform: translateY(2px) !important;
+    border-bottom-width: 2px !important;
+}
+
+html body .nav-menu button.nav-btn:hover {
+    filter: brightness(1.12) !important;
+}
+
+
+/* ====================================================
+   🟣 АРЕНА ПРОНАТОРОВ: Фиолетовая заливка
+   ==================================================== */
+html body .nav-menu button.nav-btn.nav-arena,
+html body .nav-menu button.nav-btn.nav-arena.active,
+html body button.nav-arena {
+    background: linear-gradient(180deg, #9333ea 0%, #581c87 100%) !important;
+    border: 1.5px solid #a855f7 !important;
+    border-bottom: 5px solid #3b0764 !important; /* Тёмно-фиолетовая полоса */
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.35) !important;
+    color: #f3e8ff !important;
+}
+
+
+/* ====================================================
+   🔥 ИНДИКАТОР АКТИВНОЙ ВКЛАДКИ (ПУЛЬСАЦИЯ И НЕОН)
+   ==================================================== */
+
+@keyframes activeNavGlow {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.03); filter: brightness(1.25); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* Общее правило для ЛЮБОЙ активной кнопки */
+html body .nav-menu button.nav-btn.active {
+    animation: activeNavGlow 2s ease-in-out infinite !important;
+    z-index: 5 !important;
+}
+
+/* 🏆 Лидерборд (Активный: Золотое свечение) */
+html body .nav-menu button.nav-btn.nav-leaderboard.active {
+    box-shadow: 0 0 20px #ffb703, inset 0 0 10px rgba(255, 183, 3, 0.5) !important;
+}
+
+/* ⚡️ Опыт и Тренировки (Активный: Оранжевое свечение) */
+html body .nav-menu button.nav-btn.nav-exp.active {
+    box-shadow: 0 0 20px #ff7b00, inset 0 0 10px rgba(255, 123, 0, 0.5) !important;
+}
+
+/* 🎮 Арена пронаторов (Активный: Фиолетовое свечение) */
+html body .nav-menu button.nav-btn.nav-arena.active {
+    box-shadow: 0 0 20px #a855f7, inset 0 0 10px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* 👤 Мой профиль (Активный: Зелёное свечение) */
+html body .nav-menu button.nav-btn.nav-profile.active {
+    box-shadow: 0 0 20px #2ec4b6, inset 0 0 10px rgba(46, 196, 182, 0.5) !important;
+}
+
+/* ⚔️ Лог боёв (Активный: Сине-красное/стальное свечение) */
+html body .nav-menu button.nav-btn.nav-fights.active {
+    box-shadow: 0 0 20px #6b7a99, inset 0 0 10px rgba(107, 122, 153, 0.5) !important;
+}
+
+/* 🛒 Магазин (Активный: Жёлто-песочное свечение) */
+html body .nav-menu button.nav-btn.nav-shop.active {
+    box-shadow: 0 0 20px #ffd166, inset 0 0 10px rgba(255, 209, 102, 0.5) !important;
+}
+
+
+
+
     </style>
 </head>
 
@@ -4662,9 +4887,9 @@
 
 
 
-        <nav class="nav-menu">
+                <nav class="nav-menu">
             <!-- 🏆 Лидерборд -->
-            <button class="nav-btn active" onclick="switchTab('leaderboard', this)">
+            <button class="nav-btn nav-leaderboard active" onclick="switchTab('leaderboard', this)">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17M14 14.66V17M18 2H6v7a6 6 0 0 0 12 0V2z" />
@@ -4673,7 +4898,7 @@
             </button>
 
             <!-- ⚡️ Опыт и Тренировки -->
-            <button class="nav-btn" onclick="switchTab('exp', this)">
+            <button class="nav-btn nav-exp" onclick="switchTab('exp', this)">
                 <svg viewBox="0 0 24 24">
                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                 </svg>
@@ -4681,26 +4906,26 @@
             </button>
 
             <!-- 🎮 ВКЛАДКА: АРЕНА ПРОНАТОРОВ -->
-            <button class="nav-btn" style="border-color: #a855f7; color: #c084fc;"
-                onclick="switchTab('minigame', this)">
+            <button class="nav-btn nav-arena" onclick="switchTab('minigame', this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="2" y="6" width="20" height="12" rx="2" />
                     <path d="M6 12h4M8 10v4M15 11h.01M18 13h.01" />
                 </svg>
-                АРЕНА ПРОНАТОРОВ 🎮
+                АРЕНА ПРОНАТОРОВ 
             </button>
 
 
             <!-- 👤 Мой профиль -->
-            <button class="nav-btn" onclick="switchTab('profile', this)">
+            <button class="nav-btn nav-profile" onclick="switchTab('profile', this)">
                 <svg viewBox="0 0 24 24">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
                 </svg>
                 МОЙ ПРОФИЛЬ
             </button>
-            <!-- ВСТАВЛЯЕМ СЮДА В NAV-MENU -->
-            <button class="nav-btn" onclick="switchTab('fights', this)" style="position: relative;">
+
+            <!-- ⚔️ Лог боёв и вызовы -->
+            <button class="nav-btn nav-fights" onclick="switchTab('fights', this)" style="position: relative;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M14.5 17.5L3 6M10 21l-7-3 3-7M9.5 6.5L21 18M14 3l7 3-3 7" />
                 </svg>
@@ -4709,8 +4934,8 @@
                 <span id="badge-battles-count" class="badge-counter" style="display: none;">0</span>
             </button>
 
-            <!-- 🏛️ ВОТ СЮДА ВСТАВЛЯЕМ НОВУЮ КНОПКУ МАГАЗИНА: -->
-            <button class="nav-btn" onclick="switchTab('shop', this)">
+                        <!-- 🛒 МАГАЗИН (Со случайным стикером монетки) -->
+            <button class="nav-btn nav-shop" onclick="switchTab('shop', this)" style="position: relative;">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="9" cy="21" r="1"></circle>
@@ -4718,7 +4943,11 @@
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                 </svg>
                 МАГАЗИН
+                <!-- 🪙 РАНДОМНЫЙ СТИКЕР МОНЕТКИ -->
+                <img id="shop-sticker-img" src="monetka.webp" class="btn-sticker-coin" onerror="this.style.display='none'">
             </button>
+
+
 
 
 
@@ -9844,6 +10073,31 @@ function initRandomGliderSticker() {
 document.addEventListener('DOMContentLoaded', initRandomGliderSticker);
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
     initRandomGliderSticker();
+}
+
+
+
+// ====================================================
+// 🪙 РАНДОМНЫЙ СТИКЕР МОНЕТКИ В МАГАЗИНЕ (monetka.webp ... monetka5.webp)
+// ====================================================
+function initRandomShopSticker() {
+    const coinImg = document.getElementById('shop-sticker-img');
+    if (!coinImg) return;
+
+    // Случайное число от 1 до 5
+    const randomCoinId = Math.floor(Math.random() * 5) + 1;
+    
+    // Первая: monetka.webp, со второй по пятую: monetka2.webp ... monetka5.webp
+    const fileName = (randomCoinId === 1) ? 'monetka.webp' : `monetka${randomCoinId}.webp`;
+
+    coinImg.src = fileName;
+    console.log(`🪙 В Магазин залетела монетка: ${fileName}`);
+}
+
+// Запуск при старте сайта
+document.addEventListener('DOMContentLoaded', initRandomShopSticker);
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initRandomShopSticker();
 }
 
 
