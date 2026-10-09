@@ -4844,48 +4844,44 @@ html body .nav-menu button.nav-btn.nav-shop.active {
 
 
 /* ====================================================
-   🚀 ТУРБО-ОПТИМИЗАЦИЯ СКОРОСТИ И ПЛАВНОСТИ (60-120 FPS)
+   🚀 БЕЗОПАСНАЯ ТУРБО-ОПТИМИЗАЦИЯ (ПЛАВНОСТЬ БЕЗ ОБРЕЗКИ 3D)
    ==================================================== */
 
-/* 1. Включаем плавный физический скролл для всего сайта */
+/* 1. Плавный физический скролл */
 html, body {
     scroll-behavior: smooth !important;
-    -webkit-overflow-scrolling: touch !important; /* Плавность для мобилок */
+    -webkit-overflow-scrolling: touch !important;
 }
 
-/* 2. Оптимизация контейнера списка 35 Эпох */
-.eras-list-container {
-    contain: layout style;
-    will-change: contents;
-}
-
-/* 3. МАГИЯ CONTENT-VISIBILITY: Браузер НЕ рендерит нижние карточки, пока ты до них не докроллил! */
+/* 2. Чистая разгрузка процессора при анимации волны */
 .era-flag-base {
-    content-visibility: auto !important;
-    contain-intrinsic-size: 1px 110px !important; /* Ориентировочная высота карточки */
+    /* 🔥 УБРАЛИ content-visibility! Теперь руки снова на 100% свободны */
+    overflow: visible !important; 
     
-    /* Жесткий перевод анимации на изолированный слой GPU (видеокарту) */
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
+    /* Подсказываем браузеру заранее подготовить видеокарту к покачиванию */
+    will-change: transform !important;
+    
+    /* Включаем легкое 3D-ускорение без создания жестких границ обрезки */
+    transform-style: preserve-3d !important;
     perspective: 1000px !important;
 }
 
-/* 4. Оптимизация вылетающих гигантских картинок рук */
+/* 3. Оптимизация тяжелых вылетающих рук */
 .era-icon-img-burst {
-    will-change: transform !important;
-    backface-visibility: hidden !important;
-    transform-style: preserve-3d !important;
-    
-    /* Отключаем просчет кликов по картинкам рук, чтобы скролл не цеплялся за них */
+    /* Разгружаем обсчет физики скролла: мышь больше не цепляется за огромные руки */
     pointer-events: none !important;
+    
+    /* Плавность рендеринга на GPU */
+    will-change: transform !important;
+    transform-style: preserve-3d !important;
 }
 
-/* 5. Убираем микро-лаги у парящих кнопок навигации */
+/* 4. Разгрузка парящих кнопок в меню (плавность дрейфа) */
 .music-neon-toggle,
 .eras-neon-glider,
 .unique-box-fix {
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
+    will-change: transform !important;
+    transform-style: preserve-3d !important;
 }
 
 
