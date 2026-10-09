@@ -4843,6 +4843,53 @@ html body .nav-menu button.nav-btn.nav-shop.active {
 
 
 
+/* ====================================================
+   🚀 ТУРБО-ОПТИМИЗАЦИЯ СКОРОСТИ И ПЛАВНОСТИ (60-120 FPS)
+   ==================================================== */
+
+/* 1. Включаем плавный физический скролл для всего сайта */
+html, body {
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important; /* Плавность для мобилок */
+}
+
+/* 2. Оптимизация контейнера списка 35 Эпох */
+.eras-list-container {
+    contain: layout style;
+    will-change: contents;
+}
+
+/* 3. МАГИЯ CONTENT-VISIBILITY: Браузер НЕ рендерит нижние карточки, пока ты до них не докроллил! */
+.era-flag-base {
+    content-visibility: auto !important;
+    contain-intrinsic-size: 1px 110px !important; /* Ориентировочная высота карточки */
+    
+    /* Жесткий перевод анимации на изолированный слой GPU (видеокарту) */
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+    perspective: 1000px !important;
+}
+
+/* 4. Оптимизация вылетающих гигантских картинок рук */
+.era-icon-img-burst {
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+    transform-style: preserve-3d !important;
+    
+    /* Отключаем просчет кликов по картинкам рук, чтобы скролл не цеплялся за них */
+    pointer-events: none !important;
+}
+
+/* 5. Убираем микро-лаги у парящих кнопок навигации */
+.music-neon-toggle,
+.eras-neon-glider,
+.unique-box-fix {
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+}
+
+
+
 
     </style>
 </head>
