@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARM-KALEKI | Лаборатория Воли и Пронатора</title>
-        <!-- 🦾 ФАВИКОНКА ВО ВКЛАДКЕ БРАУЗЕРА -->
+    <!-- 🦾 ФАВИКОНКА ВО ВКЛАДКЕ БРАУЗЕРА -->
     <link rel="icon" type="image/webp" href="logo.webp">
 
     <!-- Подключение Supabase SDK -->
@@ -3157,17 +3157,20 @@
             animation: triplePulse 0.15s ease-out;
         }
 
-               /* 🖼️ БАННЕРЫ 16:9 (НА ПК — ЦЕНТРИРОВАНЫЙ АККУРАТНЫЙ РАЗМЕР, НА МОБИЛЕ — НА ВСЮ ШИРИНУ) */
+        /* 🖼️ БАННЕРЫ 16:9 (НА ПК — ЦЕНТРИРОВАНЫЙ АККУРАТНЫЙ РАЗМЕР, НА МОБИЛЕ — НА ВСЮ ШИРИНУ) */
         .top-responsive-banner {
             width: 100%;
-            max-width: 650px; /* На ПК зажимаем ширину, чтобы 16:9 не раздувался */
-            aspect-ratio: 16 / 9; /* Сохраняем полный формат 16:9 без всяких обрезок! */
+            max-width: 650px;
+            /* На ПК зажимаем ширину, чтобы 16:9 не раздувался */
+            aspect-ratio: 16 / 9;
+            /* Сохраняем полный формат 16:9 без всяких обрезок! */
             object-fit: cover;
             border-radius: 14px;
             border: 2px solid var(--gold);
             box-shadow: 0 0 25px rgba(255, 204, 0, 0.35);
             display: block;
-            margin: 0 auto 16px auto; /* Выравнивание ровно по центру */
+            margin: 0 auto 16px auto;
+            /* Выравнивание ровно по центру */
         }
 
         /* 📱 На мобиле растягивается на 100% ширины (как тебе уже понравилось!) */
@@ -3179,14 +3182,14 @@
         }
 
 
-          
 
 
 
 
 
 
-                /* ====================================================
+
+        /* ====================================================
            🎯 КИНЕМАТОГРАФИЧЕСКИЙ «SWOOP + BOUNCE» (ИДЕАЛЬНО ДЛЯ МОБИЛОК)
            ==================================================== */
         @keyframes mobileSwoopBounce {
@@ -3195,20 +3198,24 @@
                 filter: brightness(2.5) blur(10px);
                 opacity: 0;
             }
+
             45% {
                 /* Взлет с перелётом (Bounce overshoot) */
                 transform: scale(1.06) translateY(-12px);
                 filter: brightness(1.3) blur(0px);
                 opacity: 1;
             }
+
             68% {
                 /* Упругий отскок назад */
                 transform: scale(0.97) translateY(5px);
             }
+
             85% {
                 /* Микро-кач */
                 transform: scale(1.01) translateY(-2px);
             }
+
             100% {
                 /* Финальная жесткая фиксация */
                 transform: scale(1) translateY(0);
@@ -3227,14 +3234,18 @@
             z-index: 10;
             transform-origin: center center;
             background: #000;
-            will-change: transform, opacity; /* Подсказываем браузеру готовить видеокарту */
+            will-change: transform, opacity;
+            /* Подсказываем браузеру готовить видеокарту */
         }
 
 
         /* 2. ПОЛНОРАЗМЕРНЫЙ ХОЛСТ ЭФФЕКТОВ ЗА ВСЕМ ОКНОМ */
         .tier-background-fx {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
@@ -3246,17 +3257,25 @@
             background: radial-gradient(circle at 50% 110%, #520c00 0%, #1f0300 45%, #080203 100%) !important;
             box-shadow: 0 0 50px rgba(255, 69, 0, 0.85), inset 0 0 45px rgba(255, 85, 0, 0.45) !important;
         }
+
         .fx-lava-fire-storm {
             position: absolute;
-            bottom: -15%; left: -10%; width: 120%; height: 85%;
+            bottom: -15%;
+            left: -10%;
+            width: 120%;
+            height: 85%;
             background: radial-gradient(ellipse at bottom, rgba(255, 69, 0, 0.85) 0%, rgba(255, 140, 0, 0.45) 45%, transparent 75%);
             filter: blur(35px);
             animation: fireInfernoPulse 2.2s ease-in-out infinite alternate;
         }
+
         .fx-live-ember {
             position: absolute;
-            bottom: -10px; width: 6px; height: 6px;
-            background: #fff3a8; border-radius: 50%;
+            bottom: -10px;
+            width: 6px;
+            height: 6px;
+            background: #fff3a8;
+            border-radius: 50%;
             box-shadow: 0 0 10px #ff5500, 0 0 20px #ff2200;
             animation: liveEmberFly linear infinite;
         }
@@ -3267,16 +3286,22 @@
             background: radial-gradient(circle at 50% 0%, #00284d 0%, #001026 50%, #03040c 100%) !important;
             box-shadow: 0 0 50px rgba(0, 212, 255, 0.8), inset 0 0 45px rgba(0, 212, 255, 0.35) !important;
         }
+
         .fx-milky-plasma {
             position: absolute;
-            top: -20%; left: -20%; width: 140%; height: 140%;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
             background: radial-gradient(circle, rgba(0, 212, 255, 0.35) 0%, rgba(99, 102, 241, 0.25) 45%, transparent 70%);
             filter: blur(40px);
             animation: cosmosNebulaTwist 12s linear infinite;
         }
+
         .fx-milky-star {
             position: absolute;
-            color: #a5f3fc; font-size: 0.9rem;
+            color: #a5f3fc;
+            font-size: 0.9rem;
             filter: drop-shadow(0 0 6px #00d4ff);
             animation: starGlitter linear infinite;
         }
@@ -3287,16 +3312,21 @@
             background: radial-gradient(circle at 50% 100%, #3d1e03 0%, #1c0e02 50%, #080401 100%) !important;
             box-shadow: 0 0 45px rgba(217, 119, 6, 0.75), inset 0 0 40px rgba(217, 119, 6, 0.3) !important;
         }
+
         .fx-nomad-sandstorm {
             position: absolute;
-            width: 200%; height: 100%;
+            width: 200%;
+            height: 100%;
             background: repeating-linear-gradient(60deg, rgba(217, 119, 6, 0.18) 0px, transparent 40px, rgba(245, 158, 11, 0.12) 80px);
             filter: blur(12px);
             animation: sandStormRun 4s linear infinite;
         }
+
         .fx-nomad-rock {
             position: absolute;
-            bottom: -15px; font-size: 1rem; opacity: 0.8;
+            bottom: -15px;
+            font-size: 1rem;
+            opacity: 0.8;
             animation: rockSwirlFly linear infinite;
         }
 
@@ -3306,16 +3336,22 @@
             background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0b1120 50%, #020408 100%) !important;
             box-shadow: 0 0 45px rgba(148, 163, 184, 0.7), inset 0 0 40px rgba(148, 163, 184, 0.35) !important;
         }
+
         .fx-crypt-fog {
             position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 70%;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
             background: radial-gradient(ellipse at bottom, rgba(148, 163, 184, 0.35) 0%, transparent 70%);
             filter: blur(25px);
             animation: cryptFogFloat 3.5s ease-in-out infinite alternate;
         }
+
         .fx-risen-bone {
             position: absolute;
-            bottom: -20px; font-size: 1.4rem;
+            bottom: -20px;
+            font-size: 1.4rem;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
             animation: risingBoneFly linear infinite;
         }
@@ -3326,37 +3362,194 @@
             background: radial-gradient(circle at 50% 110%, #094017 0%, #03210a 50%, #010a03 100%) !important;
             box-shadow: 0 0 50px rgba(34, 197, 94, 0.85), inset 0 0 45px rgba(34, 197, 94, 0.4) !important;
         }
+
         .fx-toxic-fart-glow {
             position: absolute;
-            bottom: -15%; left: 0; width: 100%; height: 75%;
+            bottom: -15%;
+            left: 0;
+            width: 100%;
+            height: 75%;
             background: radial-gradient(ellipse at bottom, rgba(34, 197, 94, 0.65) 0%, rgba(74, 222, 128, 0.25) 50%, transparent 75%);
             filter: blur(30px);
             animation: toxicGasPulse 2.5s ease-in-out infinite alternate;
         }
+
         .fx-stinker-bubble {
             position: absolute;
-            bottom: -15px; font-size: 1.3rem;
+            bottom: -15px;
+            font-size: 1.3rem;
             filter: drop-shadow(0 0 8px #22c55e);
             animation: fartBubbleFly linear infinite;
         }
 
         /* АНИМАЦИИ ПОЛЕТА ЧАСТИЦ СНИЗУ ВВЕРХ */
-        @keyframes fireInfernoPulse { 0% { transform: scale(0.95); opacity: 0.7; } 100% { transform: scale(1.18); opacity: 1; } }
-        @keyframes liveEmberFly { 0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; } 15% { opacity: 1; } 80% { opacity: 0.9; } 100% { transform: translateY(-480px) translateX(35px) scale(1.4); opacity: 0; } }
-        @keyframes cosmosNebulaTwist { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.15); } 100% { transform: rotate(360deg) scale(1); } }
-        @keyframes starGlitter { 0% { transform: translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 30% { opacity: 1; transform: translateY(-120px) scale(1.2) rotate(90deg); } 70% { opacity: 0.9; } 100% { transform: translateY(-440px) scale(0.5) rotate(220deg); opacity: 0; } }
-        @keyframes sandStormRun { 0% { transform: translateX(-50%); } 100% { transform: translateX(0%); } }
-        @keyframes rockSwirlFly { 0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; } 20% { opacity: 0.9; } 80% { opacity: 0.8; } 100% { transform: translateY(-450px) translateX(-50px) rotate(540deg); opacity: 0; } }
-        @keyframes cryptFogFloat { 0% { transform: scaleY(0.85); opacity: 0.5; } 100% { transform: scaleY(1.2); opacity: 0.9; } }
-        @keyframes risingBoneFly { 0% { transform: translateY(0) rotate(0deg) scale(0.7); opacity: 0; } 20% { opacity: 0.95; } 80% { opacity: 0.85; } 100% { transform: translateY(-480px) rotate(360deg) scale(1.1); opacity: 0; } }
-        @keyframes toxicGasPulse { 0% { transform: scale(0.92); opacity: 0.65; } 100% { transform: scale(1.2); opacity: 1; } }
-        @keyframes fartBubbleFly { 0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; } 25% { opacity: 0.95; } 70% { transform: translateY(-260px) translateX(25px) scale(1.2); opacity: 0.85; } 100% { transform: translateY(-480px) translateX(-20px) scale(1.6); opacity: 0; } }
+        @keyframes fireInfernoPulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1.18);
+                opacity: 1;
+            }
+        }
+
+        @keyframes liveEmberFly {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.6);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: translateY(-480px) translateX(35px) scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        @keyframes cosmosNebulaTwist {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.15);
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+
+        @keyframes starGlitter {
+            0% {
+                transform: translateY(0) scale(0.4) rotate(0deg);
+                opacity: 0;
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateY(-120px) scale(1.2) rotate(90deg);
+            }
+
+            70% {
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: translateY(-440px) scale(0.5) rotate(220deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sandStormRun {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0%);
+            }
+        }
+
+        @keyframes rockSwirlFly {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.9;
+            }
+
+            80% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-450px) translateX(-50px) rotate(540deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes cryptFogFloat {
+            0% {
+                transform: scaleY(0.85);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scaleY(1.2);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes risingBoneFly {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.7);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.95;
+            }
+
+            80% {
+                opacity: 0.85;
+            }
+
+            100% {
+                transform: translateY(-480px) rotate(360deg) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes toxicGasPulse {
+            0% {
+                transform: scale(0.92);
+                opacity: 0.65;
+            }
+
+            100% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fartBubbleFly {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0.95;
+            }
+
+            70% {
+                transform: translateY(-260px) translateX(25px) scale(1.2);
+                opacity: 0.85;
+            }
+
+            100% {
+                transform: translateY(-480px) translateX(-20px) scale(1.6);
+                opacity: 0;
+            }
+        }
 
 
 
 
 
-                /* ====================================================
+        /* ====================================================
            🌋 ЖИВАЯ КИНЕМАТОГРАФИЧЕСКАЯ ЛЕНТА ЛИДЕРБОРДА
            ==================================================== */
         .leaderboard-row-card {
@@ -3367,8 +3560,10 @@
             cursor: pointer;
             z-index: 2;
         }
+
         .leaderboard-row-card:hover {
-            transform: translateY(-12px) scale(1.04); /* Жирный массивный подпрыг */
+            transform: translateY(-12px) scale(1.04);
+            /* Жирный массивный подпрыг */
             z-index: 10;
         }
 
@@ -3376,13 +3571,21 @@
         .leaderboard-row-card::after {
             content: '';
             position: absolute;
-            bottom: -10px; left: 5%; width: 90%; height: 14px;
-            border-radius: 50%; opacity: 0;
+            bottom: -10px;
+            left: 5%;
+            width: 90%;
+            height: 14px;
+            border-radius: 50%;
+            opacity: 0;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: -1; pointer-events: none; filter: blur(6px);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(6px);
         }
+
         .leaderboard-row-card:hover::after {
-            opacity: 1; transform: scale(1.15);
+            opacity: 1;
+            transform: scale(1.15);
             animation: puddlePulse 1.5s infinite alternate;
         }
 
@@ -3391,6 +3594,7 @@
             background: radial-gradient(circle, rgba(255, 69, 0, 0.95) 0%, rgba(255, 140, 0, 0.6) 50%, transparent 80%);
             box-shadow: 0 0 25px rgba(255, 69, 0, 0.9);
         }
+
         .leaderboard-row-card.tier-suneaters-card:hover {
             border-color: #ff4500 !important;
             box-shadow: 0 16px 35px rgba(255, 69, 0, 0.45), 0 0 20px rgba(255, 140, 0, 0.3);
@@ -3401,6 +3605,7 @@
             background: radial-gradient(circle, rgba(0, 212, 255, 0.95) 0%, rgba(99, 102, 241, 0.6) 50%, transparent 80%);
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.9);
         }
+
         .leaderboard-row-card.tier-milky-card:hover {
             border-color: #00d4ff !important;
             box-shadow: 0 16px 35px rgba(0, 212, 255, 0.45), 0 0 20px rgba(0, 212, 255, 0.3);
@@ -3411,6 +3616,7 @@
             background: radial-gradient(circle, rgba(217, 119, 6, 0.95) 0%, rgba(120, 53, 15, 0.6) 50%, transparent 80%);
             box-shadow: 0 0 25px rgba(217, 119, 6, 0.8);
         }
+
         .leaderboard-row-card.tier-nomads-card:hover {
             border-color: #d97706 !important;
             box-shadow: 0 16px 35px rgba(217, 119, 6, 0.45), 0 0 20px rgba(120, 53, 15, 0.3);
@@ -3421,6 +3627,7 @@
             background: radial-gradient(circle, rgba(148, 163, 184, 0.9) 0%, rgba(51, 65, 85, 0.6) 50%, transparent 80%);
             box-shadow: 0 0 25px rgba(148, 163, 184, 0.8);
         }
+
         .leaderboard-row-card.tier-risen-card:hover {
             border-color: #94a3b8 !important;
             box-shadow: 0 16px 35px rgba(148, 163, 184, 0.45), 0 0 20px rgba(51, 65, 85, 0.3);
@@ -3431,20 +3638,28 @@
             background: radial-gradient(circle, rgba(34, 197, 94, 0.95) 0%, rgba(21, 128, 61, 0.6) 50%, transparent 80%);
             box-shadow: 0 0 25px rgba(34, 197, 94, 0.9);
         }
+
         .leaderboard-row-card.tier-stinkers-card:hover {
             border-color: #22c55e !important;
             box-shadow: 0 16px 35px rgba(34, 197, 94, 0.45), 0 0 20px rgba(21, 128, 61, 0.3);
         }
 
         @keyframes puddlePulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.1); opacity: 1; }
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
         }
 
-                /* ====================================================
+        /* ====================================================
            🌋 БРОНЕБОЙНЫЙ ПРЫЖОК И ЛУЖИ (FIX)
            ==================================================== */
-        
+
         /* Базовая карточка */
         .leaderboard-row-card {
             position: relative !important;
@@ -3457,9 +3672,11 @@
 
         /* МАССИВНЫЙ ПОДПРЫГ (Принудительно!) */
         .leaderboard-row-card:hover {
-            transform: translateY(-15px) scale(1.05) !important; /* Увеличил до 15px для заметности */
-            z-index: 50 !important; /* Чтобы была поверх всех */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.7) !important;
+            transform: translateY(-15px) scale(1.05) !important;
+            /* Увеличил до 15px для заметности */
+            z-index: 50 !important;
+            /* Чтобы была поверх всех */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7) !important;
         }
 
         /* Настройка луж через псевдоэлемент */
@@ -3485,14 +3702,33 @@
         }
 
         /* Цвета луж (Форсированные) */
-        .tier-suneaters-card:hover::after { background: radial-gradient(circle, #ff4500, transparent 80%) !important; box-shadow: 0 0 25px #ff4500 !important; }
-        .tier-milky-card:hover::after { background: radial-gradient(circle, #00d4ff, transparent 80%) !important; box-shadow: 0 0 25px #00d4ff !important; }
-        .tier-nomads-card:hover::after { background: radial-gradient(circle, #d97706, transparent 80%) !important; box-shadow: 0 0 25px #d97706 !important; }
-        .tier-risen-card:hover::after { background: radial-gradient(circle, #94a3b8, transparent 80%) !important; box-shadow: 0 0 25px #94a3b8 !important; }
-        .tier-stinkers-card:hover::after { background: radial-gradient(circle, #22c55e, transparent 80%) !important; box-shadow: 0 0 25px #22c55e !important; }
+        .tier-suneaters-card:hover::after {
+            background: radial-gradient(circle, #ff4500, transparent 80%) !important;
+            box-shadow: 0 0 25px #ff4500 !important;
+        }
+
+        .tier-milky-card:hover::after {
+            background: radial-gradient(circle, #00d4ff, transparent 80%) !important;
+            box-shadow: 0 0 25px #00d4ff !important;
+        }
+
+        .tier-nomads-card:hover::after {
+            background: radial-gradient(circle, #d97706, transparent 80%) !important;
+            box-shadow: 0 0 25px #d97706 !important;
+        }
+
+        .tier-risen-card:hover::after {
+            background: radial-gradient(circle, #94a3b8, transparent 80%) !important;
+            box-shadow: 0 0 25px #94a3b8 !important;
+        }
+
+        .tier-stinkers-card:hover::after {
+            background: radial-gradient(circle, #22c55e, transparent 80%) !important;
+            box-shadow: 0 0 25px #22c55e !important;
+        }
 
 
-                /* ====================================================
+        /* ====================================================
            🪧 СТИЛЬ СВИСАЮЩЕЙ ТАБЛИЧКИ ПРОФИЛЯ
            ==================================================== */
         .hanging-profile-container {
@@ -3516,22 +3752,29 @@
             width: 2px;
             height: 45px;
             background: linear-gradient(to bottom, #444, #888, #444);
-            box-shadow: 1px 0 2px rgba(0,0,0,0.5);
+            box-shadow: 1px 0 2px rgba(0, 0, 0, 0.5);
         }
-        .hanging-profile-container::before { left: 20px; }
-        .hanging-profile-container::after { right: 20px; }
+
+        .hanging-profile-container::before {
+            left: 20px;
+        }
+
+        .hanging-profile-container::after {
+            right: 20px;
+        }
 
         /* Сама табличка */
         .hanging-sign-box {
             background: linear-gradient(145deg, #161022, #0c0814);
             border: 2px solid #332644;
-            border-top: 3px solid var(--gold); /* Золотой кант сверху */
+            border-top: 3px solid var(--gold);
+            /* Золотой кант сверху */
             border-radius: 12px;
             padding: 10px 18px;
             display: flex;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8), 0 0 15px rgba(255, 204, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 204, 0, 0.1);
             min-width: 200px;
         }
 
@@ -3543,6 +3786,7 @@
             color: #fff;
             white-space: nowrap;
         }
+
         .sign-user-title {
             display: block;
             font-size: 0.65rem;
@@ -3568,6 +3812,7 @@
             margin-left: 8px;
             box-shadow: 0 0 8px rgba(255, 0, 255, 0.2);
         }
+
         .logout-btn-pink:hover {
             background: #ff00ff;
             color: #fff;
@@ -3577,8 +3822,13 @@
 
         /* АНИМАЦИЯ ПОКАЧИВАНИЯ */
         @keyframes signSwing {
-            0% { transform: rotate(-3deg); }
-            100% { transform: rotate(3deg); }
+            0% {
+                transform: rotate(-3deg);
+            }
+
+            100% {
+                transform: rotate(3deg);
+            }
         }
 
         /* Адаптив для мобилок */
@@ -3587,12 +3837,19 @@
                 padding: 8px 12px;
                 min-width: 160px;
             }
-            .sign-user-name { font-size: 0.8rem; }
-            .logout-btn-pink { font-size: 0.6rem; padding: 3px 6px; }
+
+            .sign-user-name {
+                font-size: 0.8rem;
+            }
+
+            .logout-btn-pink {
+                font-size: 0.6rem;
+                padding: 3px 6px;
+            }
         }
 
 
-                /* ====================================================
+        /* ====================================================
            👑 3D СТИЛИ ДЛЯ ЛОГОВ БОЁВ И ВЫЗОВОВ
            ==================================================== */
         @font-face {
@@ -3604,14 +3861,30 @@
 
         /* Пульсация свежих актуальных вызовов */
         @keyframes freshCallPulse {
-            0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 170, 0, 0.3); border-color: #ffaa00; }
-            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 170, 0, 0.7); border-color: #ffcc00; }
-            100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 170, 0, 0.3); border-color: #ffaa00; }
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(255, 170, 0, 0.3);
+                border-color: #ffaa00;
+            }
+
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 0 30px rgba(255, 170, 0, 0.7);
+                border-color: #ffcc00;
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(255, 170, 0, 0.3);
+                border-color: #ffaa00;
+            }
         }
+
         .fresh-challenge-card {
             animation: freshCallPulse 2s infinite ease-in-out;
             background: linear-gradient(145deg, #1b1612, #0d0a08) !important;
         }
+
         /* ====================================================
            🏛️ ФИНАЛЬНЫЙ ТАНКОВЫЙ СТИЛЬ КАРТОЧЕК ИСТОРИИ
            ==================================================== */
@@ -3625,8 +3898,9 @@
             border-bottom: 5px solid #111 !important;
             border-radius: 16px !important;
             padding: 18px 20px !important;
-            margin: 0 0 20px 0 !important; /* Четкий отступ снизу, никаких наложений */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+            margin: 0 0 20px 0 !important;
+            /* Четкий отступ снизу, никаких наложений */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
             transform: translateY(0) !important;
             transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
             z-index: 1 !important;
@@ -3635,7 +3909,7 @@
         #history-fights-list .epic-battle-card:hover {
             transform: translateY(-4px) !important;
             border-color: var(--gold) !important;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.9), 0 0 20px rgba(255, 204, 0, 0.25) !important;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 204, 0, 0.25) !important;
             z-index: 10 !important;
         }
 
@@ -3650,6 +3924,7 @@
             border: 1px solid rgba(255, 204, 0, 0.2);
             margin-bottom: 12px;
         }
+
         .winner-crown-icon {
             font-size: 1.6rem;
             filter: drop-shadow(0 0 10px #ffcc00);
@@ -3657,10 +3932,17 @@
             display: inline-block;
             margin-bottom: 2px;
         }
+
         @keyframes crownFloat {
-            0% { transform: translateY(0) rotate(-3deg); }
-            100% { transform: translateY(-4px) rotate(3deg); }
+            0% {
+                transform: translateY(0) rotate(-3deg);
+            }
+
+            100% {
+                transform: translateY(-4px) rotate(3deg);
+            }
         }
+
         .winner-label-sub {
             font-size: 0.65rem;
             color: var(--steel);
@@ -3669,6 +3951,7 @@
             font-family: 'Comfortaa', sans-serif;
             display: block;
         }
+
         .winner-name-title {
             font-family: 'RubikWetPaint', cursive, sans-serif;
             font-size: 1.6rem;
@@ -3697,15 +3980,26 @@
 
         /* Иконки эпох в строке бойцов */
         .fighter-era-avatar {
-            width: 28px; height: 28px; background: #000;
-            border-radius: 50%; border: 1.5px solid var(--gold);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; box-shadow: 0 0 8px rgba(0,0,0,0.5);
+            width: 28px;
+            height: 28px;
+            background: #000;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
         }
-        .fighter-era-avatar img { width: 18px; height: 18px; object-fit: contain; }
+
+        .fighter-era-avatar img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+        }
 
 
-                /* ====================================================
+        /* ====================================================
            🔥 3D-КНОПКИ СУДЕЙСТВА С ОГНЕННЫМ И ТОКСИЧНЫМ СВЕЧЕНИЕМ
            ==================================================== */
 
@@ -3726,7 +4020,7 @@
             cursor: pointer;
             border: none;
             outline: none;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25);
             transform: translateY(0);
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 2;
@@ -3735,12 +4029,12 @@
 
         .admin-action-btn-3d:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
         }
 
         .admin-action-btn-3d:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
         }
 
         /* 🗑️ КНОПКА УДАЛЕНИЯ (Красно-жёлтый огонь сзади) */
@@ -3748,14 +4042,22 @@
             background: linear-gradient(135deg, #dc2626, #b91c1c);
             color: #fff;
             border: 1.5px solid #f87171;
-            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
             animation: fireButtonGlow 2s infinite alternate;
         }
 
         @keyframes fireButtonGlow {
-            0% { box-shadow: 0 6px 15px rgba(220, 38, 38, 0.5), 0 0 10px rgba(255, 165, 0, 0.3); }
-            50% { box-shadow: 0 8px 25px rgba(239, 68, 68, 0.8), 0 0 25px rgba(250, 204, 21, 0.6); }
-            100% { box-shadow: 0 6px 15px rgba(220, 38, 38, 0.5), 0 0 10px rgba(255, 165, 0, 0.3); }
+            0% {
+                box-shadow: 0 6px 15px rgba(220, 38, 38, 0.5), 0 0 10px rgba(255, 165, 0, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 8px 25px rgba(239, 68, 68, 0.8), 0 0 25px rgba(250, 204, 21, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 6px 15px rgba(220, 38, 38, 0.5), 0 0 10px rgba(255, 165, 0, 0.3);
+            }
         }
 
         /* ⚖️ КНОПКА СУДЕЙСТВА (Зелено-салатовое неоновое свечение) */
@@ -3763,17 +4065,25 @@
             background: linear-gradient(135deg, #16a34a, #15803d);
             color: #ffffff;
             border: 1.5px solid #4ade80;
-            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
             animation: matrixButtonGlow 2s infinite alternate;
         }
 
         @keyframes matrixButtonGlow {
-            0% { box-shadow: 0 6px 15px rgba(22, 163, 74, 0.5), 0 0 10px rgba(74, 222, 128, 0.3); }
-            50% { box-shadow: 0 8px 25px rgba(34, 197, 94, 0.85), 0 0 25px rgba(74, 222, 128, 0.7); }
-            100% { box-shadow: 0 6px 15px rgba(22, 163, 74, 0.5), 0 0 10px rgba(74, 222, 128, 0.3); }
+            0% {
+                box-shadow: 0 6px 15px rgba(22, 163, 74, 0.5), 0 0 10px rgba(74, 222, 128, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 8px 25px rgba(34, 197, 94, 0.85), 0 0 25px rgba(74, 222, 128, 0.7);
+            }
+
+            100% {
+                box-shadow: 0 6px 15px rgba(22, 163, 74, 0.5), 0 0 10px rgba(74, 222, 128, 0.3);
+            }
         }
 
-                /* ====================================================
+        /* ====================================================
            🏰 ХИРУРГИЧЕСКИЙ СРЕДНЕВЕКОВЫЙ ФИКС СЕРЫХ ЗОН (БЕЗ СЛОМА СЕТКИ)
            ==================================================== */
 
@@ -3788,15 +4098,16 @@
         }
 
         /* 2. Левая колонка меню (сайдбар / блок aside) */
-        aside, .sidebar {
+        aside,
+        .sidebar {
             /* Окрашиваем сайдбар в текстуру тёмного морёного дуба */
             background: linear-gradient(180deg, #140c05, #0a0502) !important;
             /* Граница между сайдбаром и контентом — кованая сталь */
             border-right: 2px solid #4a2e18 !important;
-            box-shadow: 5px 0 25px rgba(0,0,0,0.8) !important;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.8) !important;
         }
 
-                /* ====================================================
+        /* ====================================================
            🏰 3D-КНОПКИ САЙДБАРА С СОХРАНЕНИЕМ АКЦЕНТОВ
            ==================================================== */
 
@@ -3812,7 +4123,8 @@
             position: relative !important;
             background: linear-gradient(145deg, #22140a, #120904) !important;
             border: 1.5px solid #4a2d18 !important;
-            border-bottom: 4px solid #FF8C00 !important; /* 🔥 3D-нижняя грань */
+            border-bottom: 4px solid #FF8C00 !important;
+            /* 🔥 3D-нижняя грань */
             border-radius: 12px !important;
             color: #d1b89d !important;
             font-family: 'Comfortaa', sans-serif !important;
@@ -3835,7 +4147,7 @@
         aside.sidebar .nav-btn:active {
             transform: translateY(2px) !important;
             border-bottom-width: 1.5px !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.8) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8) !important;
         }
 
         /* 4. АКТИВНАЯ ВЫБРАННАЯ 3D-КНОПКА */
@@ -3854,6 +4166,7 @@
             color: #c084fc !important;
             box-shadow: 0 6px 16px rgba(147, 51, 234, 0.25), inset 0 1px 0 rgba(192, 132, 252, 0.2) !important;
         }
+
         aside.sidebar .nav-btn[onclick*="minigame"]:hover,
         aside.sidebar .nav-btn[onclick*="minigame"].active {
             background: linear-gradient(135deg, #6b21a8, #3b0764) !important;
@@ -3871,6 +4184,7 @@
             color: #fde047 !important;
             box-shadow: 0 6px 16px rgba(234, 179, 8, 0.25), inset 0 1px 0 rgba(253, 224, 71, 0.2) !important;
         }
+
         aside.sidebar .nav-btn[onclick*="admin"]:hover,
         aside.sidebar .nav-btn[onclick*="admin"].active {
             background: linear-gradient(135deg, #a16207, #451a03) !important;
@@ -3880,10 +4194,10 @@
             box-shadow: 0 8px 25px rgba(234, 179, 8, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
         }
 
-   
 
 
-               /* ====================================================
+
+        /* ====================================================
            🎯 CIRCLE REVEAL ИЗ ПРАВОГО НИЖНЕГО УГЛА
            ==================================================== */
         @keyframes circleCornerReveal {
@@ -3894,10 +4208,12 @@
                 filter: brightness(0.15) blur(6px);
                 transform: scale(0.98);
             }
+
             40% {
                 opacity: 0.9;
                 filter: brightness(0.5) blur(2px);
             }
+
             100% {
                 opacity: 1;
                 /* Круг перекрывает всю площадь экрана с запасом */
@@ -3917,237 +4233,253 @@
         }
 
 
-/* ==========================================================================
+        /* ==========================================================================
    🏛️ ЭПОХИ 3.0: 3D-ФЛАЖКИ СО СВОБОДНЫМИ РУКАМИ (1-35 БЕЗ ОБРЕЗКИ)
    ========================================================================== */
 
-/* 1. Главный контейнер вкладки и списка */
-#tab-eras {
-    overflow-x: visible !important;
-    position: relative;
-    padding-left: 0 !important;
-}
+        /* 1. Главный контейнер вкладки и списка */
+        #tab-eras {
+            overflow-x: visible !important;
+            position: relative;
+            padding-left: 0 !important;
+        }
 
-.eras-list-container {
-    display: flex;
-    flex-direction: column;
-    gap: 24px; /* Достаточный зазор, чтобы выступающие руки не перекрывали соседние плашки */
-    margin-top: 25px;
-    padding-left: 10px;
-    overflow: visible !important;
-}
+        .eras-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            /* Достаточный зазор, чтобы выступающие руки не перекрывали соседние плашки */
+            margin-top: 25px;
+            padding-left: 10px;
+            overflow: visible !important;
+        }
 
-/* 2. Умиротворённая плавная волна для всех флагов */
-@keyframes flagPeacefulWave {
-    0% { transform: translate3d(0, 0, 0) rotate(0deg); }
-    35% { transform: translate3d(5px, -2px, 0) rotate(0.3deg); }
-    70% { transform: translate3d(2px, 2px, 0) rotate(-0.25deg); }
-    100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-}
+        /* 2. Умиротворённая плавная волна для всех флагов */
+        @keyframes flagPeacefulWave {
+            0% {
+                transform: translate3d(0, 0, 0) rotate(0deg);
+            }
 
-/* 3. Базовый класс для каждого флага */
-.era-flag-base {
-    width: 100%;
-    margin-left: 0 !important;
-    border: none !important;
-    outline: none !important;
-    background: transparent !important; /* Фон уходит в подложку! */
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    position: relative !important;
-    overflow: visible !important; /* Абсолютная свобода для рук */
-    will-change: transform;
-    animation: flagPeacefulWave 6.5s ease-in-out infinite;
-    transition: transform 0.25s ease, filter 0.25s ease;
-}
+            35% {
+                transform: translate3d(5px, -2px, 0) rotate(0.3deg);
+            }
 
-.era-flag-base:hover {
-    transform: translateX(10px) !important;
-    filter: brightness(1.12);
-}
+            70% {
+                transform: translate3d(2px, 2px, 0) rotate(-0.25deg);
+            }
 
-/* Правый текстовый блок (название эпохи и ранг) */
-.era-flag-base > div:last-child {
-    position: relative !important;
-    z-index: 10 !important; /* Выше подложки */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+            100% {
+                transform: translate3d(0, 0, 0) rotate(0deg);
+            }
+        }
+
+        /* 3. Базовый класс для каждого флага */
+        .era-flag-base {
+            width: 100%;
+            margin-left: 0 !important;
+            border: none !important;
+            outline: none !important;
+            background: transparent !important;
+            /* Фон уходит в подложку! */
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            position: relative !important;
+            overflow: visible !important;
+            /* Абсолютная свобода для рук */
+            will-change: transform;
+            animation: flagPeacefulWave 6.5s ease-in-out infinite;
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .era-flag-base:hover {
+            transform: translateX(10px) !important;
+            filter: brightness(1.12);
+        }
+
+        /* Правый текстовый блок (название эпохи и ранг) */
+        .era-flag-base>div:last-child {
+            position: relative !important;
+            z-index: 10 !important;
+            /* Выше подложки */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
 
-/* ==========================================================================
+        /* ==========================================================================
    🚩 ПОДЛОЖКИ ПЛАШЕК (СКОС ТРАПЕЦИИ И 3D-ГРАНИ РЕЖУТ ТОЛЬКО ФОН)
    ========================================================================== */
 
-/* Общий псевдоэлемент подложки */
-.era-card-short::before,
-.era-card-medium::before,
-.era-card-large-elite::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1 !important; /* Строго под руками и текстом */
-}
+        /* Общий псевдоэлемент подложки */
+        .era-card-short::before,
+        .era-card-medium::before,
+        .era-card-large-elite::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1 !important;
+            /* Строго под руками и текстом */
+        }
 
-/* --- ГРУППА 1: ЭПОХИ 1-20 (КОРОТКИЕ) --- */
-.era-card-short {
-    max-width: 460px !important;
-    min-height: 66px;
-    padding: 8px 30px 8px 16px !important;
-    gap: 20px !important;
-}
+        /* --- ГРУППА 1: ЭПОХИ 1-20 (КОРОТКИЕ) --- */
+        .era-card-short {
+            max-width: 460px !important;
+            min-height: 66px;
+            padding: 8px 30px 8px 16px !important;
+            gap: 20px !important;
+        }
 
-.era-card-short::before {
-    background: linear-gradient(180deg, #241c38 0%, #161024 70%, #0d0917 100%) !important;
-    border-bottom: 5px solid #06040b !important;
-    clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 100%, 0 100%) !important;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.75), inset 0 2px 3px rgba(255, 255, 255, 0.08);
-}
+        .era-card-short::before {
+            background: linear-gradient(180deg, #241c38 0%, #161024 70%, #0d0917 100%) !important;
+            border-bottom: 5px solid #06040b !important;
+            clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 100%, 0 100%) !important;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.75), inset 0 2px 3px rgba(255, 255, 255, 0.08);
+        }
 
-/* --- ГРУППА 2: ЭПОХИ 21-29 (СРЕДНИЕ ТИТАНЫ) --- */
-.era-card-medium {
-    max-width: 620px !important;
-    min-height: 86px;
-    padding: 10px 42px 10px 20px !important;
-    gap: 26px !important;
-}
+        /* --- ГРУППА 2: ЭПОХИ 21-29 (СРЕДНИЕ ТИТАНЫ) --- */
+        .era-card-medium {
+            max-width: 620px !important;
+            min-height: 86px;
+            padding: 10px 42px 10px 20px !important;
+            gap: 26px !important;
+        }
 
-.era-card-medium::before {
-    background: linear-gradient(180deg, #3d1663 0%, #250b3e 70%, #140424 100%) !important;
-    border-bottom: 6px solid #090112 !important;
-    clip-path: polygon(0 0, calc(100% - 45px) 0, 100% 100%, 0 100%) !important;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.85), inset 0 2px 4px rgba(192, 132, 252, 0.15);
-}
+        .era-card-medium::before {
+            background: linear-gradient(180deg, #3d1663 0%, #250b3e 70%, #140424 100%) !important;
+            border-bottom: 6px solid #090112 !important;
+            clip-path: polygon(0 0, calc(100% - 45px) 0, 100% 100%, 0 100%) !important;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.85), inset 0 2px 4px rgba(192, 132, 252, 0.15);
+        }
 
-/* --- ГРУППА 3: ЭПОХИ 30-35 (САМЫЕ БОЛЬШИЕ — ВЫСШАЯ ЭЛИТА) --- */
-.era-card-large-elite {
-    max-width: 800px !important;
-    min-height: 114px;
-    padding: 12px 60px 12px 24px !important;
-    gap: 34px !important;
-}
+        /* --- ГРУППА 3: ЭПОХИ 30-35 (САМЫЕ БОЛЬШИЕ — ВЫСШАЯ ЭЛИТА) --- */
+        .era-card-large-elite {
+            max-width: 800px !important;
+            min-height: 114px;
+            padding: 12px 60px 12px 24px !important;
+            gap: 34px !important;
+        }
 
-.era-card-large-elite::before {
-    background: linear-gradient(180deg, #630520 0%, #380211 65%, #180006 100%) !important;
-    border-bottom: 8px solid #0a0003 !important;
-    clip-path: polygon(0 0, calc(100% - 65px) 0, 100% 100%, 0 100%) !important;
-    box-shadow: 0 16px 40px rgba(255, 0, 85, 0.35), 0 12px 30px rgba(0,0,0,0.95), inset 0 3px 6px rgba(255, 100, 150, 0.25);
-}
+        .era-card-large-elite::before {
+            background: linear-gradient(180deg, #630520 0%, #380211 65%, #180006 100%) !important;
+            border-bottom: 8px solid #0a0003 !important;
+            clip-path: polygon(0 0, calc(100% - 65px) 0, 100% 100%, 0 100%) !important;
+            box-shadow: 0 16px 40px rgba(255, 0, 85, 0.35), 0 12px 30px rgba(0, 0, 0, 0.95), inset 0 3px 6px rgba(255, 100, 150, 0.25);
+        }
 
 
-/* ==========================================================================
+        /* ==========================================================================
    🦾 СВОБОДНЫЕ ПОРТАЛЫ-ИКОНКИ (НАВИСАЮТ НАД ПЛАШКАМИ)
    ========================================================================== */
 
-/* Общие правила для всех кругов-порталов */
-.era-icon-2x,
-.era-icon-3x,
-.era-icon-4x {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    border-radius: 50% !important;
-    position: relative !important;
-    z-index: 20 !important; /* Гарантированно выше подложки плашки! */
-    overflow: visible !important; /* Разрешаем руке внутри вылезать во все стороны */
-}
+        /* Общие правила для всех кругов-порталов */
+        .era-icon-2x,
+        .era-icon-3x,
+        .era-icon-4x {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+            border-radius: 50% !important;
+            position: relative !important;
+            z-index: 20 !important;
+            /* Гарантированно выше подложки плашки! */
+            overflow: visible !important;
+            /* Разрешаем руке внутри вылезать во все стороны */
+        }
 
-/* 1. Портал 1-20 */
-.era-icon-2x {
-    width: 52px !important;
-    height: 52px !important;
-    min-width: 52px !important;
-    background: radial-gradient(circle, #1a1329, #08050e);
-    border-bottom: 3px solid #000;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.8);
-    margin-top: -6px !important;
-    margin-bottom: -6px !important;
-}
+        /* 1. Портал 1-20 */
+        .era-icon-2x {
+            width: 52px !important;
+            height: 52px !important;
+            min-width: 52px !important;
+            background: radial-gradient(circle, #1a1329, #08050e);
+            border-bottom: 3px solid #000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+            margin-top: -6px !important;
+            margin-bottom: -6px !important;
+        }
 
-/* 2. Портал 21-29 */
-.era-icon-3x {
-    width: 76px !important;
-    height: 76px !important;
-    min-width: 76px !important;
-    background: radial-gradient(circle, #3d1463, #0f031b);
-    border-bottom: 4px solid #000;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.9), 0 0 15px rgba(168, 85, 247, 0.4);
-    margin-top: -10px !important;
-    margin-bottom: -10px !important;
-}
+        /* 2. Портал 21-29 */
+        .era-icon-3x {
+            width: 76px !important;
+            height: 76px !important;
+            min-width: 76px !important;
+            background: radial-gradient(circle, #3d1463, #0f031b);
+            border-bottom: 4px solid #000;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.9), 0 0 15px rgba(168, 85, 247, 0.4);
+            margin-top: -10px !important;
+            margin-bottom: -10px !important;
+        }
 
-/* 3. Портал 30-35 (Высшая Элита) */
-.era-icon-4x {
-    width: 125px !important;
-    height: 125px !important;
-    min-width: 125px !important;
-    background: radial-gradient(circle, #85002b 0%, #30000e 65%, #000 100%);
-    border-bottom: 6px solid #0a0003;
-    box-shadow: 0 14px 30px rgba(0,0,0,0.95), 0 0 25px rgba(255, 0, 85, 0.65);
-    margin-top: -18px !important;
-    margin-bottom: -18px !important;
-    margin-left: -10px !important;
-}
+        /* 3. Портал 30-35 (Высшая Элита) */
+        .era-icon-4x {
+            width: 125px !important;
+            height: 125px !important;
+            min-width: 125px !important;
+            background: radial-gradient(circle, #85002b 0%, #30000e 65%, #000 100%);
+            border-bottom: 6px solid #0a0003;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 0, 85, 0.65);
+            margin-top: -18px !important;
+            margin-bottom: -18px !important;
+            margin-left: -10px !important;
+        }
 
 
-/* ==========================================================================
+        /* ==========================================================================
    🖼️ КАРТИНКИ РУК (АБСОЛЮТНАЯ СВОБОДА 360°, НИ ЕДИНОГО СРЕЗА)
    ========================================================================== */
 
-.era-icon-img-burst {
-    object-fit: contain !important;
-    position: relative !important;
-    z-index: 25 !important;
-    overflow: visible !important;
-    pointer-events: none;
-    transition: transform 0.3s ease;
-}
+        .era-icon-img-burst {
+            object-fit: contain !important;
+            position: relative !important;
+            z-index: 25 !important;
+            overflow: visible !important;
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
 
-/* Руки 1-20 (Вылет в 2 раза за пределы круга и плашки) */
-.burst-1-20 {
-    width: 36px !important;
-    height: 36px !important;
-    transform: scale(2.05) translate3d(0, -1px, 0) !important;
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.9)) !important;
-}
+        /* Руки 1-20 (Вылет в 2 раза за пределы круга и плашки) */
+        .burst-1-20 {
+            width: 36px !important;
+            height: 36px !important;
+            transform: scale(2.05) translate3d(0, -1px, 0) !important;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.9)) !important;
+        }
 
-/* Руки 21-30 (Мощный объемный вылет) */
-.burst-21-30 {
-    width: 54px !important;
-    height: 54px !important;
-    transform: scale(2.25) translate3d(0, -3px, 0) !important;
-    filter: drop-shadow(0 10px 16px rgba(0,0,0,0.95)) drop-shadow(0 0 10px rgba(168, 85, 247, 0.4)) !important;
-}
+        /* Руки 21-30 (Мощный объемный вылет) */
+        .burst-21-30 {
+            width: 54px !important;
+            height: 54px !important;
+            transform: scale(2.25) translate3d(0, -3px, 0) !important;
+            filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 10px rgba(168, 85, 247, 0.4)) !important;
+        }
 
-/* Руки 31-35 (Элита: гигантские, сочные, на 20% компактнее 30-й) */
-.burst-elite-31-35 {
-    width: 90px !important;
-    height: 90px !important;
-    transform: scale(2.1) translate3d(0, -4px, 0) !important;
-    filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 16px rgba(255, 0, 85, 0.6)) !important;
-}
+        /* Руки 31-35 (Элита: гигантские, сочные, на 20% компактнее 30-й) */
+        .burst-elite-31-35 {
+            width: 90px !important;
+            height: 90px !important;
+            transform: scale(2.1) translate3d(0, -4px, 0) !important;
+            filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 16px rgba(255, 0, 85, 0.6)) !important;
+        }
 
-/* Безопасные отступы для текста, чтобы огромные руки его не перекрывали */
-.era-card-short > div:last-child {
-    padding-left: 15px !important;
-}
-.era-card-medium > div:last-child {
-    padding-left: 24px !important;
-}
-.era-card-large-elite > div:last-child {
-    padding-left: 45px !important;
-}
+        /* Безопасные отступы для текста, чтобы огромные руки его не перекрывали */
+        .era-card-short>div:last-child {
+            padding-left: 15px !important;
+        }
 
+        .era-card-medium>div:last-child {
+            padding-left: 24px !important;
+        }
 
-
-
+        .era-card-large-elite>div:last-child {
+            padding-left: 45px !important;
+        }
 
 
 
@@ -4158,900 +4490,1211 @@
 
 
 
-/* ====================================================
+
+
+
+
+        /* ====================================================
    🛸 ФИНАЛЬНЫЙ ЮВЕЛИРНЫЙ БЛОК НАВИГАЦИИ
    ==================================================== */
 
-.sidebar-music-box {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 16px !important;
-    width: calc(100% - 20px) !important;
-    max-width: 240px !important;
-    margin: 25px auto 12px auto !important;
-    padding: 0 !important;
-    background: transparent !important;
-    overflow: visible !important;
-    position: relative !important;
-}
+        .sidebar-music-box {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 16px !important;
+            width: calc(100% - 20px) !important;
+            max-width: 240px !important;
+            margin: 25px auto 12px auto !important;
+            padding: 0 !important;
+            background: transparent !important;
+            overflow: visible !important;
+            position: relative !important;
+        }
 
-/* 🎵 1. МУЗЫКА — ТЕПЕРЬ ТОЖЕ ПЛАВНО КАЧАЕТСЯ НА ВОЛНАХ */
-.music-neon-toggle {
-    width: 105px !important;
-    height: 42px !important;
-    background: #111114 !important;
-    border: 1.5px solid #2b2b35 !important;
-    border-radius: 21px !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 0 10px !important;
-    cursor: pointer !important;
-    position: relative !important;
-    box-sizing: border-box !important;
-    
-    /* 🔥 Включаем ту же самую волну, но с задержкой, чтобы качались в унисон */
-    animation: erasWaveGlide 5s ease-in-out infinite !important;
-    will-change: transform;
-    transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease !important;
-}
+        /* 🎵 1. МУЗЫКА — ТЕПЕРЬ ТОЖЕ ПЛАВНО КАЧАЕТСЯ НА ВОЛНАХ */
+        .music-neon-toggle {
+            width: 105px !important;
+            height: 42px !important;
+            background: #111114 !important;
+            border: 1.5px solid #2b2b35 !important;
+            border-radius: 21px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 0 10px !important;
+            cursor: pointer !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+
+            /* 🔥 Включаем ту же самую волну, но с задержкой, чтобы качались в унисон */
+            animation: erasWaveGlide 5s ease-in-out infinite !important;
+            will-change: transform;
+            transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease !important;
+        }
 
 
-/* 🎵 МУЗЫКА ВКЛЮЧЕНА (Золотой неоновый свет со скрина) */
-.music-neon-toggle.playing {
-    background: radial-gradient(circle at 50% 50%, #1e1302 0%, #0a0600 100%) !important;
-    border: 1.5px solid #ff9f00 !important;
-    box-shadow: 0 0 12px rgba(255, 159, 0, 0.5), 
+        /* 🎵 МУЗЫКА ВКЛЮЧЕНА (Золотой неоновый свет со скрина) */
+        .music-neon-toggle.playing {
+            background: radial-gradient(circle at 50% 50%, #1e1302 0%, #0a0600 100%) !important;
+            border: 1.5px solid #ff9f00 !important;
+            box-shadow: 0 0 12px rgba(255, 159, 0, 0.5),
                 0 0 22px rgba(255, 159, 0, 0.25),
                 inset 0 0 8px rgba(255, 159, 0, 0.2) !important;
-}
+        }
 
-/* Золотая неоновая подушка ПОД кнопкой музыки (отбрасывает свет в пол) */
-.music-neon-toggle.playing::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: -16px !important;
-    left: 5% !important;
-    width: 90% !important;
-    height: 14px !important;
-    background: radial-gradient(ellipse at center, rgba(255, 160, 0, 0.8) 0%, rgba(255, 100, 0, 0.3) 50%, transparent 80%) !important;
-    filter: blur(5px) !important;
-    pointer-events: none !important;
-    border-radius: 50% !important;
-    z-index: -1 !important;
-}
-
-
-/* 🏛️ 2. ЭПОХИ — ИДЕАЛЬНОЕ ПОКАЧИВАНИЕ + ВОЗВРАТ ИКОНКИ */
-.eras-neon-glider {
-    width: 105px !important;
-    height: 42px !important;
-    background: linear-gradient(135deg, #100005, #19000a) !important;
-    border: 1.5px solid #ff0055 !important;
-    border-radius: 21px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    cursor: pointer !important;
-    outline: none !important;
-    position: relative !important;
-    box-sizing: border-box !important;
-    
-    box-shadow: 0 0 12px rgba(255, 0, 85, 0.35), inset 0 0 6px rgba(255, 0, 85, 0.15) !important;
-    
-    /* Сохраняем плавное покачивание волны */
-    animation: erasWaveGlide 5s ease-in-out infinite !important;
-    will-change: transform;
-}
-
-/* Малиновая подушка под эпохами */
-.eras-neon-glider::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: -16px !important;
-    left: 5% !important;
-    width: 90% !important;
-    height: 14px !important;
-    background: radial-gradient(ellipse at center, rgba(255, 0, 85, 0.7) 0%, rgba(255, 0, 85, 0.2) 50%, transparent 80%) !important;
-    filter: blur(5px) !important;
-    pointer-events: none !important;
-    border-radius: 50% !important;
-    z-index: -1 !important;
-}
-
-@keyframes erasWaveGlide {
-    0% { transform: translate3d(0px, 0px, 0) rotate(0deg); }
-    25% { transform: translate3d(-3px, 2px, 0) rotate(-1.2deg); }
-    50% { transform: translate3d(0px, -2px, 0) rotate(0deg); }
-    75% { transform: translate3d(3px, 2px, 0) rotate(1.2deg); }
-    100% { transform: translate3d(0px, 0px, 0) rotate(0deg); }
-}
+        /* Золотая неоновая подушка ПОД кнопкой музыки (отбрасывает свет в пол) */
+        .music-neon-toggle.playing::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -16px !important;
+            left: 5% !important;
+            width: 90% !important;
+            height: 14px !important;
+            background: radial-gradient(ellipse at center, rgba(255, 160, 0, 0.8) 0%, rgba(255, 100, 0, 0.3) 50%, transparent 80%) !important;
+            filter: blur(5px) !important;
+            pointer-events: none !important;
+            border-radius: 50% !important;
+            z-index: -1 !important;
+        }
 
 
-/* ====================================================
+        /* 🏛️ 2. ЭПОХИ — ИДЕАЛЬНОЕ ПОКАЧИВАНИЕ + ВОЗВРАТ ИКОНКИ */
+        .eras-neon-glider {
+            width: 105px !important;
+            height: 42px !important;
+            background: linear-gradient(135deg, #100005, #19000a) !important;
+            border: 1.5px solid #ff0055 !important;
+            border-radius: 21px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            cursor: pointer !important;
+            outline: none !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+
+            box-shadow: 0 0 12px rgba(255, 0, 85, 0.35), inset 0 0 6px rgba(255, 0, 85, 0.15) !important;
+
+            /* Сохраняем плавное покачивание волны */
+            animation: erasWaveGlide 5s ease-in-out infinite !important;
+            will-change: transform;
+        }
+
+        /* Малиновая подушка под эпохами */
+        .eras-neon-glider::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -16px !important;
+            left: 5% !important;
+            width: 90% !important;
+            height: 14px !important;
+            background: radial-gradient(ellipse at center, rgba(255, 0, 85, 0.7) 0%, rgba(255, 0, 85, 0.2) 50%, transparent 80%) !important;
+            filter: blur(5px) !important;
+            pointer-events: none !important;
+            border-radius: 50% !important;
+            z-index: -1 !important;
+        }
+
+        @keyframes erasWaveGlide {
+            0% {
+                transform: translate3d(0px, 0px, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate3d(-3px, 2px, 0) rotate(-1.2deg);
+            }
+
+            50% {
+                transform: translate3d(0px, -2px, 0) rotate(0deg);
+            }
+
+            75% {
+                transform: translate3d(3px, 2px, 0) rotate(1.2deg);
+            }
+
+            100% {
+                transform: translate3d(0px, 0px, 0) rotate(0deg);
+            }
+        }
+
+
+        /* ====================================================
    ✨ ЖИВЫЕ СВЕТЛЯЧКИ СНАРУЖИ КНОПКИ МУЗЫКИ
    ==================================================== */
-.music-sparkle-container {
-    position: absolute;
-    bottom: -22px;
-    left: 0;
-    width: 105px; /* Ширина строго под кнопку музыки */
-    height: 25px;
-    pointer-events: none;
-    overflow: visible;
-    z-index: 99;
-}
+        .music-sparkle-container {
+            position: absolute;
+            bottom: -22px;
+            left: 0;
+            width: 105px;
+            /* Ширина строго под кнопку музыки */
+            height: 25px;
+            pointer-events: none;
+            overflow: visible;
+            z-index: 99;
+        }
 
-.music-sparkle-dot {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: sparkleFlyOut 2s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
-}
+        .music-sparkle-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleFlyOut 2s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+        }
 
-@keyframes sparkleFlyOut {
-    0% {
-        opacity: 0;
-        transform: translate3d(0, 0, 0) scale(0.5);
-    }
-    20% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translate3d(var(--fly-x), -35px, 0) scale(1.6);
-    }
-}
+        @keyframes sparkleFlyOut {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 0, 0) scale(0.5);
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate3d(var(--fly-x), -35px, 0) scale(1.6);
+            }
+        }
 
 
-/* ====================================================
+        /* ====================================================
    📝 ВНУТРЕННОСТИ И ТУМБЛЕР
    ==================================================== */
-.music-left-part, .eras-glider-content {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    position: relative;
-    z-index: 2;
-}
+        .music-left-part,
+        .eras-glider-content {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            position: relative;
+            z-index: 2;
+        }
 
-.music-left-part svg {
-    color: #4a4a55;
-    transition: color 0.3s, filter 0.3s;
-}
-.music-neon-toggle.playing .music-left-part svg {
-    color: #ff9f00 !important;
-    filter: drop-shadow(0 0 5px #ff9f00);
-}
+        .music-left-part svg {
+            color: #4a4a55;
+            transition: color 0.3s, filter 0.3s;
+        }
 
-.music-left-part span {
-    font-family: 'Comfortaa', cursive;
-    font-size: 0.6rem !important;
-    font-weight: 900;
-    color: #555562;
-    white-space: nowrap;
-    transition: color 0.3s;
-}
-.music-neon-toggle.playing .music-left-part span {
-    color: #ffcc00 !important;
-    text-shadow: 0 0 6px rgba(255, 204, 0, 0.6);
-}
+        .music-neon-toggle.playing .music-left-part svg {
+            color: #ff9f00 !important;
+            filter: drop-shadow(0 0 5px #ff9f00);
+        }
 
-/* Тумблер */
-.toggle-track {
-    width: 26px !important;
-    height: 12px !important;
-    background: #1c1c22 !important;
-    border-radius: 8px !important;
-    position: relative;
-    transition: background 0.3s;
-    z-index: 2;
-}
-.music-neon-toggle.playing .toggle-track {
-    background: #5a2000 !important;
-}
+        .music-left-part span {
+            font-family: 'Comfortaa', cursive;
+            font-size: 0.6rem !important;
+            font-weight: 900;
+            color: #555562;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
 
-.toggle-handle {
-    width: 8px !important;
-    height: 8px !important;
-    background: #44444c !important;
-    border-radius: 50% !important;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-.music-neon-toggle.playing .toggle-handle {
-    transform: translateX(14px);
-    background: #ffea00 !important;
-    box-shadow: 0 0 8px #ffea00, 0 0 14px #ff9f00 !important;
-}
+        .music-neon-toggle.playing .music-left-part span {
+            color: #ffcc00 !important;
+            text-shadow: 0 0 6px rgba(255, 204, 0, 0.6);
+        }
 
-/* ЭПОХИ: Текст и возвращенная SVG иконка */
-.eras-svg-icon {
-    color: #ff0055;
-    filter: drop-shadow(0 0 3px #ff0055);
-}
-.eras-glider-content span {
-    font-family: 'Comfortaa', cursive;
-    font-size: 0.62rem !important;
-    font-weight: 900;
-    color: #ffe4e6;
-    text-shadow: 0 0 6px #ff0055;
-    white-space: nowrap;
-}
-.eras-glider-core {
-    width: 30px;
-    height: 2px;
-    background: #ff0055;
-    border-radius: 4px;
-    margin-top: 2px;
-    box-shadow: 0 0 8px #ff0055;
-    z-index: 2;
-}
+        /* Тумблер */
+        .toggle-track {
+            width: 26px !important;
+            height: 12px !important;
+            background: #1c1c22 !important;
+            border-radius: 8px !important;
+            position: relative;
+            transition: background 0.3s;
+            z-index: 2;
+        }
+
+        .music-neon-toggle.playing .toggle-track {
+            background: #5a2000 !important;
+        }
+
+        .toggle-handle {
+            width: 8px !important;
+            height: 8px !important;
+            background: #44444c !important;
+            border-radius: 50% !important;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .music-neon-toggle.playing .toggle-handle {
+            transform: translateX(14px);
+            background: #ffea00 !important;
+            box-shadow: 0 0 8px #ffea00, 0 0 14px #ff9f00 !important;
+        }
+
+        /* ЭПОХИ: Текст и возвращенная SVG иконка */
+        .eras-svg-icon {
+            color: #ff0055;
+            filter: drop-shadow(0 0 3px #ff0055);
+        }
+
+        .eras-glider-content span {
+            font-family: 'Comfortaa', cursive;
+            font-size: 0.62rem !important;
+            font-weight: 900;
+            color: #ffe4e6;
+            text-shadow: 0 0 6px #ff0055;
+            white-space: nowrap;
+        }
+
+        .eras-glider-core {
+            width: 30px;
+            height: 2px;
+            background: #ff0055;
+            border-radius: 4px;
+            margin-top: 2px;
+            box-shadow: 0 0 8px #ff0055;
+            z-index: 2;
+        }
 
 
-/* ====================================================
+        /* ====================================================
    🎯 ФИКСИРОВАННЫЙ БАННЕР ЭПОХ (СТРОГО 800x450 В ПИКСЕЛЯХ)
    ==================================================== */
-#tab-eras div.eras-banner-box {
-    display: block !important;
-    width: 100% !important;
-    max-width: 380px !important;       /* 🔥 Физически компактный размер (эквивалент 800x450) */
-    aspect-ratio: 16 / 9 !important;   /* Четкие пропорции 800x450 */
-    height: auto !important;
-    
-    /* Аккуратное скругление углов */
-    border-radius: 12px !important;
-    
-    /* Чёткая золотистая неоновая рамка */
-    border: 2px solid #ffea00 !important;
-    background: #000 !important;
-    
-    /* 🔥 ЖЁЛТОЕ НЕОНОВОЕ СВЕЧЕНИЕ СЗАДИ */
-    box-shadow: 0 0 15px #ffea00, 
-                0 0 30px rgba(255, 234, 0, 0.7), 
+        #tab-eras div.eras-banner-box {
+            display: block !important;
+            width: 100% !important;
+            max-width: 380px !important;
+            /* 🔥 Физически компактный размер (эквивалент 800x450) */
+            aspect-ratio: 16 / 9 !important;
+            /* Четкие пропорции 800x450 */
+            height: auto !important;
+
+            /* Аккуратное скругление углов */
+            border-radius: 12px !important;
+
+            /* Чёткая золотистая неоновая рамка */
+            border: 2px solid #ffea00 !important;
+            background: #000 !important;
+
+            /* 🔥 ЖЁЛТОЕ НЕОНОВОЕ СВЕЧЕНИЕ СЗАДИ */
+            box-shadow: 0 0 15px #ffea00,
+                0 0 30px rgba(255, 234, 0, 0.7),
                 0 0 50px rgba(255, 180, 0, 0.45) !important;
-                
-    margin: 12px auto 20px auto !important;
-    overflow: hidden !important;       
-    position: relative !important;
-    padding: 0 !important;
-}
 
-#tab-eras div.eras-banner-box img.eras-banner-img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;      
-    display: block !important;
-    border-radius: 10px !important;
-}
+            margin: 12px auto 20px auto !important;
+            overflow: hidden !important;
+            position: relative !important;
+            padding: 0 !important;
+        }
+
+        #tab-eras div.eras-banner-box img.eras-banner-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+            border-radius: 10px !important;
+        }
 
 
-/* ====================================================
+        /* ====================================================
    🦾 2. ЭФФЕКТ ГИГАНТСКИХ РУК (ВЫЛЕТ ЗА ВСЕ ГРАНИЦЫ)
    ==================================================== */
 
-/* 🔥 ГЛАВНЫЙ ФИКС: Разрешаем вылет за пределы самой плашки */
-.era-flag-base {
-    overflow: visible !important; 
-    z-index: 1; /* Чтобы тени ложились красиво */
-}
+        /* 🔥 ГЛАВНЫЙ ФИКС: Разрешаем вылет за пределы самой плашки */
+        .era-flag-base {
+            overflow: visible !important;
+            z-index: 1;
+            /* Чтобы тени ложились красиво */
+        }
 
-/* Контейнеры иконок (круги-порталы) */
-.era-icon-2x, .era-icon-3x, .era-icon-4x {
-    overflow: visible !important;
-    position: relative;
-    z-index: 10;
-}
+        /* Контейнеры иконок (круги-порталы) */
+        .era-icon-2x,
+        .era-icon-3x,
+        .era-icon-4x {
+            overflow: visible !important;
+            position: relative;
+            z-index: 10;
+        }
 
-/* Общий стиль для всех вылетающих рук */
-.era-icon-img-burst {
-    object-fit: contain;
-    position: relative;
-    z-index: 50; /* Поверх всего */
-    filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.9));
-    transition: transform 0.3s ease;
-}
+        /* Общий стиль для всех вылетающих рук */
+        .era-icon-img-burst {
+            object-fit: contain;
+            position: relative;
+            z-index: 50;
+            /* Поверх всего */
+            filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.9));
+            transition: transform 0.3s ease;
+        }
 
-/* --- Масштабы вылета --- */
+        /* --- Масштабы вылета --- */
 
-/* Группа 1-20 (Взрывной масштаб) */
-.burst-1-20 {
-    transform: scale(2.3) translate3d(-2px, 0, 0);
-}
+        /* Группа 1-20 (Взрывной масштаб) */
+        .burst-1-20 {
+            transform: scale(2.3) translate3d(-2px, 0, 0);
+        }
 
-/* Группа 21-30 (Максимальная мощь) */
-.burst-21-30 {
-    transform: scale(2.5) translate3d(-5px, -5px, 0);
-}
+        /* Группа 21-30 (Максимальная мощь) */
+        .burst-21-30 {
+            transform: scale(2.5) translate3d(-5px, -5px, 0);
+        }
 
-/* 🔥 Группа 31-35 (ЭЛИТА: на 20% меньше 30-й, как ты и просил) */
-.burst-elite-31-35 {
-    transform: scale(2.0) translate3d(-3px, -3px, 0);
-    filter: drop-shadow(0 12px 20px rgba(255, 0, 85, 0.6)) !important;
-}
+        /* 🔥 Группа 31-35 (ЭЛИТА: на 20% меньше 30-й, как ты и просил) */
+        .burst-elite-31-35 {
+            transform: scale(2.0) translate3d(-3px, -3px, 0);
+            filter: drop-shadow(0 12px 20px rgba(255, 0, 85, 0.6)) !important;
+        }
 
-/* Сдвигаем текст вправо, чтобы огромные руки его не перекрывали */
-.era-flag-base > div:last-child {
-    padding-left: 35px !important;
-}
+        /* Сдвигаем текст вправо, чтобы огромные руки его не перекрывали */
+        .era-flag-base>div:last-child {
+            padding-left: 35px !important;
+        }
 
 
-/* ====================================================
+        /* ====================================================
    🎯 1. БАННЕР ЭПОХ: ЧЕТКО 800x450 + ЗОЛОТАЯ РАМКА + СВЕЧЕНИЕ
    ==================================================== */
-.unique-box-fix {
-    display: block !important;
-    width: 800px !important;             /* 🔥 Ровно 800px физической ширины */
-    max-width: 90vw !important;          /* Защита для узких экранов */
-    height: 450px !important;            /* 🔥 Ровно 450px высоты */
-    aspect-ratio: 16 / 9 !important;
-    
-    border-radius: 16px !important;
-    border: 2px solid #ffea00 !important;
-    background: #000 !important;
-    
-    /* Сочное неоновое свечение назад */
-    box-shadow: 0 0 15px #ffea00, 
-                0 0 35px rgba(255, 234, 0, 0.65), 
+        .unique-box-fix {
+            display: block !important;
+            width: 800px !important;
+            /* 🔥 Ровно 800px физической ширины */
+            max-width: 90vw !important;
+            /* Защита для узких экранов */
+            height: 450px !important;
+            /* 🔥 Ровно 450px высоты */
+            aspect-ratio: 16 / 9 !important;
+
+            border-radius: 16px !important;
+            border: 2px solid #ffea00 !important;
+            background: #000 !important;
+
+            /* Сочное неоновое свечение назад */
+            box-shadow: 0 0 15px #ffea00,
+                0 0 35px rgba(255, 234, 0, 0.65),
                 0 0 60px rgba(255, 180, 0, 0.4) !important;
-                
-    margin: 15px auto 25px auto !important;
-    overflow: hidden !important;
-    position: relative !important;
-    padding: 0 !important;
-}
 
-.unique-banner-fix {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    display: block !important;
-    border-radius: 14px !important;
-}
+            margin: 15px auto 25px auto !important;
+            overflow: hidden !important;
+            position: relative !important;
+            padding: 0 !important;
+        }
 
-/* ====================================================
+        .unique-banner-fix {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+            border-radius: 14px !important;
+        }
+
+        /* ====================================================
    🛡️ 2. ВОЗВРАТ РАЗМЕРОВ И ЦЕНТРИРОВАНИЕ ДЛЯ АРЕНЫ И ЛОГА
    ==================================================== */
-#tab-fights img,
-#tab-minigame img,
-#sec-fights img,
-#sec-minigame img,
-/* Добавим на всякий случай обертки, если картинки лежат в них */
-.fights-banner-img,
-.arena-banner-img {
-    display: block !important;        /* Делаем блоком, чтобы работал margin auto */
-    margin-left: auto !important;     /* Центрируем по горизонтали */
-    margin-right: auto !important;    /* Центрируем по горизонтали */
-    max-width: 650px !important;      /* Ограничиваем ширину, чтобы не раздувало */
-    width: 95% !important;            /* Для адаптивности на мобилках */
-    height: auto !important;
-    object-fit: contain !important;
-    border-radius: 14px;
-    margin-top: 10px;
-    margin-bottom: 20px;              /* Чтобы не прилипали к тексту снизу */
-}
+        #tab-fights img,
+        #tab-minigame img,
+        #sec-fights img,
+        #sec-minigame img,
+        /* Добавим на всякий случай обертки, если картинки лежат в них */
+        .fights-banner-img,
+        .arena-banner-img {
+            display: block !important;
+            /* Делаем блоком, чтобы работал margin auto */
+            margin-left: auto !important;
+            /* Центрируем по горизонтали */
+            margin-right: auto !important;
+            /* Центрируем по горизонтали */
+            max-width: 650px !important;
+            /* Ограничиваем ширину, чтобы не раздувало */
+            width: 95% !important;
+            /* Для адаптивности на мобилках */
+            height: auto !important;
+            object-fit: contain !important;
+            border-radius: 14px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            /* Чтобы не прилипали к тексту снизу */
+        }
 
-/* Если заголовки в этих вкладках тоже съехали, центрируем и их */
-#tab-fights, #tab-minigame, #sec-fights, #sec-minigame {
-    text-align: center !important;
-}
+        /* Если заголовки в этих вкладках тоже съехали, центрируем и их */
+        #tab-fights,
+        #tab-minigame,
+        #sec-fights,
+        #sec-minigame {
+            text-align: center !important;
+        }
 
 
 
 
-/* ====================================================
+        /* ====================================================
    🎯 АДАПТИВНЫЙ БАННЕР ЭПОХ (ПК: 800x450 / МОБИЛКИ: 100%)
    ==================================================== */
-.unique-box-fix {
-    display: block !important;
-    width: 800px !important;             /* Базовая ширина для ПК */
-    max-width: 100% !important;          /* 🔥 Главное правило адаптива: на мобилке сжимается по ширине экрана */
-    height: auto !important;
-    aspect-ratio: 16 / 9 !important;     /* Жестко держит пропорции 16:9 на любых устройствах */
-    
-    border-radius: 14px !important;
-    border: 2px solid #ffea00 !important;
-    background: #000 !important;
-    
-    /* Сочное неоновое свечение */
-    box-shadow: 0 0 15px #ffea00, 
-                0 0 35px rgba(255, 234, 0, 0.65), 
+        .unique-box-fix {
+            display: block !important;
+            width: 800px !important;
+            /* Базовая ширина для ПК */
+            max-width: 100% !important;
+            /* 🔥 Главное правило адаптива: на мобилке сжимается по ширине экрана */
+            height: auto !important;
+            aspect-ratio: 16 / 9 !important;
+            /* Жестко держит пропорции 16:9 на любых устройствах */
+
+            border-radius: 14px !important;
+            border: 2px solid #ffea00 !important;
+            background: #000 !important;
+
+            /* Сочное неоновое свечение */
+            box-shadow: 0 0 15px #ffea00,
+                0 0 35px rgba(255, 234, 0, 0.65),
                 0 0 60px rgba(255, 180, 0, 0.4) !important;
-                
-    margin: 15px auto 25px auto !important;
-    overflow: hidden !important;
-    position: relative !important;
-    padding: 0 !important;
-}
 
-.unique-banner-fix {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;        /* Заполняет весь блок без искажений и сжатий */
-    display: block !important;
-    border-radius: 12px !important;
-}
+            margin: 15px auto 25px auto !important;
+            overflow: hidden !important;
+            position: relative !important;
+            padding: 0 !important;
+        }
 
-/* 📱 МОБИЛЬНЫЙ УТИЛИТАРНЫЙ КАСКАД (Экраны уже 850px) */
-@media screen and (max-width: 850px) {
-    .unique-box-fix {
-        width: 92% !important;           /* Оставляет аккуратные отступы по бокам экрана телефона */
-        margin: 10px auto 20px auto !important;
-        box-shadow: 0 0 10px #ffea00, 
-                    0 0 20px rgba(255, 234, 0, 0.5) !important; /* Чуть мягче свечение для мобилок */
-    }
-}
+        .unique-banner-fix {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            /* Заполняет весь блок без искажений и сжатий */
+            display: block !important;
+            border-radius: 12px !important;
+        }
+
+        /* 📱 МОБИЛЬНЫЙ УТИЛИТАРНЫЙ КАСКАД (Экраны уже 850px) */
+        @media screen and (max-width: 850px) {
+            .unique-box-fix {
+                width: 92% !important;
+                /* Оставляет аккуратные отступы по бокам экрана телефона */
+                margin: 10px auto 20px auto !important;
+                box-shadow: 0 0 10px #ffea00,
+                    0 0 20px rgba(255, 234, 0, 0.5) !important;
+                /* Чуть мягче свечение для мобилок */
+            }
+        }
 
 
-/* ====================================================
+        /* ====================================================
    🦾 СТИКЕР РУКИ НА КНОПКЕ ЭПОХ
    ==================================================== */
-.eras-glider-sticker {
-    position: absolute !important;
-    /* Размещаем в верхнем правом углу */
-    top: -14px !important; 
-    right: -10px !important;
-    
-    width: 32px !important;
-    height: 32px !important;
-    object-fit: contain !important;
-    
-    /* 🔥 Эффект наклейки: наклон под углом + 3D тень */
-    transform: rotate(18deg) !important;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.7)) !important;
-    
-    z-index: 100 !important;
-    pointer-events: none !important; /* Чтобы не мешала нажимать на кнопку */
-    transition: transform 0.2s ease !important;
-}
+        .eras-glider-sticker {
+            position: absolute !important;
+            /* Размещаем в верхнем правом углу */
+            top: -14px !important;
+            right: -10px !important;
 
-/* Эффект при наведении на саму кнопку — наклейка чуть-чуть дёргается */
-.eras-neon-glider:hover .eras-glider-sticker {
-    transform: rotate(10deg) scale(1.1) !important;
-}
+            width: 32px !important;
+            height: 32px !important;
+            object-fit: contain !important;
 
+            /* 🔥 Эффект наклейки: наклон под углом + 3D тень */
+            transform: rotate(18deg) !important;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.7)) !important;
 
+            z-index: 100 !important;
+            pointer-events: none !important;
+            /* Чтобы не мешала нажимать на кнопку */
+            transition: transform 0.2s ease !important;
+        }
 
+        /* Эффект при наведении на саму кнопку — наклейка чуть-чуть дёргается */
+        .eras-neon-glider:hover .eras-glider-sticker {
+            transform: rotate(10deg) scale(1.1) !important;
+        }
 
 
-/* ====================================================
+
+
+
+        /* ====================================================
    🎨 ЖЕЛЕЗОБЕТОННЫЙ РЕСТАЙЛИНГ КНОПОК САЙДБАРА
    ==================================================== */
 
-/* Общие правки для всех кнопок (убираем старые рамки, если мешают) */
-.nav-btn {
-    position: relative !important;
-    overflow: visible !important;
-    border: 1px solid rgba(255,255,255,0.1) !important;
-    transition: all 0.2s ease !important;
-    color: #fff !important;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
-}
+        /* Общие правки для всех кнопок (убираем старые рамки, если мешают) */
+        .nav-btn {
+            position: relative !important;
+            overflow: visible !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            transition: all 0.2s ease !important;
+            color: #fff !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+        }
 
-/* 🏆 ЛИДЕРБОРД: Золото + Оранжевая полоса */
-.nav-leaderboard {
-    background: linear-gradient(135deg, #ffd700, #ff8c00) !important;
-    border-bottom: 4px solid #e65100 !important; /* Оранжевая полоска */
-}
+        /* 🏆 ЛИДЕРБОРД: Золото + Оранжевая полоса */
+        .nav-leaderboard {
+            background: linear-gradient(135deg, #ffd700, #ff8c00) !important;
+            border-bottom: 4px solid #e65100 !important;
+            /* Оранжевая полоска */
+        }
 
-/* ⚡️ ОПЫТ И ТРЕНИРОВКИ: Оранжевый + Красная полоса */
-.nav-exp {
-    background: linear-gradient(135deg, #ff8c00, #ff4500) !important;
-    border-bottom: 4px solid #b71c1c !important; /* Красная полоска */
-}
+        /* ⚡️ ОПЫТ И ТРЕНИРОВКИ: Оранжевый + Красная полоса */
+        .nav-exp {
+            background: linear-gradient(135deg, #ff8c00, #ff4500) !important;
+            border-bottom: 4px solid #b71c1c !important;
+            /* Красная полоска */
+        }
 
-/* 👤 МОЙ ПРОФИЛЬ: Зеленый + Темно-зеленая полоса */
-.nav-profile {
-    background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
-    border-bottom: 4px solid #1b5e20 !important; /* Темно-зеленая полоска */
-}
+        /* 👤 МОЙ ПРОФИЛЬ: Зеленый + Темно-зеленая полоса */
+        .nav-profile {
+            background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
+            border-bottom: 4px solid #1b5e20 !important;
+            /* Темно-зеленая полоска */
+        }
 
-/* ⚔️ ЛОГ БОЁВ: Серый + Красная полоса */
-.nav-fights {
-    background: linear-gradient(135deg, #757575, #424242) !important;
-    border-bottom: 4px solid #d32f2f !important; /* Красная полоска */
-}
+        /* ⚔️ ЛОГ БОЁВ: Серый + Красная полоса */
+        .nav-fights {
+            background: linear-gradient(135deg, #757575, #424242) !important;
+            border-bottom: 4px solid #d32f2f !important;
+            /* Красная полоска */
+        }
 
-/* 🛒 МАГАЗИН: Золото + Золотая полоса (как база) */
-.nav-shop {
-    background: linear-gradient(135deg, #ffcc00, #ffaa00) !important;
-    border-bottom: 4px solid #ff8800 !important;
-}
+        /* 🛒 МАГАЗИН: Золото + Золотая полоса (как база) */
+        .nav-shop {
+            background: linear-gradient(135deg, #ffcc00, #ffaa00) !important;
+            border-bottom: 4px solid #ff8800 !important;
+        }
 
-/* 🪙 СТИКЕР МОНЕТКИ В МАГАЗИНЕ */
-.btn-sticker-coin {
-    position: absolute !important;
-    top: -12px !important;
-    right: -10px !important;
-    width: 28px !important;
-    height: 28px !important;
-    object-fit: contain !important;
-    transform: rotate(15deg) !important;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) !important;
-    z-index: 10 !important;
-    pointer-events: none !important;
-}
+        /* 🪙 СТИКЕР МОНЕТКИ В МАГАЗИНЕ */
+        .btn-sticker-coin {
+            position: absolute !important;
+            top: -12px !important;
+            right: -10px !important;
+            width: 28px !important;
+            height: 28px !important;
+            object-fit: contain !important;
+            transform: rotate(15deg) !important;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) !important;
+            z-index: 10 !important;
+            pointer-events: none !important;
+        }
 
-/* Эффект при нажатии (кнопка чуть "проседает") */
-.nav-btn:active {
-    transform: translateY(2px) !important;
-    border-bottom-width: 1px !important;
-}
+        /* Эффект при нажатии (кнопка чуть "проседает") */
+        .nav-btn:active {
+            transform: translateY(2px) !important;
+            border-bottom-width: 1px !important;
+        }
 
-/* Подсветка при наведении */
-.nav-btn:hover {
-    filter: brightness(1.1) !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
-}
-/* ====================================================
+        /* Подсветка при наведении */
+        .nav-btn:hover {
+            filter: brightness(1.1) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* ====================================================
    💥 БРОНЕБОЙНЫЙ ОВЕРРАЙД: СНОСИМ ОРЕХОВУЮ ТЕМУ НА КНОПКАХ
    ==================================================== */
 
-/* 1. Базовый сброс жестких фонов сайдбара */
-html body .nav-menu button.nav-btn,
-html body nav.nav-menu .nav-btn {
-    position: relative !important;
-    overflow: visible !important;
-    color: #ffffff !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7) !important;
-    transition: transform 0.15s ease, filter 0.15s ease !important;
+        /* 1. Базовый сброс жестких фонов сайдбара */
+        html body .nav-menu button.nav-btn,
+        html body nav.nav-menu .nav-btn {
+            position: relative !important;
+            overflow: visible !important;
+            color: #ffffff !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7) !important;
+            transition: transform 0.15s ease, filter 0.15s ease !important;
+        }
+
+        /* 🏆 ЛИДЕРБОРД: Золотая заливка + Оранжевая полоса */
+        html body .nav-menu button.nav-btn.nav-leaderboard,
+        html body .nav-menu button.nav-btn.nav-leaderboard.active,
+        html body button.nav-leaderboard {
+            background: linear-gradient(180deg, #FF0000 0%, #e88c00 100%) !important;
+            border: 1.5px solid #ffa200 !important;
+            border-bottom: 5px solid #b24700 !important;
+            /* Толстая оранжевая полоса */
+            box-shadow: 0 4px 15px rgba(232, 140, 0, 0.35) !important;
+        }
+
+        /* ⚡️ ОПЫТ И ТРЕНИРОВКИ: Оранжевая заливка + Красная полоса */
+        html body .nav-menu button.nav-btn.nav-exp,
+        html body .nav-menu button.nav-btn.nav-exp.active,
+        html body button.nav-exp {
+            background: linear-gradient(180deg, #ff7b00 0%, #d84315 100%) !important;
+            border: 1.5px solid #ff5722 !important;
+            border-bottom: 5px solid #8e0000 !important;
+            /* Красная полоса */
+            box-shadow: 0 4px 15px rgba(216, 67, 21, 0.35) !important;
+        }
+
+        /* 👤 МОЙ ПРОФИЛЬ: Зелёная заливка + Тёмно-зелёная полоса */
+        html body .nav-menu button.nav-btn.nav-profile,
+        html body .nav-menu button.nav-btn.nav-profile.active,
+        html body button.nav-profile {
+            background: linear-gradient(180deg, #7FFF00 0%, #157f73 100%) !important;
+            border: 1.5px solid #20a396 !important;
+            border-bottom: 5px solid #09473f !important;
+            /* Тёмно-зелёная полоса */
+            box-shadow: 0 4px 15px rgba(21, 127, 115, 0.35) !important;
+        }
+
+        /* ⚔️ ЛОГ БОЁВ И ВЫЗОВЫ: Серая заливка + Красная полоса */
+        html body .nav-menu button.nav-btn.nav-fights,
+        html body .nav-menu button.nav-btn.nav-fights.active,
+        html body button.nav-fights {
+            background: linear-gradient(180deg, #4f5d75 0%, #2d3142 100%) !important;
+            border: 1.5px solid #6b7a99 !important;
+            border-bottom: 5px solid #E6E6FA !important;
+            /* Насыщенная красная полоса */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        /* 🛒 МАГАЗИН: Золотая заливка + Оранжево-золотая полоса */
+        html body .nav-menu button.nav-btn.nav-shop,
+        html body .nav-menu button.nav-btn.nav-shop.active,
+        html body button.nav-shop {
+            background: linear-gradient(180deg, #FFD700 0%, #f4a261 100%) !important;
+            border: 1.5px solid #f9bc60 !important;
+            border-bottom: 5px solid #cc6600 !important;
+            box-shadow: 0 4px 15px rgba(244, 162, 97, 0.35) !important;
+        }
+
+        /* 🪙 СТИКЕР МОНЕТКИ В ПРАВОМ ВЕРХНЕМ УГЛУ МАГАЗИНА */
+        .btn-sticker-coin {
+            position: absolute !important;
+            top: -12px !important;
+            right: -10px !important;
+            width: 30px !important;
+            height: 30px !important;
+            object-fit: contain !important;
+            transform: rotate(18deg) !important;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6)) !important;
+            z-index: 50 !important;
+            pointer-events: none !important;
+            display: block !important;
+        }
+
+        /* Реакция на нажатие (3D-клик) */
+        html body .nav-menu button.nav-btn:active {
+            transform: translateY(2px) !important;
+            border-bottom-width: 2px !important;
+        }
+
+        html body .nav-menu button.nav-btn:hover {
+            filter: brightness(1.12) !important;
+        }
+
+
+        /* ====================================================
+   🟣 АРЕНА ПРОНАТОРОВ: Фиолетовая заливка
+   ==================================================== */
+        html body .nav-menu button.nav-btn.nav-arena,
+        html body .nav-menu button.nav-btn.nav-arena.active,
+        html body button.nav-arena {
+            background: linear-gradient(180deg, #9333ea 0%, #581c87 100%) !important;
+            border: 1.5px solid #a855f7 !important;
+            border-bottom: 5px solid #3b0764 !important;
+            /* Тёмно-фиолетовая полоса */
+            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.35) !important;
+            color: #f3e8ff !important;
+        }
+
+
+        /* ====================================================
+   🔥 ИНДИКАТОР АКТИВНОЙ ВКЛАДКИ (ПУЛЬСАЦИЯ И НЕОН)
+   ==================================================== */
+
+        @keyframes activeNavGlow {
+            0% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+                filter: brightness(1.25);
+            }
+
+            100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+        }
+
+        /* Общее правило для ЛЮБОЙ активной кнопки */
+        html body .nav-menu button.nav-btn.active {
+            animation: activeNavGlow 2s ease-in-out infinite !important;
+            z-index: 5 !important;
+        }
+
+        /* 🏆 Лидерборд (Активный: Золотое свечение) */
+        html body .nav-menu button.nav-btn.nav-leaderboard.active {
+            box-shadow: 0 0 20px #ffb703, inset 0 0 10px rgba(255, 183, 3, 0.5) !important;
+        }
+
+        /* ⚡️ Опыт и Тренировки (Активный: Оранжевое свечение) */
+        html body .nav-menu button.nav-btn.nav-exp.active {
+            box-shadow: 0 0 20px #ff7b00, inset 0 0 10px rgba(255, 123, 0, 0.5) !important;
+        }
+
+        /* 🎮 Арена пронаторов (Активный: Фиолетовое свечение) */
+        html body .nav-menu button.nav-btn.nav-arena.active {
+            box-shadow: 0 0 20px #a855f7, inset 0 0 10px rgba(168, 85, 247, 0.5) !important;
+        }
+
+        /* 👤 Мой профиль (Активный: Зелёное свечение) */
+        html body .nav-menu button.nav-btn.nav-profile.active {
+            box-shadow: 0 0 20px #2ec4b6, inset 0 0 10px rgba(46, 196, 182, 0.5) !important;
+        }
+
+        /* ⚔️ Лог боёв (Активный: Сине-красное/стальное свечение) */
+        html body .nav-menu button.nav-btn.nav-fights.active {
+            box-shadow: 0 0 20px #6b7a99, inset 0 0 10px rgba(107, 122, 153, 0.5) !important;
+        }
+
+        /* 🛒 Магазин (Активный: Жёлто-песочное свечение) */
+        html body .nav-menu button.nav-btn.nav-shop.active {
+            box-shadow: 0 0 20px #ffd166, inset 0 0 10px rgba(255, 209, 102, 0.5) !important;
+        }
+
+
+
+        /* ====================================================
+   🚀 БЕЗОПАСНАЯ ТУРБО-ОПТИМИЗАЦИЯ (ПЛАВНОСТЬ БЕЗ ОБРЕЗКИ 3D)
+   ==================================================== */
+
+        /* 1. Плавный физический скролл */
+        html,
+        body {
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        /* 2. Чистая разгрузка процессора при анимации волны */
+        .era-flag-base {
+            /* 🔥 УБРАЛИ content-visibility! Теперь руки снова на 100% свободны */
+            overflow: visible !important;
+
+            /* Подсказываем браузеру заранее подготовить видеокарту к покачиванию */
+            will-change: transform !important;
+
+            /* Включаем легкое 3D-ускорение без создания жестких границ обрезки */
+            transform-style: preserve-3d !important;
+            perspective: 1000px !important;
+        }
+
+        /* 3. Оптимизация тяжелых вылетающих рук */
+        .era-icon-img-burst {
+            /* Разгружаем обсчет физики скролла: мышь больше не цепляется за огромные руки */
+            pointer-events: none !important;
+
+            /* Плавность рендеринга на GPU */
+            will-change: transform !important;
+            transform-style: preserve-3d !important;
+        }
+
+        /* 4. Разгрузка парящих кнопок в меню (плавность дрейфа) */
+        .music-neon-toggle,
+        .eras-neon-glider,
+        .unique-box-fix {
+            will-change: transform !important;
+            transform-style: preserve-3d !important;
+        }
+
+
+
+
+
+
+        /* ====================================================
+   📺 УЛИЧНЫЙ КИБЕР-БИЛБОРД: СМЕНА СЛАЙДОВ (CROSSFADE)
+   ==================================================== */
+        .billboard-box {
+            position: relative !important;
+            overflow: hidden !important;
+            background: #050508 !important;
+        }
+
+        /* Общий стиль для обоих слайдов */
+        .billboard-slide {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 12px !important;
+
+            /* Плавность смены прозрачности и легкий зум */
+            opacity: 0;
+            transform: scale(1.02);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s ease !important;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Активный слайд, который сейчас виден */
+        .billboard-slide.active-slide {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        /* Легкая неоновая полоска сканирования уличного экрана */
+        .billboard-scanline {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(255, 234, 0, 0.12), transparent);
+            z-index: 5;
+            pointer-events: none;
+            animation: billboardScan 6s linear infinite;
+        }
+
+        @keyframes billboardScan {
+            0% {
+                top: -100%;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+
+        /* ====================================================
+   🎯 ФИКС РАЗМЕРА 3D-ВИТРИНЫ ЛИДЕРБОРДА (КОМПАКТНЫЙ 16:9)
+   ==================================================== */
+
+        /* Внешняя сцена с перспективой */
+        #tab-leaderboard .lb-showcase-viewport,
+        .lb-showcase-viewport {
+            perspective: 1000px !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100% !important;
+            margin: 10px auto 20px auto !important;
+            overflow: visible !important;
+        }
+
+        /* 3D-карта со СТРОГИМ ограничением размера */
+        #tab-leaderboard .lb-showcase-card,
+        .lb-showcase-card {
+            position: relative !important;
+            width: 100% !important;
+            max-width: 650px !important;
+            /* 🔥 ФИКС: Зажали ширину, чтобы не раздувало на весь экран! */
+            aspect-ratio: 16 / 9 !important;
+            /* Четкие горизонтальные пропорции */
+            height: auto !important;
+
+            border-radius: 14px !important;
+            border: 2px solid #ffcc00 !important;
+            background: #06050a !important;
+
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.45),
+                0 15px 35px rgba(0, 0, 0, 0.85),
+                inset 0 0 15px rgba(255, 204, 0, 0.15) !important;
+
+            overflow: hidden !important;
+            transform-style: preserve-3d !important;
+            will-change: transform;
+            animation: lbHolofloat 7s ease-in-out infinite alternate !important;
+        }
+
+        /* 3D-парение */
+        @keyframes lbHolofloat {
+            0% {
+                transform: rotateX(2.5deg) rotateY(-3.5deg) translateY(0px);
+            }
+
+            33% {
+                transform: rotateX(-2deg) rotateY(-1.5deg) translateY(-4px);
+            }
+
+            66% {
+                transform: rotateX(-3deg) rotateY(3deg) translateY(-2px);
+            }
+
+            100% {
+                transform: rotateX(2deg) rotateY(3.5deg) translateY(3px);
+            }
+        }
+
+        /* Картинки слайдов внутри */
+        .lb-slide {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 12px !important;
+            opacity: 0;
+            transform: scale(1.02);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s ease !important;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .lb-slide.active-slide {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        /* Бегущий блик */
+        .lb-glass-glare {
+            position: absolute;
+            top: -60%;
+            left: -120%;
+            width: 80%;
+            height: 220%;
+            background: linear-gradient(115deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.03) 40%,
+                    rgba(255, 255, 255, 0.25) 50%,
+                    rgba(255, 204, 0, 0.15) 55%,
+                    transparent 65%);
+            transform: rotate(20deg);
+            z-index: 5;
+            pointer-events: none;
+            animation: lbGlassSweep 5.5s ease-in-out infinite;
+        }
+
+        @keyframes lbGlassSweep {
+            0% {
+                left: -120%;
+            }
+
+            45%,
+            100% {
+                left: 160%;
+            }
+        }
+
+
+
+        /* ====================================================
+   👁️ GOD MODE: 3D ИНТЕРФЕЙС АДМИНКИ
+   ==================================================== */
+
+.god-modal-box {
+    background: linear-gradient(145deg, #0f0a0d, #050505) !important;
+    border: 2px solid #ff9f00 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 40px rgba(255, 159, 0, 0.25), inset 0 0 15px rgba(0,0,0,0.5) !important;
+    padding: 25px !important;
+    width: 95% !important;
+    max-width: 850px !important;
+    color: #fff !important;
 }
 
-/* 🏆 ЛИДЕРБОРД: Золотая заливка + Оранжевая полоса */
-html body .nav-menu button.nav-btn.nav-leaderboard,
-html body .nav-menu button.nav-btn.nav-leaderboard.active,
-html body button.nav-leaderboard {
-    background: linear-gradient(180deg, #FF0000 0%, #e88c00 100%) !important;
-    border: 1.5px solid #ffa200 !important;
-    border-bottom: 5px solid #b24700 !important; /* Толстая оранжевая полоса */
-    box-shadow: 0 4px 15px rgba(232, 140, 0, 0.35) !important;
+.god-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 159, 0, 0.2);
+    padding-bottom: 10px;
 }
 
-/* ⚡️ ОПЫТ И ТРЕНИРОВКИ: Оранжевая заливка + Красная полоса */
-html body .nav-menu button.nav-btn.nav-exp,
-html body .nav-menu button.nav-btn.nav-exp.active,
-html body button.nav-exp {
-    background: linear-gradient(180deg, #ff7b00 0%, #d84315 100%) !important;
-    border: 1.5px solid #ff5722 !important;
-    border-bottom: 5px solid #8e0000 !important; /* Красная полоса */
-    box-shadow: 0 4px 15px rgba(216, 67, 21, 0.35) !important;
+.god-title {
+    font-family: 'Cinzel', serif;
+    color: #ff9f00;
+    margin: 0;
+    letter-spacing: 2px;
 }
 
-/* 👤 МОЙ ПРОФИЛЬ: Зелёная заливка + Тёмно-зелёная полоса */
-html body .nav-menu button.nav-btn.nav-profile,
-html body .nav-menu button.nav-btn.nav-profile.active,
-html body button.nav-profile {
-    background: linear-gradient(180deg, #7FFF00 0%, #157f73 100%) !important;
-    border: 1.5px solid #20a396 !important;
-    border-bottom: 5px solid #09473f !important; /* Тёмно-зелёная полоса */
-    box-shadow: 0 4px 15px rgba(21, 127, 115, 0.35) !important;
+.god-status-glow {
+    font-size: 0.7rem;
+    color: #00ff66;
+    text-shadow: 0 0 8px #00ff66;
+    font-weight: 900;
 }
 
-/* ⚔️ ЛОГ БОЁВ И ВЫЗОВЫ: Серая заливка + Красная полоса */
-html body .nav-menu button.nav-btn.nav-fights,
-html body .nav-menu button.nav-btn.nav-fights.active,
-html body button.nav-fights {
-    background: linear-gradient(180deg, #4f5d75 0%, #2d3142 100%) !important;
-    border: 1.5px solid #6b7a99 !important;
-    border-bottom: 5px solid #E6E6FA !important; /* Насыщенная красная полоса */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+/* Сетка игроков */
+.god-players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 10px;
 }
 
-/* 🛒 МАГАЗИН: Золотая заливка + Оранжево-золотая полоса */
-html body .nav-menu button.nav-btn.nav-shop,
-html body .nav-menu button.nav-btn.nav-shop.active,
-html body button.nav-shop {
-    background: linear-gradient(180deg, #FFD700 0%, #f4a261 100%) !important;
-    border: 1.5px solid #f9bc60 !important;
-    border-bottom: 5px solid #cc6600 !important;
-    box-shadow: 0 4px 15px rgba(244, 162, 97, 0.35) !important;
+.god-player-mini-card {
+    background: #15101a;
+    border: 1.5px solid #2d2438;
+    border-bottom: 4px solid #000;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-/* 🪙 СТИКЕР МОНЕТКИ В ПРАВОМ ВЕРХНЕМ УГЛУ МАГАЗИНА */
-.btn-sticker-coin {
-    position: absolute !important;
-    top: -12px !important;
-    right: -10px !important;
-    width: 30px !important;
-    height: 30px !important;
-    object-fit: contain !important;
-    transform: rotate(18deg) !important;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6)) !important;
-    z-index: 50 !important;
-    pointer-events: none !important;
-    display: block !important;
+.god-player-mini-card:hover {
+    border-color: #ff9f00;
+    transform: translateY(-3px);
 }
 
-/* Реакция на нажатие (3D-клик) */
-html body .nav-menu button.nav-btn:active {
+.god-mini-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1.5px solid #ff9f00;
+}
+
+/* Редактор */
+.god-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255,159,0,0.1);
+}
+
+.section-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #ff9f00;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.god-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.god-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.god-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.god-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.god-input-wrap { display: flex; flex-direction: column; gap: 4px; }
+.god-input-wrap label { font-size: 0.65rem; color: #aaa; }
+.god-input-wrap input, .god-input-wrap textarea {
+    background: #000;
+    border: 1.2px solid #333;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+/* 🧱 КНОПКИ 3D */
+.god-btn-3d {
+    border: none;
+    font-family: 'Comfortaa', cursive;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.1s;
+}
+
+.btn-back {
+    background: #333 !important;
+    border-bottom: 4px solid #111 !important;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.btn-save {
+    background: linear-gradient(to bottom, #ff9f00, #e67e22) !important;
+    border-bottom: 5px solid #a04000 !important;
+    color: #000;
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.btn-close-main {
+    background: #e74c3c !important;
+    border-bottom: 5px solid #962d22 !important;
+    color: #fff;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.god-btn-3d:active {
+    transform: translateY(3px);
+    border-bottom-width: 1px !important;
+}
+
+.gold-text { color: #ffd700 !important; }
+
+
+
+/* 🏛️ ПАНЕЛЬ АРХИТЕКТОРА В САЙДБАРЕ */
+html body .nav-menu button#god-btn {
+    background: linear-gradient(180deg, #2b1f0b 0%, #160f04 100%) !important;
+    border: 1.5px solid #d4af37 !important;
+    border-bottom: 5px solid #8c6d1f !important;
+    color: #ffd700 !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25) !important;
+}
+
+html body .nav-menu button#god-btn:active {
     transform: translateY(2px) !important;
     border-bottom-width: 2px !important;
 }
 
-html body .nav-menu button.nav-btn:hover {
-    filter: brightness(1.12) !important;
-}
-
 
 /* ====================================================
-   🟣 АРЕНА ПРОНАТОРОВ: Фиолетовая заливка
+   📜 ФИКС СКРОЛЛА ПАНЕЛИ АРХИТЕКТОРА
    ==================================================== */
-html body .nav-menu button.nav-btn.nav-arena,
-html body .nav-menu button.nav-btn.nav-arena.active,
-html body button.nav-arena {
-    background: linear-gradient(180deg, #9333ea 0%, #581c87 100%) !important;
-    border: 1.5px solid #a855f7 !important;
-    border-bottom: 5px solid #3b0764 !important; /* Тёмно-фиолетовая полоса */
-    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.35) !important;
-    color: #f3e8ff !important;
-}
-
-
-/* ====================================================
-   🔥 ИНДИКАТОР АКТИВНОЙ ВКЛАДКИ (ПУЛЬСАЦИЯ И НЕОН)
-   ==================================================== */
-
-@keyframes activeNavGlow {
-    0% { transform: scale(1); filter: brightness(1); }
-    50% { transform: scale(1.03); filter: brightness(1.25); }
-    100% { transform: scale(1); filter: brightness(1); }
-}
-
-/* Общее правило для ЛЮБОЙ активной кнопки */
-html body .nav-menu button.nav-btn.active {
-    animation: activeNavGlow 2s ease-in-out infinite !important;
-    z-index: 5 !important;
-}
-
-/* 🏆 Лидерборд (Активный: Золотое свечение) */
-html body .nav-menu button.nav-btn.nav-leaderboard.active {
-    box-shadow: 0 0 20px #ffb703, inset 0 0 10px rgba(255, 183, 3, 0.5) !important;
-}
-
-/* ⚡️ Опыт и Тренировки (Активный: Оранжевое свечение) */
-html body .nav-menu button.nav-btn.nav-exp.active {
-    box-shadow: 0 0 20px #ff7b00, inset 0 0 10px rgba(255, 123, 0, 0.5) !important;
-}
-
-/* 🎮 Арена пронаторов (Активный: Фиолетовое свечение) */
-html body .nav-menu button.nav-btn.nav-arena.active {
-    box-shadow: 0 0 20px #a855f7, inset 0 0 10px rgba(168, 85, 247, 0.5) !important;
-}
-
-/* 👤 Мой профиль (Активный: Зелёное свечение) */
-html body .nav-menu button.nav-btn.nav-profile.active {
-    box-shadow: 0 0 20px #2ec4b6, inset 0 0 10px rgba(46, 196, 182, 0.5) !important;
-}
-
-/* ⚔️ Лог боёв (Активный: Сине-красное/стальное свечение) */
-html body .nav-menu button.nav-btn.nav-fights.active {
-    box-shadow: 0 0 20px #6b7a99, inset 0 0 10px rgba(107, 122, 153, 0.5) !important;
-}
-
-/* 🛒 Магазин (Активный: Жёлто-песочное свечение) */
-html body .nav-menu button.nav-btn.nav-shop.active {
-    box-shadow: 0 0 20px #ffd166, inset 0 0 10px rgba(255, 209, 102, 0.5) !important;
-}
-
-
-
-/* ====================================================
-   🚀 БЕЗОПАСНАЯ ТУРБО-ОПТИМИЗАЦИЯ (ПЛАВНОСТЬ БЕЗ ОБРЕЗКИ 3D)
-   ==================================================== */
-
-/* 1. Плавный физический скролл */
-html, body {
-    scroll-behavior: smooth !important;
-    -webkit-overflow-scrolling: touch !important;
-}
-
-/* 2. Чистая разгрузка процессора при анимации волны */
-.era-flag-base {
-    /* 🔥 УБРАЛИ content-visibility! Теперь руки снова на 100% свободны */
-    overflow: visible !important; 
-    
-    /* Подсказываем браузеру заранее подготовить видеокарту к покачиванию */
-    will-change: transform !important;
-    
-    /* Включаем легкое 3D-ускорение без создания жестких границ обрезки */
-    transform-style: preserve-3d !important;
-    perspective: 1000px !important;
-}
-
-/* 3. Оптимизация тяжелых вылетающих рук */
-.era-icon-img-burst {
-    /* Разгружаем обсчет физики скролла: мышь больше не цепляется за огромные руки */
-    pointer-events: none !important;
-    
-    /* Плавность рендеринга на GPU */
-    will-change: transform !important;
-    transform-style: preserve-3d !important;
-}
-
-/* 4. Разгрузка парящих кнопок в меню (плавность дрейфа) */
-.music-neon-toggle,
-.eras-neon-glider,
-.unique-box-fix {
-    will-change: transform !important;
-    transform-style: preserve-3d !important;
-}
-
-
-
-
-
-
-/* ====================================================
-   📺 УЛИЧНЫЙ КИБЕР-БИЛБОРД: СМЕНА СЛАЙДОВ (CROSSFADE)
-   ==================================================== */
-.billboard-box {
-    position: relative !important;
-    overflow: hidden !important;
-    background: #050508 !important;
-}
-
-/* Общий стиль для обоих слайдов */
-.billboard-slide {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    border-radius: 12px !important;
-    
-    /* Плавность смены прозрачности и легкий зум */
-    opacity: 0;
-    transform: scale(1.02);
-    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s ease !important;
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Активный слайд, который сейчас виден */
-.billboard-slide.active-slide {
-    opacity: 1 !important;
-    transform: scale(1) !important;
-    pointer-events: auto;
-    z-index: 2;
-}
-
-/* Легкая неоновая полоска сканирования уличного экрана */
-.billboard-scanline {
-    position: absolute;
-    top: -100%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, transparent, rgba(255, 234, 0, 0.12), transparent);
-    z-index: 5;
-    pointer-events: none;
-    animation: billboardScan 6s linear infinite;
-}
-
-@keyframes billboardScan {
-    0% { top: -100%; }
-    50% { top: 100%; }
-    100% { top: 100%; }
-}
-
-
-/* ====================================================
-   🎯 ФИКС РАЗМЕРА 3D-ВИТРИНЫ ЛИДЕРБОРДА (КОМПАКТНЫЙ 16:9)
-   ==================================================== */
-
-/* Внешняя сцена с перспективой */
-#tab-leaderboard .lb-showcase-viewport,
-.lb-showcase-viewport {
-    perspective: 1000px !important;
+.god-modal-box {
+    max-height: 90vh !important;       /* Не вылезает за экран */
     display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin: 10px auto 20px auto !important;
-    overflow: visible !important;
-}
-
-/* 3D-карта со СТРОГИМ ограничением размера */
-#tab-leaderboard .lb-showcase-card,
-.lb-showcase-card {
-    position: relative !important;
-    width: 100% !important;
-    max-width: 650px !important;       /* 🔥 ФИКС: Зажали ширину, чтобы не раздувало на весь экран! */
-    aspect-ratio: 16 / 9 !important;    /* Четкие горизонтальные пропорции */
-    height: auto !important;
-    
-    border-radius: 14px !important;
-    border: 2px solid #ffcc00 !important;
-    background: #06050a !important;
-    
-    box-shadow: 0 0 20px rgba(255, 204, 0, 0.45), 
-                0 15px 35px rgba(0, 0, 0, 0.85),
-                inset 0 0 15px rgba(255, 204, 0, 0.15) !important;
-                
+    flex-direction: column !important;
     overflow: hidden !important;
-    transform-style: preserve-3d !important;
-    will-change: transform;
-    animation: lbHolofloat 7s ease-in-out infinite alternate !important;
 }
 
-/* 3D-парение */
-@keyframes lbHolofloat {
-    0% {
-        transform: rotateX(2.5deg) rotateY(-3.5deg) translateY(0px);
-    }
-    33% {
-        transform: rotateX(-2deg) rotateY(-1.5deg) translateY(-4px);
-    }
-    66% {
-        transform: rotateX(-3deg) rotateY(3deg) translateY(-2px);
-    }
-    100% {
-        transform: rotateX(2deg) rotateY(3.5deg) translateY(3px);
-    }
+#god-screen-list,
+#god-screen-edit {
+    max-height: calc(85vh - 120px) !important;
+    overflow-y: auto !important;       /* 🔥 Включаем скролл внутри экранов! */
+    padding-right: 8px !important;
+    -webkit-overflow-scrolling: touch;
 }
 
-/* Картинки слайдов внутри */
-.lb-slide {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
+/* Красивый золотой скроллбар в стиле админки */
+#god-screen-list::-webkit-scrollbar,
+#god-screen-edit::-webkit-scrollbar {
+    width: 6px
+;
+}
+
+#god-screen-list::-webkit-scrollbar-track,
+#god-screen-edit::-webkit-scrollbar-track {
+    background: #0a0a0f;
+    border-radius: 4px;
+}
+
+#god-screen-list::-webkit-scrollbar-thumb,
+#god-screen-edit::-webkit-scrollbar-thumb {
+    background: #ff9f00;
+    border-radius: 4px;
+}
+
+/* Делаем аватарку в карточке круглой и четкой */
+.god-mini-avatar {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 50% !important;
     object-fit: cover !important;
-    border-radius: 12px !important;
-    opacity: 0;
-    transform: scale(1.02);
-    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s ease !important;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.lb-slide.active-slide {
-    opacity: 1 !important;
-    transform: scale(1) !important;
-    pointer-events: auto;
-    z-index: 2;
-}
-
-/* Бегущий блик */
-.lb-glass-glare {
-    position: absolute;
-    top: -60%;
-    left: -120%;
-    width: 80%;
-    height: 220%;
-    background: linear-gradient(
-        115deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.03) 40%,
-        rgba(255, 255, 255, 0.25) 50%,
-        rgba(255, 204, 0, 0.15) 55%,
-        transparent 65%
-    );
-    transform: rotate(20deg);
-    z-index: 5;
-    pointer-events: none;
-    animation: lbGlassSweep 5.5s ease-in-out infinite;
-}
-
-@keyframes lbGlassSweep {
-    0% { left: -120%; }
-    45%, 100% { left: 160%; }
+    border: 1.5px solid #ff9f00 !important;
+    background: #000;
 }
 
 
-
-
-
+        
     </style>
 </head>
 
@@ -5062,40 +5705,43 @@ html, body {
     <!-- 🛡️ САЙДБАР (30%) -->
     <aside class="sidebar">
 
-               <!-- 🪧 СВИСАЮЩАЯ ТАБЛИЧКА ПРОФИЛЯ (ВЫВЕСКА) -->
-        <div class="user-widget" id="user-widget-box" style="display: none; background: transparent; border: none; box-shadow: none; padding: 0;">
+        <!-- 🪧 СВИСАЮЩАЯ ТАБЛИЧКА ПРОФИЛЯ (ВЫВЕСКА) -->
+        <div class="user-widget" id="user-widget-box"
+            style="display: none; background: transparent; border: none; box-shadow: none; padding: 0;">
             <div class="hanging-profile-container">
                 <div class="hanging-sign-box">
-                    
+
                     <!-- 👤 SVG ИКОНКА ЧЕЛОВЕЧКА -->
                     <div style="color: var(--gold); display: flex; align-items: center;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
                     </div>
-                    
+
                     <!-- ИМЯ И ТИТУЛ -->
                     <div style="flex-grow: 1; text-align: left;">
                         <div class="sign-user-name" id="widget-username">Богатырь</div>
                         <div class="sign-user-title" id="widget-title">Титул: --</div>
-                        
+
                         <!-- 🔥 Стрики (если были в коде) -->
-                        <div id="widget-streak" style="margin-top: 4px; font-size: 0.75rem; color: #ff5500; font-weight: 900; display: none; font-family: 'Comfortaa';">
+                        <div id="widget-streak"
+                            style="margin-top: 4px; font-size: 0.75rem; color: #ff5500; font-weight: 900; display: none; font-family: 'Comfortaa';">
                             🔥 <span id="streak-days-count">0</span> ДНЕЙ
                         </div>
                     </div>
 
                     <!-- РОЗОВАЯ НЕОНОВАЯ КНОПКА ВЫХОДА -->
                     <button class="logout-btn-pink" onclick="logout()">ВЫЙТИ</button>
-                    
+
                 </div>
             </div>
         </div>
 
 
 
-                <nav class="nav-menu">
+        <nav class="nav-menu">
             <!-- 🏆 Лидерборд -->
             <button class="nav-btn nav-leaderboard active" onclick="switchTab('leaderboard', this)">
                 <svg viewBox="0 0 24 24">
@@ -5119,7 +5765,7 @@ html, body {
                     <rect x="2" y="6" width="20" height="12" rx="2" />
                     <path d="M6 12h4M8 10v4M15 11h.01M18 13h.01" />
                 </svg>
-                АРЕНА ПРОНАТОРОВ 
+                АРЕНА ПРОНАТОРОВ
             </button>
 
 
@@ -5142,7 +5788,7 @@ html, body {
                 <span id="badge-battles-count" class="badge-counter" style="display: none;">0</span>
             </button>
 
-                        <!-- 🛒 МАГАЗИН (Со случайным стикером монетки) -->
+            <!-- 🛒 МАГАЗИН (Со случайным стикером монетки) -->
             <button class="nav-btn nav-shop" onclick="switchTab('shop', this)" style="position: relative;">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -5152,7 +5798,8 @@ html, body {
                 </svg>
                 МАГАЗИН
                 <!-- 🪙 РАНДОМНЫЙ СТИКЕР МОНЕТКИ -->
-                <img id="shop-sticker-img" src="monetka.webp" class="btn-sticker-coin" onerror="this.style.display='none'">
+                <img id="shop-sticker-img" src="monetka.webp" class="btn-sticker-coin"
+                    onerror="this.style.display='none'">
             </button>
 
 
@@ -5169,22 +5816,24 @@ html, body {
                 ПАНЕЛЬ АРХИТЕКТОРА
             </button>
 
-           <!-- 💵 СЕКРЕТНАЯ КНОПКА БОРИСА ДЛЯ ВЫПЛАТ -->
-<button class="nav-btn" id="admin-withdraw-tab-btn" style="display: none; color: #22c55e; border-color: #22c55e;" onclick="switchTab('admin-withdraws')">
-    💵 ВЫВОДЫ ИГРОКОВ
-</button>
+            <!-- 💵 СЕКРЕТНАЯ КНОПКА БОРИСА ДЛЯ ВЫПЛАТ -->
+            <button class="nav-btn" id="admin-withdraw-tab-btn"
+                style="display: none; color: #22c55e; border-color: #22c55e;" onclick="switchTab('admin-withdraws')">
+                💵 ВЫВОДЫ ИГРОКОВ
+            </button>
 
 
         </nav>
 
-                 <!-- 🛸 ОБЪЕДИНЕННЫЙ БЛОК НАВИГАЦИИ -->
+        <!-- 🛸 ОБЪЕДИНЕННЫЙ БЛОК НАВИГАЦИИ -->
         <div class="sidebar-music-box" id="music-sidebar-section">
-            
+
             <!-- Левая кнопка: Музыка (Статичная капсула со светлячками снаружи) -->
             <div style="position: relative;">
                 <div class="music-neon-toggle" id="music-custom-toggle" onclick="window.toggleBackgroundMusic()">
                     <div class="music-left-part">
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
                             <path d="M9 18V5l12-2v13"></path>
                             <circle cx="6" cy="18" r="3"></circle>
                             <circle cx="18" cy="16" r="3"></circle>
@@ -5201,10 +5850,12 @@ html, body {
 
             <!-- Правая кнопка: Эпохи (С покачиванием и возвращенной SVG иконкой) -->
             <button class="eras-neon-glider" onclick="switchTab('eras', this)">
-                  <!-- 🔥 СТИКЕР: Картинка подставится автоматически через JS при входе -->
-    <img id="glider-sticker-img" class="eras-glider-sticker" alt="Эпоха" onerror="this.style.display='none'">
+                <!-- 🔥 СТИКЕР: Картинка подставится автоматически через JS при входе -->
+                <img id="glider-sticker-img" class="eras-glider-sticker" alt="Эпоха"
+                    onerror="this.style.display='none'">
                 <div class="eras-glider-content">
-                    <svg class="eras-svg-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <svg class="eras-svg-icon" width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5">
                         <path d="M2 17l10 4 10-4" opacity="0.4" />
                         <path d="M2 12l10 4 10-4" opacity="0.7" />
                         <path d="M12 2L2 7l10 5 10-5-10-5Z" />
@@ -5213,7 +5864,7 @@ html, body {
                 </div>
                 <div class="eras-glider-core"></div>
             </button>
-            
+
             <audio id="site-bg-audio" src="background-track.mp3" loop preload="auto"></audio>
         </div>
 
@@ -5229,18 +5880,20 @@ html, body {
     <!-- ⚔️ ОСНОВНАЯ ЗОНА (70%) -->
     <main class="content-area">
         <div class="main-brand-header">
-            <h1 class="main-logo-title" style="display: inline-flex; align-items: center; justify-content: center; gap: 12px;">
-                
+            <h1 class="main-logo-title"
+                style="display: inline-flex; align-items: center; justify-content: center; gap: 12px;">
+
                 <!-- 🔥 ТВОЯ НОВАЯ ИКОНКА СЛЕВА ОТ ARM -->
-                <img src="logo.webp" alt="ARM калеки Лого" 
-                     style="width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(255, 170, 0, 0.7)); border-radius: 8px; vertical-align: middle;"
-                     onerror="this.style.display='none';">
+                <img src="logo.webp" alt="ARM калеки Лого"
+                    style="width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(255, 170, 0, 0.7)); border-radius: 8px; vertical-align: middle;"
+                    onerror="this.style.display='none';">
 
                 <span class="logo-arm">ARM</span>
 
                 <!-- 🔥 SVG-захват скрещенных рук и молния по центру -->
                 <div class="logo-center-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round">
                         <!-- Левое предплечье и кисть -->
                         <path d="M2 19c3-1.5 5.5-3.5 7-6.5M5 15l4.5-4c1-1 2.2-1.5 3.2-.5s0 2.2-1 3.2L8.2 17" />
                         <!-- Правое предплечье и кисть (в завязке) -->
@@ -5259,19 +5912,19 @@ html, body {
 
 
 
-                <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
+        <!-- 🏆 ВКЛАДКА 1: ЛИДЕРБОРД -->
         <section id="tab-leaderboard" class="tab-section active-view">
 
 
             <!-- 🏆 АДАПТИВНЫЙ БАННЕР ЛИДЕРБОРДА -->
-    <div class="lb-showcase-viewport">
-    <div class="lb-showcase-card">
-        <div class="lb-glass-glare"></div>
-        <img src="banner_leaderboard.webp" class="lb-slide active-slide" id="lb-slide-1" alt="Лидерборд 1">
-        <img src="banner_leaderboard2.webp" class="lb-slide" id="lb-slide-2" alt="Лидерборд 2">
-        <img src="banner_leaderboard3.webp" class="lb-slide" id="lb-slide-3" alt="Лидерборд 3">
-    </div>
-</div>
+            <div class="lb-showcase-viewport">
+                <div class="lb-showcase-card">
+                    <div class="lb-glass-glare"></div>
+                    <img src="banner_leaderboard.webp" class="lb-slide active-slide" id="lb-slide-1" alt="Лидерборд 1">
+                    <img src="banner_leaderboard2.webp" class="lb-slide" id="lb-slide-2" alt="Лидерборд 2">
+                    <img src="banner_leaderboard3.webp" class="lb-slide" id="lb-slide-3" alt="Лидерборд 3">
+                </div>
+            </div>
 
 
 
@@ -5280,35 +5933,38 @@ html, body {
             <div id="leaderboard-container"></div>
         </section>
 
-     <!-- 🏛 ВКЛАДКА: 35 ЭПОХ И ЭЛИТА -->
-<div id="tab-eras" class="tab-section" style="display: none;">
-    <div style="text-align: center; margin-bottom: 25px;">
-        
-        <h1 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; text-shadow: 0 0 20px var(--neon-fire); margin: 5px 0;">
-            🏛 ИЕРАРХИЯ ЭПОХ
-        </h1>
-        
-        <p style="color: var(--steel); font-family: 'Comfortaa'; font-size: 0.85rem; margin-bottom: 15px;">
-            Пройди путь от Скелета до Заргхадума
-        </p>
+        <!-- 🏛 ВКЛАДКА: 35 ЭПОХ И ЭЛИТА -->
+        <div id="tab-eras" class="tab-section" style="display: none;">
+            <div style="text-align: center; margin-bottom: 25px;">
+
+                <h1
+                    style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; text-shadow: 0 0 20px var(--neon-fire); margin: 5px 0;">
+                    🏛 ИЕРАРХИЯ ЭПОХ
+                </h1>
+
+                <p style="color: var(--steel); font-family: 'Comfortaa'; font-size: 0.85rem; margin-bottom: 15px;">
+                    Пройди путь от Скелета до Заргхадума
+                </p>
 
                 <!-- 📺 ЖИВОЙ КИБЕР-БИЛБОРД (АВТОСМЕНА КАЖДЫЕ 5 СЕКУНД) -->
-        <div class="eras-banner-box unique-box-fix billboard-box">
-            <!-- Эффект бегущей линии LED-экрана -->
-            <div class="billboard-scanline"></div>
+                <div class="eras-banner-box unique-box-fix billboard-box">
+                    <!-- Эффект бегущей линии LED-экрана -->
+                    <div class="billboard-scanline"></div>
 
-            <!-- Слайд 1 -->
-            <img src="elita_arma.png" alt="Элита Арма 1" class="unique-banner-fix billboard-slide active-slide" id="billboard-img-1" onerror="this.src='elita_arma.png';">
-            
-            <!-- Слайд 2 -->
-            <img src="elita_arma2.png" alt="Элита Арма 2" class="unique-banner-fix billboard-slide" id="billboard-img-2" onerror="this.src='elita_arma2.webp';">
+                    <!-- Слайд 1 -->
+                    <img src="elita_arma.png" alt="Элита Арма 1" class="unique-banner-fix billboard-slide active-slide"
+                        id="billboard-img-1" onerror="this.src='elita_arma.png';">
+
+                    <!-- Слайд 2 -->
+                    <img src="elita_arma2.png" alt="Элита Арма 2" class="unique-banner-fix billboard-slide"
+                        id="billboard-img-2" onerror="this.src='elita_arma2.webp';">
+                </div>
+
+
+            </div>
+
+            <div id="eras-full-list" class="eras-list-container"></div>
         </div>
-
-
-    </div>
-
-    <div id="eras-full-list" class="eras-list-container"></div>
-</div>
 
 
 
@@ -5316,12 +5972,12 @@ html, body {
 
         <!-- ⚡ ВАКЛАДКА 2: ОПЫТ И ТРЕНИРОВКИ -->
         <section id="tab-exp" class="tab-section">
-                <!-- 🧪 БАННЕР ЭЛИКСИРА ОПЫТА -->
-    <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 20px;">
-        <img src="elixir-exp.webp" alt="Прокачка Эликсира" 
-             style="width: 100%; max-width: 900px; height: auto; aspect-ratio: 1000 / 300; object-fit: cover; border-radius: 14px; border: 2px solid var(--neon-fire); box-shadow: 0 0 20px rgba(255, 85, 0, 0.35); display: block;"
-             onerror="this.style.display='none';">
-    </div>
+            <!-- 🧪 БАННЕР ЭЛИКСИРА ОПЫТА -->
+            <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 20px;">
+                <img src="elixir-exp.webp" alt="Прокачка Эликсира"
+                    style="width: 100%; max-width: 900px; height: auto; aspect-ratio: 1000 / 300; object-fit: cover; border-radius: 14px; border: 2px solid var(--neon-fire); box-shadow: 0 0 20px rgba(255, 85, 0, 0.35); display: block;"
+                    onerror="this.style.display='none';">
+            </div>
 
             <div class="section-header">
                 <svg class="btn-icon-svg" style="color: var(--gold); margin-right: 10px; width: 24px; height: 24px;"
@@ -5499,8 +6155,9 @@ html, body {
 
             </div>
             <!-- 🖼️ БАННЕР ЛОГОВ БОЁВ -->
-<img src="banner_fights.webp" class="tab-hero-banner" alt="Лог боёв" onerror="this.onerror=null; this.src='banner_fights.webp';">
-        
+            <img src="banner_fights.webp" class="tab-hero-banner" alt="Лог боёв"
+                onerror="this.onerror=null; this.src='banner_fights.webp';">
+
 
 
             <!-- 1. КАРТА ЭТАПОВ (8 БОЙЦОВ С КУЛДАУНАМИ ПО 10 МИНУТ) -->
@@ -5995,11 +6652,12 @@ html, body {
 
 
         <section id="tab-admin-withdraws" class="tab-section" style="display: none;">
-    <h2 style="color: #4ade80; font-family: 'Cinzel'; margin-bottom: 15px;">📥 ЗАПРОСЫ ИГРОКОВ НА ВЫВОД РУБЛЕЙ</h2>
-    <div id="admin-withdraws-list" style="display: flex; flex-direction: column; gap: 12px;">
-        <!-- Сюда JS загрузит заявки -->
-    </div>
-</section>
+            <h2 style="color: #4ade80; font-family: 'Cinzel'; margin-bottom: 15px;">📥 ЗАПРОСЫ ИГРОКОВ НА ВЫВОД РУБЛЕЙ
+            </h2>
+            <div id="admin-withdraws-list" style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Сюда JS загрузит заявки -->
+            </div>
+        </section>
 
 
         <!-- ====================================================
@@ -6024,10 +6682,11 @@ html, body {
 
                 <!-- Центральный контент -->
                 <div class="shop-main-content">
-                     <!-- 🏛️ АДАПТИВНЫЙ БАННЕР МАГАЗИНА -->
-    <div class="section-top-banner" style="width: 100%;">
-        <img src="banner_shop.webp" alt="Магазин" class="top-responsive-banner" onerror="this.style.display='none';">
-    </div>
+                    <!-- 🏛️ АДАПТИВНЫЙ БАННЕР МАГАЗИНА -->
+                    <div class="section-top-banner" style="width: 100%;">
+                        <img src="banner_shop.webp" alt="Магазин" class="top-responsive-banner"
+                            onerror="this.style.display='none';">
+                    </div>
 
 
 
@@ -6074,41 +6733,51 @@ html, body {
                             </button>
                         </div>
 
-                               <!-- 💵 КАРТОЧКА ЗАПРОСА НА ВЫВОД РУБЛЕЙ -->
-        <div class="brutal-card" style="background: linear-gradient(145deg, #121a12, #080f08); border-color: #22c55e; padding: 20px;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                <span style="font-size: 1.5rem;">💸</span>
-                <div>
-                    <div style="font-weight: 900; color: #4ade80; font-family: 'Comfortaa'; font-size: 0.95rem;">ВЫВОД КОИНОВ В РУБЛИ</div>
-                    <div style="font-size: 0.75rem; color: var(--steel);">Обменяй коины на реальные рубли (Курс: 1 Коин = 10 ₽)</div>
-                </div>
-            </div>
+                        <!-- 💵 КАРТОЧКА ЗАПРОСА НА ВЫВОД РУБЛЕЙ -->
+                        <div class="brutal-card"
+                            style="background: linear-gradient(145deg, #121a12, #080f08); border-color: #22c55e; padding: 20px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                                <span style="font-size: 1.5rem;">💸</span>
+                                <div>
+                                    <div
+                                        style="font-weight: 900; color: #4ade80; font-family: 'Comfortaa'; font-size: 0.95rem;">
+                                        ВЫВОД КОИНОВ В РУБЛИ</div>
+                                    <div style="font-size: 0.75rem; color: var(--steel);">Обменяй коины на реальные
+                                        рубли (Курс: 1 Коин = 10 ₽)</div>
+                                </div>
+                            </div>
 
-            <!-- Баланс и Поле ввода -->
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
-                <div style="font-size: 0.8rem; color: var(--gold); font-family: 'Comfortaa'; font-weight: bold;">
-                    Доступно для вывода: <span id="withdraw-max-coins">0</span> 🪙
-                </div>
+                            <!-- Баланс и Поле ввода -->
+                            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
+                                <div
+                                    style="font-size: 0.8rem; color: var(--gold); font-family: 'Comfortaa'; font-weight: bold;">
+                                    Доступно для вывода: <span id="withdraw-max-coins">0</span> 🪙
+                                </div>
 
-                <div style="display: flex; gap: 8px; align-items: center;">
-                    <input type="number" id="withdraw-amount-input" placeholder="Кол-во коинов" class="brutal-input" style="margin: 0; font-weight: 900; color: #4ade80;" oninput="updateWithdrawPreview()">
-                </div>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="number" id="withdraw-amount-input" placeholder="Кол-во коинов"
+                                        class="brutal-input" style="margin: 0; font-weight: 900; color: #4ade80;"
+                                        oninput="updateWithdrawPreview()">
+                                </div>
 
-                <!-- 📊 Предпросмотр выплаты -->
-                <div id="withdraw-preview-box" style="background: rgba(34, 197, 94, 0.1); border: 1px dashed #22c55e; border-radius: 10px; padding: 8px 12px; font-family: 'Comfortaa'; font-size: 0.8rem; color: #fff; text-align: center;">
-                    Вы получите: <strong id="withdraw-rub-output" style="color: #4ade80; font-size: 1rem;">0 ₽</strong>
-                </div>
-            </div>
+                                <!-- 📊 Предпросмотр выплаты -->
+                                <div id="withdraw-preview-box"
+                                    style="background: rgba(34, 197, 94, 0.1); border: 1px dashed #22c55e; border-radius: 10px; padding: 8px 12px; font-family: 'Comfortaa'; font-size: 0.8rem; color: #fff; text-align: center;">
+                                    Вы получите: <strong id="withdraw-rub-output"
+                                        style="color: #4ade80; font-size: 1rem;">0 ₽</strong>
+                                </div>
+                            </div>
 
-            <!-- 3D Кнопка запроса -->
-            <button class="admin-action-btn-3d btn-success-matrix" onclick="requestWithdrawal()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="1" x2="12" y2="23"></line>
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-                ЗАПРОСИТЬ ВЫВОД
-            </button>
-        </div>
+                            <!-- 3D Кнопка запроса -->
+                            <button class="admin-action-btn-3d btn-success-matrix" onclick="requestWithdrawal()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                                ЗАПРОСИТЬ ВЫВОД
+                            </button>
+                        </div>
 
                     </div>
                 </div>
@@ -6125,8 +6794,9 @@ html, body {
                 АРЕНА: ОФИЦИАЛЬНЫЙ ЛОГ БОЁВ И ВЫЗОВЫ
             </div>
 
-                <!-- 🖼️ БАННЕР АРЕНЫ ПРОНАТОРОВ -->
-<img src="banner_arena.webp" class="tab-hero-banner" alt="Арена Пронаторов" onerror="this.onerror=null; this.src='banner_arena.webp';">
+            <!-- 🖼️ БАННЕР АРЕНЫ ПРОНАТОРОВ -->
+            <img src="banner_arena.webp" class="tab-hero-banner" alt="Арена Пронаторов"
+                onerror="this.onerror=null; this.src='banner_arena.webp';">
 
 
 
@@ -6146,7 +6816,8 @@ html, body {
                     <h3 style="color: var(--gold); font-family: 'Comfortaa'; font-size: 1rem; margin-bottom: 12px;">
                         📜 ИСТОРИЯ ЗАВЕРШЁННЫХ СПАРРИНГОВ
                     </h3>
-                   <div id="history-fights-list" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+                    <div id="history-fights-list"
+                        style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
                         <div style="color: var(--steel); font-size: 0.85rem;">История чиста...</div>
                     </div>
                 </div>
@@ -6234,16 +6905,91 @@ html, body {
         </div>
     </div>
 
-    <!-- 🏛️ МОДАЛКА GOD MODE (АДМИНКА БОРИСА) -->
-    <div id="modal-god" class="modal-overlay">
-        <div class="modal-box" style="max-width: 750px;">
-            <h2 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 12px; font-size: 1.3rem;">🏛️ ПАНЕЛЬ
-                АРХИТЕКТОРА (GOD MODE)</h2>
-            <div id="god-players-list" style="max-height: 60vh; overflow-y: auto;"></div>
-            <button class="brutal-btn danger" style="width: 100%; margin-top: 12px;"
-                onclick="closeModal('modal-god')">ЗАКРЫТЬ</button>
+    <!-- 🏛 МОДАЛКА GOD MODE (ПЕРЕЗАГРУЗКА 3.0) -->
+<div id="modal-god" class="modal-overlay">
+    <div class="god-modal-box">
+        
+        <!-- ХЕДЕР -->
+        <div class="god-header">
+            <h2 class="god-title">🏛 ПАНЕЛЬ АРХИТЕКТОРА</h2>
+            <div class="god-status-glow">SYSTEM ACTIVE</div>
         </div>
+
+        <!-- 🛡️ ЭКРАН 1: СПИСОК ИГРОКОВ (ГРИД) -->
+        <div id="god-screen-list" class="god-screen">
+            <div class="god-search-bar">
+                <input type="text" id="god-search-input" placeholder="Поиск бойца по имени или ID..." oninput="filterGodPlayers()">
+            </div>
+            <div id="god-players-grid" class="god-players-grid">
+                <!-- Сюда JS отрисует карточки -->
+            </div>
+        </div>
+
+        <!-- ⚙️ ЭКРАН 2: РЕДАКТОР ПАРАМЕТРОВ (ИЗНАЧАЛЬНО СКРЫТ) -->
+        <div id="god-screen-edit" class="god-screen" style="display: none;">
+            <button class="god-btn-3d btn-back" onclick="backToGodList()">⬅ НАЗАД К СПИСКУ</button>
+            
+            <div class="god-edit-container">
+                <input type="hidden" id="god-edit-id">
+
+                <!-- 1. Основное -->
+                <div class="god-section">
+                    <label class="section-label">👤 ЛИЧНЫЕ ДАННЫЕ</label>
+                    <div class="god-grid-3">
+                        <div class="god-input-wrap"><label>Имя</label><input type="text" id="god-edit-name"></div>
+                        <div class="god-input-wrap"><label>Ник (@)</label><input type="text" id="god-edit-username"></div>
+                        <div class="god-input-wrap"><label>ПИН-код</label><input type="text" id="god-edit-pin"></div>
+                    </div>
+                    <div class="god-input-wrap full"><label class="gold-text">👑 КЛИЧКА / ТИТУЛ (ЗАЩИЩЕНО)</label><input type="text" id="god-edit-title"></div>
+                    <div class="god-grid-3" style="margin-top:10px;">
+                        <div class="god-input-wrap"><label>Эпоха (1-35)</label><input type="number" id="god-edit-era"></div>
+                        <div class="god-input-wrap"><label>Опыт (EXP)</label><input type="number" id="god-edit-exp"></div>
+                        <div class="god-input-wrap"><label>Место в топе</label><input type="number" id="god-edit-rank"></div>
+                    </div>
+                    <div class="god-input-wrap full" style="margin-top:10px;">
+                        <label>Биография / Описание</label>
+                        <textarea id="god-edit-lore" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <!-- 2. Биометрия -->
+                <div class="god-section">
+                    <label class="section-label">📏 БИОМЕТРИЯ</label>
+                    <div class="god-grid-4">
+                        <div class="god-input-wrap"><label>Рост</label><input type="number" id="god-edit-height" step="0.1"></div>
+                        <div class="god-input-wrap"><label>Вес</label><input type="number" id="god-edit-weight" step="0.1"></div>
+                        <div class="god-input-wrap"><label>Возраст</label><input type="number" id="god-edit-age"></div>
+                        <div class="god-input-wrap"><label>Предплечье</label><input type="number" id="god-edit-forearm" step="0.1"></div>
+                    </div>
+                </div>
+
+                <!-- 3. Сила и Углы -->
+                <div class="god-section">
+                    <label class="section-label">💪 УГЛЫ И ХАРАКТЕРИСТИКИ</label>
+                    <div class="god-grid-5">
+                        <div class="god-input-wrap"><label>Пронатор</label><input type="number" id="god-edit-pronator" step="0.1"></div>
+                        <div class="god-input-wrap"><label>Луч</label><input type="number" id="god-edit-beam" step="0.1"></div>
+                        <div class="god-input-wrap"><label>Крюк</label><input type="number" id="god-edit-curl" step="0.1"></div>
+                        <div class="god-input-wrap"><label>Отвод.</label><input type="number" id="god-edit-abduct" step="0.1"></div>
+                        <div class="god-input-wrap"><label>Подтяг</label><input type="number" id="god-edit-pull" step="0.1"></div>
+                    </div>
+                    <div class="god-grid-2" style="margin-top:10px;">
+                        <div class="god-input-wrap"><label>Рейтинг силы (1-10)</label><input type="number" id="god-edit-strength"></div>
+                        <div class="god-input-wrap"><label>Опасность (1-10)</label><input type="number" id="god-edit-danger"></div>
+                    </div>
+                </div>
+
+                <button class="god-btn-3d btn-save" onclick="saveGodPlayer()">💾 СОХРАНИТЬ В SUPABASE</button>
+            </div>
+        </div>
+
+        <!-- КНОПКА ЗАКРЫТИЯ (3D) -->
+        <button class="god-btn-3d btn-close-main" onclick="closeModal('modal-god')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            ЗАКРЫТЬ ПУЛЬТ АРХИТЕКТОРА
+        </button>
     </div>
+</div>
 
     <!-- 🔎 МОДАЛКА ИНСПЕКЦИИ БОЙЦА -->
     <div id="modal-inspect" class="modal-overlay" onclick="closeModal('modal-inspect')">
@@ -6371,7 +7117,7 @@ html, body {
         let pendingRegData = null;
 
         // База 20 Эпох (Финализированный список)
-                const erasData = [
+        const erasData = [
             {id: 1, name: "Скелет"}, {id: 2, name: "Зомби"}, {id: 3, name: "Подобие Человека"},
             {id: 4, name: "Обычный Человек"}, {id: 5, name: "Армрестлер (полноценный)"},
             {id: 6, name: "Оборотень"}, {id: 7, name: "Гладиатор-Армер"}, {id: 8, name: "Каменный Армер"},
@@ -6384,11 +7130,11 @@ html, body {
             {id: 24, name: "Кристаллический чемпион"}, {id: 25, name: "Галактический чемпион"},
             {id: 26, name: "Остеомонарх"}, {id: 27, name: "Альтрайзер"}, {id: 28, name: "Валторн"},
             {id: 29, name: "Био-Скарн"},
-            {id: 30, name: "Аргентоморф"}, 
+            {id: 30, name: "Аргентоморф"},
             {id: 31, name: "Лунгарм"},
-            {id: 32, name: "Кхарм Мордум"}, 
+            {id: 32, name: "Кхарм Мордум"},
             {id: 33, name: "Гранд Урум"},
-            {id: 34, name: "Халлуцидор"}, 
+            {id: 34, name: "Халлуцидор"},
             {id: 35, name: "Заргхадум"}
         ];
 
@@ -6646,13 +7392,13 @@ html, body {
                 if (tabId === 'eras') {
                     // 🏛️ Мощный звук для вкладки Эпох (файл должен быть в папке!)
                     activeSfx = new Audio('era-portal.mp3');
-                    activeSfx.volume = 1.0; 
+                    activeSfx.volume = 1.0;
                 } else {
                     // Стандартный звук «поньк»
                     activeSfx = new Audio('tab-click.mp3');
                     activeSfx.volume = 0.4;
                 }
-                activeSfx.play().catch(() => {});
+                activeSfx.play().catch(() => { });
             } catch (e) {
                 console.warn("Звуковой файл не найден");
             }
@@ -6677,9 +7423,9 @@ html, body {
             });
 
             // 4. Ищем целевую секцию по ID (ИСПРАВЛЕНО: добавлены ||)
-            let target = document.getElementById('tab-' + tabId) ||  
-                         document.getElementById('sec-' + tabId) || 
-                         document.getElementById(tabId);
+            let target = document.getElementById('tab-' + tabId) ||
+                document.getElementById('sec-' + tabId) ||
+                document.getElementById(tabId);
 
             if (target) {
                 target.classList.add('active-view');
@@ -6696,10 +7442,10 @@ html, body {
             } else if (tabId === 'exp' || tabId === 'training') {
                 if (typeof updateExpTabUI === 'function') updateExpTabUI();
                 if (typeof loadEarlySparringOptions === 'function') loadEarlySparringOptions();
-                if (typeof renderExpPipeline === 'function') renderExpPipeline(); 
+                if (typeof renderExpPipeline === 'function') renderExpPipeline();
             } else if (tabId === 'profile') {
                 if (typeof loadProfileToUI === 'function') loadProfileToUI();
-                if (typeof renderExpPipeline === 'function') renderExpPipeline(); 
+                if (typeof renderExpPipeline === 'function') renderExpPipeline();
             } else if (tabId === 'fights') {
                 if (typeof loadBattlesLog === 'function') loadBattlesLog();
             } else if (tabId === 'minigame') {
@@ -6718,7 +7464,7 @@ html, body {
             container.innerHTML = erasData.map((era, index) => {
                 const id = era.id;
                 const waveDelay = (index * 0.18).toFixed(2);
-                
+
                 // Логика выбора класса масштаба
                 let burstClass = "burst-1-20";
                 if (id >= 21 && id <= 30) burstClass = "burst-21-30";
@@ -6747,7 +7493,7 @@ html, body {
                         </div>
                     `;
                 }
-                
+
                 // Шаблон для 21-29 (Титан)
                 if (id >= 21 && id <= 29) {
                     return `
@@ -6895,7 +7641,7 @@ html, body {
             document.head.appendChild(style);
         }
 
-                // ====================================================
+        // ====================================================
         // 🏆 ЛИДЕРБОРД С ПОДПРЫГОМ КАРТОЧЕК И ЛУЖАМИ СТИХИЙ
         // ====================================================
         function renderLeaderboard() {
@@ -6925,7 +7671,7 @@ html, body {
                     const currentCp = (typeof EXP_PIPE_CHECKPOINTS !== 'undefined' ? EXP_PIPE_CHECKPOINTS : []).slice().reverse().find(c => userExp >= c.exp);
                     const cpLabel = currentCp ? `${currentCp.exp} EXP` : '0 EXP';
 
-                    const era = (typeof getEraById === 'function') ? getEraById(user.era_id || 1) : (typeof erasData !== 'undefined' ? erasData[0] : { id: 1, name: 'Скелет' });
+                    const era = (typeof getEraById === 'function') ? getEraById(user.era_id || 1) : (typeof erasData !== 'undefined' ? erasData[0] : {id: 1, name: 'Скелет'});
 
                     const rankNum = index + 1;
                     const rankBadgeText = `${rankNum}.`;
@@ -7375,18 +8121,32 @@ html, body {
             openModal('modal-levelup');
         }
 
-        // ====================================================
-        // 🏛️ GOD MODE / АДМИН-ПАНЕЛЬ БОРИСА
-        // ====================================================
-        function openGodModeAuth() {
-            const pin = prompt("🏛️ ВВЕДИ ПИН-КОД АРХИТЕКТОРА (GOD MODE):");
-            if (pin === '7202') {
-                renderGodPanel();
-                openModal('modal-god');
-            } else {
-                alert("❌ НЕВЕРНЫЙ ПИН-КОД АРХИТЕКТОРА!");
+                // 🏛️ ВХОД В GOD MODE С ПАРОЛЕМ АРХИТЕКТОРА
+        window.openGodModeAuth = function () {
+            // Твой секретный код Архитектора
+            const pass = prompt("🔑 ВВЕДИТЕ КОД ДОСТУПА АРХИТЕКТОРА:");
+
+            // Замени '1337' или свой пароль, если у тебя другой
+            if (pass === '7202' || pass === 'архитектор' || pass === 'борис' || pass === '195') {
+                // Звуковой эффект доступа
+                const accessSfx = new Audio('tab-click.mp3');
+                accessSfx.volume = 0.6;
+                accessSfx.play().catch(() => {});
+
+                console.log("🔓 Доступ разрешен! Запуск 3D-пульта Бога...");
+
+                // 🔥 ВЫЗЫВАЕМ НАШ НОВЫЙ ИНТЕРФЕЙС!
+                if (typeof openGodMode === 'function') {
+                    openGodMode();
+                } else {
+                    renderGodPlayersList();
+                    openModal('modal-god');
+                }
+            } else if (pass !== null) {
+                alert("⛔️ ОТКАЗАНО В ДОСТУПЕ! ВЫ НЕ АРХИТЕКТОР.");
             }
-        }
+        };
+
 
         function loadProfileToUI() {
             if (!currentUser) return;
@@ -7566,7 +8326,7 @@ html, body {
             }).join('');
         }
 
-                // ====================================================
+        // ====================================================
         // 🔍 ИНСПЕКЦИЯ БОЙЦА (ЭПИЧЕСКОЕ ШОУ + ЛЕТЯЩИЕ ЧАСТИЦЫ)
         // ====================================================
         function inspectUser(id) {
@@ -7605,7 +8365,7 @@ html, body {
                     const left = Math.random() * 95;
                     const delay = Math.random() * 4;
                     const duration = 3 + Math.random() * 3;
-                    fxHtml += `<div class="fx-milky-star" style="left: ${left}%; top: ${Math.random()*80}%; animation-delay: ${delay}s; animation-duration: ${duration}s;">✦</div>`;
+                    fxHtml += `<div class="fx-milky-star" style="left: ${left}%; top: ${Math.random() * 80}%; animation-delay: ${delay}s; animation-duration: ${duration}s;">✦</div>`;
                 }
             } else if (rankNum <= 14) {
                 tierClass = 'inspect-tier-nomads';
@@ -7643,7 +8403,7 @@ html, body {
             if (sfxName) {
                 const sfx = new Audio(sfxName);
                 sfx.volume = 0.6;
-                sfx.play().catch(() => {});
+                sfx.play().catch(() => { });
             }
 
             const inspectBox = document.getElementById('modal-inspect');
@@ -8006,11 +8766,11 @@ html, body {
             const titleLower = String(userObj.title || '').toLowerCase().trim();
             const era = Number(userObj.era_id) || 1;
 
-                        // ====================================================
+            // ====================================================
             // 👑 ТРИ ВАНИ: ЖЕЛЕЗНАЯ ПРИВЯЗКА ПО ID ИЗ БАЗЫ
             // ====================================================
             if (nameLower.includes('ван') || usernameLower.includes('van') || userId.includes('van')) {
-                
+
                 // 1. ЖИВОЙ ВАНЯ-ЧЕМПИОН (Username: vanya, ID: seed_vanya_2, Скрытая мощь)
                 // 👉 ЕМУ СТРОГО ЕГО ЗАКОННУЮ КАРТОЧКУ char_vanya.webp!
                 if (userId === 'seed_vanya_2' || usernameLower === 'vanya') {
@@ -8035,7 +8795,7 @@ html, body {
 
 
 
-                       // ⚡️ ДВА НИКИТЫ (РАЗДЕЛЕНИЕ)
+            // ⚡️ ДВА НИКИТЫ (РАЗДЕЛЕНИЕ)
             if (nameLower.includes('никита') || usernameLower.includes('nikita') || userId.includes('nikita')) {
                 // Никита ОЛД (22 место, 1 Эпоха, «Карманный громила»)
                 if (era === 1 || titleLower.includes('карманный') || userId === 'seed_nikita') {
@@ -8166,7 +8926,7 @@ html, body {
             }
         }
 
-              // ====================================================
+        // ====================================================
         // ⚔️ ФИНАЛЬНАЯ ИСПРАВЛЕННАЯ ФУНКЦИЯ ЛОГОВ БОЁВ
         // ====================================================
         async function loadBattlesLog() {
@@ -8175,14 +8935,14 @@ html, body {
             if (!pendingContainer || !historyContainer) return;
 
             // Запрашиваем данные из базы
-            let { data } = await _supabase.from('battles').select('*').order('created_at', { ascending: false });
+            let {data} = await _supabase.from('battles').select('*').order('created_at', {ascending: false});
             const battles = data || [];
 
             const isBoris = currentUser && (currentUser.name.toUpperCase() === 'БОРИС' || currentUser.username === 'boris');
 
             // 1. АКТИВНЫЕ ЗАЯВКИ (ЛЕВАЯ КОЛОНКА)
             const pending = battles.filter(b => b.status === 'pending');
-            
+
             const badgeEl = document.getElementById('badge-battles-count');
             if (badgeEl) {
                 const count = pending.length;
@@ -8200,7 +8960,7 @@ html, body {
                 pendingContainer.innerHTML = pending.map(b => {
                     const cEra = Number(b.challenger_era) || 1;
                     const tEra = Number(b.target_era) || 1;
-                    
+
                     return `
                         <div class="brutal-card fresh-challenge-card" style="padding: 14px; margin-bottom: 12px; border-radius: 14px;">
                             <div style="font-size: 0.85rem; font-weight: 900; color: var(--gold); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
@@ -10059,10 +10819,10 @@ html, body {
             if (coinEl) coinEl.innerText = currentUser.coins || 0;
             if (vaultEl) vaultEl.innerText = currentUser.vault_coins || 0;
             // 🔥 Обновляем максимальный баланс коинов для вывода
-const maxCoinsEl = document.getElementById('withdraw-max-coins');
-if (maxCoinsEl && currentUser) {
-    maxCoinsEl.innerText = currentUser.coins || 0;
-}
+            const maxCoinsEl = document.getElementById('withdraw-max-coins');
+            if (maxCoinsEl && currentUser) {
+                maxCoinsEl.innerText = currentUser.coins || 0;
+            }
 
         }
 
@@ -10095,7 +10855,7 @@ if (maxCoinsEl && currentUser) {
 
 
 
-                // 🔄 Динамический предпросмотр суммы рублей при вводе коинов
+        // 🔄 Динамический предпросмотр суммы рублей при вводе коинов
         function updateWithdrawPreview() {
             const input = document.getElementById('withdraw-amount-input');
             const output = document.getElementById('withdraw-rub-output');
@@ -10132,7 +10892,7 @@ if (maxCoinsEl && currentUser) {
             currentUser.coins = newCoins;
 
             // Записываем заявку в таблицу withdrawals
-            const { error } = await _supabase.from('withdrawals').insert([{
+            const {error} = await _supabase.from('withdrawals').insert([{
                 user_name: currentUser.name,
                 user_username: currentUser.username || 'unknown',
                 coins: amount,
@@ -10147,7 +10907,7 @@ if (maxCoinsEl && currentUser) {
             }
 
             // Обновляем данные пользователя в таблице users
-            await _supabase.from('users').update({ coins: newCoins }).eq('id', currentUser.id);
+            await _supabase.from('users').update({coins: newCoins}).eq('id', currentUser.id);
 
             alert(`✅ Запрос на вывод ${amount} коинов (${amount * 10} ₽) успешно отправлен Борису!`);
             input.value = '';
@@ -10155,7 +10915,7 @@ if (maxCoinsEl && currentUser) {
             if (typeof updateShopUI === 'function') updateShopUI();
         }
 
-                // Проверка на Бориса и показ кнопки админки выплат
+        // Проверка на Бориса и показ кнопки админки выплат
         function checkAdminWithdrawAccess() {
             const isBoris = currentUser && (currentUser.name.toUpperCase() === 'БОРИС' || currentUser.username === 'boris');
             const adminBtn = document.getElementById('admin-withdraw-tab-btn');
@@ -10169,7 +10929,7 @@ if (maxCoinsEl && currentUser) {
             const listEl = document.getElementById('admin-withdraws-list');
             if (!listEl) return;
 
-            let { data, error } = await _supabase.from('withdrawals').select('*').order('created_at', { ascending: false });
+            let {data, error} = await _supabase.from('withdrawals').select('*').order('created_at', {ascending: false});
             if (error || !data || data.length === 0) {
                 listEl.innerHTML = '<div style="color: var(--steel); text-align: center; padding: 20px;">Нет активных запросов на вывод...</div>';
                 return;
@@ -10191,7 +10951,7 @@ if (maxCoinsEl && currentUser) {
 
         // Закрыть / удалить выплаченный запрос
         async function completeWithdrawal(id) {
-            const { error } = await _supabase.from('withdrawals').delete().eq('id', id);
+            const {error} = await _supabase.from('withdrawals').delete().eq('id', id);
             if (error) {
                 alert("Ошибка при закрытии заявки!");
                 return;
@@ -10200,8 +10960,8 @@ if (maxCoinsEl && currentUser) {
         }
 
 
-                  // 🎵 Глайдер-управление фоновой музыкой и воздушными искр-светлячками
-        window.toggleBackgroundMusic = function() {
+        // 🎵 Глайдер-управление фоновой музыкой и воздушными искр-светлячками
+        window.toggleBackgroundMusic = function () {
             const audio = document.getElementById('site-bg-audio');
             const toggleBtn = document.getElementById('music-custom-toggle');
             if (!audio || !toggleBtn) return;
@@ -10226,155 +10986,342 @@ if (maxCoinsEl && currentUser) {
                 window.toggleBackgroundMusic();
                 document.removeEventListener('click', unlockAudioFirst);
             }
-        }, { once: true });
+        }, {once: true});
 
-  // ====================================================
-// ✨ СПАВНЕР НЕОНОВЫХ СВЕТЛЯЧКОВ СНАРУЖИ КНОПКИ МУЗЫКИ
-// ====================================================
-function initGliderThrusters() {
-    const musicBtn = document.getElementById('music-custom-toggle');
-    const sparklesBox = document.getElementById('music-sparkles-box');
-    if (!musicBtn || !sparklesBox) return;
+        // ====================================================
+        // ✨ СПАВНЕР НЕОНОВЫХ СВЕТЛЯЧКОВ СНАРУЖИ КНОПКИ МУЗЫКИ
+        // ====================================================
+        function initGliderThrusters() {
+            const musicBtn = document.getElementById('music-custom-toggle');
+            const sparklesBox = document.getElementById('music-sparkles-box');
+            if (!musicBtn || !sparklesBox) return;
 
-    const sparkleColors = ['#ffea00', '#ff9f00', '#00ff88', '#00e1ff', '#ff00aa'];
+            const sparkleColors = ['#ffea00', '#ff9f00', '#00ff88', '#00e1ff', '#ff00aa'];
 
-    setInterval(() => {
-        // Спавним светлячков ТОЛЬКО когда музыка играет
-        if (!musicBtn.classList.contains('playing')) return;
+            setInterval(() => {
+                // Спавним светлячков ТОЛЬКО когда музыка играет
+                if (!musicBtn.classList.contains('playing')) return;
 
-        const dot = document.createElement('div');
-        dot.className = 'music-sparkle-dot';
+                const dot = document.createElement('div');
+                dot.className = 'music-sparkle-dot';
 
-        const color = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
-        dot.style.background = color;
-        dot.style.boxShadow = `0 0 6px ${color}, 0 0 12px ${color}`;
+                const color = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+                dot.style.background = color;
+                dot.style.boxShadow = `0 0 6px ${color}, 0 0 12px ${color}`;
 
-        // Случайная позиция по ширине кнопки
-        dot.style.left = (Math.random() * 85) + 'px';
-        dot.style.bottom = '0px';
+                // Случайная позиция по ширине кнопки
+                dot.style.left = (Math.random() * 85) + 'px';
+                dot.style.bottom = '0px';
 
-        // Случайный разлет в стороны
-        const drift = (Math.random() - 0.5) * 30;
-        dot.style.setProperty('--fly-x', `${drift}px`);
+                // Случайный разлет в стороны
+                const drift = (Math.random() - 0.5) * 30;
+                dot.style.setProperty('--fly-x', `${drift}px`);
 
-        sparklesBox.appendChild(dot);
+                sparklesBox.appendChild(dot);
 
-        // Удаляем после полета
-        setTimeout(() => { dot.remove(); }, 2000);
-    }, 250);
-}
-
-document.addEventListener('DOMContentLoaded', initGliderThrusters);
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initGliderThrusters();
-}
-
-
-
-
-
-
-
-// ====================================================
-// 🎲 РАНДОМНЫЙ СТИКЕР ЭЛИТНОЙ РУКИ НА КНОПКЕ ПРИ КАЖДОМ ВХОДЕ
-// ====================================================
-function initRandomGliderSticker() {
-    const stickerImg = document.getElementById('glider-sticker-img');
-    if (!stickerImg) return;
-
-    // Генерируем случайное число от 21 до 35 (диапазон высшей элиты)
-    const randomEraId = Math.floor(Math.random() * (35 - 21 + 1)) + 21;
-    
-    // Подставляем рандомный файл рук
-    stickerImg.src = `arm_icon_${randomEraId}.webp`;
-    console.log(`🎲 На кнопку Эпох прилетела элитная рука №${randomEraId}`);
-}
-
-// Запускаем при загрузке страницы
-document.addEventListener('DOMContentLoaded', initRandomGliderSticker);
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initRandomGliderSticker();
-}
-
-
-
-// ====================================================
-// 🪙 РАНДОМНЫЙ СТИКЕР МОНЕТКИ В МАГАЗИНЕ (monetka.webp ... monetka5.webp)
-// ====================================================
-function initRandomShopSticker() {
-    const coinImg = document.getElementById('shop-sticker-img');
-    if (!coinImg) return;
-
-    // Случайное число от 1 до 5
-    const randomCoinId = Math.floor(Math.random() * 5) + 1;
-    
-    // Первая: monetka.webp, со второй по пятую: monetka2.webp ... monetka5.webp
-    const fileName = (randomCoinId === 1) ? 'monetka.webp' : `monetka${randomCoinId}.webp`;
-
-    coinImg.src = fileName;
-    console.log(`🪙 В Магазин залетела монетка: ${fileName}`);
-}
-
-// Запуск при старте сайта
-document.addEventListener('DOMContentLoaded', initRandomShopSticker);
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initRandomShopSticker();
-}
-
-
-
-
-// ====================================================
-// 📺 АВТОМАТИЧЕСКАЯ СМЕНА БАННЕРОВ КАЖДЫЕ 5 СЕКУНД
-// ====================================================
-function initBillboardSlider() {
-    const slide1 = document.getElementById('billboard-img-1');
-    const slide2 = document.getElementById('billboard-img-2');
-    
-    if (!slide1 || !slide2) return;
-
-    let isFirstActive = true;
-
-    setInterval(() => {
-        if (isFirstActive) {
-            slide1.classList.remove('active-slide');
-            slide2.classList.add('active-slide');
-        } else {
-            slide2.classList.remove('active-slide');
-            slide1.classList.add('active-slide');
+                // Удаляем после полета
+                setTimeout(() => {dot.remove();}, 2000);
+            }, 250);
         }
-        isFirstActive = !isFirstActive;
-    }, 5000); // Ровно каждые 5000 миллисекунд (5 сек)
+
+        document.addEventListener('DOMContentLoaded', initGliderThrusters);
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initGliderThrusters();
+        }
+
+
+
+
+
+
+
+        // ====================================================
+        // 🎲 РАНДОМНЫЙ СТИКЕР ЭЛИТНОЙ РУКИ НА КНОПКЕ ПРИ КАЖДОМ ВХОДЕ
+        // ====================================================
+        function initRandomGliderSticker() {
+            const stickerImg = document.getElementById('glider-sticker-img');
+            if (!stickerImg) return;
+
+            // Генерируем случайное число от 21 до 35 (диапазон высшей элиты)
+            const randomEraId = Math.floor(Math.random() * (35 - 21 + 1)) + 21;
+
+            // Подставляем рандомный файл рук
+            stickerImg.src = `arm_icon_${randomEraId}.webp`;
+            console.log(`🎲 На кнопку Эпох прилетела элитная рука №${randomEraId}`);
+        }
+
+        // Запускаем при загрузке страницы
+        document.addEventListener('DOMContentLoaded', initRandomGliderSticker);
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initRandomGliderSticker();
+        }
+
+
+
+        // ====================================================
+        // 🪙 РАНДОМНЫЙ СТИКЕР МОНЕТКИ В МАГАЗИНЕ (monetka.webp ... monetka5.webp)
+        // ====================================================
+        function initRandomShopSticker() {
+            const coinImg = document.getElementById('shop-sticker-img');
+            if (!coinImg) return;
+
+            // Случайное число от 1 до 5
+            const randomCoinId = Math.floor(Math.random() * 5) + 1;
+
+            // Первая: monetka.webp, со второй по пятую: monetka2.webp ... monetka5.webp
+            const fileName = (randomCoinId === 1) ? 'monetka.webp' : `monetka${randomCoinId}.webp`;
+
+            coinImg.src = fileName;
+            console.log(`🪙 В Магазин залетела монетка: ${fileName}`);
+        }
+
+        // Запуск при старте сайта
+        document.addEventListener('DOMContentLoaded', initRandomShopSticker);
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initRandomShopSticker();
+        }
+
+
+
+
+        // ====================================================
+        // 📺 АВТОМАТИЧЕСКАЯ СМЕНА БАННЕРОВ КАЖДЫЕ 5 СЕКУНД
+        // ====================================================
+        function initBillboardSlider() {
+            const slide1 = document.getElementById('billboard-img-1');
+            const slide2 = document.getElementById('billboard-img-2');
+
+            if (!slide1 || !slide2) return;
+
+            let isFirstActive = true;
+
+            setInterval(() => {
+                if (isFirstActive) {
+                    slide1.classList.remove('active-slide');
+                    slide2.classList.add('active-slide');
+                } else {
+                    slide2.classList.remove('active-slide');
+                    slide1.classList.add('active-slide');
+                }
+                isFirstActive = !isFirstActive;
+            }, 5000); // Ровно каждые 5000 миллисекунд (5 сек)
+        }
+
+        // Запуск слайдера после загрузки страницы
+        document.addEventListener('DOMContentLoaded', initBillboardSlider);
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initBillboardSlider();
+        }
+
+
+        function initLeaderboardSlider() {
+            const slides = [
+                document.getElementById('lb-slide-1'),
+                document.getElementById('lb-slide-2'),
+                document.getElementById('lb-slide-3')
+            ];
+            if (!slides[0] || !slides[1] || !slides[2]) return;
+
+            let currentIndex = 0;
+            setInterval(() => {
+                slides[currentIndex].classList.remove('active-slide');
+                currentIndex = (currentIndex + 1) % slides.length;
+                slides[currentIndex].classList.add('active-slide');
+            }, 5000);
+        }
+
+        document.addEventListener('DOMContentLoaded', initLeaderboardSlider);
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initLeaderboardSlider();
+        }
+
+
+
+window.openGodMode = function() {
+    renderGodPlayersList();
+    if (typeof openModal === 'function') {
+        openModal('modal-god');
+    } else {
+        const m = document.getElementById('modal-god');
+        if (m) m.style.display = 'flex';
+    }
+};
+
+
+// ====================================================
+// 🎯 ТОЧНЫЙ ОПРЕДЕЛИТЕЛЬ АВАТАРОК ДЛЯ АРХИТЕКТОРА
+// ====================================================
+function getArchAvatar(user) {
+    if (!user) return 'char_default.webp';
+
+    const nameLower = (user.name || '').toLowerCase().trim();
+    const usernameLower = (user.username || '').toLowerCase().trim();
+    const userId = (user.id || '').toLowerCase().trim();
+    const era = Number(user.era_id) || 1;
+    const titleLower = (user.title || '').toLowerCase().trim();
+
+    // ⚡️ ДВА НИКИТЫ (РАЗДЕЛЕНИЕ)
+    if (nameLower.includes('никита') || usernameLower.includes('nikita') || userId.includes('nikita')) {
+        if (era === 1 || titleLower.includes('карманный') || userId === 'seed_nikita') {
+            return 'char_nikita.webp';
+        }
+        return 'char_nikita_2.webp';
+    }
+
+    // ⚡️ ИМЕННЫЕ БОЙЦЫ (char_имя.webp)
+    if (userId.includes('gleb') || nameLower === 'глеб' || usernameLower === 'gleb') return 'char_gleb.webp';
+    if (userId.includes('lesha') || nameLower.includes('лёша') || nameLower.includes('леша') || usernameLower === 'lesha') return 'char_lesha.webp';
+    if (userId.includes('stas') || nameLower === 'стас' || usernameLower === 'stas') return 'char_stas.webp';
+    if (userId.includes('denis') || nameLower === 'денис' || usernameLower === 'denis') return 'char_denis.webp';
+    if (userId.includes('gera') || nameLower === 'гера' || usernameLower === 'gera') return 'char_gera.webp';
+    if (userId.includes('zhora') || userId.includes('jora') || nameLower === 'жора' || usernameLower === 'zhora') return 'char_zhora.webp';
+    if (userId.includes('raf') || nameLower === 'раф' || usernameLower === 'raf') return 'char_raf.webp';
+    if (userId.includes('macar') || userId.includes('makar') || nameLower.includes('макар') || usernameLower === 'macar') return 'char_macar.webp';
+    if (userId.includes('kornei') || nameLower.includes('корней') || usernameLower === 'kornei' || usernameLower === 'dark lord') return 'char_kornei.webp';
+
+    // 👑 ВЕТЕРАНЫ И БОССЫ
+    if (userId.includes('timur') || nameLower === 'тимур' || usernameLower === 'timur') return 'char_timur.webp';
+    if (userId.includes('artur') || nameLower === 'артур' || usernameLower === 'artur') return 'char_artur.webp';
+    if (userId.includes('egor') || nameLower === 'егор' || usernameLower === 'egor') return 'char_egor.webp';
+    if (userId.includes('maksim') || nameLower === 'максим' || usernameLower === 'maksim') return 'char_maksim.webp';
+    if (userId.includes('german') || nameLower === 'герман' || usernameLower === 'german') return 'char_german.webp';
+    if (userId.includes('boris') || nameLower === 'борис' || usernameLower === 'boris') return 'char_boris.webp';
+    if (userId.includes('venya') || nameLower === 'веня' || usernameLower === 'venya') return 'char_venya.webp';
+
+    // Если есть явный юзернейм на английском — пробуем подцепить char_{username}.webp
+    if (usernameLower && usernameLower !== '') {
+        return `char_${usernameLower}.webp`;
+    }
+
+    // Если фото нет — стандартная заглушка
+    return 'char_default.webp';
 }
 
-// Запуск слайдера после загрузки страницы
-document.addEventListener('DOMContentLoaded', initBillboardSlider);
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initBillboardSlider();
+// Рендерим список игроков в Панели Бога
+function renderGodPlayersList() {
+    const grid = document.getElementById('god-players-grid');
+    if (!grid) return;
+
+    if (!Array.isArray(allUsers) || allUsers.length === 0) {
+        grid.innerHTML = '<div style="color: #aaa; text-align: center; width: 100%; padding: 20px;">Список бойцов пуст...</div>';
+        return;
+    }
+
+    grid.innerHTML = allUsers.map(user => {
+        // 🔥 Вызываем наш бронебойный определитель аватара:
+        const avatar = getArchAvatar(user);
+        const userName = user.name || user.username || 'Боец';
+        const userEra = user.era_id || 1;
+        const userTitle = user.title && user.title.trim() !== '' ? user.title : 'Без титула';
+
+        return `
+            <div class="god-player-mini-card" onclick="editPlayerGod('${user.id}')">
+                <img src="${avatar}" class="god-mini-avatar" onerror="this.onerror=null; this.src='char_default.webp';">
+                <div class="god-info" style="display: flex; flex-direction: column; overflow: hidden; margin-left: 6px;">
+                    <div style="font-size:0.85rem; font-weight:900; color:#fff; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${userName}</div>
+                    <div style="font-size:0.65rem; color:#ff9f00; font-family:'Comfortaa'; margin-top:2px;">${userEra} Эпоха</div>
+                    <div style="font-size:0.6rem; color:#888; font-style:italic; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${userTitle}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 
-function initLeaderboardSlider() {
-    const slides = [
-        document.getElementById('lb-slide-1'),
-        document.getElementById('lb-slide-2'),
-        document.getElementById('lb-slide-3')
-    ];
-    if (!slides[0] || !slides[1] || !slides[2]) return;
+// Поиск в админке
+window.filterGodPlayers = function() {
+    const val = document.getElementById('god-search-input').value.toLowerCase();
+    const cards = document.querySelectorAll('.god-player-mini-card');
+    cards.forEach(c => {
+        c.style.display = c.innerText.toLowerCase().includes(val) ? 'flex' : 'none';
+    });
+};
 
-    let currentIndex = 0;
-    setInterval(() => {
-        slides[currentIndex].classList.remove('active-slide');
-        currentIndex = (currentIndex + 1) % slides.length;
-        slides[currentIndex].classList.add('active-slide');
-    }, 5000);
-}
+// Переход к редактированию
+window.editPlayerGod = function(uid) {
+    const u = allUsers.find(x => x.id === uid);
+    if (!u) return;
 
-document.addEventListener('DOMContentLoaded', initLeaderboardSlider);
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initLeaderboardSlider();
-}
+    document.getElementById('god-screen-list').style.display = 'none';
+    document.getElementById('god-screen-edit').style.display = 'block';
 
+    // Заполнение полей
+    document.getElementById('god-edit-id').value = u.id;
+    document.getElementById('god-edit-name').value = u.name || '';
+    document.getElementById('god-edit-username').value = u.username || '';
+    document.getElementById('god-edit-pin').value = u.pin || '';
+    document.getElementById('god-edit-title').value = u.title || '';
+    document.getElementById('god-edit-era').value = u.era_id || 1;
+    document.getElementById('god-edit-exp').value = u.exp || 0;
+    document.getElementById('god-edit-rank').value = u.rank || 0;
+    document.getElementById('god-edit-lore').value = u.lore || '';
+    
+    // Биометрия
+    document.getElementById('god-edit-height').value = u.height || 0;
+    document.getElementById('god-edit-weight').value = u.weight || 0;
+    document.getElementById('god-edit-age').value = u.age || 0;
+    document.getElementById('god-edit-forearm').value = u.forearm || 0;
+
+    // Сила
+    document.getElementById('god-edit-pronator').value = u.pronator || 0;
+    document.getElementById('god-edit-beam').value = u.beam || 0;
+    document.getElementById('god-edit-curl').value = u.curl || 0;
+    document.getElementById('god-edit-abduct').value = u.abduct || 0;
+    document.getElementById('god-edit-pull').value = u.pull || 0;
+    document.getElementById('god-edit-strength').value = u.strength_rating || 5;
+    document.getElementById('god-edit-danger').value = u.danger || 5;
+};
+
+window.backToGodList = function() {
+    document.getElementById('god-screen-list').style.display = 'block';
+    document.getElementById('god-screen-edit').style.display = 'none';
+};
+
+// 🔥 СОХРАНЕНИЕ С ЗАЩИТОЙ КЛИЧКИ
+window.saveGodPlayer = async function() {
+    const uid = document.getElementById('god-edit-id').value;
+    const u = allUsers.find(x => x.id === uid);
+    if (!u) return;
+
+    // Обновляем объект из полей
+    const updatedData = {
+        id: uid,
+        name: document.getElementById('god-edit-name').value,
+        username: document.getElementById('god-edit-username').value,
+        pin: document.getElementById('god-edit-pin').value,
+        title: document.getElementById('god-edit-title').value, // Наша кличка
+        era_id: parseInt(document.getElementById('god-edit-era').value),
+        exp: parseInt(document.getElementById('god-edit-exp').value),
+        rank: parseInt(document.getElementById('god-edit-rank').value),
+        lore: document.getElementById('god-edit-lore').value,
+        height: parseFloat(document.getElementById('god-edit-height').value),
+        weight: parseFloat(document.getElementById('god-edit-weight').value),
+        age: parseInt(document.getElementById('god-edit-age').value),
+        forearm: parseFloat(document.getElementById('god-edit-forearm').value),
+        pronator: parseFloat(document.getElementById('god-edit-pronator').value),
+        beam: parseFloat(document.getElementById('god-edit-beam').value),
+        curl: parseFloat(document.getElementById('god-edit-curl').value),
+        abduct: parseFloat(document.getElementById('god-edit-abduct').value),
+        pull: parseFloat(document.getElementById('god-edit-pull').value),
+        strength_rating: parseInt(document.getElementById('god-edit-strength').value),
+        danger: parseInt(document.getElementById('god-edit-danger').value)
+    };
+
+    // ⚡ SUPABASE UPSERT
+    const { error } = await _supabase.from('profiles').upsert(updatedData);
+
+    if (error) {
+        alert("Ошибка: " + error.message);
+    } else {
+        alert("Боец обновлен! Кличка сохранена намертво.");
+        // Обновляем локальный массив, чтобы изменения сразу были видны в лидерборде
+        const idx = allUsers.findIndex(x => x.id === uid);
+        allUsers[idx] = {...allUsers[idx], ...updatedData};
+        renderLeaderboard(); 
+        backToGodList();
+        renderGodPlayersList();
+    }
+};
 
     </script>
 
