@@ -5158,9 +5158,15 @@ html, body {
 
 
             <!-- 🏆 АДАПТИВНЫЙ БАННЕР ЛИДЕРБОРДА -->
-    <div class="section-top-banner" style="width: 100%;">
-        <img src="banner_leaderboard.webp" alt="Лидерборд" class="top-responsive-banner" onerror="this.style.display='none';">
+    <div class="lb-showcase-viewport">
+    <div class="lb-showcase-card">
+        <div class="lb-glass-glare"></div>
+        <img src="banner_leaderboard.webp" class="lb-slide active-slide" id="lb-slide-1" alt="Лидерборд 1">
+        <img src="banner_leaderboard2.webp" class="lb-slide" id="lb-slide-2" alt="Лидерборд 2">
+        <img src="banner_leaderboard3.webp" class="lb-slide" id="lb-slide-3" alt="Лидерборд 3">
     </div>
+</div>
+
 
 
 
@@ -10242,6 +10248,26 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 }
 
 
+function initLeaderboardSlider() {
+    const slides = [
+        document.getElementById('lb-slide-1'),
+        document.getElementById('lb-slide-2'),
+        document.getElementById('lb-slide-3')
+    ];
+    if (!slides[0] || !slides[1] || !slides[2]) return;
+
+    let currentIndex = 0;
+    setInterval(() => {
+        slides[currentIndex].classList.remove('active-slide');
+        currentIndex = (currentIndex + 1) % slides.length;
+        slides[currentIndex].classList.add('active-slide');
+    }, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', initLeaderboardSlider);
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initLeaderboardSlider();
+}
 
 
     </script>
