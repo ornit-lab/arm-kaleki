@@ -4887,6 +4887,65 @@ html, body {
 
 
 
+
+
+/* ====================================================
+   📺 УЛИЧНЫЙ КИБЕР-БИЛБОРД: СМЕНА СЛАЙДОВ (CROSSFADE)
+   ==================================================== */
+.billboard-box {
+    position: relative !important;
+    overflow: hidden !important;
+    background: #050508 !important;
+}
+
+/* Общий стиль для обоих слайдов */
+.billboard-slide {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    
+    /* Плавность смены прозрачности и легкий зум */
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s ease !important;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Активный слайд, который сейчас виден */
+.billboard-slide.active-slide {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+/* Легкая неоновая полоска сканирования уличного экрана */
+.billboard-scanline {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(255, 234, 0, 0.12), transparent);
+    z-index: 5;
+    pointer-events: none;
+    animation: billboardScan 6s linear infinite;
+}
+
+@keyframes billboardScan {
+    0% { top: -100%; }
+    50% { top: 100%; }
+    100% { top: 100%; }
+}
+
+
+
+
     </style>
 </head>
 
@@ -5114,18 +5173,25 @@ html, body {
     <div style="text-align: center; margin-bottom: 25px;">
         
         <h1 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; text-shadow: 0 0 20px var(--neon-fire); margin: 5px 0;">
-            🏛 ИЕРАРХИЯ 35 ЭПОХ АРМ-РЕ
-СТЛИНГА
+            🏛 ИЕРАРХИЯ ЭПОХ
         </h1>
         
         <p style="color: var(--steel); font-family: 'Comfortaa'; font-size: 0.85rem; margin-bottom: 15px;">
             Пройди путь от Скелета до Заргхадума
         </p>
 
-        <!-- 🖼️ БАННЕР ЭПОХ СТРОГО 800x450 С РАМКОЙ И СВЕЧЕНИЕМ -->
-        <div class="unique-box-fix">
-            <img src="elita_arma.webp" alt="Иерархия 35 Эпох" class="unique-banner-fix" onerror="this.src='elita_arma.png';">
+                <!-- 📺 ЖИВОЙ КИБЕР-БИЛБОРД (АВТОСМЕНА КАЖДЫЕ 5 СЕКУНД) -->
+        <div class="eras-banner-box unique-box-fix billboard-box">
+            <!-- Эффект бегущей линии LED-экрана -->
+            <div class="billboard-scanline"></div>
+
+            <!-- Слайд 1 -->
+            <img src="elita_arma.png" alt="Элита Арма 1" class="unique-banner-fix billboard-slide active-slide" id="billboard-img-1" onerror="this.src='elita_arma.png';">
+            
+            <!-- Слайд 2 -->
+            <img src="elita_arma2.png" alt="Элита Арма 2" class="unique-banner-fix billboard-slide" id="billboard-img-2" onerror="this.src='elita_arma2.webp';">
         </div>
+
 
     </div>
 
@@ -10144,6 +10210,36 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 }
 
 
+
+
+// ====================================================
+// 📺 АВТОМАТИЧЕСКАЯ СМЕНА БАННЕРОВ КАЖДЫЕ 5 СЕКУНД
+// ====================================================
+function initBillboardSlider() {
+    const slide1 = document.getElementById('billboard-img-1');
+    const slide2 = document.getElementById('billboard-img-2');
+    
+    if (!slide1 || !slide2) return;
+
+    let isFirstActive = true;
+
+    setInterval(() => {
+        if (isFirstActive) {
+            slide1.classList.remove('active-slide');
+            slide2.classList.add('active-slide');
+        } else {
+            slide2.classList.remove('active-slide');
+            slide1.classList.add('active-slide');
+        }
+        isFirstActive = !isFirstActive;
+    }, 5000); // Ровно каждые 5000 миллисекунд (5 сек)
+}
+
+// Запуск слайдера после загрузки страницы
+document.addEventListener('DOMContentLoaded', initBillboardSlider);
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initBillboardSlider();
+}
 
 
 
