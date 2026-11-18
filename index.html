@@ -7195,51 +7195,100 @@ html body .nav-menu button#god-btn:active {
             setInterval(updateCooldownsUI, 1000);
         };
 
-        async function loadAllPlayers() {
-            let {data, error} = await _supabase.from('profiles').select('*');
-            const dbUsers = (data && !error) ? data : [];
+async function loadAllPlayers() {
+    try {
+        const { data, error } = await _supabase
+            .from('profiles')
+            .select('*');
 
-            // 1. Проходим по базовым ветеранам и связываем их с Supabase СТРОГО ПО ID
-            let mergedUsers = defaultSeededPlayers.map(p => {
-                const dbMatch = dbUsers.find(dbU => dbU.id === p.id);
+        if (error) {
+            console.error('❌ Ошибка загрузки profiles:', error.message);
 
-                if (dbMatch) {
-                    // 🔥 ФИКС: Если в базе стоит дефолтная 1 Эпоха, а у ветерана должна быть выше -> восстанавливаем её!
-                    if (!dbMatch.era_id || dbMatch.era_id === 1) {
-                        dbMatch.era_id = p.era_id || 1;
-                    }
-                    return dbMatch;
-                } else {
-                    const era = getEraById(p.era_id || 1);
-                    return {
-                        id: p.id,
-                        name: p.name,
-                        username: '',
-                        pin: '',
-                        era_id: p.era_id || 1, // Родная Эпоха ветерана
-                        exp: p.exp || 0,
-                        title: era.name,
-                        forearm: null, height: null, weight: null, age: null,
-                        pronator: null, beam: null, pull: null, abduct: null, curl: null, triceps: null,
-                        lore: "Ветеран ордена ARM-KALEKI.",
-                        badges: p.name === 'Борис' ? ['Основатель Лиги'] : []
-                    };
+            // Не затираем уже загруженные данные
+            if (Array.isArray(allUsers) && allUsers.length > 0) {
+                renderLeaderboard();
+            }
+
+            return;
+        }
+
+        const dbUsers = Array.isArray(data) ? data : [];
+
+        // Объединяем ветеранов с данными Supabase
+        const mergedUsers = defaultSeededPlayers.map(player => {
+            const dbMatch = dbUsers.find(dbUser => dbUser.id === player.id);
+
+            if (dbMatch) {
+                // Если эпоха ветерана почему-то сбилась до 1,
+                // используем его исходную эпоху из defaultSeededPlayers
+                if (!dbMatch.era_id || Number(dbMatch.era_id) === 1) {
+                    dbMatch.era_id = player.era_id || 1;
                 }
-            });
 
-            // 2. Добавляем новых игроков, зарегистрировавшихся под уникальными id
-            dbUsers.forEach(dbU => {
-                const alreadyInList = mergedUsers.some(mU => mU.id === dbU.id);
-                if (!alreadyInList) {
-                    if (!dbU.era_id) dbU.era_id = 1;
-                    mergedUsers.push(dbU);
+                return dbMatch;
+            }
+
+            const era = getEraById(player.era_id || 1);
+
+            return {
+                id: player.id,
+                name: player.name,
+                username: '',
+                pin: '',
+                era_id: player.era_id || 1,
+                exp: player.exp || 0,
+                title: era.name,
+
+                forearm: null,
+                height: null,
+                weight: null,
+                age: null,
+
+                pronator: null,
+                beam: null,
+                pull: null,
+                abduct: null,
+                curl: null,
+                triceps: null,
+
+                lore: 'Ветеран ордена ARM-KALEKI.',
+                badges: player.name === 'Борис'
+                    ? ['Основатель Лиги']
+                    : []
+            };
+        });
+
+        // Добавляем зарегистрированных игроков
+        dbUsers.forEach(dbUser => {
+            const alreadyExists = mergedUsers.some(
+                user => user.id === dbUser.id
+            );
+
+            if (!alreadyExists) {
+                if (!dbUser.era_id) {
+                    dbUser.era_id = 1;
                 }
-            });
 
-            allUsers = mergedUsers;
-            sortAllUsers();
+                mergedUsers.push(dbUser);
+            }
+        });
+
+        allUsers = mergedUsers;
+        sortAllUsers();
+        renderLeaderboard();
+
+        console.log(`✅ Загружено игроков: ${allUsers.length}`);
+
+    } catch (error) {
+        console.error('❌ Критическая ошибка loadAllPlayers:', error);
+
+        // Главное — не подменяем игроков дефолтными данными
+        if (Array.isArray(allUsers) && allUsers.length > 0) {
             renderLeaderboard();
         }
+    }
+}
+
 
 
         // ====================================================
